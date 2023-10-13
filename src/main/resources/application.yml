@@ -1,6 +1,6 @@
 logging:
-    file:
-        name: log/Sboard.log
+    ##file:
+    ##    name: log/Sboard.log
     level:
         jdbc:
             connection: info
