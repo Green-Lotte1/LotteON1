@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <title>롯데ON::고객센터</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" href="../../static/css/cs.css">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/cs.css}">
   </head>
   <body>
     <div id="wrapper">
@@ -16,10 +15,9 @@
               <a href="./member/login.html">로그인</a>
               <a href="#">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"
-                ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-                >&nbsp;장바구니</a
-              >
+              <a href="#">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+              </a>
             </p>
           </div>
         </div>

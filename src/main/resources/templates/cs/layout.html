@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <title>롯데ON::고객센터</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/cs.css}" type="text/css"/>
   </head>
   <body>
     <div id="wrapper">
@@ -14,13 +14,12 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
+              <a th:href="@{/member/login}">로그인</a>
               <a href="#">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"
-                ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-                >&nbsp;장바구니</a
-              >
+              <a href="#">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+              </a>
             </p>
           </div>
         </div>
@@ -30,15 +29,17 @@
           </div>
         </div>
       </header>
-
       <section id="cs">
-        <div class="qna">
+
+        <!-- 여기부터  -->
+        <div th:class="${cate_type[2]}">
           <nav>
             <div>
               <p>홈<span>></span>문의하기</p>
             </div>
           </nav>
-          <section class="list">
+          <section th:class="${cate_type[3]}">
+            <!-- 여기까지 css를 정하는 class -->
             <aside>
               <h2>문의하기</h2>
               <ul>
