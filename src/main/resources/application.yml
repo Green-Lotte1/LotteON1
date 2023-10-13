@@ -19,9 +19,10 @@ spring:
     datasource:
         dbcp2:
             driver-class-name: com.mysql.cj.jdbc.Driver
-        password: 1234
-        url: jdbc:mysql://127.0.0.1:3306/jboard
-        username: root
+        password: Relaxism^*^BBU5980
+        url: jdbc:mysql://127.0.0.1:3306/
+        username: LotteON
+
     devtools:
         livereload:
             enabled: true
