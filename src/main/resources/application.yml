@@ -21,7 +21,7 @@ spring:
             driver-class-name: com.mysql.cj.jdbc.Driver
         password: Lotte1013!!
         url: jdbc:mysql://3.39.191.39:3306/Kmarket
-        username: LotteOn01
+        username: LotteOn00
 
     devtools:
         livereload:

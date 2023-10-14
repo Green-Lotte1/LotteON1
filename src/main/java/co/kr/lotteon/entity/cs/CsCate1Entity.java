@@ -10,8 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Builder
-@Entity
-@Table(name = "km_board_cate1")
+//@Entity
+//@Table(name = "km_board_cate1")
 public class CsCate1Entity {
 
     private int group;
