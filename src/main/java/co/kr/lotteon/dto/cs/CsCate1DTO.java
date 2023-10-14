@@ -2,7 +2,6 @@ package co.kr.lotteon.dto.cs;
 
 import lombok.*;
 
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
