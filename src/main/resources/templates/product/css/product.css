@@ -96,7 +96,7 @@
 #product > .list > table tr {
   border-bottom: 1px solid #ececec;
 }
-#product > .list > table tr > td {  
+#product > .list > table tr > td {
   vertical-align: top;
   padding-top: 20px;
   padding-left: 16px;
@@ -157,7 +157,7 @@
   margin-top: 4px;
 }
 
-#product > .list > table .seller {  
+#product > .list > table .seller {
   font-size: 12px;
   margin-bottom: 6px;
 }
@@ -173,7 +173,7 @@
 }
 
 #product > .list > .paging > span > a {
-    color: #777;            
+    color: #777;
     font-size: 11px;
     letter-spacing: -1px;
 }
@@ -507,7 +507,7 @@
 	position: relative;
 	width: 100px;
 	height: 40px;
-} 
+}
 #product > .view > .info > .summary .count > button {
 	position: absolute;
   width: 21px;
@@ -537,7 +537,7 @@
 	height: 21px;
 	border: 1px solid #ececec;
 	font-size: 14px;
-	text-align: center;								
+	text-align: center;
 }
 
 #product > .view > .info > .summary .total {
@@ -622,7 +622,7 @@
     font-size: 14px;
     color: #757c8a;
     background: #fafafa;
-    border-radius: 2px;    
+    border-radius: 2px;
     white-space: normal;
 }
 
@@ -806,7 +806,7 @@
 #product > .cart > form > .total > table tr:nth-last-child(2) {}
 #product > .cart > form > .total > table tr:nth-last-child(1) td {font-size: 20px;}
 #product > .cart > form > .total > table tr:nth-last-child(1) td:last-child {
-  color: #ff006c;  
+  color: #ff006c;
   font-size: 20px;
   font-weight: bold;
 }
@@ -847,13 +847,13 @@
   margin-top: 6px;
 }
 #product > .order > form > table {
-  width: 100%;  
+  width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
   border-top: 2px solid #000;
 }
 #product > .order > form > table th {
-  padding: 12px 0;    
+  padding: 12px 0;
   background: #fff;
   color: #383838;
   font-size: 0.95em;
@@ -929,7 +929,7 @@
 #product > .order > form > .final > table tr:nth-last-child(2) {}
 #product > .order > form > .final > table tr:nth-last-child(1) td {font-size: 20px;}
 #product > .order > form > .final > table tr:nth-last-child(1) td:last-child {
-  color: #ff006c;  
+  color: #ff006c;
   font-size: 20px;
   font-weight: bold;
 }
@@ -958,7 +958,7 @@
 }
 
 
-#product > .order > form .product > h3 {  
+#product > .order > form .product > h3 {
   font-size: 15px;
   font-weight: bold;
   padding: 10px 0;
@@ -971,12 +971,12 @@
   margin-top: 16px;
 }
 
-#product > .order > form > article > h1 {  
+#product > .order > form > article > h1 {
   font-weight: bold;
-  font-size: 14px;  
+  font-size: 14px;
   padding: 6px 0;
   margin-bottom: 12px;
-  border-bottom: 1px solid #111;  
+  border-bottom: 1px solid #111;
 }
 
 #product > .order > form > article > div {
@@ -984,22 +984,22 @@
   box-sizing: border-box;
 }
 
-#product > .order > form input {  
-  color: #555;  
+#product > .order > form input {
+  color: #555;
   padding: 2px 0;
   border: 1px solid #999;
-  box-sizing: border-box;  
+  box-sizing: border-box;
 }
 
 #product > .order > form > .delivery {}
 #product > .order > form > .delivery > table {
   margin-top: 10px;
 }
-#product > .order > form > .delivery > table tr > td:nth-child(1) {  
+#product > .order > form > .delivery > table tr > td:nth-child(1) {
   padding: 6px;
 }
 
-#product > .order > form > .delivery > table input[name=addr1] {width: 400px;} 
+#product > .order > form > .delivery > table input[name=addr1] {width: 400px;}
 #product > .order > form > .delivery > table input[name=addr2] {width: 400px;}
 #product > .order > form > .delivery > table input[type=button] {
   padding: 4px 6px;
@@ -1075,7 +1075,7 @@
 }
 
 #product > .order > form > .alert > ul > li {
-  line-height: 20px;  
+  line-height: 20px;
 }
 #product > .order > form > .alert > ul > li > span {
   position: relative;
@@ -1087,7 +1087,7 @@
 /* 주문완료 */
 #product > .complete {}
 #product > .complete table {
-  width: 100%;  
+  width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
   border-top: 2px solid #000;
@@ -1122,11 +1122,11 @@
   font-weight: bold;
   font-size: 14px;
   color: #111;
-  padding: 6px 0;  
+  padding: 6px 0;
 }
 
 #product > .complete > .info > table tr > th {
-  padding: 12px 0;    
+  padding: 12px 0;
   background: #fff;
   color: #383838;
   font-size: 0.95em;
@@ -1135,11 +1135,11 @@
 }
 #product > .complete > .info > table tr > th:last-child {
   width: 200px;
-}      
+}
 
 #product > .complete > .info table tr > td {
   text-align: center;
-}      
+}
 
 #product > .complete > .info table tr > td:last-child {
   color:#ff006c;
@@ -1170,7 +1170,7 @@
 #product > .complete > .info .total > td > table tr {border: none;}
 #product > .complete > .info .total > td > table tr:last-child span {font-weight: bold;color: #ff006c;}
 #product > .complete > .info .total > td > table td {
-  text-align: right;        
+  text-align: right;
   color: #111;
   background: #f2f2f2;
   font-weight: normal;
@@ -1182,7 +1182,7 @@
 #product > .complete > .order {}
 #product > .complete > .order table {}
 #product > .complete > .order table tr {}
-#product > .complete > .order table tr > td {        
+#product > .complete > .order table tr > td {
   padding: 10px;
   box-sizing: border-box;
 }
@@ -1220,7 +1220,7 @@
 #product > .search > .group {
   width: 100%;
   margin: 16px 0;
-  border: 1px solid #d7d7d7;  
+  border: 1px solid #d7d7d7;
 }
 
 #product > .search > .group > h3 {
@@ -1253,7 +1253,7 @@
 #product > .search > .group > form > input[type=submit] {
   height: 32px;
   padding: 0 5px;
-  font-weight: bold;  
+  font-weight: bold;
   background: #d50c0c;
   color: #fff;
   border: 0;
@@ -1306,7 +1306,7 @@
 #product > .search > table tr {
   border-bottom: 1px solid #ececec;
 }
-#product > .search > table tr > td {  
+#product > .search > table tr > td {
   vertical-align: top;
   padding-top: 20px;
   padding-left: 16px;
@@ -1367,7 +1367,7 @@
   margin-top: 4px;
 }
 
-#product > .search > table .seller {  
+#product > .search > table .seller {
   font-size: 12px;
   margin-bottom: 6px;
 }
