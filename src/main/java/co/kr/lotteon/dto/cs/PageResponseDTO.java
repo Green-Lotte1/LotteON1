@@ -16,6 +16,7 @@ public class PageResponseDTO {
     private String cate2; // cate2는 페이징에 필요 없으나 일단 선언해둠.
 
     private List<CsDTO> csList;
+    private List<List<CsDTO>> csLists;
     private int pg;
     private int size;
     private int total;
@@ -24,12 +25,13 @@ public class PageResponseDTO {
     private boolean prev, next;
 
     @Builder
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, int total, int answer) {
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, List<List<CsDTO>> csLists, int total) {
         this.group  = pageRequestDTO.getGroup();
         this.cate1  = pageRequestDTO.getCate1();
         this.size   = pageRequestDTO.getSize();
         this.total  = total;
         this.csList = csList;
+        this.csLists = csLists;
 
         this.end   = (int) (Math.ceil(this.pg / 10.0)) * 10;
         this.start = this.end - 9;

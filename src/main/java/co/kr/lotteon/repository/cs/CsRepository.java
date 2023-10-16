@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CsRepository extends JpaRepository<CsEntity, Integer> {
 
@@ -22,7 +24,10 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     public Page<CsEntity> findByCate1AndParent(String cate1, int parent, Pageable pageable);
 
     // cate2 게시글 출력 (faq)
-    //public Page<CsEntity> findByGroupAndCate1AndCate2AndParent(String group, int cate1, int cate2, int parent, Pageable pageable);
+    public List<CsEntity> findByGroupAndCate1AndCate2AndParent(CsGroupEntity group, String cate1, int cate2, int parent);
+
+    // cate1에 해당하는 cate2 갯수
+    public int countByCate1(String cate1);
 
 
 

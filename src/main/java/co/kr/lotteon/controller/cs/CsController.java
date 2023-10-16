@@ -43,10 +43,10 @@ public class CsController {
         log.info("@get.article : " + group_type[3]);
 
         CsGroupDTO groupInfo = csService.groupInfo(pageRequestDTO.getGroup());
-        CsCate1DTO cate1Info = csService.cate1Info(pageRequestDTO);
-        List<CsCate1DTO> cate1List = csService.cate1List(pageRequestDTO);
         log.info("groupInfo : " + groupInfo);
+        CsCate1DTO cate1Info = csService.cate1Info(pageRequestDTO);
         log.info("cate1Info : " + cate1Info);
+        List<CsCate1DTO> cate1List = csService.cate1List(pageRequestDTO);
         log.info("cate1List : " + cate1List);
 
         // aside atag에 담을 url

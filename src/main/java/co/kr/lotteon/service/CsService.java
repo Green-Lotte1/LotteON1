@@ -35,6 +35,12 @@ public class CsService {
     //////////////////////////////////
     // DTO <-> Entity Convert
     //////////////////////////////////
+    public List<CsDTO> convertToCs(List<CsEntity> entities) {
+        return entities.stream()
+                .map(entity -> modelMapper.map(entity, CsDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public List<CsCate1DTO> convertToCate1(List<CsCate1Entity> entities) {
         return entities.stream()
                 .map(entity -> modelMapper.map(entity, CsCate1DTO.class))
@@ -87,34 +93,52 @@ public class CsService {
         log.info("testdebug group : " + group);
         String cate1 = pageRequestDTO.getCate1();
         log.info("testdebug cate1 : " + cate1);
-        String cate2 = pageRequestDTO.getCate2();
+        int cate2 = Integer.parseInt(pageRequestDTO.getCate2());
         log.info("testdebug cate2 : " + cate2);
 
-        List<CsDTO> dto = null;
+        Page<CsEntity> page = null;
+        List<List<CsDTO>> faq = null;
         int totalElement = 0;
+        CsGroupEntity csGroupEntity = groupRepository.findById(group).orElse(null);
 
         if(group.equals("notice") && cate1.equals("101")) {
             // notice 전체 출력
-            CsGroupEntity csGroupEntity = groupRepository.findById(group).orElse(null);
-            Page<CsEntity> page = csRepository.findByGroupAndParent(csGroupEntity,0, pageable);
+            log.info("when notice all");
+            page = csRepository.findByGroupAndParent(csGroupEntity,0, pageable);
 
-            dto = page.getContent()
-                    .stream()
-                    .map(entity -> modelMapper.map(entity, CsDTO.class))
-                    .toList();
 
-            totalElement = (int) page.getTotalElements();
-            
-            
+
         }else if(group.equals("faq")) {
-            // faq 출력
-            // cate2마다 2개씩 출력.
-            log.info("when group faq");
+            // faq 출력 (cate2마다 2개씩 출력.)
+            log.info("when faq");
+            int cate2EA = csRepository.countByCate1(cate1);
+            for(int i=1; i<=cate2EA; i++) {
+                List<CsEntity> pages = csRepository.findByGroupAndCate1AndCate2AndParent(csGroupEntity, cate1, cate2, 0);
+                faq.add(convertToCs(pages));
+            }
+            log.info("result : " + faq);
+            return PageResponseDTO.builder()
+                    .pageRequestDTO(pageRequestDTO)
+                    .csLists(faq)
+                    .total(totalElement)
+                    .build();
+
+
 
         }else {
             // 나머지 cate1을 기준으로 list 출력
-            log.info("when group default");
+            log.info("when default");
+            page = csRepository.findByCate1AndParent(cate1, 0, pageable);
+
         }
+
+        totalElement = (int) page.getTotalElements();
+        log.info("totalElement : " + totalElement);
+        List<CsDTO> dto = page.getContent()
+                .stream()
+                .map(entity -> modelMapper.map(entity, CsDTO.class))
+                .toList();
+        log.info("result : " + dto);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
