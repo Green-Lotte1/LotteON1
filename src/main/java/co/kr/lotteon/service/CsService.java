@@ -55,8 +55,14 @@ public class CsService {
     // aside영역 cate1 List 출력
     public List<CsCate1DTO> cate1List(PageRequestDTO pageRequestDTO) {
         CsGroupEntity group = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
-        List<CsCate1Entity> entity = cate1Repository.findByGroup(group);
-        List<CsCate1DTO> dto = convertToCate1(entity);
+        List<CsCate1Entity> entity = null;
+        if (group != null) {
+            entity = cate1Repository.findByGroup(group);
+        }
+        List<CsCate1DTO> dto = null;
+        if (entity != null) {
+            dto = convertToCate1(entity);
+        }
 
         return dto;
     }
@@ -64,7 +70,10 @@ public class CsService {
     // group info 출력
     public CsGroupDTO groupInfo(String group) {
         CsGroupEntity result = groupRepository.findById(group).orElse(null);
-        CsGroupDTO dto = result.toDTO();
+        CsGroupDTO dto = null;
+        if (result != null) {
+            dto = result.toDTO();
+        }
 
         return dto;
     }
@@ -80,11 +89,14 @@ public class CsService {
         return entity.toDTO();
     }
 
+    ////////////////////////////////////////////////////////////////////
+    // view page
+    ////////////////////////////////////////////////////////////////////
+
 
     ////////////////////////////////////////////////////////////////////
     // list page
     ////////////////////////////////////////////////////////////////////
-
     // 게시글 출력하기
     public PageResponseDTO findCsLists(PageRequestDTO pageRequestDTO) {
 
@@ -101,12 +113,11 @@ public class CsService {
         int totalElement = 0;
         CsGroupEntity csGroupEntity = groupRepository.findById(group).orElse(null);
 
+        // 게시글 출력 시작
         if(group.equals("notice") && cate1.equals("101")) {
             // notice 전체 출력
             log.info("when notice all");
             page = csRepository.findByGroupAndParent(csGroupEntity,0, pageable);
-
-
 
         }else if(group.equals("faq")) {
             // faq 출력 (cate2마다 2개씩 출력.)
@@ -123,13 +134,10 @@ public class CsService {
                     .total(totalElement)
                     .build();
 
-
-
         }else {
             // 나머지 cate1을 기준으로 list 출력
             log.info("when default");
             page = csRepository.findByCate1AndParent(cate1, 0, pageable);
-
         }
 
         totalElement = (int) page.getTotalElements();
