@@ -1,7 +1,7 @@
 package co.kr.lotteon.entity.cs;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import co.kr.lotteon.dto.cs.CsCate1DTO;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -14,8 +14,22 @@ import lombok.*;
 @Table(name = "km_board_cate1")
 public class CsCate1Entity {
 
-    private int group;
-    private int cate1;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "group")
+    private CsGroupEntity group;
+
+    @Id
+    private String cate1;
+
     private String cate1_name;
     private String cate1_discription;
+
+    public CsCate1DTO toDTO() {
+        return CsCate1DTO.builder()
+                .group(group.toDTO())
+                .cate1(cate1)
+                .cate1_name(cate1_name)
+                .cate1_discription(cate1_discription)
+                .build();
+    }
 }

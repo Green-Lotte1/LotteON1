@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.cs;
 
+import co.kr.lotteon.entity.cs.CsGroupEntity;
 import lombok.*;
 
 @Getter
@@ -10,6 +11,13 @@ import lombok.*;
 @Builder
 public class CsGroupDTO {
 
-    private int group;
+    private String group;
     private String group_name;
+
+    public CsGroupEntity toEntity() {
+        return CsGroupEntity.builder()
+                .group(group)
+                .group_name(group_name)
+                .build();
+    }
 }
