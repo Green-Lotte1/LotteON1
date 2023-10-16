@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Data
 @Builder
@@ -14,26 +15,26 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MemberDTO {
 
-    private String km_uid;
-    private String km_pass1;
-    private String km_name;
-    private int km_gender;
-    private String km_hp;
-    private String km_email;
+    private String uid;
+    private String pass;
+    private String name;
+    private int gender;
+    private String hp;
+    private String email;
     private int type;
     private int point;
     private int level;
-    private String km_zip;
-    private String km_addr1;
-    private String km_addr2;
-    private String kms_company;
-    private String kms_ceo;
-    private String kms_corp_reg;
-    private String kms_online_reg;
-    private String kms_tel;
-    private String kms_manager;
-    private String kms_managerHp;
-    private String kms_fax;
+    private String zip;
+    private String addr1;
+    private String addr2;
+    private String company;
+    private String ceo;
+    private String bizRegNum;
+    private String comRegNum;
+    private String tel;
+    private String manager;
+    private String managerHp;
+    private String fax;
     private String regip;
     private LocalDateTime wdate;
     private LocalDateTime rdate;
@@ -43,25 +44,35 @@ public class MemberDTO {
     private String etc4;
     private String etc5;
 
+    public String getUidMasking(){
+        return uid.replaceAll("(?<=.{3})." , "*");
+    }
+
     public MemberEntity toEntity(){
         return MemberEntity.builder()
-                .uid(km_uid)
-                .pass(km_pass1)
-                .name(km_name)
-                .gender(km_gender)
-                .hp(km_hp)
-                .email(km_email)
+                .uid(uid)
+                .pass(pass)
+                .name(name)
+                .gender(gender)
+                .hp(hp)
+                .email(email)
                 .type(type)
                 .point(point)
-                .zip(km_zip)
-                .addr1(km_addr1)
-                .addr2(km_addr2)
-                .company(kms_company)
-                .bizRegNum(kms_corp_reg)
-                .comRegNum(kms_online_reg)
-                .tel(kms_tel)
-                .manager(kms_manager)
-                .managerHp(kms_managerHp)
+                .level(level)
+                .zip(zip)
+                .addr1(addr1)
+                .addr2(addr2)
+                .company(company)
+                .ceo(ceo)
+                .bizRegNum(bizRegNum)
+                .comRegNum(comRegNum)
+                .tel(tel)
+                .manager(manager)
+                .managerHp(managerHp)
+                .fax(fax)
+                .regip(regip)
+                .wdate(wdate)
+                .rdate(rdate)
                 .location(location)
                 .etc2(etc2)
                 .etc3(etc3)

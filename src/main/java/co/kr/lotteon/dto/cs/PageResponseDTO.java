@@ -11,12 +11,15 @@ import java.util.List;
 @Data
 public class PageResponseDTO {
 
+    private int no;
+
     private String group;
     private String cate1;
     private String cate2; // cate2는 페이징에 필요 없으나 일단 선언해둠.
 
     private List<CsDTO> csList;
     private List<List<CsDTO>> csLists;
+
     private int pg;
     private int size;
     private int total;
@@ -25,9 +28,13 @@ public class PageResponseDTO {
     private boolean prev, next;
 
     @Builder
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, List<List<CsDTO>> csLists, int total) {
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, List<List<CsDTO>> csLists, int total, int no) {
+
+        this.no = no;
+
         this.group  = pageRequestDTO.getGroup();
         this.cate1  = pageRequestDTO.getCate1();
+        this.pg  = pageRequestDTO.getPg();
         this.size   = pageRequestDTO.getSize();
         this.total  = total;
         this.csList = csList;

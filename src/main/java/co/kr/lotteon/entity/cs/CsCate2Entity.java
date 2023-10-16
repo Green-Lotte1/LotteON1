@@ -15,21 +15,18 @@ import lombok.*;
 public class CsCate2Entity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int no;
+    private String cate2;
 
-    @ManyToOne
-    @JoinColumn(name = "cate1", referencedColumnName = "cate1")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cate1")
     private CsCate1Entity cate1;
 
-    private int cate2;
     private String cate2_name;
 
     public CsCate2DTO toDTO() {
         return CsCate2DTO.builder()
-                .no(no)
-                .cate1(cate1.toDTO())
                 .cate2(cate2)
+                .cate1(cate1.toDTO())
                 .cate2_name(cate2_name)
                 .build();
     }

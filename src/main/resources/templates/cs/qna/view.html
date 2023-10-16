@@ -4,16 +4,16 @@
       layout:decorate="~{/cs/fragments/layout.html}">
   <article layout:fragment="content">
     <nav>
-      <h2 class="title">[가입] 가입 문의내용</h2>
+      <h2 class="title">[[${view.cate2.wrapping}]] [[${view.title}]]</h2>
       <p>
-        <span>chh***</span>
-        <span>2022-11-21</span>
+        <span>[[${view.uid.uidMasking}]]</span>
+        <span>[[${view.yyyyMMdd2}]]</span>
       </p>
     </nav>
 
     <div class="content">
       <p>
-        개인회원에서 법인회원(사업자 회원)으로 전환은 불가하므로 법인회원(사업자 회원) 전환은 신규 가입으로 진행을 해야 합니다.
+        [[${view.content}]]
       </p>
       <p>
         ※ 피싱 관련 피해신고<br /><br />
@@ -24,6 +24,6 @@
         감사합니다.<br />
       </p>
     </div>
-    <a href="./list.html" class="btnList">목록보기</a>
+    <a th:href="@{/cs/qna/list}" class="btnList">목록보기</a>
   </article>
 </html>
