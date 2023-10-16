@@ -129,7 +129,7 @@ public class CsController {
     public String noticeList(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         layout(request, model, pageRequestDTO);
         log.info("cs board list" + csService.findCsLists(pageRequestDTO));
-        log.info("cs board list" + csService.findCsLists(pageRequestDTO).getAnswer());
+        //log.info("cs board list" + csService.findCsLists(pageRequestDTO).getAnswer());
 
         return "/cs/notice/list";
     }
