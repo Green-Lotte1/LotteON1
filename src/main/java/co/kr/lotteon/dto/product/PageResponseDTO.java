@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.product;
 
+import co.kr.lotteon.dto.MemberDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,6 +10,7 @@ import java.util.List;
 public class PageResponseDTO {
 
     private List<ProductDTO> dtoList;
+    private List<MemberDTO> memberList;
     private int cate1;
     private int cate2;
     private int pg;

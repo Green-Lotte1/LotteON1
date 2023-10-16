@@ -45,6 +45,11 @@ public class ProductDTO {
     private String origin;
     private String ip;
     private LocalDateTime rdate;
+    private int etc1;
+    private int etc2;
+    private String etc3;
+    private String etc4;
+    private String etc5;
 
     public ProductEntity toEntity() {
         return ProductEntity.builder()
@@ -74,6 +79,11 @@ public class ProductDTO {
                 .origin(origin)
                 .ip(ip)
                 .rdate(rdate)
+                .etc1(etc1)
+                .etc2(etc2)
+                .etc3(etc3)
+                .etc4(etc4)
+                .etc5(etc5)
                 .build();
     }
 

@@ -1,9 +1,6 @@
 package co.kr.lotteon.service;
 
-import co.kr.lotteon.dto.product.PageRequestDTO;
-import co.kr.lotteon.dto.product.PageResponseDTO;
-import co.kr.lotteon.dto.product.ProdCate1DTO;
-import co.kr.lotteon.dto.product.ProductDTO;
+import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProdCate2Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
@@ -17,6 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -31,9 +29,18 @@ public class ProductService {
     private final ModelMapper modelMapper;
 
     public PageResponseDTO selectProductByCate1AndCate2(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = pageRequestDTO.getPageable("no");
 
-        Page<ProductEntity> result = prodRepo.findByProdCate1AndProdCate2(pageRequestDTO.getCate1(), pageRequestDTO.getCate2(), pageable);
+        log.info("prodService here...1");
+
+        Pageable pageable = pageRequestDTO.getPageable("prodNo");
+
+        log.info("prodService here...2");
+
+        ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
+
+        Page<ProductEntity> result = prodRepo.findByProdCate1AndProdCate2(cate1, pageRequestDTO.getCate2(), pageable);
+
+        log.info("prodService here...3");
 
         List<ProductDTO> dto = result.getContent()
                 .stream()
@@ -41,8 +48,12 @@ public class ProductService {
                 .toList();
         int totalElement = (int) result.getTotalElements();
 
+        log.info("prodService here...4");
+
         log.info(dto.toString());
         log.info(totalElement);
+
+        log.info("prodService here...5");
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
@@ -51,14 +62,17 @@ public class ProductService {
                 .build();
     }
 
-    public List<ProdCate1DTO> selectAllProdCate1() {
-        List<ProdCate1Entity> entity = prodCate1Repository.findAll();
+    public List<ProdCate2DTO> selectAllProdCate2() {
+        List<ProdCate2Entity> entity = prodCate2Repository.findAll();
 
-        List<ProdCate1DTO> dto = null;
+        List<ProdCate2DTO> dto = new ArrayList<>();
 
-        for(ProdCate1Entity toEntity : entity){
-            ProdCate1DTO toDto = toEntity.toDTO();
-            dto.add(toDto);
+        if (!(entity == null)) {
+            for(ProdCate2Entity toEntity : entity){
+                ProdCate2DTO toDto = toEntity.toDTO();
+                log.info(toDto.toString());
+                dto.add(toDto);
+            }
         }
 
         return dto;

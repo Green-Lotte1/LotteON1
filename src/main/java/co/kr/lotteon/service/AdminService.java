@@ -22,17 +22,4 @@ public class AdminService {
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
 
-
-
-
-
-    }
-
-
-
-
-
-
-
-
 }
