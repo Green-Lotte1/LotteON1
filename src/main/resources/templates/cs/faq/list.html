@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{cs/fragments/layout.html}">
+      layout:decorate="~{/cs/fragments/layout :: content}">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
   $(function(){
@@ -26,7 +26,7 @@
   });
 </script>
   <article layout:fragment="content">
-    <nav th:replace="~{cs/fragments/nav :: nav}">
+    <nav th:replace="~{/cs/fragments/nav :: nav}">
       <!-- nav 들어올 영역 -->
     </nav>
 

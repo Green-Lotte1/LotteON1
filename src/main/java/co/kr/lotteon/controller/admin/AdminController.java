@@ -43,8 +43,6 @@ public class AdminController {
         return "/admin/product/register";
     }
 
-
-
 }
 
 

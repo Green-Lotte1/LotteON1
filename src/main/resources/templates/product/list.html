@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{product/layout.html}">
-    <article layout:fragment="content">
-        <section class="list">
+      layout:decorate="~{/product/layout.html}">
+    <section layout:fragment="content" class="list">
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>상품목록</h1>
@@ -22,114 +21,27 @@
 
             <!-- 상품목록 -->
             <table border="0">
-                <tr>
+                <tr th:each="product:${products.dtoList}">
                     <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
                     <td>
-                        <h3 class="name">상품명</h3>
-                        <a href="#" class="desc">상품설명</a>
+                        <h3 class="name">[[${product.prodName}]]</h3>
+                        <a href="#" class="desc">[[${product.descript}]]</a>
                     </td>
                     <td>
                         <ul>
-                            <li><ins class="dis-price">27,000</ins></li>
+                            <li><ins class="dis-price">[[${product.price - ((product.price/100)*product.discount)}]]</ins></li>
                             <li>
-                                <del class="org-price">30,000</del>
-                                <span class="discount">10%</span>
+                                <del class="org-price" th:if="${product.discount ne 0}">[[${product.price}]]</del>
+                                <span class="discount" th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
                             </li>
-                            <li><span class="free-delivery">무료배송</span></li>
+                            <li><span class="free-delivery" th:if="${product.delivery eq 0}">무료배송</span></li>
+                            <li><span class="free-delivery" th:if="${product.delivery ne 0}">[[${product.delivery}]]원</span></li>
                         </ul>
                     </td>
                     <td>
                         <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자</h4>
                         <h5 class="badge power">판매자등급</h5>
                         <h6 class="rating star1">상품평</h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                    <td>
-                        <h3 class="name">상품명</h3>
-                        <a href="#" class="desc">상품설명</a>
-                    </td>
-                    <td>
-                        <ul>
-                            <li><ins class="dis-price">27,000</ins></li>
-                            <li>
-                                <del class="org-price">30,000</del>
-                                <span class="discount">10%</span>
-                            </li>
-                            <li><span class="free-delivery">무료배송</span></li>
-                        </ul>
-                    </td>
-                    <td>
-                        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자</h4>
-                        <h5 class="badge power">판매자등급</h5>
-                        <h6 class="rating star2">상품평</h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                    <td>
-                        <h3 class="name">상품명</h3>
-                        <a href="#" class="desc">상품설명</a>
-                    </td>
-                    <td>
-                        <ul>
-                            <li><ins class="dis-price">27,000</ins></li>
-                            <li>
-                                <del class="org-price">30,000</del>
-                                <span class="discount">10%</span>
-                            </li>
-                            <li><span class="free-delivery">무료배송</span></li>
-                        </ul>
-                    </td>
-                    <td>
-                        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자명</h4>
-                        <h5 class="badge power">판매자등급</h5>
-                        <h6 class="rating star3">상품평</h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                    <td>
-                        <h3 class="name">상품명</h3>
-                        <a href="#" class="desc">상품설명</a>
-                    </td>
-                    <td>
-                        <ul>
-                            <li><ins class="dis-price">27,000</ins></li>
-                            <li>
-                                <del class="org-price">30,000</del>
-                                <span class="discount">10%</span>
-                            </li>
-                            <li><span class="free-delivery">무료배송</span></li>
-                        </ul>
-                    </td>
-                    <td>
-                        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자명</h4>
-                        <h5 class="badge power">판매자등급</h5>
-                        <h6 class="rating star4">상품평</h6>
-                    </td>
-                </tr>
-                <tr>
-                    <td><a href="#" class="thumb"><img src="https://via.placeholder.com/120x120" alt="상품이미지"/></a></td>
-                    <td>
-                        <h3 class="name">상품명</h3>
-                        <a href="#" class="desc">상품설명</a>
-                    </td>
-                    <td>
-                        <ul>
-                            <li><ins class="dis-price">27,000</ins></li>
-                            <li>
-                                <del class="org-price">30,000</del>
-                                <span class="discount">10%</span>
-                            </li>
-                            <li><span>배송비 2500</span></li>
-                        </ul>
-                    </td>
-                    <td>
-                        <h4 class="seller"><i class="fas fa-home"></i>&nbsp;판매자명</h4>
-                        <h5 class="badge power">판매자등급</h5>
-                        <h6 class="rating star5">상품평</h6>
                     </td>
                 </tr>
 
@@ -154,5 +66,4 @@
                 </span>
             </div>
         </section>
-    </article>
 </html>

@@ -2,11 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{product/layout.html}">
-<article layout:fragment="content">
-
+<section layout:fragment="content" class="cart">
         <!-- 장바구니 페이지 시작 -->
-        <section class="cart">
-
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>장바구니</h1>
@@ -126,8 +123,6 @@
                 </div>
 
             </form>
-
-        </section>
         <!-- 장바구니 페이지 끝 -->
-    </article>
+    </section>
 </html>

@@ -1,5 +1,6 @@
-package co.kr.lotteon.dto;
+package co.kr.lotteon.dto.product;
 
+import co.kr.lotteon.dto.MemberDTO;
 import lombok.Builder;
 import lombok.Data;
 
@@ -9,7 +10,9 @@ import java.util.List;
 public class PageResponseDTO {
 
     private List<ProductDTO> dtoList;
-    private String cate2;
+    private List<MemberDTO> memberList;
+    private int cate1;
+    private int cate2;
     private int pg;
     private int size;
     private int total;
@@ -19,7 +22,8 @@ public class PageResponseDTO {
 
     @Builder
     public PageResponseDTO(PageRequestDTO pageRequestDTO, List<ProductDTO> dtoList, int total){
-        this.cate2 = pageRequestDTO.getCate();
+        this.cate1 = pageRequestDTO.getCate1();
+        this.cate2 = pageRequestDTO.getCate2();
         this.pg = pageRequestDTO.getPg();
         this.size = pageRequestDTO.getSize();
         this.total = total;

@@ -17,7 +17,6 @@ public class MemberService {
     private PasswordEncoder passwordEncoder;
 
     public void save(MemberDTO dto){
-
         dto.setKm_pass1(passwordEncoder.encode(dto.getKm_pass1()));
         // DTO를 Entity로 변환
         MemberEntity entity = dto.toEntity();

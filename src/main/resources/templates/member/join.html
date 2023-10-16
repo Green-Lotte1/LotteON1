@@ -1,7 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org/"
-      layout:decorate="/member/layout.html">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">    
     <title>롯데ON::롯데 온라인 쇼핑몰</title>
@@ -41,14 +39,14 @@
                         <img th:src="@{/images/member_join_tit_normal.gif}" alt="구매회원 가입">
                         <div class="txt">
                             <img th:src="@{/images/member_join_txt_normal.gif}" alt="개인 구매회원">
-                            <a href="./member/signup.do?type=normal"><img th:src="@{/images/member_join_btn1.gif}" alt="회원가입"></a>
+                            <a th:href="@{/member/signup(type='normal')}"><img th:src="@{/images/member_join_btn1.gif}" alt="회원가입"></a>
                         </div>
                     </div>
                     <div class="seller">
                         <img th:src="@{/images/member_join_tit_seller.gif}" alt="판매회원 가입">
                         <div class="txt">
                             <img th:src="@{/images/member_join_txt_seller.gif}" alt="개인 구매회원">
-                            <a href="./member/signup.do?type=seller"><img th:src="@{/images/member_join_btn2.gif}" alt="회원가입"></a>
+                            <a th:href="@{/member/signup(type='seller')}"><img th:src="@{/images/member_join_btn2.gif}" alt="회원가입"></a>
                         </div>
                     </div>
                 </div>
