@@ -23,18 +23,18 @@ public class SecurityConfiguration {
                 // 사이트 위변조 방지 비활성
                 .csrf(CsrfConfigurer::disable) // 메서드 참조 연산자로 람다식을 간결하게 표현
                 // 토큰방식으로 로그인처리하기 때문에 폼방식 비활성
-                .formLogin(config -> config.loginPage("/user/login")
+                .formLogin(config -> config.loginPage("/member/login")
                         .defaultSuccessUrl("/",true) // 첫방문도 가능하게 해줌
-                        .failureUrl("/user/login?success=100")
+                        .failureUrl("/member/login?success=100")
                         .usernameParameter("uid")
                         .passwordParameter("pass")
                         .permitAll())
                 // 로그아웃 설정
                 .logout(config -> config
-                        .logoutUrl("/user/logout")
+                        .logoutUrl("/member/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .logoutSuccessUrl("/user/login?success=200"))
+                        .logoutSuccessUrl("/member/login?success=200"))
                 // 인가 권한 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/admin/**").permitAll()

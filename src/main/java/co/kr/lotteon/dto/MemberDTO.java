@@ -49,6 +49,8 @@ public class MemberDTO {
                 .pass(km_pass1)
                 .name(km_name)
                 .gender(km_gender)
+                .hp(km_hp)
+                .email(km_email)
                 .type(type)
                 .point(point)
                 .zip(km_zip)
