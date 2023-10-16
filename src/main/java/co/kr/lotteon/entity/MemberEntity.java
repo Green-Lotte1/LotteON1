@@ -58,6 +58,8 @@ public class MemberEntity {
                 .km_pass1(pass)
                 .km_name(name)
                 .km_gender(gender)
+                .km_hp(hp)
+                .km_email(email)
                 .type(type)
                 .point(point)
                 .km_zip(zip)
