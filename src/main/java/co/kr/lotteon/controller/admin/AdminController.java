@@ -22,21 +22,25 @@ public class AdminController {
     @Autowired
     private MemberService memberService;
 
-    @GetMapping(value = "/product/view")
-    public String view() {
-        return "/product/view";
+    @GetMapping(value = {"/admin","/admin/index"})
+    public String index(){
+        return "/admin/index";
     }
-    @GetMapping(value = "/product/cart")
-    public String cart() {
-        return "/product/cart";
+    @GetMapping("/admin/config/banner")
+    public String banner(){
+        return "/admin/config/banner";
     }
-    @GetMapping(value = "/product/order")
-    public String order() {
-        return "/product/order";
+    @GetMapping("/admin/config/info")
+    public String info(){
+        return "/admin/config/info";
     }
-    @GetMapping(value = "/product/complete")
-    public String complete() {
-        return "/product/complete";
+    @GetMapping("/admin/product/list")
+    public String productList(){
+        return "/admin/product/list";
+    }
+    @GetMapping("/admin/product/register")
+    public String productReg(){
+        return "/admin/product/register";
     }
 
 
