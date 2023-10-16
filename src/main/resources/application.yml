@@ -20,7 +20,7 @@ spring:
         dbcp2:
             driver-class-name: com.mysql.cj.jdbc.Driver
         password: Lotte1013!!
-        url: jdbc:mysql://3.39.191.39:3306/Kmarket
+        url: jdbc:mysql://13.209.72.62:3306/Kmarket
         username: LotteOn00
 
     devtools:

@@ -1,8 +1,8 @@
 package co.kr.lotteon.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-@Configurable
+@Configuration
 public class SecurityConfiguration {
     @Autowired
     private SecurityUserService service;
@@ -27,7 +27,8 @@ public class SecurityConfiguration {
                         .defaultSuccessUrl("/",true) // 첫방문도 가능하게 해줌
                         .failureUrl("/user/login?success=100")
                         .usernameParameter("uid")
-                        .passwordParameter("pass"))
+                        .passwordParameter("pass")
+                        .permitAll())
                 // 로그아웃 설정
                 .logout(config -> config
                         .logoutUrl("/user/logout")
@@ -41,7 +42,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/member/**").permitAll()
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/image/**").permitAll());
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll());
 
         return http.build();
     }

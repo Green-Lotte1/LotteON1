@@ -13,8 +13,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
 
 
-    @Query()
-    public List<ProductEntity> selectProductsByCate1AndCate2(int cate1, int cate2, Pageable pageable);
+    //@Query()
+    //public List<ProductEntity> selectProductsByCate1AndCate2(int cate1, int cate2, Pageable pageable);
 
     // return 배포 할 때 / 넣기로
 
