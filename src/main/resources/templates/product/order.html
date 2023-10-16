@@ -2,10 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{product/layout.html}">
-    <article layout:fragment="content">
+    <section layout:fragment="content" class="order">
         <!-- 주문 페이지 시작-->
-        <section class="order">
-
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>주문결제</h1>
@@ -203,5 +201,4 @@
 
         </section>
         <!-- 주문 페이지 끝-->
-    </article>
 </html>

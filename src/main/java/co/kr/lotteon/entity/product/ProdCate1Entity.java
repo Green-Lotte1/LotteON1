@@ -4,8 +4,12 @@ import co.kr.lotteon.dto.product.ProdCate1DTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Builder;
+import lombok.*;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
 @Table(name = "km_product_cate1")

@@ -5,6 +5,7 @@ import co.kr.lotteon.entity.cs.CsGroupEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @Setter
@@ -23,6 +24,10 @@ public class CsDTO {
     private String title;
     private String content;
     private LocalDateTime rdate;
+
+    public String getYyMMdd() {
+        return rdate.format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+    }
 
     public CsEntity toEntity() {
         return CsEntity.builder()

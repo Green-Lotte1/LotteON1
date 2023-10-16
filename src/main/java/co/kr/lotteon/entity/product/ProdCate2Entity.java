@@ -2,11 +2,15 @@ package co.kr.lotteon.entity.product;
 
 import co.kr.lotteon.dto.product.ProdCate2DTO;
 import jakarta.persistence.*;
-import lombok.Builder;
+import lombok.*;
 
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "km_product_cate1")
+@Table(name = "km_product_cate2")
 public class ProdCate2Entity {
 
     @Id

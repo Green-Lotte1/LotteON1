@@ -27,6 +27,8 @@ public class ProductEntity {
     private String prodName;
     private String descript;
     private String prodCompany;
+    /*@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn()*/
     private String seller;
     private int price;
     private int discount;
@@ -49,6 +51,11 @@ public class ProductEntity {
     private String ip;
     @CreationTimestamp
     private LocalDateTime rdate;
+    private Integer etc1;
+    private Integer etc2;
+    private String etc3;
+    private String etc4;
+    private String etc5;
 
     public ProductDTO toDTO() {
         return ProductDTO.builder()
@@ -78,6 +85,11 @@ public class ProductEntity {
                 .origin(origin)
                 .ip(ip)
                 .rdate(rdate)
+                .etc1(etc1)
+                .etc2(etc2)
+                .etc3(etc3)
+                .etc4(etc4)
+                .etc5(etc5)
                 .build();
     }
 

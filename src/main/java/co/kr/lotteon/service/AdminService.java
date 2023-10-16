@@ -1,6 +1,5 @@
 package co.kr.lotteon.service;
 
-import co.kr.lotteon.entity.cs.CsEntity;
 import co.kr.lotteon.repository.MemberRepository;
 import co.kr.lotteon.repository.ProductRepository;
 import co.kr.lotteon.repository.cs.CsRepository;
@@ -21,18 +20,5 @@ public class AdminService {
     private final CsRepository csRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

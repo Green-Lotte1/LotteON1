@@ -14,7 +14,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
 
 
 
-    public Page<ProductEntity> findByProdCate1AndProdCate2(int cate1, int cate2, Pageable pageable);
+    public Page<ProductEntity> findByProdCate1AndProdCate2(ProdCate1Entity cate1, int cate2, Pageable pageable);
 
 
     // return 배포 할 때 / 넣기로
