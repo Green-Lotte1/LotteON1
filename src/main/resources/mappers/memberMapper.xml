@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.MemberMapper">
+
+    <insert id="insertMember">
+        INSERT INTO `km_member`(`uid`,`pass`,`name`,`gender`,`hp`,`email`,`zip`,`addr1`,`addr2`,`regip`,`rdate`)
+        VALUES (#{uid},#{pass},#{name},#{gender},#{hp},#{email},#{zip},#{addr1},#{addr2},#{regip},#{rdate});
+    </insert>
+</mapper>

@@ -35,8 +35,8 @@ public class MemberController {
     }
     @PostMapping ("/member/register")
     public String register(MemberDTO dto){
-        memberService.save(dto);
-        return "/member/register";
+        memberService.insert(dto);
+        return "redirect:/member/login";
     }
     @GetMapping("/member/registerSeller")
     public String registerSeller(){
