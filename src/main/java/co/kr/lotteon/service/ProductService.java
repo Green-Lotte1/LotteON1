@@ -2,6 +2,7 @@ package co.kr.lotteon.service;
 
 import co.kr.lotteon.dto.product.PageRequestDTO;
 import co.kr.lotteon.dto.product.PageResponseDTO;
+import co.kr.lotteon.dto.product.ProdCate1DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProdCate2Entity;
@@ -50,8 +51,17 @@ public class ProductService {
                 .build();
     }
 
-    public List<ProdCate1Entity> selectAllProdCate1() {
-        return prodCate1Repository.findAll();
+    public List<ProdCate1DTO> selectAllProdCate1() {
+        List<ProdCate1Entity> entity = prodCate1Repository.findAll();
+
+        List<ProdCate1DTO> dto = null;
+
+        for(ProdCate1Entity toEntity : entity){
+            ProdCate1DTO toDto = toEntity.toDTO();
+            dto.add(toDto);
+        }
+
+        return dto;
     }
 
 }
