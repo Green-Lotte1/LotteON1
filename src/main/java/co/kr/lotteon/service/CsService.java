@@ -90,8 +90,33 @@ public class CsService {
     }
 
     ////////////////////////////////////////////////////////////////////
-    // view page
+    // index page
     ////////////////////////////////////////////////////////////////////
+    public PageResponseDTO indexList(PageRequestDTO pageRequestDTO) {
+        Pageable pageable = pageRequestDTO.getPageable("no");
+
+        // index에서 pg=2를 하는거 막기 위함.
+        pageRequestDTO.setPg(1);
+
+        CsGroupEntity group = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
+        log.info("indexList method ~~ group : " + group);
+
+        Page<CsEntity> entities = csRepository.findByGroupAndParent(group,0, pageable);
+        if(entities != null) { log.info("entities IS NOT NULL");}
+
+        List<CsDTO> dto = entities.getContent()
+                .stream()
+                .map(entity -> modelMapper.map(entity, CsDTO.class))
+                .toList();
+
+        int totalElement = (int) entities.getTotalElements();
+
+        return PageResponseDTO.builder()
+                .pageRequestDTO(pageRequestDTO)
+                .csList(dto)
+                .total(totalElement)
+                .build();
+    }
 
 
     ////////////////////////////////////////////////////////////////////
