@@ -1,20 +1,24 @@
-package co.kr.lotteon.dto;
+package co.kr.lotteon.entity.product;
 
-import co.kr.lotteon.entity.CartEntity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import co.kr.lotteon.dto.product.CartDTO;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-@Builder
+@AllArgsConstructor
 @ToString
-@Data
-public class CartDTO {
+@Builder
+@Entity
+@Table(name = "km_product_cart")
+public class CartEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int cartNo;
     private String uid;
     private int prodNo;
@@ -24,10 +28,11 @@ public class CartDTO {
     private int point;
     private int delivery;
     private int total;
+    @CreationTimestamp
     private LocalDateTime rdate;
 
-    public CartEntity toEntity() {
-        return CartEntity.builder()
+    public CartDTO toDTO() {
+        return CartDTO.builder()
                 .cartNo(cartNo)
                 .uid(uid)
                 .prodNo(prodNo)
@@ -40,12 +45,4 @@ public class CartDTO {
                 .build();
     }
 
-
-    //추가 필드
-    private String thumb1;
-    private int prodCate1;
-    private int prodCate2;
-    private String prodName;
-    private String descript;
-    private int orgPrice;
 }

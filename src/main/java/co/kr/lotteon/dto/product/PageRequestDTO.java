@@ -1,4 +1,4 @@
-package co.kr.lotteon.dto;
+package co.kr.lotteon.dto.product;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +20,10 @@ public class PageRequestDTO {
     private int size = 10;
 
     @Builder.Default
-    private String cate = "notice";
+    private int cate1 = 10;
+
+    @Builder.Default
+    private int cate2 = 10;
 
 
     public Pageable getPageable(String sort){

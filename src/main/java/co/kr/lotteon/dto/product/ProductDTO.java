@@ -1,6 +1,8 @@
-package co.kr.lotteon.dto;
+package co.kr.lotteon.dto.product;
 
-import co.kr.lotteon.entity.ProductEntity;
+import co.kr.lotteon.dto.Utils;
+import co.kr.lotteon.entity.product.ProdCate1Entity;
+import co.kr.lotteon.entity.product.ProductEntity;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -15,10 +17,9 @@ import java.util.UUID;
 @Data
 public class ProductDTO {
 
-
     @Id
     private int prodNo;
-    private int prodCate1;
+    private ProdCate1DTO prodCate1;
     private int prodCate2;
     private String prodName;
     private String descript;
@@ -48,7 +49,7 @@ public class ProductDTO {
     public ProductEntity toEntity() {
         return ProductEntity.builder()
                 .prodNo(prodNo)
-                .prodCate1(prodCate1)
+                .prodCate1(prodCate1.toEntity())
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
@@ -77,13 +78,6 @@ public class ProductDTO {
     }
 
 
-    /************************* 추가 *************************/
-    private String path;
-    private int level;
-    private String company;
-    private String c1Name;
-    private String c2Name;
-
     /************** Value With Comma *************************************/
     public String getPriceWithComma() {
         return Utils.comma(price);
@@ -95,7 +89,7 @@ public class ProductDTO {
         return Utils.comma(this.price - ((this.price/100) * this.discount));
     }
 
-    public String fileRename(String thumb) {
+    /*public String fileRename(String thumb) {
 
         int i = thumb.lastIndexOf(".");
         // 확장자
@@ -110,7 +104,7 @@ public class ProductDTO {
         f1.renameTo(f2);
 
         return sName;
-    }
+    }*/
 
 
 }

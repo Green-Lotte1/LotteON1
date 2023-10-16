@@ -1,4 +1,4 @@
-package co.kr.lotteon.dto;
+package co.kr.lotteon.dto.product;
 
 import lombok.*;
 
