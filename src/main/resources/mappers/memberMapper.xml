@@ -8,4 +8,8 @@
         INSERT INTO `km_member`(`uid`,`pass`,`name`,`gender`,`hp`,`email`,`zip`,`addr1`,`addr2`,`regip`,`rdate`)
         VALUES (#{uid},#{pass},#{name},#{gender},#{hp},#{email},#{zip},#{addr1},#{addr2},#{regip},#{rdate});
     </insert>
+
+    <select id="selectTerms">
+        SELECT * FROM `km_member_terms`;
+    </select>
 </mapper>
