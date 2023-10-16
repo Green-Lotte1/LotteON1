@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
   <head>
     <meta charset="UTF-8" />
     <title>롯데ON::고객센터</title>
-    <link rel="shortcut icon" type="image/x-icon" href="../img/favicon.ico" />
-    <link rel="stylesheet" href="../../static/css/cs.css">
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/cs.css}">
   </head>
   <body>
     <div id="wrapper">
@@ -16,16 +15,15 @@
               <a href="./member/login.html">로그인</a>
               <a href="#">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"
-                ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-                >&nbsp;장바구니</a
-              >
+              <a href="#">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+              </a>
             </p>
           </div>
         </div>
         <div class="logo">
           <div>
-            <a href="#"><img src="../images/header_logo.png" alt="로고" />고객센터</a>
+            <a th:href="@{#}"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
@@ -34,7 +32,7 @@
         <div class="main">
           <h1 class="title"><strong>롯데ON</strong>이 도와드릴게요!</h1>              
           <section class="notice">
-            <h1>공지사항<a href="./notice/list.html">전체보기</a></h1>
+            <h1>공지사항<a th:href="@{/cs/notice/list}">전체보기</a></h1>
             <ul>
               <li>
                 <a href="#" class="title">[안내] 해외결제 사칭 문자 주의</a>
@@ -60,29 +58,29 @@
           </section>
         
           <section class="faq">
-            <h1>자주 묻는 질문<a href="./faq/list.html">전체보기</a>
+            <h1>자주 묻는 질문<a th:href="@{/cs/faq/list}">전체보기</a>
             </h1>
             <ol>
               <li>
-                <a href="#"><span>회원</span></a>
+                <a th:href="@{/cs/faq/list(cate1=101)}"><span>회원</span></a>
               </li>
               <li>
-                <a href="#"><span>쿠폰/이벤트</span></a>
+                <a th:href="@{/cs/faq/list(cate1=102)}"><span>쿠폰/이벤트</span></a>
               </li>
               <li>
-                <a href="#"><span>주문/결제</span></a>
+                <a th:href="@{/cs/faq/list(cate1=103)}"><span>주문/결제</span></a>
               </li>
               <li>
-                <a href="#"><span>배송</span></a>
+                <a th:href="@{/cs/faq/list(cate1=104)}"><span>배송</span></a>
               </li>
               <li>
-                <a href="#"><span>취소/반품/교환</span></a>
+                <a th:href="@{/cs/faq/list(cate1=105)}"><span>취소/반품/교환</span></a>
               </li>
               <li>
-                <a href="#"><span>여행/숙박/항공</span></a>
+                <a th:href="@{/cs/faq/list(cate1=106)}"><span>여행/숙박/항공</span></a>
               </li>
               <li>
-                <a href="#"><span>안전거래</span></a>
+                <a th:href="@{/cs/faq/list(cate1=107)}"><span>안전거래</span></a>
               </li>
             </ol>
           </section>
@@ -90,7 +88,7 @@
           <section class="qna">
             <h1>
               문의하기
-              <a href="#">전체보기</a>
+              <a th:href="@{/cs/qna/list}">전체보기</a>
             </h1>
             <ul>
               <li>
@@ -129,7 +127,7 @@
                 </p>
               </li>
             </ul>
-            <a href="#" class="ask">문의글 작성 ></a>
+            <a th:href="@{/cs/qna/write}" class="ask">문의글 작성 ></a>
           </section>
 
           <section class="tel">
@@ -175,7 +173,7 @@
           <li><a href="#">전자금융거래약관</a></li>
         </ul>
         <div>
-          <p><img src="../images/footer_logo.png" alt="로고" /></p>
+          <p><img th:src="@{/images/footer_logo.png}" alt="로고" /></p>
           <p>
             <strong>(주)롯데ON</strong><br />
             서울특별시 송파구 올림픽로 300 롯데월드타워 26층 (역삼동 강남파이낸스센터)<br />

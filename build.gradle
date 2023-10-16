@@ -39,7 +39,6 @@ dependencies {
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
 	// thymeleaf layout 설정을 위해 임시 추가
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
-
 }
 
 tasks.named('test') {

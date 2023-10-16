@@ -6,7 +6,7 @@
     <meta charset="UTF-8" />
     <title>롯데ON::고객센터</title>
     <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
-    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+    <link rel="stylesheet" th:href="@{/css/cs.css}" type="text/css"/>
   </head>
   <body>
     <div id="wrapper">
@@ -14,41 +14,50 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
+              <a th:href="@{/member/login}">로그인</a>
               <a href="#">회원가입</a>
               <a href="#">마이페이지</a>
-              <a href="#"
-                ><i class="fa fa-shopping-cart" aria-hidden="true"></i
-                >&nbsp;장바구니</a
-              >
+              <a href="#">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
+              </a>
             </p>
           </div>
         </div>
         <div class="logo">
           <div>
-            <a href="#"><img src="../../images/header_logo.png" alt="로고" />고객센터</a>
+            <a th:href="@{/cs/index}"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
-
       <section id="cs">
-        <div class="qna">
+
+        <!-- 여기부터  -->
+        <div th:class="${groupInfo.group}">
           <nav>
             <div>
-              <p>홈<span>></span>문의하기</p>
+              <p>
+                  홈
+                <span>></span>
+                  [[${groupInfo.group_name}]]
+                <span>></span>
+                <p style="font-weight: bold;">
+                  [[${cate1Info.cate1_name}]]
+                </p>
+              </p>
             </div>
           </nav>
-          <section class="list">
+          <section th:class="${article}">
+            <!-- 여기까지 css를 정하는 class -->
             <aside>
-              <h2>문의하기</h2>
+              <h2>[[${groupInfo.group_name}]]</h2>
               <ul>
-                <li class="on"><a href="#">회원</a></li>
-                <li><a href="#">쿠폰/이벤트</a></li>
-                <li><a href="#">주문/결제</a></li>
-                <li><a href="#">배송</a></li>
-                <li><a href="#">취소/반품/교환</a></li>
-                <li><a href="#">여행/숙박/항공</a></li>
-                <li><a href="#">안전거래</a></li>
+                <th:block th:each="cg:${category}">
+                  <li th:class="${cg.cate1 eq cate1Info.cate1 ? 'on' : 'off'}">
+                    <a th:href="@{${url}(cate1=${cg.cate1})}">
+                      [[${cg.cate1_name}]]
+                    </a>
+                  </li>
+                </th:block>
               </ul>
             </aside>
             <article layout:fragment="content">
@@ -71,7 +80,7 @@
           <li><a href="#">전자금융거래약관</a></li>
         </ul>
         <div>
-          <p><img src="../../images/footer_logo.png" alt="로고" /></p>
+          <p><img th:src="@{/images/footer_logo.png}" alt="로고" /></p>
           <p>
             <strong>(주)롯데ON</strong><br />
             서울특별시 송파구 올림픽로 300 롯데월드타워 26층 (역삼동 강남파이낸스센터)<br />

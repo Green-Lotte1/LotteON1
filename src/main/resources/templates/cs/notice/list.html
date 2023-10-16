@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.thymeleaf.org">
-  <article>
-    <nav>
-      <h1>전체</h1>
-      <h2>공지사항 전체 내용입니다.</h2>
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{cs/fragments/layout.html}">
+  <article layout:fragment="content">
+    <nav th:replace="~{cs/fragments/nav :: nav}">
+      <!-- nav 들어올 영역 -->
     </nav>
 
     <table>
