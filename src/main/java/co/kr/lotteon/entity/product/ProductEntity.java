@@ -1,6 +1,6 @@
-package co.kr.lotteon.entity;
+package co.kr.lotteon.entity.product;
 
-import co.kr.lotteon.dto.ProductDTO;
+import co.kr.lotteon.dto.product.ProductDTO;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,7 +20,9 @@ public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int prodNo;
-    private int prodCate1;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prodCate1")
+    private ProdCate1Entity prodCate1;
     private int prodCate2;
     private String prodName;
     private String descript;
@@ -51,7 +53,7 @@ public class ProductEntity {
     public ProductDTO toDTO() {
         return ProductDTO.builder()
                 .prodNo(prodNo)
-                .prodCate1(prodCate1)
+                .prodCate1(prodCate1.toDTO())
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
@@ -79,10 +81,4 @@ public class ProductEntity {
                 .build();
     }
 
-    /************************* 추가 *************************/
-    private String path;
-    private int level;
-    private String company;
-    private String c1Name;
-    private String c2Name;
 }

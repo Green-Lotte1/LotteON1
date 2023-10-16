@@ -1,17 +1,39 @@
 package co.kr.lotteon.controller.product;
 
-import co.kr.lotteon.dto.PageRequestDTO;
-import co.kr.lotteon.dto.PageResponseDTO;
+import co.kr.lotteon.dto.product.PageRequestDTO;
+import co.kr.lotteon.dto.product.PageResponseDTO;
+import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.service.ProductService;
+import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Log4j2
 @Controller
 public class ProductController {
 
+    @Autowired
+    private ProductService prodService;
+
+    public void layout() {
+
+
+
+    }
+
     @GetMapping(value = "/product/list")
     public String list(Model model, PageRequestDTO pageRequestDTO){
+
+        PageResponseDTO pageResponseDTO = prodService.selectProductByCate1AndCate2(pageRequestDTO);
+
+        model.addAttribute("products", pageRequestDTO);
+
+        for(ProductDTO product : pageResponseDTO.getDtoList()){
+            log.info(product.getProdNo());
+            log.info(product.getProdName());
+        }
 
         return "/product/list";
     }
