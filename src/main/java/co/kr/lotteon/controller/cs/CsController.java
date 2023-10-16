@@ -5,6 +5,7 @@ import co.kr.lotteon.service.CsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +23,19 @@ public class CsController {
     // 인덱스
     /////////////////////////////////////////////
     @GetMapping(value = {"/cs", "/cs/index"})
-    public String index(Model model, PageRequestDTO pageRequestDTO) {
+    public String index(Model model, PageRequestDTO pageRequestDTO, Pageable pageable) {
+        pageRequestDTO.setGroup("notice");
+        PageResponseDTO notice = csService.indexList(pageRequestDTO);
+        log.info("index notice list : " + notice);
+        log.info("notice size() : " + notice.getCsList().size());
+
+        pageRequestDTO.setGroup("qna");
+        PageResponseDTO qna = csService.indexList(pageRequestDTO);
+        log.info("index qna list : " + qna);
+        log.info("qna size() : " + notice.getCsList().size());
+
+        model.addAttribute("ntc", notice);
+        model.addAttribute("qna", qna);
 
         return "/cs/index";
     }

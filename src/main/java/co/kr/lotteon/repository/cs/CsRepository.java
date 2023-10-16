@@ -19,6 +19,7 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     // group 게시글 출력 (notice)
     public Page<CsEntity> findByGroupAndParent(CsGroupEntity group, int parent, Pageable pageable);
 
+    //public List<CsEntity> findByGroupAndParent(CsGroupEntity group, int parent);
 
     // cate1 게시글 출력 (notice, qna, faq)
     public Page<CsEntity> findByCate1AndParent(String cate1, int parent, Pageable pageable);

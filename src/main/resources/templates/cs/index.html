@@ -12,7 +12,7 @@
         <div class="top">
           <div>
             <p>
-              <a href="./member/login.html">로그인</a>
+              <a th:href="@{/member/login}">로그인</a>
               <a href="#">회원가입</a>
               <a href="#">마이페이지</a>
               <a href="#">
@@ -34,25 +34,9 @@
           <section class="notice">
             <h1>공지사항<a th:href="@{/cs/notice/list}">전체보기</a></h1>
             <ul>
-              <li>
-                <a href="#" class="title">[안내] 해외결제 사칭 문자 주의</a>
-                <span class="date">22.10.31</span>
-              </li>
-              <li>
-                <a href="#" class="title">[안내] 해외결제 사칭 문자 주의</a>
-                <span class="date">22.10.31</span>
-              </li>
-              <li>
-                <a href="#" class="title">[안내] 해외결제 사칭 문자 주의</a>
-                <span class="date">22.10.31</span>
-              </li>
-              <li>
-                <a href="#" class="title">[안내] 해외결제 사칭 문자 주의</a>
-                <span class="date">22.10.31</span>
-              </li>
-              <li>
-                <a href="#" class="title">[안내] 해외결제 사칭 문자 주의</a>
-                <span class="date">22.10.31</span>
+              <li th:each="board:${ntc.csList}">
+                <a th:href="@{/cs/notice/view(cate1=${board.cate1}, no=${board.no})}" class="title">[[${board.title}]]</a>
+                <span class="date">[[${board.yyMMdd}]]</span>
               </li>
             </ul>
           </section>
@@ -91,36 +75,8 @@
               <a th:href="@{/cs/qna/list}">전체보기</a>
             </h1>
             <ul>
-              <li>
-                <a href="./qna/list.html" class="title">[회원] 개인회원과 법인회원에 차이가 있나요?</a>
-                <p>
-                  <span class="uid">chh**</span>
-                  <span class="date">22.10.31</span>
-                </p>
-              </li>
-              <li>
-                <a href="#" class="title">[쿠폰/이벤트] 스마일포인트는 어디에 사용하나요?</a>
-                <p>
-                  <span class="uid">chh**</span>
-                  <span class="date">22.10.31</span>
-                </p>
-              </li>
-              <li>
-                <a href="#" class="title">[주문/결제] 신용카드 결제 중 오류가 난 경우 어떻게 하나요?</a>
-                <p>
-                  <span class="uid">chh**</span>
-                  <span class="date">22.10.31</span>
-                </p>
-              </li>
-              <li>
-                <a href="#" class="title">[배송] 주문한 상품은 언제 배송되나요?</a>
-                <p>
-                  <span class="uid">chh**</span>
-                  <span class="date">22.10.31</span>
-                </p>
-              </li>
-              <li>
-                <a href="#" class="title">[취소/반품/교환] 주문을 취소하고 싶어요.</a>
+              <li th:each="board:${qna.csList}">
+                <a th:href="@{/cs/qna/view}" class="title">[회원] 개인회원과 법인회원에 차이가 있나요?</a>
                 <p>
                   <span class="uid">chh**</span>
                   <span class="date">22.10.31</span>
@@ -157,12 +113,11 @@
                 </p>
                 <p>
                   <a href="#">판매자 가입 및 서류 접수 안내 〉</a>
-                </p>                
+                </p>
               </div>
             </article>
-
           </section>
-        
+        </div>
       </section>
 
       <footer>
