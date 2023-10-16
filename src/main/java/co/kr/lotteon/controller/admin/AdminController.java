@@ -39,7 +39,7 @@ public class AdminController {
         return "/admin/product/list";
     }
     @GetMapping("/admin/product/register")
-    public String productReg(){
+    public String productRegister(){
         return "/admin/product/register";
     }
 
