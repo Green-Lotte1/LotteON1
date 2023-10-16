@@ -22,10 +22,13 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http
+        http    
+                // 개발전용 - 에러 페이지 띄우기
                 .exceptionHandling()
-                    .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)) // 인증되지 않은 사용자에게 401 오류를 반환
-                    .and()
+                .accessDeniedHandler((request, response, accessDeniedException) -> {
+                    response.sendRedirect("/error/403"); // 403 Forbidden 에러 페이지로 리디렉트
+                })
+                .and()
                 // 사이트 위변조 방지 비활성
                 .csrf(CsrfConfigurer::disable) // 메서드 참조 연산자로 람다식을 간결하게 표현
                 // 토큰방식으로 로그인처리하기 때문에 폼방식 비활성
@@ -48,7 +51,11 @@ public class SecurityConfiguration {
                         .requestMatchers("/member/**").permitAll()
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll());
+                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll())
+                // 403 Forbidden 에러 처리
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
+                );
 
         return http.build();
     }
@@ -62,4 +69,5 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
+
 }
