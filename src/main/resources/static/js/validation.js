@@ -31,6 +31,28 @@ $(function (){
         $('.msgId1').text('');
         isUidOk = false;
     });
+    // 비밀번호 검사
+    $('input[name=km_pass2]').focusout(function(){
+
+        const pass1 = $('input[name=pass]').val();
+        const pass2 = $('input[name=km_pass2]').val();
+
+        if(pass1 == pass2){
+
+            if(pass1.match(rePass)){ // 유효성 검사
+                $('.msgPass1').css('color','green').text('사용할 수 있는 비밀번호 입니다.');
+                isPassOk = true;
+            } else {
+                $('.msgPass1').css('color', 'red').text('비밀번호는 숫자, 영문, 특수문자 조합 8자리 이상이어야 합니다.');
+                isPassOk = false;
+            }
+
+        } else { // 두 비밀번호가 일치하지 않을 시
+            $('.msgPass1').css('color', 'red').text('비밀번호가 일치하지 않습니다.');
+            isPassOk = false;
+        }
+        
+    });
 
     // 최종 전송
     $('#formMember').submit(function(){
