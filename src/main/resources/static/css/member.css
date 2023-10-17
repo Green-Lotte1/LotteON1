@@ -9,7 +9,27 @@ header {
   padding: 60px 0;
   box-sizing: border-box;
 }
-
+#member .btnCheck {
+  display: inline-block;
+  width: 60px;
+  height: 33px;
+  text-align: center;
+  line-height: 20px;
+  background-color: #ef2a23;
+  border: 1px solid #aa2420;
+  border-radius: 3px;
+  font-weight: bold;
+  color: #fff;
+  box-sizing: border-box;
+}
+#member .btnCheck:hover {
+  background-color: #da312a;
+}
+#btnZip {
+  position: absolute;
+  top: 15px;
+  left: 206px;
+}
 #member > div > nav > p {
   float: right;
   font-size: 11px;

@@ -16,6 +16,15 @@
         </td>
         <td>[[${board.yyyyMMdd}]]</td>
       </tr>
+
+      <!-- data가 없을 경우 출력 -->
+      <tr th:if="${pageResponseDTO.total < 1}">
+        <td style="text-align: center; font-size: 14px; padding: 50px 0;">
+          <i class="fa-regular fa-face-sad-tear" style="color: grey; font-size: 100px;"></i><br><br>
+          등록된 공지사항이 없습니다.
+        </td>
+      </tr>
+
     </table>
 
     <div class="page">
