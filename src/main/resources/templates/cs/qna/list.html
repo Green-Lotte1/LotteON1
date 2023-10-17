@@ -9,16 +9,28 @@
     <table>
       <tr th:each="board:${boardList}">
         <td>
-          <a th:href="@{cs/qna/view(cate1=${board.cate1.cate1}, no=${board.no})}">
+          <a th:href="@{/cs/qna/view(cate1=${board.cate1.cate1}, no=${board.no})}">
             [[${board.cate2.wrapping}]] [[${board.title}]]
           </a>
+        </td>
+        <td th:style="${board.parent>0?'color: green; font-weight: bold;':''}">
+          [[${board.content}]]
         </td>
         <td>[[${board.uid.uidMasking}]]</td>
         <td>[[${board.yyyyMMdd}]]</td>
       </tr>
+
+      <!-- data가 없을 경우 출력 -->
+      <tr th:if="${pageResponseDTO.total < 1}">
+        <td style="text-align: center; font-size: 14px; padding: 50px 0;">
+          <i class="fa-regular fa-face-sad-tear" style="color: grey; font-size: 100px;"></i><br><br>
+          등록된 문의 내용이 없습니다.
+        </td>
+      </tr>
+
     </table>
 
-    <div class="page">
+    <div class="page" th:if="${pageResponseDTO.total > 0}">
       <a th:href="@{/cs/qna/list(cate=free, pg=${pageResponseDTO.start-1})}"
          class="prev" th:if="${pageResponseDTO.prev}">
         이전

@@ -1,14 +1,19 @@
 package co.kr.lotteon.controller.cs;
 
 import co.kr.lotteon.dto.cs.*;
+import co.kr.lotteon.entity.cs.CsEntity;
 import co.kr.lotteon.service.CsService;
+import com.nimbusds.jose.shaded.gson.Gson;
+import com.nimbusds.jose.shaded.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -24,7 +29,10 @@ public class CsController {
     /////////////////////////////////////////////
     @GetMapping(value = {"/cs", "/cs/index"})
     public String index(Model model, PageRequestDTO pageRequestDTO, Pageable pageable) {
-        // index에선 5개씩만 출력하기 위함.
+        List<CsCate1DTO> faqCate1List = csService.faqCate1List();
+        log.info("faqCate1List : " + faqCate1List);
+
+        // index에선 list를 5개씩만 출력하기 위함.
         pageRequestDTO.setSize(5);
 
         pageRequestDTO.setGroup("notice");
@@ -38,6 +46,7 @@ public class CsController {
         log.info("qna size() : " + notice.getCsList().size());
 
         model.addAttribute("ntc", notice);
+        model.addAttribute("cate1List", faqCate1List);
         model.addAttribute("qna", qna);
 
         return "/cs/index";
@@ -96,8 +105,31 @@ public class CsController {
     @GetMapping("/cs/qna/write")
     public String qnaWrite(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         layout(request, model, pageRequestDTO);
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
+        log.info("group : " + pageRequestDTO.getGroup());
+        log.info("cate1 : " + pageRequestDTO.getCate1());
+        log.info("cate2 : " + pageRequestDTO.getCate2());
+        log.info("pg : " + pageRequestDTO.getPg());
 
+        // cate1_name 출력용 (경로... cate1.cate1_name)
+        List<CsCate1DTO> cate1 = csService.findByCate(pageRequestDTO.getGroup());
+        model.addAttribute("cate1", cate1);
+        log.info("cate1 result : " + cate1);
+
+        // cate2_name 출력용 (경로... cate2.cate2_name)
+        List<CsCate2DTO> cate2 = csService.findByCate1(pageRequestDTO.getCate1());
+        model.addAttribute("cate2", cate2);
+        log.info("cate2 result : " + cate2);
+        
         return "/cs/qna/write";
+    }
+
+    @PostMapping("/cs/qna/write")
+    public String qnaWrite(CsDTO dto) {
+        int result = csService.insertQna(dto);
+        log.info("게시글 등록에 " + (result==1?"성공":"실패") + "하였습니다.");
+
+        return "redirect:/cs/qna/list?cate1=" + dto.getCate1();
     }
 
 
@@ -187,6 +219,7 @@ public class CsController {
         if (pageRequestDTO.getGroup().equals("faq")) {
             log.info("boardList(faq) : " + boardList.getCsLists());
             model.addAttribute("boardList", boardList.getCsLists());
+
         }else {
             if (pageRequestDTO.getGroup().equals("qna")) {
                 log.info("boardList(qna) : " + boardList.getCsList());

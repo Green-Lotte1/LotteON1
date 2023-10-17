@@ -27,6 +27,8 @@ public class PageResponseDTO {
     private int start, end;
     private boolean prev, next;
 
+    private String type;
+
     @Builder
     public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, List<List<CsDTO>> csLists, int total, int no) {
 
@@ -37,8 +39,11 @@ public class PageResponseDTO {
         this.pg  = pageRequestDTO.getPg();
         this.size   = pageRequestDTO.getSize();
         this.total  = total;
+
         this.csList = csList;
         this.csLists = csLists;
+
+        this.type = pageRequestDTO.getType();
 
         this.end   = (int) (Math.ceil(this.pg / 10.0)) * 10;
         this.start = this.end - 9;
