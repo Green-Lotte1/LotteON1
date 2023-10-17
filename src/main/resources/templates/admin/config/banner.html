@@ -11,162 +11,6 @@
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
     <link rel="stylesheet" th:href="@{/css/admin.css}">
-    <style>
-        .ui-tabs .ui-tabs-panel {
-            padding: 16px 0 0;
-        }
-
-        .ui-widget-content {
-            border: none;
-        }
-
-        .ui-widget.ui-widget-content {
-            border: none;
-        }
-        .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
-            border-radius: 0;
-        }
-
-        .ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr {
-            border-radius: 0;
-        }      
-
-        .popup {                
-            position: fixed;
-            left: 0;
-            top: 0;
-            display: none;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-        }
-
-        .popup.on {display: block;}
-
-        .popup input {
-            width: 120px;
-            padding: 4px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-        .popup input[type=file] {
-            width: 240px;
-        }
-
-        .popup select {
-            width: 120px;
-            padding: 4px;
-            box-sizing: border-box;
-            outline: none;
-        }
-
-
-        .popup > div {
-            display: table;        
-            width: auto;
-            height: auto;                
-            margin: 0 auto;
-            margin-top: 100px;
-            background: #fff;
-
-        }
-
-        .popup > div > nav {
-            width: 100%;
-            height: auto;
-            padding: 10px;
-            box-sizing: border-box;
-            background: #0e3a47;
-            overflow: hidden;
-        }
-        .popup > div > nav > h1 {
-            float: left;                
-            font-size: 18px;
-            color: white;
-
-        }
-        .popup > div > nav > button {
-            float: right;
-            width: 30px;
-            height: 30px;
-            background-image: url('../../images/ico_sprites.png');
-            background-color: transparent;
-            background-position: 227px -25px;
-            border: none;
-            font-size: 0;
-            color: white;
-            cursor: pointer;
-        }
-        .popup > div > section {
-            padding: 16px;
-            box-sizing: border-box;
-        }
-
-        .popup > div > section > article {}
-        .popup > div > section > article > h3 {
-            font-size: 15px;
-            margin-bottom: 4px;
-        }
-        
-        .popup > div > section > article table {
-            width: 600px;
-            border-top: 2px solid #444;
-            border-bottom: 1px solid #aaa;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-        }
-        .popup > div > section > article table label {
-            margin-right: 10px;
-        }
-
-        .popup > div > section > article table input[type=text] {
-            width: 100%;                
-            padding: 4px;
-            box-sizing: border-box;                
-            border: 1px solid #f1f1f1;
-            vertical-align: middle;
-        }
-
-        .popup > div > section > article table td:first-child {
-            width: 120px;
-            border-left: 0;
-        }
-
-        .popup > div > section > article table tr {
-            border-bottom: 1px solid #f1f1f1;
-        }
-
-        .popup > div > section > article table tr > td {
-            padding: 10px;
-            border-left: 1px solid #f1f1f1;
-            box-sizing: border-box;
-        }
-
-        .popup > div > section > article table tr > td:nth-child(2) {
-            width: 360px;
-        }
-
-        .popup > div > section > article > form > div {
-            padding: 16px 0;
-            text-align: center;                
-        }
-
-        .popup > div > section > article table p {            
-            margin-bottom: 6px;
-        }
-
-        .btnPositive {
-            padding: 10px !important;
-            background: #0e9d05;
-            border: 1px solid #0b8404;
-            box-sizing: border-box;
-            color: white;
-            margin: 0 auto;
-            cursor: pointer;
-        }
-    </style>
     <script>
         $(function() {
             $("#tabs").tabs();
@@ -189,7 +33,7 @@
     <div id="admin-wrapper">
         <header>
             <div>
-                <a th:href="@{/index}" class="logo"><img src="../images/admin_logo.png" alt="admin_logo"/></a>
+                <a th:href="@{/admin/index}" class="logo"><img th:src="@{/images/admin_logo.png}" alt="admin_logo"/></a>
                 <p>
                     <span>홍길동님 반갑습니다.</span>
                     <a th:href="@{/}">HOME |</a>
@@ -212,7 +56,7 @@
                     <li>
                         <a th:href="@{/admin/index}"><i class="fas fa-store" aria-hidden="true"></i>상점관리</a>
                         <ol>
-                            <li><a th:href="@{/admin/index">판매자현황</a></li>
+                            <li><a th:href="@{/admin/index}">판매자현황</a></li>
                             <li><a th:href="@{/admin/product/list}">재고관리</a></li>
                         </ol>
                     </li>
