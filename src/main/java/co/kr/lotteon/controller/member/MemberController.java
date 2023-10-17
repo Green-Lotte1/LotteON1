@@ -33,12 +33,13 @@ public class MemberController {
     }
     @GetMapping("/member/register")
     public String register(Model model){
-        model.addAttribute("member",new MemberDTO());
         log.info("register...1");
+        model.addAttribute("member",new MemberDTO());
         return "/member/register";
     }
     @PostMapping ("/member/register")
     public String register(@ModelAttribute MemberDTO member, HttpServletRequest request){
+        log.info("register...2");
         member.setRegip(request.getRemoteAddr());
         member.setLevel(1);
         member.setType(1);
@@ -47,9 +48,23 @@ public class MemberController {
         return "redirect:/member/login";
     }
     @GetMapping("/member/registerSeller")
-    public String registerSeller(){
+    public String registerSeller(Model model){
         log.info("registerSeller...1");
+        model.addAttribute("member",new MemberDTO());
         return "/member/registerSeller";
+    }
+    @PostMapping("/member/registerSeller")
+    public String registerSeller(@ModelAttribute MemberDTO member, HttpServletRequest request){
+        log.info("registerSeller...2");
+        member.setRegip(request.getRemoteAddr());
+        member.setLevel(5);
+        member.setType(2);
+        member.setName(member.getManager());
+        member.setHp(member.getManagerHp());
+
+        memberService.insert(member);
+
+        return "redirect:/member/login";
     }
     @GetMapping("/member/signup")
     public String signup(@RequestParam(name = "type") String type, Model model){
