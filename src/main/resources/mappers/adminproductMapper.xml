@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.MemberMapper">
+
+    <insert id="insertProduct">
+        INSERT INTO `km_product`(`prodNo`,`prodCate1`,`prodCate2`,`prodName`,`descript`,`prodCompany`,`seller`,`price`,
+        `discount`,`point`,`stock`,`sold`,`delivery`,`hit`,`score`,`review`,`thumb1`,`thumb2`,`thumb3`,`detail`,
+        `status`,`duty`,`receipt`,`bizType`,`origin`,`ip`,`rdate`,`etc1`,`etc2`,`etc3`,`etc4`,`etc5`)
+        VALUES (#{prodNo},#{prodCate1},#{prodCate2},#{prodName},#{descript},#{prodCompany},#{seller},#{price},#{discount},
+        #{point}, #{stock},#{sold},#{delivery},#{hit},#{score},#{review},#{thumb1},#{thumb2},#{thumb3},#{detail},#{status},
+        #{duty},#{receipt},#{bizType},#{origin},#{ip},#{rdate},#{etc1},#{etc2},#{etc3},#{etc4},#{etc5});
+    </insert>
+
+
+</mapper>
