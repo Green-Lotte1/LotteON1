@@ -6,15 +6,23 @@ import co.kr.lotteon.entity.MemberEntity;
 import co.kr.lotteon.entity.member.TermsEntity;
 import co.kr.lotteon.mapper.MemberMapper;
 import co.kr.lotteon.repository.MemberRepository;
+import co.kr.lotteon.repository.TermsRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+@Log4j2
 @Service
 public class MemberService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
+    private TermsRepository termsRepository;
 
     @Autowired
     private MemberMapper memberMapper;
@@ -24,13 +32,29 @@ public class MemberService {
         // DTO를 Entity로 변환
         MemberEntity entity = dto.toEntity();
 
-        memberMapper.insertMember(dto);
+        memberRepository.save(entity);
     }
 
     public TermsDTO findTerms(){
-        TermsEntity entity = memberMapper.selectTerms().toEntity();
+        TermsEntity entity = termsRepository.findById(1).get();
         TermsDTO dto = entity.toDTO();
-
         return dto;
     }
+
+    public int countUid(String uid){
+        int result = memberMapper.countUid(uid);
+        log.info("countUid : "+result);
+        return result;
+    }
+    public int countEmail(String email){
+        int result = memberRepository.countByEmail(email);
+        log.info("countUid : "+result);
+        return result;
+    }
+    public int countHp(String hp){
+        int result = memberRepository.countByHp(hp);
+        log.info("countUid : "+result);
+        return result;
+    }
+
 }
