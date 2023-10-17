@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.product;
 
+import co.kr.lotteon.dto.MemberDTO;
 import co.kr.lotteon.dto.Utils;
 import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
@@ -24,7 +25,7 @@ public class ProductDTO {
     private String prodName;
     private String descript;
     private String prodCompany;
-    private String seller;
+    private MemberDTO seller;
     private int price;
     private int discount;
     private int point;
@@ -58,7 +59,7 @@ public class ProductDTO {
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
-                .seller(seller)
+                .seller(seller.toEntity())
                 .price(price)
                 .discount(discount)
                 .point(point)
