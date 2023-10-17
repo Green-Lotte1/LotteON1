@@ -1,7 +1,9 @@
 package co.kr.lotteon.service;
 
 import co.kr.lotteon.dto.MemberDTO;
+import co.kr.lotteon.dto.member.TermsDTO;
 import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.TermsEntity;
 import co.kr.lotteon.mapper.MemberMapper;
 import co.kr.lotteon.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,4 +27,10 @@ public class MemberService {
         memberMapper.insertMember(dto);
     }
 
+    public TermsDTO findTerms(){
+        TermsEntity entity = memberMapper.selectTerms().toEntity();
+        TermsDTO dto = entity.toDTO();
+
+        return dto;
+    }
 }

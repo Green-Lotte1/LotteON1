@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.member;
 
+import co.kr.lotteon.entity.member.TermsEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,10 +12,21 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TermsDTO {
 
+    private int no;
     private String terms;
     private String privacy;
     private String location;
     private String finance;
     private String tax;
 
+    public TermsEntity toEntity(){
+        return TermsEntity.builder()
+                .no(no)
+                .terms(terms)
+                .privacy(privacy)
+                .location(location)
+                .finance(finance)
+                .tax(tax)
+                .build();
+    }
 }

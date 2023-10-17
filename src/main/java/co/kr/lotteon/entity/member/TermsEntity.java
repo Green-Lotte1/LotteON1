@@ -1,5 +1,6 @@
 package co.kr.lotteon.entity.member;
 
+import co.kr.lotteon.dto.member.TermsDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -23,4 +24,15 @@ public class TermsEntity {
     private String location;
     private String finance;
     private String tax;
+
+    public TermsDTO toDTO(){
+        return TermsDTO.builder()
+                .no(no)
+                .terms(terms)
+                .privacy(privacy)
+                .location(location)
+                .finance(finance)
+                .tax(tax)
+                .build();
+    }
 }

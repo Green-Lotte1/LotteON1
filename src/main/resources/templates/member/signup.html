@@ -87,21 +87,21 @@
                 <input type="hidden" name="type" th:value="${type}">
 				<section>
 					<h3><span class="essential">(필수)</span>케이마켓 이용약관</h3>
-					<textarea class="terms" readonly></textarea>
+					<textarea class="terms" readonly th:text="${sign.terms}"></textarea>
 					<label><input type="checkbox" name="agree1" />동의합니다.</label>
 
 					<h3><span class="essential">(필수)</span>전자금융거래 이용약관</h3>
-					<textarea class="financial" readonly></textarea>
+					<textarea class="financial" readonly th:text="${sign.finance}"></textarea>
 					<label><input type="checkbox" name="agree2" />동의합니다.</label>
 
 					<h3><span class="essential">(필수)</span>개인정보 수집동의</h3>
-					<textarea class="privacy" readonly></textarea>
+					<textarea class="privacy" readonly th:text="${sign.privacy}"></textarea>
 					<label><input type="checkbox" name="agree3" />동의합니다.</label>
 				</section>
 
 				<section>
 					<h3><span class="optional">(선택)</span>위치정보 이용약관</h3>
-					<textarea class="location" readonly></textarea>
+					<textarea class="location" readonly th:text="${sign.location}"></textarea>
 					<label><input type="checkbox" name="agree4" />동의합니다.</label>
 				</section>
                 <div class="allCheck">

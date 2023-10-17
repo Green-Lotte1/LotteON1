@@ -1,6 +1,7 @@
 package co.kr.lotteon.controller.member;
 
 import co.kr.lotteon.dto.MemberDTO;
+import co.kr.lotteon.dto.member.TermsDTO;
 import co.kr.lotteon.service.MemberService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +42,14 @@ public class MemberController {
     @GetMapping("/member/registerSeller")
     public String registerSeller(){
         log.info("registerSeller...1");
-
-
-
         return "/member/registerSeller";
     }
     @GetMapping("/member/signup")
     public String signup(@RequestParam(name = "type") String type, Model model){
         log.info("signup...1");
 
+        TermsDTO dto = memberService.findTerms();
+        model.addAttribute("sign",dto);
         model.addAttribute("type",type);
         return "/member/signup";
     }
