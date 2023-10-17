@@ -23,7 +23,7 @@
         </div>
         <div class="logo">
           <div>
-            <a th:href="@{#}"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
+            <a th:href="@{/cs}"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
           </div>
         </div>
       </header>
@@ -35,7 +35,7 @@
             <h1>공지사항<a th:href="@{/cs/notice/list}">전체보기</a></h1>
             <ul>
               <li th:each="board:${ntc.csList}">
-                <a th:href="@{/cs/notice/view(cate1=${board.cate1}, no=${board.no})}" class="title">[[${board.title}]]</a>
+                <a th:href="@{/cs/notice/view(cate1=${board.cate1.cate1}, no=${board.no})}" class="title">[[${board.title}]]</a>
                 <span class="date">[[${board.yyMMdd}]]</span>
               </li>
             </ul>
@@ -76,10 +76,12 @@
             </h1>
             <ul>
               <li th:each="board:${qna.csList}">
-                <a th:href="@{/cs/qna/view}" class="title">[회원] 개인회원과 법인회원에 차이가 있나요?</a>
+                <a th:href="@{/cs/qna/view(cate1=${board.cate1.cate1}, no=${board.no})}" class="title">
+                  [[${board.cate2.wrapping}]] [[${board.title}]]
+                </a>
                 <p>
-                  <span class="uid">chh**</span>
-                  <span class="date">22.10.31</span>
+                  <span class="uid">[[${board.uid.uidMasking}]]</span>
+                  <span class="date">[[${board.yyMMdd}]]</span>
                 </p>
               </li>
             </ul>

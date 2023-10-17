@@ -24,6 +24,9 @@ public class CsController {
     /////////////////////////////////////////////
     @GetMapping(value = {"/cs", "/cs/index"})
     public String index(Model model, PageRequestDTO pageRequestDTO, Pageable pageable) {
+        // index에선 5개씩만 출력하기 위함.
+        pageRequestDTO.setSize(5);
+
         pageRequestDTO.setGroup("notice");
         PageResponseDTO notice = csService.indexList(pageRequestDTO);
         log.info("index notice list : " + notice);
@@ -56,6 +59,11 @@ public class CsController {
     @GetMapping("/cs/faq/view")
     public String faqView(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         layout(request, model, pageRequestDTO);
+        if (pageRequestDTO.getNo() == 0) {
+            // 비정상적 접근( no == 0 일 때,)
+            return "redirect:/cs/notice/list";
+        }
+        view(pageRequestDTO.getNo(), model);
 
         return "/cs/faq/view";
     }
@@ -76,6 +84,11 @@ public class CsController {
     @GetMapping("/cs/qna/view")
     public String qnaView(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         layout(request, model, pageRequestDTO);
+        if (pageRequestDTO.getNo() == 0) {
+            // 비정상적 접근( no == 0 일 때,)
+            return "redirect:/cs/notice/list";
+        }
+        view(pageRequestDTO.getNo(), model);
 
         return "/cs/qna/view";
     }
@@ -103,12 +116,25 @@ public class CsController {
     @GetMapping("/cs/notice/view")
     public String noticeView(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         layout(request, model, pageRequestDTO);
+        if (pageRequestDTO.getNo() == 0) {
+            // 비정상적 접근( no == 0 일 때,)
+            return "redirect:/cs/notice/list";
+        }
+        view(pageRequestDTO.getNo(), model);
 
         return "/cs/notice/view";
     }
 
 
 
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // View method (게시글 출력 메서드)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public void view(int no, Model model) {
+        CsDTO dto = csService.findById(no);
+        log.info("view : " + dto);
+        model.addAttribute("view", dto);
+    }
 
 
 
@@ -117,13 +143,11 @@ public class CsController {
     //////////////////////////////////////////////////////////////////////////////////////////
     public void layout(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         String[] group_type = request.getRequestURI().split("/");
-
         // cate1 default값 동적처리
         pageRequestDTO.setGroup(group_type[3]);
-        if(pageRequestDTO.getCate1().equals("101") && group_type[3].equals("faq")) {
-            pageRequestDTO.setCate1("201");
-        }else if(pageRequestDTO.getCate1().equals("101") && group_type[3].equals("qna")) {
-            pageRequestDTO.setCate1("301");
+        if(!(pageRequestDTO.getGroup().equals("notice")) && pageRequestDTO.getCate1().equals("101")) {
+            String cate1 = group_type[3].equals("faq") ? "201" : "301";
+            pageRequestDTO.setCate1(cate1);
         }
 
         log.info("@get.group : " + pageRequestDTO.getGroup());
@@ -146,18 +170,20 @@ public class CsController {
         model.addAttribute("groupInfo", groupInfo);
         model.addAttribute("cate1Info", cate1Info);
 
-        // model.addAttribute("cate2", group_type[2]);
         model.addAttribute("article", group_type[4]);
         model.addAttribute("category", cate1List);
-
-        log.info("cate1............... : " + cate1Info.getCate1());
     }
 
+
+
     //////////////////////////////////////////////////////////////////////////////////////////
-    // BoardList method (게시글 출력 메서드)
+    // BoardList method (리스트 출력 메서드)
     //////////////////////////////////////////////////////////////////////////////////////////
     public void boardList(Model model, PageRequestDTO pageRequestDTO) {
+        log.info("size check : " + pageRequestDTO.getSize());
+
         PageResponseDTO boardList = csService.findCsLists(pageRequestDTO);
+
         if (pageRequestDTO.getGroup().equals("faq")) {
             log.info("boardList(faq) : " + boardList.getCsLists());
             model.addAttribute("boardList", boardList.getCsLists());
@@ -169,5 +195,16 @@ public class CsController {
             }
             model.addAttribute("boardList", boardList.getCsList());
         }
+        log.info("boardList : " + boardList);
+
+        log.info("testdebug_ pageResponseDTO pg    : " + boardList.getPg());
+        log.info("testdebug_ pageResponseDTO size  : " + boardList.getSize());
+        log.info("testdebug_ pageResponseDTO total : " + boardList.getTotal());
+        log.info("testdebug_ pageResponseDTO start : " + boardList.getStart());
+        log.info("testdebug_ pageResponseDTO end   : " + boardList.getEnd());
+        log.info("testdebug_ pageResponseDTO prev  : " + boardList.isPrev());
+        log.info("testdebug_ pageResponseDTO next  : " + boardList.isNext());
+
+        model.addAttribute("pageResponseDTO", boardList);
     }
 }

@@ -16,15 +16,15 @@ import lombok.*;
 @Builder
 public class CsCate1DTO {
 
-    private CsGroupDTO group;
     private String cate1;
+    private CsGroupDTO group;
     private String cate1_name;
     private String cate1_discription;
 
     public CsCate1Entity toEntity() {
         return CsCate1Entity.builder()
-                .group(group.toEntity())
                 .cate1(cate1)
+                .group(group.toEntity())
                 .cate1_name(cate1_name)
                 .cate1_discription(cate1_discription)
                 .build();

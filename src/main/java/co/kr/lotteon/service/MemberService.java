@@ -20,7 +20,7 @@ public class MemberService {
     private MemberMapper memberMapper;
 
     public void insert(MemberDTO dto){
-        dto.setKm_pass1(passwordEncoder.encode(dto.getKm_pass1()));
+        dto.setPass(passwordEncoder.encode(dto.getPass()));
         // DTO를 Entity로 변환
         MemberEntity entity = dto.toEntity();
 

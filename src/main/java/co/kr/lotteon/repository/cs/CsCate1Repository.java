@@ -11,6 +11,4 @@ import java.util.List;
 public interface CsCate1Repository extends JpaRepository<CsCate1Entity, String> {
 
     public List<CsCate1Entity> findByGroup(CsGroupEntity group);
-
-    public CsCate1Entity findByCate1(String cate1);
 }

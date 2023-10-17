@@ -33,6 +33,9 @@ public class PageRequestDTO {
     @Builder.Default
     private String cate2 = "0";
 
+    @Builder.Default
+    private int no = 0;
+
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());
     }
