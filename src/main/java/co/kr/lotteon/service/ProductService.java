@@ -4,6 +4,7 @@ import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProdCate2Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
+import co.kr.lotteon.mapper.ProductMapper;
 import co.kr.lotteon.repository.ProdCate1Repository;
 import co.kr.lotteon.repository.ProdCate2Repository;
 import co.kr.lotteon.repository.ProductRepository;
@@ -24,28 +25,20 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository prodRepo;
+    private final ProductMapper mapper;
     private final ProdCate1Repository prodCate1Repository;
     private final ProdCate2Repository prodCate2Repository;
     private final ModelMapper modelMapper;
 
     public PageResponseDTO selectProductByCate1AndCate2(PageRequestDTO pageRequestDTO) {
-
         log.info("prodService here...1");
-
         Pageable pageable = pageRequestDTO.getPageable("prodNo");
-
         log.info("prodService here...2");
-
         ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getProdCate1()).orElse(null);
-
         log.info("prodService here...3");
-
         String type = pageRequestDTO.getType();
-
         Page<ProductEntity> result = null;
-
         log.info("prodService type : "+type);
-
         switch (type){
             case "default":
                 result = prodRepo.findByProdCate1AndProdCate2(cate1, pageRequestDTO.getProdCate2(), pageable);
@@ -69,22 +62,13 @@ public class ProductService {
                 result = prodRepo.findByProdCate1AndProdCate2OrderByRdateAsc(cate1, pageRequestDTO.getProdCate2(), pageable);
                 break;
         }
-
         log.info("prodService here...4");
-
         List<ProductDTO> dto = result.getContent()
                 .stream()
                 .map(entity -> modelMapper.map(entity, ProductDTO.class))
                 .toList();
         int totalElement = (int) result.getTotalElements();
-
         log.info("prodService here...5");
-
-        log.info(dto.toString());
-        log.info(totalElement);
-
-        log.info("prodService here...6");
-
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
                 .dtoList(dto)
@@ -93,9 +77,15 @@ public class ProductService {
     }
 
     public ProductDTO selectProductByProdNo(int prodNo) {
-        return prodRepo.findById(prodNo).orElse(null).toDTO();
+        log.info("view service here...1");
+        ProductEntity entity = prodRepo.findById(prodNo).orElse(null);
+        log.info("view service here...2");
+        return entity.toDTO();
     }
 
+    public void increaseProductHit(int prodNo){
+        mapper.increaseProductHit(prodNo);
+    }
 
     public List<ProdCate1DTO> selectAllProdCate1(){
         List<ProdCate1Entity> entity = prodCate1Repository.findAll();
@@ -114,12 +104,9 @@ public class ProductService {
 
         List<ProdCate2DTO> dto = new ArrayList<>();
 
-        if (!(entity == null)) {
-            for(ProdCate2Entity toEntity : entity){
-                ProdCate2DTO toDto = toEntity.toDTO();
-                log.info(toDto.toString());
-                dto.add(toDto);
-            }
+        for(ProdCate2Entity toEntity : entity){
+            ProdCate2DTO toDto = toEntity.toDTO();
+            dto.add(toDto);
         }
 
         return dto;

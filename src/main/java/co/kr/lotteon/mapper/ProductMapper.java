@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProductMapper {
 
-    public ProductEntity selectProduct();
+    public ProductEntity selectProduct(int prodNo);
+
+    public void increaseProductHit(int prodNo);
 
 }

@@ -21,10 +21,6 @@ public class ProductController {
         List<ProdCate1DTO> cate1 = prodService.selectAllProdCate1();
         List<ProdCate2DTO> cate2 = prodService.selectAllProdCate1AndProdCate2();
 
-        for(ProdCate2DTO cate : cate2){
-            log.info(cate.toString());
-        }
-
         model.addAttribute("cate1List", cate1);
         model.addAttribute("cate2List", cate2);
     }
@@ -43,11 +39,6 @@ public class ProductController {
 
         log.info("here...3");
 
-        for(ProductDTO product : pageResponseDTO.getDtoList()){
-            log.info(product.getProdNo());
-            log.info(product.getProdName());
-        }
-
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
         log.info("here...4");
@@ -57,9 +48,10 @@ public class ProductController {
     @GetMapping(value = "/product/view")
     public String view(Model model, int prodNo) {
         layout(model);
-        /*ProductDTO product =  prodService.selectProductByProdNo(prodNo);
-
-        model.addAttribute("product", product);*/
+        log.info("view here...1");
+        ProductDTO product =  prodService.selectProductByProdNo(prodNo);
+        log.info("view here...2");
+        model.addAttribute("product", product);
         return "/product/view";
     }
     @GetMapping(value = "/product/cart")
