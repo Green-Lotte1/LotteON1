@@ -2,28 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/cs/fragments/layout.html}">
+<head>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script th:src="@{/js/qna.js}"></script>
+</head>
   <article layout:fragment="content">
-    <form action="#">
+    <form action="#" method="post" id="write">
       <table>
         <tr>
           <td>문의유형</td>
           <td>
-            <select name="type">
-              <option value="0">선택</option>
-              <option>가입</option>
-              <option>탈퇴</option>
-              <option>회원정보</option>
-              <option>로그인</option>
+            <!--no.. AUTO_INCREMENT ----- ----- ----- ----- ----- -->
+            <!--parent ----- ----- ----- ----- ----- -->
+            <!--uid ----- ----- ----- ----- ----- -->
+            <!--rdate ----- ----- ----- ----- ----- -->
+
+
+            <!--group ----- ----- ----- ----- ----- -->
+
+            <!--cate1 ----- ----- ----- ----- ----- -->
+            <select name="type1">
+              <option value="0">1차유형</option>
+              <option th:each="ct1:${cate1}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq pageRequestDTO.cate1}">
+                [[${ct1.cate1_name}]]
+              </option>
+            </select>
+
+            <!--cate2 ----- ----- ----- ----- ----- -->
+            <select name="type2">
+              <option value="0">2차유형</option>
+              <option th:each="ct2:${cate2}">
+                [[${ct2.cate2_name}]]
+              </option>
+
             </select>
           </td>
         </tr>
         <tr>
+            <!--title ----- ----- ----- ----- ----- -->
           <td>문의제목</td>
           <td>
             <input type="text" name="title" placeholder="제목을 입력하세요."/>
           </td>
         </tr>
         <tr>
+            <!--content ----- ----- ----- ----- ----- -->
           <td>문의내용</td>
           <td>
             <textarea name="content" placeholder="내용을 입력하세요."></textarea>
@@ -31,7 +56,7 @@
         </tr>
       </table>
       <div>
-        <a href="./list.html" class="btnList">취소하기</a>
+        <a th:href="@{/cs/qna/list(cate1=${cate1Info.cate1}, pg=${pageRequestDTO.pg})}" class="btnList">취소하기</a>
         <input type="submit" class="btnSubmit" value="등록하기"/>
       </div>
     </form>

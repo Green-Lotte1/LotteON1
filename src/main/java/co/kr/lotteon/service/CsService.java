@@ -54,6 +54,11 @@ public class CsService {
                 .collect(Collectors.toList());
     }
 
+    public List<CsCate2DTO> convertToCate2(List<CsCate2Entity> entities) {
+        return entities.stream()
+                .map(entity -> modelMapper.map(entity, CsCate2DTO.class))
+                .collect(Collectors.toList());
+    }
 
 
     ////////////////////////////////////////////////////////////////////
@@ -106,6 +111,7 @@ public class CsService {
     ////////////////////////////////////////////////////////////////////
     // index page
     ////////////////////////////////////////////////////////////////////
+    // index page qna, notice list 출력
     public PageResponseDTO indexList(PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable("no");
 
@@ -138,6 +144,15 @@ public class CsService {
                 .build();
     }
 
+    // faq cate1 출력
+    public List<CsCate1DTO> faqCate1List() {
+        CsGroupEntity group = groupRepository.findById("faq").orElse(null);
+        List<CsCate1Entity> entity = cate1Repository.findByGroup(group);
+        List<CsCate1DTO> dto = convertToCate1(entity);
+
+        return dto;
+    }
+
 
     ////////////////////////////////////////////////////////////////////
     // list page
@@ -146,10 +161,12 @@ public class CsService {
     public PageResponseDTO findCsLists(PageRequestDTO pageRequestDTO) {
         Pageable pageable = pageRequestDTO.getPageable("no");
 
+        // 초기화
         Page<CsEntity> page = null;
         List<List<CsDTO>> faq = new ArrayList<>();
         int totalElement = 0;
 
+        // 그룹, 카테고리 확인
         String group = pageRequestDTO.getGroup();
         log.info("findCsLists group : " + group);
         String cate1 = pageRequestDTO.getCate1();
@@ -157,11 +174,13 @@ public class CsService {
         int cate2 = Integer.parseInt(pageRequestDTO.getCate2());
         log.info("findCsLists cate2 : " + cate2);
 
-        CsCate1Entity cate1Entity = cate1Repository.findById(cate1).orElse(null);
-        log.info("findCsLists cate1Entity : " + cate1Entity);
-
+        // group entity
         CsGroupEntity csGroupEntity = groupRepository.findById(group).orElse(null);
         log.info("findCsLists csGroupEntity : " + csGroupEntity);
+
+        // cate1 entity
+        CsCate1Entity cate1Entity = cate1Repository.findById(cate1).orElse(null);
+        log.info("findCsLists cate1Entity : " + cate1Entity);
 
         // 게시글 출력 시작
         if(group.equals("notice") && cate1.equals("101")) {
@@ -193,6 +212,15 @@ public class CsService {
             // 나머지 cate1을 기준으로 list 출력
             log.info("findCsLists (default)...");
             page = csRepository.findByCate1AndParent(cate1Entity, 0, pageable);
+
+            page.forEach(ent -> {
+                int no = ent.getNo();
+                int cnt = csRepository.countByParent(no);
+                String answer = cnt>0?"답변 완료":"검토중";
+                ent.setParent(cnt);
+                ent.setContent(answer);
+                log.info(answer +"(" + cnt + ")");
+            });
         }
         log.info("findCsLists page : " + page);
 
@@ -229,5 +257,29 @@ public class CsService {
     ////////////////////////////////////////////////////////////////////
     // write page
     ////////////////////////////////////////////////////////////////////
+    // cate1_name 출력용
+    public List<CsCate1DTO> findByCate(String group) {
+        CsGroupEntity entity = groupRepository.findById(group).orElse(null);
+        List<CsCate1Entity> entities = cate1Repository.findByGroup(entity);
+        List<CsCate1DTO> dto = convertToCate1(entities);
+        log.info("findByCate : " + dto);
+        return dto;
+    }
 
+    // cate2_name 출력용
+    public List<CsCate2DTO> findByCate1(String cate1) {
+        CsCate1Entity entity = cate1Repository.findById(cate1).orElse(null);
+        List<CsCate2Entity> entities = cate2Repository.findByCate1(entity);
+        List<CsCate2DTO> dto = convertToCate2(entities);
+        log.info("findByCate1 : " + dto);
+
+        return dto;
+    }
+
+    // 게시글 작성
+    public int insertQna(CsDTO dto) {
+        CsEntity result = csRepository.save(dto.toEntity());
+        log.info("insertQna : " + result);
+        return (result != null)? '1':'0';
+    }
 }
