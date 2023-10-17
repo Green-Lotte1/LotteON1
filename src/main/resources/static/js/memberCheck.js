@@ -5,6 +5,11 @@ $(function(){
     $('#btnId').click(function(){
         const uid = $('input[name=uid]').val();
         console.log(uid);
+        if(!uid.match(reUid)){
+            $('.msgId1').css('color', 'red').text('유효한 아이디가 아닙니다.');
+            isUidOk = false;
+            return;
+        }
 
         $.ajax({
             url : '/LotteOn/member/check/uid/'+uid,
