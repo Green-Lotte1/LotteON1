@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class TermsEntity {
 
     @Id
-    private int no;
+    private int tno;
     private String terms;
     private String privacy;
     private String location;
@@ -27,7 +27,7 @@ public class TermsEntity {
 
     public TermsDTO toDTO(){
         return TermsDTO.builder()
-                .no(no)
+                .tno(tno)
                 .terms(terms)
                 .privacy(privacy)
                 .location(location)

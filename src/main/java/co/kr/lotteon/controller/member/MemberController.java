@@ -3,11 +3,13 @@ package co.kr.lotteon.controller.member;
 import co.kr.lotteon.dto.MemberDTO;
 import co.kr.lotteon.dto.member.TermsDTO;
 import co.kr.lotteon.service.MemberService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -30,13 +32,18 @@ public class MemberController {
         return "/member/login";
     }
     @GetMapping("/member/register")
-    public String register(){
+    public String register(Model model){
+        model.addAttribute("member",new MemberDTO());
         log.info("register...1");
         return "/member/register";
     }
     @PostMapping ("/member/register")
-    public String register(MemberDTO dto){
-        memberService.insert(dto);
+    public String register(@ModelAttribute MemberDTO member, HttpServletRequest request){
+        member.setRegip(request.getRemoteAddr());
+        member.setLevel(1);
+        member.setType(1);
+
+        memberService.insert(member);
         return "redirect:/member/login";
     }
     @GetMapping("/member/registerSeller")
