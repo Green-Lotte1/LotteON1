@@ -25,7 +25,7 @@ public class CsEntity {
     private int parent;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group")
+    @JoinColumn(name = "`group`")
     private CsGroupEntity group;
 
     @ManyToOne(fetch = FetchType.LAZY)

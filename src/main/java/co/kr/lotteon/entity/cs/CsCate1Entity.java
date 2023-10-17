@@ -18,7 +18,7 @@ public class CsCate1Entity {
     private String cate1;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group")
+    @JoinColumn(name = "`group`")
     private CsGroupEntity group;
 
     private String cate1_name;

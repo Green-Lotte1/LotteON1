@@ -2,21 +2,23 @@ $(document).ready(function () {
 
     // 초기화
     let selectCate = null;
-    const cate1 = $('select[name=type1]');
-    const cate2 = $('select[name=type2]');
-    console.log('9 : ' + cate1);
-    console.log('10 : ' + cate2);
+    const cate1 = $('select[name=cate1]');
+    const cate2 = $('select[name=cate2]');
+    const url   = $('select[name=url]');
+    console.log('cate1 : ' + cate1);
+    console.log('cate2 : ' + cate2);
+    console.log('url   : ' + url);
 
     // 1, 2차 유형 선택 없이 submit 시
     $('.btnSubmit').click(function(e) {
       e.preventDefault();
-      if(cate1.val() < 1) {
-        alert('1차 상세유형을 선택해주세요.');
+      if(cate1.val() == 0) {
+        alert('1차 유형을 선택해주세요.');
         return false;
       }
 
-      if(cate2.val() < 1) {
-        alert('2차 상세유형을 선택해주세요.');
+      if(cate2.val() == 0) {
+        alert('2차 유형을 선택해주세요.');
         return false;
       }
 
@@ -25,22 +27,21 @@ $(document).ready(function () {
 
     // 1차 유형 선택시
     $(cate1).change(function() {
-        alert('cate1 change');
         const selectCate1 = $(this).val();
-        console.log('31 : ' + selectCate1);
+        console.log('selectCate1 : ' + selectCate1);
 
         const jsonData = {
-            "type": "cateReloading",
-            "selectCate": selectCate1
+            "selectCate1": selectCate1
         }
 
-        console.log('39 : ' + jsonData);
         $.ajax({
-            url: '/cs/qna/write',
+            url: url,
             type: 'post',
-            data: jsonData,
+            data: JSON.stringify(jsonData),
             dataType: 'json',
+            contentType: 'application/json',
             success: function(data) {
+                alert('전송 시작');
                 // 2차유형 초기화
                 cate2.empty();
                 cate2.empty($('<option>', {
