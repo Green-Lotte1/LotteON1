@@ -116,7 +116,7 @@
 #product > .list > table .thumb > img {
   width: 120px;
 }
-#product > .list > table .name {
+#product > .list > table .name > a{
   font-size: 16px;
   font-weight: bold;
   color: #111;
@@ -153,7 +153,16 @@
   vertical-align: text-bottom;
   width: 55px;
   height: 13px;
-  background: url('../images/ico_free_delivery.gif') no-repeat;
+  background: url('../images/ico_freeshipping.gif') no-repeat;
+  margin-top: 4px;
+}
+
+#product > .list > table .delivery {
+  display: inline-block;
+  font-size: 11px;
+  vertical-align: text-bottom;
+  width: 80px;
+  height: 13px;
   margin-top: 4px;
 }
 

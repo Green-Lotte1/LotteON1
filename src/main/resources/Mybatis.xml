@@ -5,6 +5,7 @@
 <configuration>
     <mappers>
         <mapper resource="mappers/memberMapper.xml"/>
+        <mapper resource="mappers/productMapper.xml"/>
         <package name="co.kr.lotteon.mapper"/>
     </mappers>
 </configuration>

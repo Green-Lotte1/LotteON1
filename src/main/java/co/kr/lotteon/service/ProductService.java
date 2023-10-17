@@ -36,11 +36,41 @@ public class ProductService {
 
         log.info("prodService here...2");
 
-        ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
-
-        Page<ProductEntity> result = prodRepo.findByProdCate1AndProdCate2(cate1, pageRequestDTO.getCate2(), pageable);
+        ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getProdCate1()).orElse(null);
 
         log.info("prodService here...3");
+
+        String type = pageRequestDTO.getType();
+
+        Page<ProductEntity> result = null;
+
+        log.info("prodService type : "+type);
+
+        switch (type){
+            case "default":
+                result = prodRepo.findByProdCate1AndProdCate2(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+            case "sold":
+                result = prodRepo.findByProdCate1AndProdCate2OrderBySoldDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+            case "priceAsc":
+                result = prodRepo.findByProdCate1AndProdCate2OrderByPriceAsc(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+            case "priceDesc":
+                result = prodRepo.findByProdCate1AndProdCate2OrderByPriceDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+            case "score":
+                result = prodRepo.findByProdCate1AndProdCate2OrderByScoreDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+            case "review":
+                result = prodRepo.findByProdCate1AndProdCate2OrderByReviewDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+            case "rdate":
+                result = prodRepo.findByProdCate1AndProdCate2OrderByRdateAsc(cate1, pageRequestDTO.getProdCate2(), pageable);
+                break;
+        }
+
+        log.info("prodService here...4");
 
         List<ProductDTO> dto = result.getContent()
                 .stream()
@@ -48,12 +78,12 @@ public class ProductService {
                 .toList();
         int totalElement = (int) result.getTotalElements();
 
-        log.info("prodService here...4");
+        log.info("prodService here...5");
 
         log.info(dto.toString());
         log.info(totalElement);
 
-        log.info("prodService here...5");
+        log.info("prodService here...6");
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
@@ -62,7 +92,24 @@ public class ProductService {
                 .build();
     }
 
-    public List<ProdCate2DTO> selectAllProdCate2() {
+    public ProductDTO selectProductByProdNo(int prodNo) {
+        return prodRepo.findById(prodNo).orElse(null).toDTO();
+    }
+
+
+    public List<ProdCate1DTO> selectAllProdCate1(){
+        List<ProdCate1Entity> entity = prodCate1Repository.findAll();
+
+        List<ProdCate1DTO> dto = new ArrayList<>();
+
+        for(ProdCate1Entity toEntity : entity){
+            ProdCate1DTO toDto = toEntity.toDTO();
+            dto.add(toDto);
+        }
+        return dto;
+    }
+
+    public List<ProdCate2DTO> selectAllProdCate1AndProdCate2() {
         List<ProdCate2Entity> entity = prodCate2Repository.findAll();
 
         List<ProdCate2DTO> dto = new ArrayList<>();

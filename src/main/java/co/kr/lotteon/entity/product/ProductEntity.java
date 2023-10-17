@@ -1,6 +1,7 @@
 package co.kr.lotteon.entity.product;
 
 import co.kr.lotteon.dto.product.ProductDTO;
+import co.kr.lotteon.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,9 +28,9 @@ public class ProductEntity {
     private String prodName;
     private String descript;
     private String prodCompany;
-    /*@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn()*/
-    private String seller;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller")
+    private MemberEntity seller;
     private int price;
     private int discount;
     private int point;
@@ -64,7 +65,7 @@ public class ProductEntity {
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
-                .seller(seller)
+                .seller(seller.toDTO())
                 .price(price)
                 .discount(discount)
                 .point(point)

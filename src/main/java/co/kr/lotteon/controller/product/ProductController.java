@@ -18,13 +18,20 @@ public class ProductController {
     private ProductService prodService;
 
     public void layout(Model model) {
-        List<ProdCate2DTO> cate2 = prodService.selectAllProdCate2();
-        model.addAttribute("cateList", cate2);
+        List<ProdCate1DTO> cate1 = prodService.selectAllProdCate1();
+        List<ProdCate2DTO> cate2 = prodService.selectAllProdCate1AndProdCate2();
+
+        for(ProdCate2DTO cate : cate2){
+            log.info(cate.toString());
+        }
+
+        model.addAttribute("cate1List", cate1);
+        model.addAttribute("cate2List", cate2);
     }
 
     @GetMapping(value = "/product/list")
     public String list(Model model, PageRequestDTO pageRequestDTO){
-        //layout(model);
+        layout(model);
 
         log.info("here...1");
 
@@ -41,24 +48,34 @@ public class ProductController {
             log.info(product.getProdName());
         }
 
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
         log.info("here...4");
         return "/product/list";
     }
 
     @GetMapping(value = "/product/view")
-    public String view() {
+    public String view(Model model, int prodNo) {
+        layout(model);
+        /*ProductDTO product =  prodService.selectProductByProdNo(prodNo);
+
+        model.addAttribute("product", product);*/
         return "/product/view";
     }
     @GetMapping(value = "/product/cart")
-    public String cart() {
+    public String cart(Model model) {
+        layout(model);
+
         return "/product/cart";
     }
     @GetMapping(value = "/product/order")
-    public String order() {
+    public String order(Model model) {
+        layout(model);
         return "/product/order";
     }
     @GetMapping(value = "/product/complete")
-    public String complete() {
+    public String complete(Model model) {
+        layout(model);
         return "/product/complete";
     }
 }

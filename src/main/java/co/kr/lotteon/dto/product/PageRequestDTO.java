@@ -20,10 +20,13 @@ public class PageRequestDTO {
     private int size = 10;
 
     @Builder.Default
-    private int cate1 = 10;
+    private int prodCate1 = 10;
 
     @Builder.Default
-    private int cate2 = 10;
+    private int prodCate2 = 10;
+
+    @Builder.Default
+    private String type = "default";
 
 
     public Pageable getPageable(String sort){
