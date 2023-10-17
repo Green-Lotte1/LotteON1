@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/cs/fragments/layout :: content}">
+      layout:decorate="~{/fragments/cs_layout :: content}">
 <head>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -9,7 +9,7 @@
   <script th:src="@{/js/faq.js}"></script>
 </head>
   <article layout:fragment="content">
-    <nav th:replace="~{/cs/fragments/nav :: nav}">
+    <nav th:replace="~{/fragments/cs_nav :: nav}">
       <!-- nav 들어올 영역 -->
     </nav>
     <div th:each="board, num:${boardList}">
