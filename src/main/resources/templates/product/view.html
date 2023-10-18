@@ -2,13 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/product_layout.html}">
+    <head>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script th:src="@{/js/product_view.js}"></script>
+    </head>
 <section layout:fragment="content" class="view">
         <!-- 상품 상세페이지 시작 -->
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>상품보기</h1>
                 <p>
-                    HOME > <span>패션·의류·뷰티</span> > <strong>남성의류</strong>
+                <p>HOME > <span th:text="${cate eq null ? '전체 상품' : cate.cate1.c1Name + ' > '}"></span><strong th:text="${cate eq null ? ' ' : cate.c2Name}"></strong></p>
                 </p>
             </nav>
 
@@ -28,17 +34,17 @@
                         <h5 class="rating star4"><a href="#">상품평보기</a></h5>
                     </nav>
                     <nav>
-                        <div class="org_price">
+                        <div class="org_price" th:value="${product.price}">
                             <del th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}"></del>
                             <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
                         </div>
-                        <div class="dis_price">
+                        <div class="dis_price" th:value="${product.price - ((product.price/100)*product.discount)}">
                             <ins th:text="${#numbers.formatInteger(product.price - ((product.price/100)*product.discount), 0, 'COMMA')}"></ins>
                         </div>
                     </nav>
                     <nav>
                         <span th:if="${product.delivery eq 0}" class="delivery">무료배송</span>
-                        <span th:if="${product.delivery ne 0}" th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'" class="delivery">무료배송</span>
+                        <span th:if="${product.delivery ne 0}" th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'" class="delivery">무료배송 아님</span>
                         <span class="arrival">모레(금) 7/8 도착예정</span>
                         <span class="desc">본 상품은 국내배송만 가능합니다.</span>
                     </nav>
@@ -53,18 +59,21 @@
 
                     <div class="count">
                         <button class="decrease">-</button>
-                        <input type="text" name="num" value="1" readonly/>
+                        <input class="inputCount" type="text" name="num" value="1" min="1" maxlength="3"/>
                         <button class="increase">+</button>
                     </div>
 
                     <div class="total">
-                        <span>35,000</span>
+                        <span class="totalPrice" th:text="${#numbers.formatInteger(product.price - ((product.price/100)*product.discount), 0, 'COMMA')}">35,000</span>
                         <em>총 상품금액</em>
                     </div>
 
                     <div class="button">
                         <input type="button" class="cart"  value="장바구니"/>
                         <input type="button" class="order" value="구매하기"/>
+                        <input type="text" id="prodNo" th:value="${product.prodNo}">
+                        <input type="text" id="dis_price" th:value="${product.price - ((product.price/100)*product.discount)}">
+                        <input type="text" id="discount" th:value="${product.discount}">
                     </div>
                 </div>
             </article>
@@ -177,61 +186,13 @@
                     <h1>상품리뷰</h1>
                 </nav>
                 <ul>
-                    <li>
+                    <li th:if="${reviews ne null}" th:each="review:${reviews.reviewList}">
                         <div>
-                            <h5 class="rating star4">상품평</h5>
-                            <span>seo******	2018-07-10</span>
+                            <h5 th:class="'rating star'+${review.rating}">상품평</h5>
+                            <span th:text="${review.uid.uidMasking+' '+review.yyyyMMdd2}">seo******	2018-07-10</span>
                         </div>
-                        <h3>상품명1/BLUE/L</h3>
-                        <p>
-                            가격대비 정말 괜찮은 옷이라 생각되네요 핏은 음...제가 입기엔 어깨선이 맞고 루즈핏이라 하기도 좀 힘드네요.
-                            아주 약간 루즈한정도...?그래도 이만한 옷은 없다고 봅니다 깨끗하고 포장도 괜찮고 다음에도 여기서 판매하는
-                            제품들을 구매하고 싶네요 정말 만족하고 후기 남깁니다 많이 파시길 바래요 ~ ~ ~
-                        </p>
-                    </li>
-                    <li>
-                        <div>
-                            <h5 class="rating star4">상품평</h5>
-                            <span>seo******	2018-07-10</span>
-                        </div>
-                        <h3>상품명1/BLUE/L</h3>
-                        <p>
-                            가격대비 정말 괜찮은 옷이라 생각되네요 핏은 음...제가 입기엔 어깨선이 맞고 루즈핏이라 하기도 좀 힘드네요.
-                            아주 약간 루즈한정도...?그래도 이만한 옷은 없다고 봅니다 깨끗하고 포장도 괜찮고 다음에도 여기서 판매하는
-                            제품들을 구매하고 싶네요 정말 만족하고 후기 남깁니다 많이 파시길 바래요 ~ ~ ~
-                        </p>
-                    </li>
-                    <li>
-                        <div>
-                            <h5 class="rating star4">상품평</h5>
-                            <span>seo******	2018-07-10</span>
-                        </div>
-                        <h3>상품명1/BLUE/L</h3>
-                        <p>
-                            가격대비 정말 괜찮은 옷이라 생각되네요 핏은 음...제가 입기엔 어깨선이 맞고 루즈핏이라 하기도 좀 힘드네요.
-                            아주 약간 루즈한정도...?그래도 이만한 옷은 없다고 봅니다 깨끗하고 포장도 괜찮고 다음에도 여기서 판매하는
-                            제품들을 구매하고 싶네요 정말 만족하고 후기 남깁니다 많이 파시길 바래요 ~ ~ ~
-                        </p>
-                    </li>
-                    <li>
-                        <div>
-                            <h5 class="rating star4">상품평</h5>
-                            <span>seo******	2018-07-10</span>
-                        </div>
-                        <h3>상품명1/BLUE/L</h3>
-                        <p>
-                            가격대비 정말 괜찮은 옷이라 생각되네요 핏은 음...제가 입기엔 어깨선이 맞고 루즈핏이라 하기도 좀 힘드네요.
-                            아주 약간 루즈한정도...?그래도 이만한 옷은 없다고 봅니다 깨끗하고 포장도 괜찮고 다음에도 여기서 판매하는
-                            제품들을 구매하고 싶네요 정말 만족하고 후기 남깁니다 많이 파시길 바래요 ~ ~ ~
-                        </p>
-                    </li>
-                    <li>
-                        <div>
-                            <h5 class="rating star4">상품평</h5>
-                            <span>seo******	2018-07-10</span>
-                        </div>
-                        <h3>상품명1/BLUE/L</h3>
-                        <p>
+                        <h3 th:text="${review.prodNo.prodName}">상품명1/BLUE/L</h3>
+                        <p th:text="${review.content}">
                             가격대비 정말 괜찮은 옷이라 생각되네요 핏은 음...제가 입기엔 어깨선이 맞고 루즈핏이라 하기도 좀 힘드네요.
                             아주 약간 루즈한정도...?그래도 이만한 옷은 없다고 봅니다 깨끗하고 포장도 괜찮고 다음에도 여기서 판매하는
                             제품들을 구매하고 싶네요 정말 만족하고 후기 남깁니다 많이 파시길 바래요 ~ ~ ~

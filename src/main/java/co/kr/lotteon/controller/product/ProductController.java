@@ -1,21 +1,26 @@
 package co.kr.lotteon.controller.product;
 
 import co.kr.lotteon.dto.product.*;
+import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.ProductService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
 @Log4j2
 @Controller
+@RequiredArgsConstructor
 public class ProductController {
 
-    @Autowired
-    private ProductService prodService;
+    private final ProductService prodService;
 
     //////////////////////////////
     ////////    product aside 값 가져오기
@@ -68,12 +73,22 @@ public class ProductController {
     ////////    product view
     //////////////////////////////
     @GetMapping(value = "/product/view")
-    public String view(Model model, int prodNo) {
+    public String view(Model model, PageRequestDTO pageRequestDTO) {
         layout(model);
+        if(!(pageRequestDTO.getProdCate1() == 1)){
+            nav(model, pageRequestDTO);
+        }else{
+            model.addAttribute("cate", null);
+        }
         log.info("view here...1");
-        ProductDTO product =  prodService.selectProductByProdNo(prodNo);
+        ProductDTO product =  prodService.selectProductByProdNo(pageRequestDTO.getProdNo());
         log.info("view here...2");
+        PageResponseDTO reviews = prodService.selectReviewByProdNo(pageRequestDTO);
+        log.info(reviews.toString());
+        log.info("productName :"+ product.getProdName());
+        log.info("view here...3");
         model.addAttribute("product", product);
+        model.addAttribute("reviews", reviews);
         return "/product/view";
     }
     //////////////////////////////
@@ -85,6 +100,18 @@ public class ProductController {
 
         return "/product/cart";
     }
+    /*@ResponseBody
+    @PostMapping(value = "/product/cart")
+    public void cart(MyUserDetails member, PageRequestDTO pageRequestDTO){
+        String uid = member.getMember().getUid();
+        int prodNo = pageRequestDTO.getProdNo();
+        prodService.selectCountCartByUidAndProdNo(uid, prodNo);
+    }
+    @ResponseBody
+    @PutMapping(value = "/product/cart")
+    public void insertCart(){
+
+    }*/
     //////////////////////////////
     ////////    product order
     //////////////////////////////

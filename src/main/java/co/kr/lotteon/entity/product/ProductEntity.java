@@ -62,6 +62,7 @@ public class ProductEntity {
     public ProductDTO toDTO() {
         return ProductDTO.builder()
                 .prodNo(prodNo)
+                .prodName(prodName)
                 .prodCate1(prodCate1.toDTO())
                 .prodCate2(prodCate2)
                 .descript(descript)
