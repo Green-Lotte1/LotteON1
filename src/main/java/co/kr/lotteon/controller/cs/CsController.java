@@ -125,7 +125,7 @@ public class CsController {
 
         // json url을 위한 contextPath
         String path = request.getContextPath();
-        String url = path + "/cs/qna/write";
+        String url = path + "/cs/cate2";
         model.addAttribute("path", path);
         model.addAttribute("url", url);
         log.info("path : " + path);
@@ -165,12 +165,17 @@ public class CsController {
 
     // 문의사항 게시글 작성시, cate loading
     @ResponseBody
-    @RequestMapping(value = "/cs/qna/list", method = RequestMethod.POST)
-    public String cateJson(@RequestBody HashMap<String, Object>map) {
-        Object selectCate1 = map.get("selectCate1");
-        log.info("selectCate1 : " + selectCate1);
+    @RequestMapping(value = "/cs/cate2", method = RequestMethod.POST)
+    public HashMap<String, Object> cateJson(@RequestBody HashMap<String, Object> selectCate) {
+        Object selectCate1 = selectCate.get("selectCate1");
+        log.info("selectCate1-Object : " + selectCate1);
+        log.info("selectCate1-String : " + selectCate1.toString());
 
-        return "";
+        List<CsCate2DTO> category = csService.findByCate1(selectCate1.toString());
+        log.info("category : " + category);
+
+        selectCate.put("returnCate", category);
+        return selectCate;
     }
 
 

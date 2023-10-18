@@ -931,6 +931,11 @@ footer p > strong {
   line-height: 32px;
 }
 
+#cs > .qna > .view > article > .content .answer {
+  font-size: 20px;
+  font-weight: bold;
+}
+
 /* qna - 글쓰기 */
 #cs > .qna > .write > article table {
   width: 100%;
