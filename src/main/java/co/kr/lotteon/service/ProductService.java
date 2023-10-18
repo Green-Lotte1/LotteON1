@@ -11,13 +11,17 @@ import co.kr.lotteon.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 
 @Log4j2
@@ -30,6 +34,49 @@ public class ProductService {
     private final ProdCate1Repository prodCate1Repository;
     private final ProdCate2Repository prodCate2Repository;
     private final ModelMapper modelMapper;
+
+    public ProductDTO registerProduct(ProductDTO productDTO){
+
+      ProductEntity productEntity  = productDTO.toEntity();
+      ProductEntity result = prodRepo.save(productEntity);
+
+        return result.toDTO();
+    }
+
+    @Value("${spring.servlet.multipart.location}")
+    private String filePath;
+
+    public ProductDTO fileUpload(ProductDTO dto) {
+
+        log.info("fileUpload...1");
+        MultipartFile mf = dto.getDetail();
+
+        log.info("fileUpload...2 : " + mf);
+
+        if(!mf.isEmpty()){
+            // 파일 첨부 했을 경우
+            String path = new File(filePath).getAbsolutePath();
+            log.info("fileUpload...3 : " + path);
+
+            String oName = mf.getOriginalFilename();
+            String ext = oName.substring(oName.lastIndexOf("."));
+            String sName = UUID.randomUUID().toString()+ext;
+
+            log.info("fileUpload...4 : " + oName);
+
+            try {
+                log.info("fileUpload...5");
+                mf.transferTo(new File(path, sName));
+                log.info("fileUpload...6");
+            } catch (IOException e) {
+                log.error(e.getMessage());
+            }
+            log.info("fileUpload...7");
+      //      return ProductDTO.builder().ofile(oName).sfile(sName).build();
+        }
+        log.info("fileUpload...8");
+        return null;
+    }
 
     public PageResponseDTO selectProductByCate1AndCate2(PageRequestDTO pageRequestDTO) {
         log.info("prodService here...1");

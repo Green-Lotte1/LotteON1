@@ -10,7 +10,7 @@
         `status`,`duty`,`receipt`,`bizType`,`origin`,`ip`,`rdate`,`etc1`,`etc2`,`etc3`,`etc4`,`etc5`)
         VALUES (#{prodNo},#{prodCate1},#{prodCate2},#{prodName},#{descript},#{prodCompany},#{seller},#{price},#{discount},
         #{point}, #{stock},#{sold},#{delivery},#{hit},#{score},#{review},#{thumb1},#{thumb2},#{thumb3},#{detail},#{status},
-        #{duty},#{receipt},#{bizType},#{origin},#{ip},#{rdate},#{etc1},#{etc2},#{etc3},#{etc4},#{etc5});
+        #{duty},#{receipt},#{bizType},#{origin},#{ip},#{rdate},#{sale},#{etc2},#{etc3},#{etc4},#{etc5});
     </insert>
 
     <update id="updateProduct">
@@ -19,7 +19,7 @@
                                 point = #{point}, stock = #{stock},sold = #{sold},delivery = #{delivery}, hit = #{hit},
                                 score = #{score}, review = #{review}, thumb1 = #{thumb1}, thumb2 = #{thumb2}, thumb3 = #{thumb3},
                                 detail = #{detail}, status = #{status}, duty = #{duty}, receipt = #{receipt}, bizType = #{bizType},
-                                origin = #{origin}, ip = #{ip}, rdate = #{rdate}, etc1 = #{etc1}, etc2= #{etc2}, etc3 = #{etc3},
+                                origin = #{origin}, ip = #{ip}, rdate = #{rdate}, sale = #{sale}, etc2= #{etc2}, etc3 = #{etc3},
                                 etc4 = #{etc4},etc5= #{etc5}
        WHERE prodNo = #{prodNo};
     </update>

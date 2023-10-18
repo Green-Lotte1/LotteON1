@@ -2,6 +2,7 @@ package co.kr.lotteon.controller.admin;
 
 import co.kr.lotteon.dto.cs.PageRequestDTO;
 import co.kr.lotteon.dto.cs.PageResponseDTO;
+import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.service.AdminService;
 import co.kr.lotteon.service.CsService;
 import co.kr.lotteon.service.MemberService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Log4j2
 @Controller
@@ -46,6 +48,15 @@ public class AdminController {
     }
     @GetMapping("/admin/product/register")
     public String productRegister(){
+        return "/admin/product/register";
+    }
+
+    @PostMapping("/admin/product/register")
+    public String productRegister(ProductDTO productDTO){
+
+        productService.registerProduct(productDTO);
+
+
         return "/admin/product/register";
     }
 

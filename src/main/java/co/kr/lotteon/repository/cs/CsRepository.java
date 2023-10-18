@@ -19,13 +19,13 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     // list page
     ////////////////////////////////////
     // group 게시글 출력 (notice)
-    public Page<CsEntity> findByGroupAndParent(CsGroupEntity group, int parent, Pageable pageable);
+    public Page<CsEntity> findByGroupAndParentLessThanEqual(CsGroupEntity group, int parent, Pageable pageable);
 
     // cate1 게시글 출력 (notice, qna, faq)
-    public Page<CsEntity> findByCate1AndParent(CsCate1Entity cate1, int parent, Pageable pageable);
+    public Page<CsEntity> findByCate1AndParentLessThanEqual(CsCate1Entity cate1, int parent, Pageable pageable);
 
     // cate2 게시글 출력 (faq)
-    public Page<CsEntity> findByGroupAndCate1AndCate2AndParent(CsGroupEntity group, CsCate1Entity cate1, CsCate2Entity cate2, int parent, Pageable pageable);
+    public Page<CsEntity> findByGroupAndCate1AndCate2AndParentLessThanEqual(CsGroupEntity group, CsCate1Entity cate1, CsCate2Entity cate2, int parent, Pageable pageable);
 
     // 답글이 달린 게시글 count
     public int countByParent(int no);
