@@ -13,8 +13,8 @@
             [[${board.cate2.wrapping}]] [[${board.title}]]
           </a>
         </td>
-        <td th:style="${board.parent>0?'color: green; font-weight: bold;':''}">
-          [[${board.content}]]
+        <td th:style="${board.parent == -1?'color: green; font-weight: bold;':''}">
+          [[${board.parent == -1 ? '답변 완료':'검토 중'}]]
         </td>
         <td>[[${board.uid.uidMasking}]]</td>
         <td>[[${board.yyyyMMdd}]]</td>

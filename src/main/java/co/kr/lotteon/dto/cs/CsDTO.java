@@ -26,6 +26,12 @@ public class CsDTO {
     private String content;
     private LocalDateTime rdate;
 
+    public String getBrContent() {
+        return content
+                .replace("\n", "<br/>")
+                .replace("\r\n", "<br/>");
+    }
+
     public String getYyMMdd() {
         return rdate.format(DateTimeFormatter.ofPattern("yy.MM.dd"));
     }

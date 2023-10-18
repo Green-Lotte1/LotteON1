@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
   <head>
     <meta charset="UTF-8" />
     <title>롯데ON::롯데 온라인 쇼핑몰</title>
@@ -47,7 +48,6 @@
         border: none;
         cursor: pointer;
       }
-
     </style>
     <script>
       $(function(){
@@ -69,10 +69,19 @@
       <header>
         <div class="top">
           <div>
-            <a th:href="@{/member/login}">로그인</a>
-            <a th:href="@{/member/join}">회원가입</a>
-            <a href="#">마이페이지</a>
-            <a th:href="@{/product/cart}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
+            <span sec:authorize="isAuthenticated()">
+              <span class="client">[[${#authentication.principal.member.uid}]]</span>님 환영합니다.
+            </span>
+            <th:block sec:authorize="isAnonymous()">
+              <a th:href="@{/member/login}">로그인</a>
+              <a th:href="@{/member/join}">회원가입</a>
+            </th:block>
+            <th:block sec:authorize="isAuthenticated()">
+              <a sec:authorize="hasAnyRole('ROLE_ADMIN')" th:href="@{/admin}">관리자</a>
+              <a th:href="@{/member/logout}">로그아웃</a>
+              <a href="#">마이페이지</a>
+              <a th:href="@{/product/cart}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니</a>
+            </th:block>
           </div>
         </div>
         <div class="logo">
@@ -87,11 +96,11 @@
         <div class="menu">
           <div>
             <ul>
-              <li><a href="#">히트상품</a></li>
-              <li><a href="#">추천상품</a></li>
-              <li><a href="#">최신상품</a></li>
-              <li><a href="#">인기상품</a></li>
-              <li><a href="#">할인상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='hit')}">히트상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='recommend')}">추천상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='latest')}">최신상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='hot')}">인기상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='discount')}">할인상품</a></li>
             </ul>
             <ul>
               <li><a href="#">공지사항</a></li>

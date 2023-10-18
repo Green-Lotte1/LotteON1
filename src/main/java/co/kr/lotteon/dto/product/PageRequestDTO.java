@@ -20,10 +20,10 @@ public class PageRequestDTO {
     private int size = 10;
 
     @Builder.Default
-    private int prodCate1 = 10;
+    private int prodCate1 = 0;
 
     @Builder.Default
-    private int prodCate2 = 10;
+    private int prodCate2 = 0;
 
     @Builder.Default
     private String type = "default";

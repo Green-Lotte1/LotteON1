@@ -90,16 +90,6 @@ public class ProductDTO {
     }
 
 
-    /************** Value With Comma *************************************/
-    public String getPriceWithComma() {
-        return Utils.comma(price);
-    }
-    public String getDeliveryWithComma() {
-        return Utils.comma(delivery);
-    }
-    public String getDisPriceWithComma() {
-        return Utils.comma(this.price - ((this.price/100) * this.discount));
-    }
 
     /*public String fileRename(String thumb) {
 
