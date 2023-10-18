@@ -1,5 +1,10 @@
 // 중복 검사
 $(function(){
+    // 선택 사항 체크
+    const local = localStorage.getItem('local');
+    $('input[name=location]').val(local);
+    localStorage.removeItem(local);
+
     // 아이디 중복 검사
     $('#btnId').click(function(){
         const uid = $('input[name=uid]').val();

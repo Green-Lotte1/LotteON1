@@ -11,6 +11,7 @@
                     <h1>일반 회원가입</h1>
                 </nav>
 				<form id="formMember" th:action="@{/member/register}" method="POST" th:object="${member}">
+					<input type="hidden" name="location" th:field="*{location}">
 					<section>
 						<table>
 							<caption>필수 정보입력</caption>
@@ -53,7 +54,7 @@
 							<tr>
 								<th><span class="essential">*</span>성별</th>
 								<td>
-									<label><input type="radio" name="km_gender" th:field="*{gender}" value="1" checked>&nbsp;남</label>
+									<label><input type="radio" name="km_gender" th:field="*{gender}" value="1" th:checked="false">&nbsp;남</label>
 									<label><input type="radio" name="km_gender" th:field="*{gender}" value="2">&nbsp;여</label>
 								</td>
 							</tr>

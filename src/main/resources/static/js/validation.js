@@ -6,6 +6,7 @@
 let isUidOk		= false;
 let isPassOk	= false;
 let isNameOk	= false;
+let isGenderOk          = false;
 let isEmailOk	= false;
 let isHpOk		= false;
 let isTelOk             = false;
@@ -55,6 +56,14 @@ $(function (){
             isPassOk = false;
         }
         
+    });
+    $('input[name=gender]').change(function (){
+        const gender = $('input[name=gender]').val();
+        if(gender < 0) {
+            isGenderOk = false;
+            return;
+        }
+        isGenderOk = true;
     });
 
     // 이름 유효성 검사
@@ -186,6 +195,13 @@ $(function (){
         if(!isHpOk){
             alert('번호를 확인 하십시요.');
             return false; // 폼 전송 취소
+        }
+
+        if($('input[name=gender]').length > 0){
+            if(!isGenderOk){
+                alert('성별을 선택해주세요.');
+                return false;
+            }
         }
 
        // 판매회원 전용
