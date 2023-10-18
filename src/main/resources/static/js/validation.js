@@ -8,6 +8,7 @@ let isPassOk	= false;
 let isNameOk	= false;
 let isEmailOk	= false;
 let isHpOk		= false;
+let isTelOk             = false;
 let isFaxOk		= false;
 let isCompanyOk	= false;
 let isBizOk		= false;
@@ -15,14 +16,16 @@ let isManagerOk	= false;
 let isManagerHpOk= false;
 
 // 정규표현식
-let reUid   = /^[a-z]+[a-z0-9]{4,12}$/g;
-let rePass  = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,12}$/;
-let reName  = /^[가-힣]{2,10}$/
-let reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-let reHp    = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;
-let reFax	= /^(0[2-8][0-5]?)-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
-let reCompany = /^\(주\)[a-zA-Z가-힣]{2,}$/;
-let reBiz = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
+const reUid   = /^[a-z]+[a-z0-9]{4,12}$/g;
+const rePass  = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,12}$/;
+const reName  = /^[가-힣]{2,10}$/
+const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
+const reHp    = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;
+const reTel	= /^(0[2-8][0-5]?)-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
+const reComNo = /^(?:[가-힣]{2,4}-[0-9]{5}|제\s\d-\d{2}-\d{2}-\d{4}호|\d{4}-[가-힣]{4}-\d{4})$/;
+const reFax	= /^(0[2-8][0-5]?)-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
+const reCompany = /^\(주\)[a-zA-Z가-힣]{2,}$/;
+const reBiz = /^[0-9]{3}-[0-9]{2}-[0-9]{5}$/;
 
 $(function (){
     
@@ -54,6 +57,109 @@ $(function (){
         
     });
 
+    // 이름 유효성 검사
+    $('input[name=name]').focusout(function (){
+        const name = $('input[name=name]').val();
+
+        if (!name.match(reName)){
+            $('.msgName').css('color', 'red').text('유효한 이름이 아닙니다.');
+            isNameOk = false;
+            return;
+        }
+        $('.msgName').text('');
+        isNameOk = true;
+    });
+    // 담당자 이름 유효성 검사
+    $('input[name=manager]').focusout(function (){
+        const manager = $('input[name=manager]').val();
+
+        if (!manager.match(reName)){
+            $('.msgManager').css('color', 'red').text('유효한 이름이 아닙니다.');
+            isNameOk = false;
+            return;
+        }
+        $('.msgManager').text('');
+        isNameOk = true;
+    });
+
+    // 회사명 검사
+    $('input[name=company]').focusout(function(){
+        const company = $(this).val();
+
+        if(company.match(reCompany)){
+            $('.msgCompany1').text('');
+            isCompanyOk = true;
+        } else {
+            $('.msgCompany1').css('color', 'red').text('(주)포함하여 다시 입력해주십시오.');
+            isCompanyOk = false;
+        }
+
+    });
+
+    // 사업자등록번호 검사
+    $('input[name=bizRegNum]').focusout(function(){
+        const bizNum = $(this).val();
+
+        if(bizNum.match(reBiz)){
+            $('.msgCorp1').text('');
+            isBizOk = true;
+        } else {
+            $('.msgCorp1').css('color', 'red').text('유효하지 않은 사업자등록번호입니다.');
+            isBizOk = false;
+        }
+    });
+    
+    // 통신판매업번호 검사
+    $('input[name=comRegNum]').focusout(function(){
+        const comRegNum = $(this).val();
+
+        if(comRegNum.match(reComNo)){
+            $('.msgOnline1').text('');
+            isBizOk = true;
+        } else {
+            $('.msgOnline1').css('color', 'red').text('유효하지 않은 통신판매업번호입니다.');
+            isBizOk = false;
+        }
+    });
+    // 전화번호 검사
+    $('input[name=tel]').focusout(function(){
+        const tel = $(this).val();
+
+        if(tel.match(reTel)){
+            $('.msgTel1').text('');
+            isFaxOk = true;
+        } else {
+            $('.msgTel1').css('color', 'red').text('유효하지 않은 전화번호입니다.');
+            isFaxOk = false;
+        }
+    });
+
+    // 팩스번호 검사
+    $('input[name=fax]').focusout(function(){
+        const fax = $(this).val();
+
+        if(fax.match(reFax)){
+            $('.msgFax1').text('');
+            isFaxOk = true;
+        } else {
+            $('.msgFax1').css('color', 'red').text('유효하지 않은 팩스번호입니다.');
+            isFaxOk = false;
+        }
+    });
+
+    // 담당자 번호 검사
+    $('input[name=managerHp]').focusout(function(){
+        const managerHp = $(this).val();
+
+        if(managerHp.match(reHp)){
+            $('.msgManagerHp1').text('');
+            isManagerHpOk = true;
+        } else {
+            $('.msgManagerHp1').css('color', 'red').text('유효하지 않은 번호입니다.');
+            isManagerHpOk = false;
+        }
+    });
+
     // 최종 전송
     $('#formMember').submit(function(){
 
@@ -82,8 +188,8 @@ $(function (){
             return false; // 폼 전송 취소
         }
 
-       /* // 판매회원 전용
-        if ($('input[name=kms_fax]').length > 0){
+       // 판매회원 전용
+        if ($('input[name=tel]').length > 0){
             if(!isFaxOk){
                 alert('팩스 번호를 확인 하십시요.');
                 return false; // 폼 전송 취소
@@ -108,7 +214,7 @@ $(function (){
                 alert('담당자 번호를 확인 하십시요.');
                 return false; // 폼 전송 취소
             }
-        }*/
+        }
 
         return true; // 폼 전송 시작
     });
