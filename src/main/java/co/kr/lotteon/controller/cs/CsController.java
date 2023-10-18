@@ -2,6 +2,7 @@ package co.kr.lotteon.controller.cs;
 
 import co.kr.lotteon.dto.cs.*;
 import co.kr.lotteon.entity.cs.CsEntity;
+import co.kr.lotteon.entity.cs.CsGroupEntity;
 import co.kr.lotteon.service.CsService;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.JsonObject;
@@ -12,9 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Log4j2
@@ -70,7 +71,7 @@ public class CsController {
         layout(request, model, pageRequestDTO);
         if (pageRequestDTO.getNo() == 0) {
             // 비정상적 접근( no == 0 일 때,)
-            return "redirect:/cs/notice/list";
+            return "redirect:/cs/faq/list";
         }
         view(pageRequestDTO.getNo(), model);
 
@@ -95,13 +96,14 @@ public class CsController {
         layout(request, model, pageRequestDTO);
         if (pageRequestDTO.getNo() == 0) {
             // 비정상적 접근( no == 0 일 때,)
-            return "redirect:/cs/notice/list";
+            return "redirect:/cs/qna/list";
         }
         view(pageRequestDTO.getNo(), model);
 
         return "/cs/qna/view";
     }
 
+    // 문의사항 게시글 작성 폼
     @GetMapping("/cs/qna/write")
     public String qnaWrite(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
         layout(request, model, pageRequestDTO);
@@ -120,16 +122,55 @@ public class CsController {
         List<CsCate2DTO> cate2 = csService.findByCate1(pageRequestDTO.getCate1());
         model.addAttribute("cate2", cate2);
         log.info("cate2 result : " + cate2);
-        
+
+        // json url을 위한 contextPath
+        String path = request.getContextPath();
+        String url = path + "/cs/qna/write";
+        model.addAttribute("path", path);
+        model.addAttribute("url", url);
+        log.info("path : " + path);
+        log.info("url : " + url);
+
+        log.info(" ========================================= ");
+        log.info("group   : " + pageRequestDTO.getGroup());
+        log.info("cate1   : " + pageRequestDTO.getCate1());
+        log.info("cate2   : " + pageRequestDTO.getCate2());
+        log.info("uid     : " + pageRequestDTO.getUid());
+        log.info("title   : " + pageRequestDTO.getTitle());
+        log.info("content : " + pageRequestDTO.getContent());
+        log.info(" ========================================= ");
+
         return "/cs/qna/write";
     }
 
+    // 문의사항 게시글 작성 후 전송
     @PostMapping("/cs/qna/write")
-    public String qnaWrite(CsDTO dto) {
-        int result = csService.insertQna(dto);
+    public String qnaWrite(PageRequestDTO pageRequestDTO) {
+
+        log.info(" ========================================= ");
+        log.info("group   : " + pageRequestDTO.getGroup());
+        log.info("cate1   : " + pageRequestDTO.getCate1());
+        log.info("cate2   : " + pageRequestDTO.getCate2());
+        log.info("uid     : " + pageRequestDTO.getUid());
+        log.info("title   : " + pageRequestDTO.getTitle());
+        log.info("content : " + pageRequestDTO.getContent());
+        log.info(" ========================================= ");
+
+        int result = csService.insertQna(pageRequestDTO);
+        log.info("result : " + result);
         log.info("게시글 등록에 " + (result==1?"성공":"실패") + "하였습니다.");
 
-        return "redirect:/cs/qna/list?cate1=" + dto.getCate1();
+        return "redirect:/cs/qna/list?cate1=" + pageRequestDTO.getCate1();
+    }
+
+    // 문의사항 게시글 작성시, cate loading
+    @ResponseBody
+    @RequestMapping(value = "/cs/qna/list", method = RequestMethod.POST)
+    public String cateJson(@RequestBody HashMap<String, Object>map) {
+        Object selectCate1 = map.get("selectCate1");
+        log.info("selectCate1 : " + selectCate1);
+
+        return "";
     }
 
 

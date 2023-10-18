@@ -1,10 +1,12 @@
 package co.kr.lotteon.service;
 
 import co.kr.lotteon.dto.cs.*;
+import co.kr.lotteon.entity.MemberEntity;
 import co.kr.lotteon.entity.cs.CsCate1Entity;
 import co.kr.lotteon.entity.cs.CsCate2Entity;
 import co.kr.lotteon.entity.cs.CsEntity;
 import co.kr.lotteon.entity.cs.CsGroupEntity;
+import co.kr.lotteon.repository.MemberRepository;
 import co.kr.lotteon.repository.cs.CsCate1Repository;
 import co.kr.lotteon.repository.cs.CsCate2Repository;
 import co.kr.lotteon.repository.cs.CsGroupRepository;
@@ -16,6 +18,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +35,7 @@ public class CsService {
     private final CsGroupRepository groupRepository;
     private final CsCate1Repository cate1Repository;
     private final CsCate2Repository cate2Repository;
+    private final MemberRepository memberRepository;
 
     //////////////////////////////////
     // DTO <-> Entity Convert
@@ -277,9 +281,23 @@ public class CsService {
     }
 
     // 게시글 작성
-    public int insertQna(CsDTO dto) {
-        CsEntity result = csRepository.save(dto.toEntity());
-        log.info("insertQna : " + result);
-        return (result != null)? '1':'0';
+    @Transactional
+    public int insertQna(PageRequestDTO pageRequestDTO) {
+        CsGroupEntity groupEntity  = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
+        CsCate1Entity cate1Entity  = cate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
+        CsCate2Entity cate2Entity  = cate2Repository.findById(pageRequestDTO.getCate2()).orElse(null);
+        MemberEntity  memberEntity = memberRepository.findById(pageRequestDTO.getUid()).orElse(null);
+
+        CsEntity entity = new CsEntity();
+        entity.setGroup(groupEntity);
+        entity.setCate1(cate1Entity);
+        entity.setCate2(cate2Entity);
+        entity.setUid(memberEntity);
+        entity.setTitle(pageRequestDTO.getTitle());
+        entity.setContent(pageRequestDTO.getContent());
+
+        CsEntity result = csRepository.save(entity);
+
+        return (result != null)? 1:0;
     }
 }

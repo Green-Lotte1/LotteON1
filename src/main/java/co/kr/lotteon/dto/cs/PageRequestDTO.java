@@ -39,6 +39,10 @@ public class PageRequestDTO {
     @Builder.Default
     private String type = "write";
 
+    private String uid;
+    private String title;
+    private String content;
+
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());
     }
