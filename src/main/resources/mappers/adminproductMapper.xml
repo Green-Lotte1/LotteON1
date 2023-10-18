@@ -13,5 +13,19 @@
         #{duty},#{receipt},#{bizType},#{origin},#{ip},#{rdate},#{etc1},#{etc2},#{etc3},#{etc4},#{etc5});
     </insert>
 
+    <update id="updateProduct">
+        UPDATE `km_product` SET prodCate1= #{prodCate1}, prodCate2 = #{prodCate2}, prodCName = #{prodName}, descript = #{descript},
+                                prodCompany = #{prodCompany}, seller = #{seller}, price = #{price},discount = #{discount},
+                                point = #{point}, stock = #{stock},sold = #{sold},delivery = #{delivery}, hit = #{hit},
+                                score = #{score}, review = #{review}, thumb1 = #{thumb1}, thumb2 = #{thumb2}, thumb3 = #{thumb3},
+                                detail = #{detail}, status = #{status}, duty = #{duty}, receipt = #{receipt}, bizType = #{bizType},
+                                origin = #{origin}, ip = #{ip}, rdate = #{rdate}, etc1 = #{etc1}, etc2= #{etc2}, etc3 = #{etc3},
+                                etc4 = #{etc4},etc5= #{etc5}
+       WHERE prodNo = #{prodNo};
+    </update>
+
+    <delete id="deleteProduct">
+        DELETE FROM `km_product` WHERE prodNo = #{prodNo};
+    </delete>
 
 </mapper>
