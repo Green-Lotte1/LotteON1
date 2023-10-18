@@ -4,6 +4,7 @@ package co.kr.lotteon.service;
 import co.kr.lotteon.dto.product.PageRequestDTO;
 import co.kr.lotteon.dto.product.PageResponseDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
+import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
 import co.kr.lotteon.repository.MemberRepository;
 import co.kr.lotteon.repository.ProdCate1Repository;
@@ -38,7 +39,8 @@ public class AdminService {
 
        Pageable pageable = pageRequestDTO.getPageable("prodNo");
 
-        Page<ProductEntity> result = productRepository. findByProdCate1AndProdCate2(ProductEntity);
+        ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getProdCate1()).orElse(null);
+        Page<ProductEntity> result = productRepository. findByProdCate1AndProdCate2(cate1, pageRequestDTO.getProdCate2(), pageable);
 
         List<ProductDTO> dtoList = result.getContent()
                                         .stream()
