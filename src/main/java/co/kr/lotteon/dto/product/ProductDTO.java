@@ -46,7 +46,7 @@ public class ProductDTO {
     private String origin;
     private String ip;
     private LocalDateTime rdate;
-    private Integer etc1;
+    private int sale;
     private Integer etc2;
     private String etc3;
     private String etc4;
@@ -80,7 +80,7 @@ public class ProductDTO {
                 .origin(origin)
                 .ip(ip)
                 .rdate(rdate)
-                .etc1(etc1)
+                .sale(sale)
                 .etc2(etc2)
                 .etc3(etc3)
                 .etc4(etc4)
@@ -89,16 +89,6 @@ public class ProductDTO {
     }
 
 
-    /************** Value With Comma *************************************/
-    public String getPriceWithComma() {
-        return Utils.comma(price);
-    }
-    public String getDeliveryWithComma() {
-        return Utils.comma(delivery);
-    }
-    public String getDisPriceWithComma() {
-        return Utils.comma(this.price - ((this.price/100) * this.discount));
-    }
 
     /*public String fileRename(String thumb) {
 

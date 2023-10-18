@@ -40,7 +40,7 @@ public class AdminService {
        Pageable pageable = pageRequestDTO.getPageable("prodNo");
 
         ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getProdCate1()).orElse(null);
-        Page<ProductEntity> result = productRepository. findByProdCate1AndProdCate2(cate1, pageRequestDTO.getProdCate2(), pageable);
+        Page<ProductEntity> result = productRepository. findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEquals(cate1, pageRequestDTO.getProdCate2(), 1, 1, pageable);
 
         List<ProductDTO> dtoList = result.getContent()
                                         .stream()
