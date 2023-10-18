@@ -247,6 +247,18 @@ public class CsService {
         return dto;
     }
 
+    // 답변 출련하기
+    public CsDTO findByParent(int parent) {
+        CsEntity entity = csRepository.findByParent(parent);
+        CsDTO dto = entity.toDTO();
+        return dto;
+    }
+
+    // 게시글 삭제하기
+    public void deleteByNo(int no) {
+        csRepository.deleteById(no);
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////
