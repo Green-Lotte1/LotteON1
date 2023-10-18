@@ -44,7 +44,13 @@ header > .top > div {
   margin: 0 auto;
   text-align: right;
 }
-
+header > .top > div > span {
+  float: left;
+  line-height: 35px;
+}
+header > .top > div > span > .client{
+  font-weight: bold;
+}
 header > .top > div > a {
   display: inline-block;
   height: 100%;
