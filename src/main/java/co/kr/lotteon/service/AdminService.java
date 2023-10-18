@@ -1,10 +1,13 @@
 package co.kr.lotteon.service;
 
-import co.kr.lotteon.dto.cs.PageRequestDTO;
-import co.kr.lotteon.dto.cs.PageResponseDTO;
+
+import co.kr.lotteon.dto.product.PageRequestDTO;
+import co.kr.lotteon.dto.product.PageResponseDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.product.ProductEntity;
 import co.kr.lotteon.repository.MemberRepository;
+import co.kr.lotteon.repository.ProdCate1Repository;
+import co.kr.lotteon.repository.ProdCate2Repository;
 import co.kr.lotteon.repository.ProductRepository;
 import co.kr.lotteon.repository.cs.CsRepository;
 import lombok.Builder;
@@ -28,25 +31,35 @@ public class AdminService {
     private final CsRepository csRepository;
     private final MemberRepository memberRepository;
     private final ProductRepository productRepository;
+    private final ProdCate1Repository prodCate1Repository;
+    private final ProdCate2Repository prodCate2Repository;
 
- //   public PageResponseDTO findByParentAndCate(PageRequestDTO pageRequestDTO){
+    public PageResponseDTO findByParentAndCate(PageRequestDTO pageRequestDTO){
 
-       // Pageable pageable = pageRequestDTO.getPageable("prodNo");
+       Pageable pageable = pageRequestDTO.getPageable("prodNo");
 
-       // Page<ProductEntity> result = productRepository.findByParentAndCate(0, pageRequestDTO. , pageable);
+        Page<ProductEntity> result = productRepository. findByProdCate1AndProdCate2(ProductEntity);
 
-      //  List<ProductDTO> dtoList = result.getContent()
-      //                                  .stream()
-      //                                  .map(entity -> modelMapper.map(entity, ProductDTO.class))
-      //                                  .toList();
-      //  int totalElemnet = (int) result.getTotalElements();
+        List<ProductDTO> dtoList = result.getContent()
+                                        .stream()
+                                        .map(entity -> modelMapper.map(entity, ProductDTO.class))
+                                        .toList();
+        int totalElement = (int) result.getTotalElements();
 
-      //  return PageResponseDTO.builder()
-      //          .pageRequestDTO(pageRequestDTO)
-      //          .dtoList(dtoList)
-      //          .total(totalElemnet)
-      //          .build();
-   // }
+        return PageResponseDTO.builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(dtoList)
+                .total(totalElement)
+                .build();
+    }
+
+    public void save(ProductDTO dto) {
+
+
+        productRepository.save(dto.toEntity());
+
+
+    }
 
 
 
