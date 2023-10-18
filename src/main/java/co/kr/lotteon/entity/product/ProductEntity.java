@@ -5,6 +5,7 @@ import co.kr.lotteon.entity.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -52,8 +53,8 @@ public class ProductEntity {
     private String ip;
     @CreationTimestamp
     private LocalDateTime rdate;
-    private Integer etc1;
-    private Integer etc2;
+    private int sale;
+    private int etc2;
     private String etc3;
     private String etc4;
     private String etc5;
@@ -75,10 +76,10 @@ public class ProductEntity {
                 .hit(hit)
                 .score(score)
                 .review(review)
-                .thumb1(thumb1)
+                /*.thumb1(thumb1)
                 .thumb2(thumb2)
                 .thumb3(thumb3)
-                .detail(detail)
+                .detail(detail)*/
                 .status(status)
                 .duty(duty)
                 .receipt(receipt)
@@ -86,7 +87,7 @@ public class ProductEntity {
                 .origin(origin)
                 .ip(ip)
                 .rdate(rdate)
-                .etc1(etc1)
+                .sale(sale)
                 .etc2(etc2)
                 .etc3(etc3)
                 .etc4(etc4)
