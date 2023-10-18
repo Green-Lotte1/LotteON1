@@ -100,7 +100,6 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(data){
                 console.log(data);
-                console.log(data.result);
 
                 // (해당 상품이 장바구니에 있는 경우)
                 // 만약 insertCartController에서 받아온 result 값이 1이라면 아래를 실행
@@ -109,15 +108,14 @@ $(document).ready(function () {
                     // 해당 상품을 또 장바구니에 추가할건지 확인받는다.
                     if(confirm('해당 상품이 이미 장바구니에 있습니다. 추가하시겠습니까?')){
                         // 장바구니에 또 추가할거라면 cartResult 값을 1으로 설정하여 보낸다.
-                        const commitData = Object.assign({},jsonData,{"cartResult":1});
+                        jsonData = Object.assign({},jsonData,{"cartResult":1});
 
                         $.ajax({
                             url: '/product/cart',
                             type: 'post',
-                            data: commitData,
+                            data: jsonData,
                             dataType: 'json',
                             success: function(data){
-                                console.log('commitData');
                                 console.log(data.cartresult);
                             }
                         }); // ajax end
@@ -131,15 +129,14 @@ $(document).ready(function () {
                     // 해당 상품이 장바구니에 이미 있기 때문에 취소한다.
                     }else{
                         // 장바구니에 추가하지 않는다면 cartResult 값을 0으로 설정하여 보낸다.
-                        const passData = Object.assign({},jsonData,{"cartResult":0});
+                        jsonData = Object.assign({},jsonData,{"cartResult":0});
 
                         $.ajax({
-                            url: '${ctxPath}/product/insertCart.do',
+                            url: '/product/cart',
                             type: 'post',
-                            data: passData,
+                            data: jsonData,
                             dataType: 'json',
                             success: function(data){
-                                console.log('passData');
                                 console.log(data.cartResult);
                             }
                         }); // ajax end

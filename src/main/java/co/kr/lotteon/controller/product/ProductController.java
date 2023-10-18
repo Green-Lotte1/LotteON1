@@ -1,6 +1,7 @@
 package co.kr.lotteon.controller.product;
 
 import co.kr.lotteon.dto.product.*;
+import co.kr.lotteon.entity.product.CartEntity;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.ProductService;
 import lombok.RequiredArgsConstructor;
@@ -8,12 +9,10 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Controller
@@ -32,6 +31,10 @@ public class ProductController {
         model.addAttribute("cate1List", cate1);
         model.addAttribute("cate2List", cate2);
     }
+
+
+
+
     //////////////////////////////
     ////////    product nav 값 가져오기
     //////////////////////////////
@@ -42,6 +45,9 @@ public class ProductController {
 
         model.addAttribute("cate", cate);
     }
+
+
+
 
     //////////////////////////////
     ////////    product list
@@ -69,6 +75,9 @@ public class ProductController {
         return "/product/list";
     }
 
+
+
+
     //////////////////////////////
     ////////    product view
     //////////////////////////////
@@ -91,6 +100,9 @@ public class ProductController {
         model.addAttribute("reviews", reviews);
         return "/product/view";
     }
+
+
+
     //////////////////////////////
     ////////    product cart
     //////////////////////////////
@@ -100,18 +112,43 @@ public class ProductController {
 
         return "/product/cart";
     }
-    /*@ResponseBody
-    @PostMapping(value = "/product/cart")
-    public void cart(MyUserDetails member, PageRequestDTO pageRequestDTO){
-        String uid = member.getMember().getUid();
-        int prodNo = pageRequestDTO.getProdNo();
-        prodService.selectCountCartByUidAndProdNo(uid, prodNo);
-    }
+
+
+
+
+/*
     @ResponseBody
+    @PostMapping(value = "/product/cart")
+    public void cart(MyUserDetails member, @RequestBody Map<String, Object> jsonData){
+        String uid = member.getMember().getUid();
+        int prodNo = (Integer)jsonData.get("prodNo");
+        int inputCount = (Integer)jsonData.get("inputCount");
+        int result = prodService.selectCountCartByUidAndProdNo(uid, prodNo);
+
+        if((Integer)jsonData.get("cartResult") == null){
+
+        }else if(!((Integer)jsonData.get("cartResult") == null)){
+
+        }
+        if(result == 0){
+            ProductDTO product = prodService.selectProductByProdNo(prodNo);
+            prodService.insertCart(product);
+        }
+    }*/
+
+
+
+
+
+    /*@ResponseBody
     @PutMapping(value = "/product/cart")
     public void insertCart(){
 
     }*/
+
+
+
+
     //////////////////////////////
     ////////    product order
     //////////////////////////////
@@ -120,6 +157,10 @@ public class ProductController {
         layout(model);
         return "/product/order";
     }
+
+
+
+
     //////////////////////////////
     ////////    product complete
     //////////////////////////////

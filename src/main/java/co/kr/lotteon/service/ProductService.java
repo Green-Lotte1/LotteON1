@@ -1,10 +1,7 @@
 package co.kr.lotteon.service;
 
 import co.kr.lotteon.dto.product.*;
-import co.kr.lotteon.entity.product.ProdCate1Entity;
-import co.kr.lotteon.entity.product.ProdCate2Entity;
-import co.kr.lotteon.entity.product.ProductEntity;
-import co.kr.lotteon.entity.product.ReviewEntity;
+import co.kr.lotteon.entity.product.*;
 import co.kr.lotteon.mapper.ProductMapper;
 import co.kr.lotteon.repository.product.*;
 import lombok.RequiredArgsConstructor;
@@ -292,7 +289,18 @@ public class ProductService {
     /////////////////////////// insertCart
     ///////////////////////////////////////////////////////////////////////////////////
     /*public int selectCountCartByUidAndProdNo(String uid, int prodNo){
-        return cartRepository.countByUidAndProdNo(uid, prodNo);
+        int result = 0;
+        int selectResult = cartRepository.countByUidAndProdNo(uid, prodNo);
+        if(selectResult > 0){
+            result = 1;
+        }
+        return result;
+    }*/
+
+    /*public void insertCart(ProductDTO product){
+        CartDTO cart = new CartDTO(product.)
+        CartEntity cartEntity = cart.toEntity();
+        cartRepository.save(cartEntity);
     }*/
 
 }
