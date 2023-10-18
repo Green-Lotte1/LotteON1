@@ -343,54 +343,7 @@ footer p > strong {
   font-weight: bold;
 }
 
-/* 버튼 공통 */
-.btnWrite {
-  float: right;
-  padding: 10px 20px;
-  text-align: center;        
-  margin-top: -48px;
-  background-color: #067dfd;
-  border: 1px solid #0063ce;
-  border-radius: 2px;
-  font-size: 20px;
-  color: #fff;
-  box-sizing: border-box;
-}
 
-.btnList {
-  display: inline-block;
-  width: 200px;
-  height: 60px;
-  margin: 40px auto 0;
-  border: 1px solid #ccc;
-  border-radius: 34px;
-  font-size: 16px;
-  color: #000;
-  line-height: 58px;
-  text-align: center;
-  box-sizing: border-box;
-}
-.btnList:hover {
-  background-color: #f7f7f7;
-}
-
-.btnSubmit {
-  display: inline-block;
-  width: 200px;
-  height: 60px;
-  margin: 40px auto 0;
-  background-color: #067dfd;
-  border: 1px solid #0063ce;  
-  border-radius: 34px;
-  font-size: 16px;
-  color: #fff;
-  line-height: 58px;
-  text-align: center;
-  box-sizing: border-box;
-}
-.btnSubmit:hover {
-  background-color: #0954f6;
-}
 
 
 /* 고객센터 sub 공통 */
@@ -570,6 +523,7 @@ footer p > strong {
 }
 
 #cs > .notice > .view > article > .content {
+  word-wrap:break-word;
   width: 100%;
   height: 100%;        
   border-bottom: 1px solid #e9e9e9;
@@ -748,6 +702,7 @@ footer p > strong {
 }
 
 #cs > .faq > .view > article > .content {
+  word-wrap:break-word;
   width: 100%;
   height: 100%;        
   border-bottom: 1px solid #e9e9e9;
@@ -919,6 +874,7 @@ footer p > strong {
 }
 
 #cs > .qna > .view > article > .content {
+  word-wrap:break-word;
   width: 100%;
   height: 100%;        
   border-bottom: 1px solid #e9e9e9;
@@ -984,3 +940,94 @@ footer p > strong {
   padding: 10px;
   box-sizing: border-box;
 }
+
+
+/* 버튼 공통 */
+.btnWrite {
+  float: right;
+  padding: 10px 20px;
+  text-align: center;
+  margin-top: -48px;
+  background-color: #067dfd;
+  border: 1px solid #0063ce;
+  border-radius: 2px;
+  font-size: 20px;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.btnList {
+  display: inline-block;
+  width: 120px;
+  height: 60px;
+  margin: 40px auto 0;
+  border: 1px solid #ccc;
+  border-radius: 34px;
+  font-size: 16px;
+  color: #000;
+  line-height: 58px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.btnList:hover {
+  background-color: #f7f7f7;
+}
+
+.btnSubmit {
+  display: inline-block;
+  width: 120px;
+  height: 60px;
+  margin: 40px auto 0;
+  background-color: #067dfd;
+  border: 1px solid #0063ce;
+  border-radius: 34px;
+  font-size: 16px;
+  color: #fff;
+  line-height: 58px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.btnSubmit:hover {
+  background-color: #0954f6;
+}
+.btnModify {
+    display: inline-block;
+    width: 80px;
+    height: 60px;
+    margin: 40px auto 0;
+    border: 1px solid #428bca;
+    border-radius: 34px;
+    font-size: 16px;
+    color: #428bca;
+    line-height: 58px;
+    text-align: center;
+    box-sizing: border-box;
+}
+.btnModify:hover {
+    color: #fff;
+    background-color: #428bca;
+}
+
+.btnDelete {
+    display: inline-block;
+    width: 80px;
+    height: 60px;
+    margin: 40px auto 0;
+    border: 1px solid #d9534f;
+    border-radius: 34px;
+    font-size: 16px;
+    color: #d9534f;
+    line-height: 58px;
+    text-align: center;
+    box-sizing: border-box;
+}
+.btnDelete:hover {
+    color: #fff;
+    background-color: #d9534f;
+}
+
+#buttons            { text-align: right; }
+#buttons .btnList   {}
+#buttons .btnModify {}
+#buttons .btnDelete {}

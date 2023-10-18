@@ -20,13 +20,20 @@
       </p>
     </div>
 
-    <div class="content">
-      <h2 class="answer">☞ [답변] 제목</h2>
-      <p>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;내용입니다.
+    <div class="content" th:if="${view.parent < 0}">
+      <h2 class="answer">☞ [답변] [[${answer.title}]]</h2>
+      <p th:utext="${answer.brContent}">
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
       </p>
     </div>
 
-    <a th:href="@{/cs/qna/list}" class="btnList">목록보기</a>
+    <div id="buttons">
+      <th:block sec:authorize="isAuthenticated()"
+                th:if="${#authentication.principal.member.uid eq view.uid.uid}">
+        <a th:href="@{/cs/delete(no=${view.no})}" class="btnDelete">삭제</a>
+        <a th:href="@{/cs/modify(no=${view.no})}" class="btnModify">수정</a>
+      </th:block>
+      <a th:href="@{/cs/qna/list}" class="btnList">목록보기</a>
+    </div>
   </article>
 </html>

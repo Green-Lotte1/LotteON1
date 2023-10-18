@@ -46,7 +46,9 @@
       </a>
     </div>
 
-    <a th:href="@{/cs/qna/write(cate1=${cate1Info.cate1})}" class="btnWrite">문의하기</a>
+    <th:block  sec:authorize="isAuthenticated()">
+      <a th:href="@{/cs/qna/write(cate1=${cate1Info.cate1})}" class="btnWrite">문의하기</a>
+    </th:block>
 
   </article>
 </html>

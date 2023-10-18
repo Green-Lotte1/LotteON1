@@ -22,10 +22,13 @@
             <span>Q.</span>[[${brd.title}]]
           </a>
         </li>
-        <li class="more">
-          <a href="#">더보기</a>
+        <li th:class="${board.size<3?'disable':'more'}">
+          <a href="#" th:if="${board.size>3}">더보기</a>
         </li>
       </ul>
+    </div>
+    <div th:if="${boardList == null}">
+
     </div>
   </article>
 </html>

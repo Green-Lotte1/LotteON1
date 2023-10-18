@@ -88,7 +88,7 @@
                 <!-- 상품등록 컨텐츠 시작 -->
                 <article>
                     <form method="post" th:action="@{/admin/product/register}" enctype="multipart/form-data">
-
+                        <input type="hidden" name="seller" value="a12345"/>
                         <!-- 상품분류 -->
                         <section>
                             <h4>상품분류</h4>
@@ -99,9 +99,9 @@
                                 <tr>
                                     <td>1차 분류</td>
                                     <td>
-                                        <select name="category1">
+                                        <select name="prodCate1">
                                             <option value="cate0">1차 분류 선택</option>
-                                            <option value="cate11">패션·의류·뷰티</option>
+                                            <option value="10">패션·의류·뷰티</option>
                                             <option value="cate12">가전·디지털</option>
                                             <option value="cate13">식품·생필품</option>
                                             <option value="cate14">홈·문구·취미</option>                                                
@@ -111,9 +111,9 @@
                                 <tr>
                                     <td>2차 분류</td>
                                     <td>
-                                        <select name="category2">
+                                        <select name="prodCate2">
                                             <option value="cate0">2차 분류 선택</option>
-                                            <option value="cate21">남성의류</option>
+                                            <option value="10">남성의류</option>
                                             <option value="cate22">여성의류</option>
                                             <option value="cate23">잡화</option>
                                             <option value="cate24">뷰티</option>                                                
@@ -138,7 +138,7 @@
                                     <td>기본설명</td>
                                     <td>
                                         <span>상품명 하단에 상품에 대한 추가적인 설명이 필요한 경우에 입력</span>
-                                        <input type="text" name="detail"/>
+                                        <input type="text" name="descript"/>
                                     </td>
                                 </tr>
                                 <tr>
@@ -171,8 +171,8 @@
                                     <td>판매상태</td>
                                     <td>
                                         <select type="text" name="sale">
-                                            <option value="0">판매중지</option>
                                             <option value="1">판매 중</option>
+                                            <option value="0">판매중지</option>
                                         </select>
                                     </td>
                                 </tr>

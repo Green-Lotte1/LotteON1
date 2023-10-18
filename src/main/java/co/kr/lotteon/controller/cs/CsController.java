@@ -7,9 +7,12 @@ import co.kr.lotteon.service.CsService;
 import com.nimbusds.jose.shaded.gson.Gson;
 import com.nimbusds.jose.shaded.gson.JsonObject;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -30,6 +33,7 @@ public class CsController {
     /////////////////////////////////////////////
     @GetMapping(value = {"/cs", "/cs/index"})
     public String index(Model model, PageRequestDTO pageRequestDTO, Pageable pageable) {
+        loginStatus();
         List<CsCate1DTO> faqCate1List = csService.faqCate1List();
         log.info("faqCate1List : " + faqCate1List);
 
@@ -73,7 +77,7 @@ public class CsController {
             // 비정상적 접근( no == 0 일 때,)
             return "redirect:/cs/faq/list";
         }
-        view(pageRequestDTO.getNo(), model);
+        CsDTO dto = view(pageRequestDTO.getNo(), model);
 
         return "/cs/faq/view";
     }
@@ -98,7 +102,14 @@ public class CsController {
             // 비정상적 접근( no == 0 일 때,)
             return "redirect:/cs/qna/list";
         }
-        view(pageRequestDTO.getNo(), model);
+        CsDTO dto = view(pageRequestDTO.getNo(), model);
+        if(dto.getParent() < 0) {
+            CsDTO answer = csService.findByParent(dto.getNo());
+            model.addAttribute("answer", answer);
+            log.info("answer : " + answer);
+        }else {
+            log.info("answer none");
+        }
 
         return "/cs/qna/view";
     }
@@ -178,6 +189,18 @@ public class CsController {
         return selectCate;
     }
 
+    // 문의사항 게시글 삭제
+    @DeleteMapping("/delete/{no}/{status}")
+    public String qnaDelete(PageRequestDTO pageRequestDTO) {
+        String ownUid = csService.findById(pageRequestDTO.getNo()).getUid().getUid();
+        String userna = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        if (ownUid.equals(userna)) {
+            csService.deleteByNo(pageRequestDTO.getNo());
+            return null;
+        }
+        return "redirect:";
+    }
 
 
     /////////////////////////////////////////////
@@ -198,7 +221,7 @@ public class CsController {
             // 비정상적 접근( no == 0 일 때,)
             return "redirect:/cs/notice/list";
         }
-        view(pageRequestDTO.getNo(), model);
+        CsDTO dto = view(pageRequestDTO.getNo(), model);
 
         return "/cs/notice/view";
     }
@@ -208,10 +231,11 @@ public class CsController {
     //////////////////////////////////////////////////////////////////////////////////////////
     // View method (게시글 출력 메서드)
     //////////////////////////////////////////////////////////////////////////////////////////
-    public void view(int no, Model model) {
+    public CsDTO view(int no, Model model) {
         CsDTO dto = csService.findById(no);
         log.info("view : " + dto);
         model.addAttribute("view", dto);
+        return dto;
     }
 
 
@@ -220,6 +244,7 @@ public class CsController {
     // Layout method (레이아웃 카테고리 출력 메서드)
     //////////////////////////////////////////////////////////////////////////////////////////
     public void layout(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
+        loginStatus();
         String[] group_type = request.getRequestURI().split("/");
         // cate1 default값 동적처리
         pageRequestDTO.setGroup(group_type[3]);
@@ -285,5 +310,20 @@ public class CsController {
         log.info("testdebug_ pageResponseDTO next  : " + boardList.isNext());
 
         model.addAttribute("pageResponseDTO", boardList);
+    }
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // login status method (로그인 정보 출력 메서드)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public void loginStatus() {
+        SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("username : " + SecurityContextHolder.getContext().getAuthentication().getName());
+
+        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String username = ((UserDetails) principal).getUsername();
+        log.info("username : " + username);*/
     }
 }
