@@ -12,11 +12,11 @@
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>상품목록</h1>
-                <p>HOME > <span>패션·의류·뷰티</span> > <strong>남성의류</strong></p>
+                <p>HOME > <span th:text="${cate eq null ? '전체 상품' : cate.cate1.c1Name + ' > '}"></span><strong th:text="${cate eq null ? ' ' : cate.c2Name}"></strong></p>
             </nav>
 
             <!-- 정렬 메뉴 -->
-            <ul class="sort">
+            <ul class="sort" th:if="${pageRequestDTO.prodCate1 ne 1}">
                 <li><a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type='sold')}" th:class="${pageRequestDTO.type eq 'sold' ? 'on' : 'off'}">판매많은순</a></li>
                 <li><a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type='priceAsc')}" th:class="${pageRequestDTO.type eq 'priceAsc' ? 'on' : 'off'}">낮은가격순</a></li>
                 <li><a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type='priceDesc')}" th:class="${pageRequestDTO.type eq 'priceDesc' ? 'on' : 'off'}">높은가격순</a></li>
@@ -55,18 +55,18 @@
 
             <!-- 상품목록 페이지번호 -->
             <div class="paging">
-                <span th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, pg=${pageResponseDTO.start-1})}"
-                      class="prev" th:if="${pageResponseDTO.prev}">
-                  <a href="#"><&nbsp;이전</a>
+                <span>
+                  <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type=${pageRequestDTO.type}, pg=${pageResponseDTO.start-1})}"
+                     class="prev" th:if="${pageResponseDTO.prev}"><&nbsp;이전</a>
                 </span>
                 <span class="num">
                     <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
-                  <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2},pg=${num})}" class="on"  th:classappend="${pageResponseDTO.pg eq num ? 'num on' : 'num'}">[[${num}]]</a>
+                  <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type=${pageRequestDTO.type}, pg=${num})}" class="on"  th:classappend="${pageResponseDTO.pg eq num ? 'num on' : 'num'}">[[${num}]]</a>
                     </th:block>
                 </span>
-                <span th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, pg=${pageResponseDTO.end+1})}"
-                      class="next" th:if="${pageResponseDTO.next}">
-                  <a href="#">다음&nbsp;></a>
+                <span>
+                  <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type=${pageRequestDTO.type}, pg=${pageResponseDTO.end+1})}"
+                     class="next" th:if="${pageResponseDTO.next}">다음&nbsp;></a>
                 </span>
             </div>
         </section>

@@ -82,34 +82,69 @@ public class ProductService {
         log.info("prodService here...1");
         Pageable pageable = pageRequestDTO.getPageable("prodNo");
         log.info("prodService here...2");
-        ProdCate1Entity cate1 = prodCate1Repository.findById(pageRequestDTO.getProdCate1()).orElse(null);
+        int cate1 = pageRequestDTO.getProdCate1();
+        log.info("cate1 : "+ cate1);
+        ProdCate1Entity cate1Entity = null;
+        if(!(cate1 == 1)){
+            cate1Entity = prodCate1Repository.findById(cate1).orElse(null);
+        }
         log.info("prodService here...3");
         String type = pageRequestDTO.getType();
+        int cate2 = pageRequestDTO.getProdCate2();
+        log.info("cate2 : "+ cate2);
         Page<ProductEntity> result = null;
         log.info("prodService type : "+type);
-        switch (type){
-            case "default":
-                result = prodRepo.findByProdCate1AndProdCate2(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
-            case "sold":
-                result = prodRepo.findByProdCate1AndProdCate2OrderBySoldDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
-            case "priceAsc":
-                result = prodRepo.findByProdCate1AndProdCate2OrderByPriceAsc(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
-            case "priceDesc":
-                result = prodRepo.findByProdCate1AndProdCate2OrderByPriceDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
-            case "score":
-                result = prodRepo.findByProdCate1AndProdCate2OrderByScoreDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
-            case "review":
-                result = prodRepo.findByProdCate1AndProdCate2OrderByReviewDesc(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
-            case "rdate":
-                result = prodRepo.findByProdCate1AndProdCate2OrderByRdateAsc(cate1, pageRequestDTO.getProdCate2(), pageable);
-                break;
+        String nav = "히트 상품";
+
+        if (cate1 == 1 && cate2 == 1) {
+            switch (type){
+                case "hit":
+                    result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByHitDesc(1, 1, pageable);
+                    nav = "히트 상품";
+                    break;
+                case "recommend":
+                    result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByScoreDesc(1, 1, pageable);
+                    nav = "추천 상품";
+                    break;
+                case "latest":
+                    result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByRdateAsc(1, 1, pageable);
+                    nav = "최신 상품";
+                    break;
+                case "hot":
+                    result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderBySoldDesc(1, 1, pageable);
+                    nav = "인기 상품";
+                    break;
+                case "discount":
+                    result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByDiscountDesc(1, 1, pageable);
+                    nav = "할인 상품";
+                    break;
+            }
+        }else if(!(cate1 == 1 && cate2 == 1)){
+            switch (type){
+                case "default":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEquals(cate1Entity, cate2, 1, 1, pageable);
+                    break;
+                case "sold":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEqualsOrderBySoldDesc(cate1Entity, cate2, 1, 1, pageable);
+                    break;
+                case "priceAsc":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEqualsOrderByPriceAsc(cate1Entity, cate2,  1, 1, pageable);
+                    break;
+                case "priceDesc":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEqualsOrderByPriceDesc(cate1Entity, cate2,  1, 1, pageable);
+                    break;
+                case "score":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEqualsOrderByScoreDesc(cate1Entity, cate2,  1, 1, pageable);
+                    break;
+                case "review":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEqualsOrderByReviewDesc(cate1Entity, cate2,  1, 1, pageable);
+                    break;
+                case "rdate":
+                    result = prodRepo.findByProdCate1AndProdCate2AndStockGreaterThanEqualAndSaleEqualsOrderByRdateAsc(cate1Entity, cate2,  1, 1, pageable);
+                    break;
+            }
         }
+
         log.info("prodService here...4");
         List<ProductDTO> dto = result.getContent()
                 .stream()
@@ -158,6 +193,13 @@ public class ProductService {
         }
 
         return dto;
+    }
+
+    public ProdCate2DTO selectAllProdCateByCate2(int cate1, int cate2){
+        log.info("selectProdCateByCate2...1");
+        ProdCate1Entity cate1Entity = prodCate1Repository.findById(cate1).orElse(null);
+        log.info("selectProdCateByCate2...2");
+        return prodCate2Repository.findByCate1AndCate2(cate1Entity, cate2).toDTO();
     }
 
 }
