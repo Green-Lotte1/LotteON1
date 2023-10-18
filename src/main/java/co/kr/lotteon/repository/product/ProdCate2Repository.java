@@ -1,4 +1,4 @@
-package co.kr.lotteon.repository;
+package co.kr.lotteon.repository.product;
 
 import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProdCate2Entity;

@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.product;
 
+import co.kr.lotteon.dto.MemberDTO;
 import co.kr.lotteon.entity.product.CartEntity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -15,8 +16,8 @@ public class CartDTO {
 
     @Id
     private int cartNo;
-    private String uid;
-    private int prodNo;
+    private MemberDTO uid;
+    private ProductDTO prodNo;
     private int count;
     private int cartPrice;
     private int discount;
@@ -28,8 +29,8 @@ public class CartDTO {
     public CartEntity toEntity() {
         return CartEntity.builder()
                 .cartNo(cartNo)
-                .uid(uid)
-                .prodNo(prodNo)
+                .uid(uid.toEntity())
+                .prodNo(prodNo.toEntity())
                 .count(count)
                 .cartPrice(cartPrice)
                 .point(point)
