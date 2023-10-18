@@ -39,6 +39,9 @@ public class PageRequestDTO {
     @Builder.Default
     private String type = "write";
 
+    @Builder.Default
+    private String success = "0";
+
     private String uid;
     private String title;
     private String content;

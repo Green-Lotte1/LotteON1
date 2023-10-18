@@ -11,14 +11,17 @@ import co.kr.lotteon.repository.cs.CsCate1Repository;
 import co.kr.lotteon.repository.cs.CsCate2Repository;
 import co.kr.lotteon.repository.cs.CsGroupRepository;
 import co.kr.lotteon.repository.cs.CsRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -254,9 +257,37 @@ public class CsService {
         return dto;
     }
 
+
     // 게시글 삭제하기
-    public void deleteByNo(int no) {
-        csRepository.deleteById(no);
+    public String deleteBoard(int no, String cate1) {
+        // uid, sec.username 비교
+        String ownUid = findById(no).getUid().getUid();
+        String userna = SecurityContextHolder.getContext().getAuthentication().getName();
+        String result = "";
+
+        log.info("ownUid : " + ownUid);
+        log.info("userna : " + userna);
+
+        if (ownUid.equals(userna)) {
+            csRepository.deleteById(no);
+
+            int cnt = csRepository.countByNo(no);
+            log.info("cnt : " + cnt);
+
+            if(cnt == 0) {
+                // 게시글 삭제 성공
+                log.info("DELETE SUCCESS");
+                return "success";
+
+            }else {
+                // 게시글 삭제 실패
+                log.info("DELETE FAILED");
+                return "/cs/qna/view?cate1=" + cate1 + "&no=" + no + "&success=101";
+            }
+        }
+        // 권한이 없습니다.
+        log.info("DELETE NO PERMISSION");
+        return "/cs/qna/view?cate1=" + cate1 + "&no=" + no + "&success=403";
     }
 
 
@@ -301,6 +332,113 @@ public class CsService {
 
         CsEntity result = csRepository.save(entity);
 
-        return (result != null)? 1:0;
+        return (result != null)? 0:100;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // View method (게시글 출력 메서드)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public CsDTO view(int no, Model model) {
+        CsDTO dto = findById(no);
+        log.info("view : " + dto);
+        model.addAttribute("view", dto);
+        return dto;
+    }
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // Layout method (레이아웃 카테고리 출력 메서드)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public void layout(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
+        loginStatus();
+        String[] group_type = request.getRequestURI().split("/");
+        // cate1 default값 동적처리
+        pageRequestDTO.setGroup(group_type[3]);
+        if(!(pageRequestDTO.getGroup().equals("notice")) && pageRequestDTO.getCate1().equals("101")) {
+            String cate1 = group_type[3].equals("faq") ? "201" : "301";
+            pageRequestDTO.setCate1(cate1);
+        }
+
+        log.info("@get.group : " + pageRequestDTO.getGroup());
+        log.info("@get.cate1 : " + pageRequestDTO.getCate1());
+        log.info("@get.cate2 : " + pageRequestDTO.getCate2());
+        log.info("@get.article : " + group_type[4]);
+        log.info("success : " + pageRequestDTO.getSuccess());
+
+        CsGroupDTO groupInfo = groupInfo(pageRequestDTO.getGroup());
+        log.info("groupInfo : " + groupInfo);
+        CsCate1DTO cate1Info = cate1Info(pageRequestDTO);
+        log.info("cate1Info : " + cate1Info);
+        List<CsCate1DTO> cate1List = cate1List(pageRequestDTO);
+        log.info("cate1List : " + cate1List);
+
+        // path
+        String path = request.getContextPath();
+        model.addAttribute("path", path);
+        log.info("path : " + path);
+
+        // aside atag에 담을 url
+        String url = "/cs/"+group_type[3]+"/list";
+        log.info("url : " + url);
+
+        model.addAttribute("success", pageRequestDTO.getSuccess());
+
+        model.addAttribute("url", url);
+        model.addAttribute("groupInfo", groupInfo);
+        model.addAttribute("cate1Info", cate1Info);
+
+        model.addAttribute("article", group_type[4]);
+        model.addAttribute("category", cate1List);
+    }
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // BoardList method (리스트 출력 메서드)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public void boardList(Model model, PageRequestDTO pageRequestDTO) {
+        log.info("size check : " + pageRequestDTO.getSize());
+
+        PageResponseDTO boardList = findCsLists(pageRequestDTO);
+
+        if (pageRequestDTO.getGroup().equals("faq")) {
+            log.info("boardList(faq) : " + boardList.getCsLists());
+            model.addAttribute("boardList", boardList.getCsLists());
+
+        }else {
+            if (pageRequestDTO.getGroup().equals("qna")) {
+                log.info("boardList(qna) : " + boardList.getCsList());
+            }else {
+                log.info("boardList(notice) : " + boardList.getCsList());
+            }
+            model.addAttribute("boardList", boardList.getCsList());
+        }
+        log.info("boardList : " + boardList);
+
+        log.info("testdebug_ pageResponseDTO pg    : " + boardList.getPg());
+        log.info("testdebug_ pageResponseDTO size  : " + boardList.getSize());
+        log.info("testdebug_ pageResponseDTO total : " + boardList.getTotal());
+        log.info("testdebug_ pageResponseDTO start : " + boardList.getStart());
+        log.info("testdebug_ pageResponseDTO end   : " + boardList.getEnd());
+        log.info("testdebug_ pageResponseDTO prev  : " + boardList.isPrev());
+        log.info("testdebug_ pageResponseDTO next  : " + boardList.isNext());
+
+        model.addAttribute("pageResponseDTO", boardList);
+    }
+
+
+
+    //////////////////////////////////////////////////////////////////////////////////////////
+    // login status method (로그인 정보 출력 메서드)
+    //////////////////////////////////////////////////////////////////////////////////////////
+    public void loginStatus() {
+        SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("username : " + SecurityContextHolder.getContext().getAuthentication().getName());
+
+        /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails userDetails = (UserDetails) principal;
+        String username = ((UserDetails) principal).getUsername();
+        log.info("username : " + username);*/
     }
 }
