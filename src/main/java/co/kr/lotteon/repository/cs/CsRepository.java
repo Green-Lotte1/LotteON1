@@ -27,8 +27,8 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     // cate2 게시글 출력 (faq)
     public Page<CsEntity> findByGroupAndCate1AndCate2AndParentLessThanEqual(CsGroupEntity group, CsCate1Entity cate1, CsCate2Entity cate2, int parent, Pageable pageable);
 
-    // 답글이 달린 게시글 count
-    public int countByParent(int no);
+    // 답변 게시글 출력
+    public CsEntity findByParent(int parent);
 
 
     ////////////////////////////////////

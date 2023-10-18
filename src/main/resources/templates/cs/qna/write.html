@@ -12,7 +12,7 @@
     <input type="hidden" name="url" th:value="${url}">
     <form th:action="@{/cs/qna/write}" method="post" id="write">
       <!-- uid는 나중에 session에 담긴 uid 정보 담기 -->
-      <input type="hidden" name="uid" value="a12345"/>
+      <input type="hidden" name="uid" th:value="${#authentication.principal.member.uid}"/>
       <input type="hidden" name="group" value="qna"/>
       <table>
         <tr>
