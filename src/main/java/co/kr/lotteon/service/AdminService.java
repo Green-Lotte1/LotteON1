@@ -3,8 +3,10 @@ package co.kr.lotteon.service;
 
 import co.kr.lotteon.dto.product.PageRequestDTO;
 import co.kr.lotteon.dto.product.PageResponseDTO;
+import co.kr.lotteon.dto.product.ProdCate2DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.product.ProdCate1Entity;
+import co.kr.lotteon.entity.product.ProdCate2Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
 import co.kr.lotteon.repository.MemberRepository;
 import co.kr.lotteon.repository.ProdCate1Repository;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,12 +58,25 @@ public class AdminService {
                 .build();
     }
 
-    public void save(ProductDTO dto) {
+ //  public void save(ProductDTO dto) {
 
 
-        productRepository.save(dto.toEntity());
+   //     productRepository.save(dto.toEntity());
 
 
+   // }
+
+    public List<ProdCate2DTO> selectAllProdCate1AndProdCate2() {
+        List<ProdCate2Entity> entity = prodCate2Repository.findAll();
+
+        List<ProdCate2DTO> dto = new ArrayList<>();
+
+        for(ProdCate2Entity toEntity : entity){
+            ProdCate2DTO toDto = toEntity.toDTO();
+            dto.add(toDto);
+        }
+
+        return dto;
     }
 
 

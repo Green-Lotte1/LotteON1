@@ -6,6 +6,7 @@ import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
 import jakarta.persistence.Id;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.time.LocalDateTime;
@@ -35,10 +36,10 @@ public class ProductDTO {
     private int hit;
     private int score;
     private int review;
-    private String thumb1;
-    private String thumb2;
-    private String thumb3;
-    private String detail;
+    private MultipartFile thumb1;
+    private MultipartFile thumb2;
+    private MultipartFile thumb3;
+    private MultipartFile detail;
     private String status;
     private String duty;
     private String receipt;
@@ -46,8 +47,8 @@ public class ProductDTO {
     private String origin;
     private String ip;
     private LocalDateTime rdate;
-    private Integer etc1;
-    private Integer etc2;
+    private int sale;
+    private int etc2;
     private String etc3;
     private String etc4;
     private String etc5;
@@ -69,10 +70,10 @@ public class ProductDTO {
                 .hit(hit)
                 .score(score)
                 .review(review)
-                .thumb1(thumb1)
-                .thumb2(thumb2)
-                .thumb3(thumb3)
-                .detail(detail)
+               // .thumb1(thumb1)
+//                .thumb2(thumb2)
+//                .thumb3(thumb3)
+//                .detail(detail)
                 .status(status)
                 .duty(duty)
                 .receipt(receipt)
@@ -80,7 +81,7 @@ public class ProductDTO {
                 .origin(origin)
                 .ip(ip)
                 .rdate(rdate)
-                .etc1(etc1)
+                .sale(sale)
                 .etc2(etc2)
                 .etc3(etc3)
                 .etc4(etc4)
