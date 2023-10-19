@@ -30,7 +30,6 @@ public class ProductService {
     private final ProdCate1Repository prodCate1Repository;
     private final ProdCate2Repository prodCate2Repository;
     private final ReviewRepository reviewRepository;
-    private final CartRepository cartRepository;
     private final ModelMapper modelMapper;
     
     ////////////////////////////////////////////////////////////////////
@@ -285,22 +284,6 @@ public class ProductService {
         return prodCate2Repository.findByCate1AndCate2(cate1Entity, cate2).toDTO();
     }
 
-    ///////////////////////////////////////////////////////////////////////////////////
-    /////////////////////////// insertCart
-    ///////////////////////////////////////////////////////////////////////////////////
-    /*public int selectCountCartByUidAndProdNo(String uid, int prodNo){
-        int result = 0;
-        int selectResult = cartRepository.countByUidAndProdNo(uid, prodNo);
-        if(selectResult > 0){
-            result = 1;
-        }
-        return result;
-    }*/
 
-    /*public void insertCart(ProductDTO product){
-        CartDTO cart = new CartDTO(product.)
-        CartEntity cartEntity = cart.toEntity();
-        cartRepository.save(cartEntity);
-    }*/
 
 }

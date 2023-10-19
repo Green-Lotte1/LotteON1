@@ -34,12 +34,12 @@
                         <h5 class="rating star4"><a href="#">상품평보기</a></h5>
                     </nav>
                     <nav>
-                        <div class="org_price" th:value="${product.price}">
+                        <div class="org_price">
                             <del th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}"></del>
                             <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
                         </div>
-                        <div class="dis_price" th:value="${product.price - ((product.price/100)*product.discount)}">
-                            <ins th:text="${#numbers.formatInteger(product.price - ((product.price/100)*product.discount), 0, 'COMMA')}"></ins>
+                        <div class="dis_price">
+                            <ins th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}"></ins>
                         </div>
                     </nav>
                     <nav>
@@ -64,7 +64,7 @@
                     </div>
 
                     <div class="total">
-                        <span class="totalPrice" th:text="${#numbers.formatInteger(product.price - ((product.price/100)*product.discount), 0, 'COMMA')}">35,000</span>
+                        <span class="totalPrice" th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">35,000</span>
                         <em>총 상품금액</em>
                     </div>
 
@@ -72,7 +72,7 @@
                         <input type="button" class="cart"  value="장바구니"/>
                         <input type="button" class="order" value="구매하기"/>
                         <input type="text" id="prodNo" th:value="${product.prodNo}">
-                        <input type="text" id="dis_price" th:value="${product.price - ((product.price/100)*product.discount)}">
+                        <input type="text" id="dis_price" th:value="${product.discountingPrice}">
                         <input type="text" id="discount" th:value="${product.discount}">
                     </div>
                 </div>
