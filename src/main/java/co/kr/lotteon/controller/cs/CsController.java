@@ -94,6 +94,7 @@ public class CsController {
             // 비정상적 접근( no == 0 일 때,)
             return "redirect:/cs/qna/list";
         }
+        log.info("no : " + pageRequestDTO.getNo());
         CsDTO dto = csService.view(pageRequestDTO.getNo(), model);
         if(dto.getParent() < 0) {
             CsDTO answer = csService.findByParent(dto.getNo());
@@ -128,10 +129,10 @@ public class CsController {
 
         // json url을 위한 contextPath
         String path = request.getContextPath();
-        String url = path + "/cs/cate2";
-        model.addAttribute("url", url);
+        String jsonUrl = path + "/cs/cate2";
+        model.addAttribute("jsonUrl", jsonUrl);
         log.info("path : " + path);
-        log.info("url : " + url);
+        log.info("jsonUrl : " + jsonUrl);
 
         log.info(" ========================================= ");
         log.info("group   : " + pageRequestDTO.getGroup());
@@ -206,8 +207,8 @@ public class CsController {
 
         // json url을 위한 contextPath
         String path = request.getContextPath();
-        String url = path + "/cs/cate2";
-        model.addAttribute("url", url);
+        String jsonUrl = path + "/cs/cate2";
+        model.addAttribute("jsonUrl", jsonUrl);
 
         log.info(" ========================================= ");
         log.info("group   : " + dto.getGroup().getGroup());
@@ -230,12 +231,24 @@ public class CsController {
         int      pg        =   pageRequestDTO.getPg();
         String   success   =   pageRequestDTO.getSuccess();
 
+        log.info("cate1   : " + cate1);
+        log.info("cate2   : " + cate2);
+        log.info("no      : " + no);
+        log.info("pg      : " + pg);
+        log.info("success : " + success);
+
+        log.info("csController...1");
+
         int result = csService.saveBoard(pageRequestDTO);
 
+        log.info("csController...2");
+
         if(result == 0) {
+            log.info("csController...a");
             return "redirect:/cs/qna/list?cate1=" + cate1 + "&success=" + success;
 
         }
+        log.info("csController...b");
         return "redirect:/cs/qna/view?cate1=" + cate1 + "&no=" + no + "&success=" + success;
     }
 
@@ -252,7 +265,7 @@ public class CsController {
         String successUrl = "/cs/qna/list?cate1=" + cate1;
         log.info("result : " + result);
         delete.put("result", result);
-        delete.put("url", successUrl);
+        delete.put("successUrl", successUrl);
 
         return delete;
     }
