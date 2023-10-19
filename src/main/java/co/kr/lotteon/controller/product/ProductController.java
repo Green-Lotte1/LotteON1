@@ -63,15 +63,8 @@ public class ProductController {
         }else{
             model.addAttribute("cate", null);
         }
-        log.info("here...1");
-
         PageResponseDTO pageResponseDTO = prodService.selectProductByCate1AndCate2(pageRequestDTO);
-        log.info("here...2");
-
         model.addAttribute("products", pageResponseDTO);
-
-        log.info("here...3");
-        log.info("request type: "+ pageRequestDTO.getType());
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
         log.info("here...4");
@@ -92,13 +85,9 @@ public class ProductController {
         }else{
             model.addAttribute("cate", null);
         }
-        log.info("view here...1");
         ProductDTO product =  prodService.selectProductByProdNo(pageRequestDTO.getProdNo());
-        log.info("view here...2");
         PageResponseDTO reviews = prodService.selectReviewByProdNo(pageRequestDTO);
         log.info(reviews.toString());
-        log.info("productName :"+ product.getProdName());
-        log.info("view here...3");
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
         return "/product/view";
@@ -111,21 +100,30 @@ public class ProductController {
     ////////    product cart
     //////////////////////////////
     @GetMapping(value = "/product/cart")
-    public String cart(Model model) {
+    public String cart(Model model ,PageRequestDTO pageRequestDTO) {
         layout(model);
+
 
         return "/product/cart";
     }
 
     @ResponseBody
     @GetMapping(value = "/product/cartCountProduct")
-    public int cartCountProduct(MyUserDetails member, @RequestBody Map<String, Object> jsonData) {
-        String uid = member.getMember().getUid();
-        int prodNo = (Integer)jsonData.get("prodNo");
+    public int cartCountProduct(PageRequestDTO pageRequestDTO) {
+        log.info("cartCountProduct here...1");
+        String uid = prodService.loginStatus();
 
+        log.info("cartCountProduct uid: "+uid);
+
+        int prodNo = pageRequestDTO.getProdNo();
+        log.info("cartCountProduct prodNo: "+prodNo);
+        log.info("cartCountProduct input: "+pageRequestDTO.getInput());
         // SELECT COUNT 처리
         int result = 0;
-        result = cartService.selectCountCartByUidAndProdNo(member.getMember(), prodNo);
+        log.info("cartCountProduct here...2");
+        result = cartService.selectCountCartByUidAndProdNo(uid, prodNo);
+        log.info("cartCountProduct result: "+result);
+        log.info("cartCountProduct here...3");
 
         return result;
     }
@@ -134,40 +132,60 @@ public class ProductController {
 
     @ResponseBody
     @PostMapping(value = "/product/insertCartProduct")
-    public Map<String, Integer> insertCartProduct(MyUserDetails member, @RequestBody Map<String, Object> jsonData){
+    public Map<String, Integer> insertCartProduct(@RequestBody PageRequestDTO pageRequestDTO){
 
-        String uid = member.getMember().getUid();
-        int prodNo = (Integer)jsonData.get("prodNo");
-        int inputCount = (Integer)jsonData.get("inputCount");
+        log.info("insertCart here...1");
+
+        String uid = prodService.loginStatus();
+        log.info("insertCart here...check1");
+
+        int prodNo = pageRequestDTO.getProdNo();
+        log.info("insertCart here...check2");
+        int input = pageRequestDTO.getInput();
+
+        log.info("insertCart uid: "+uid);
+        log.info("insertCart prodNo: "+prodNo);
+        log.info("insertCart input: "+input);
 
         Map<String, Integer> map = new HashMap<String, Integer>();
 
-        int result = map.get("result");
+        /*int result = (int) checkData.get("result");*/
+        int result = pageRequestDTO.getResult();
 
-        /*cartService.insertCart(member, prodNo, inputCount,result);*/
+        log.info("insertCart result: "+result);
 
-        /*if(result > 0){
+
+        if(result > 0){
+            log.info("insertCart here...2");
             // 상품이 장바구니에 있는 경우
 
             // UPDATE 처리
+            /*if(jsonData.get("updateConfirm").equals("yes")){
 
+            }else if(jsonData.get("updateConfirm").equals("no")){
+
+            }*/
+            cartService.updateCart(input, uid, prodNo);
+            log.info("insertCart here...3");
             map.put("result", result);
-            log.info("result 전송 성공");
+            log.info("result 전송 성공...1");
             return map;
 
-        }else{
+        }else if(result < 1){
+            log.info("insertCart here...4");
             // 상품이 장바구니에 없는 경우
 
             // INSERT 처리
-
+            cartService.insertCart(uid, prodNo, input);
+            log.info("insertCart here...5");
             map.put("result", result);
-            log.info("result 전송 성공");
+            log.info("result 전송 성공...2");
             return map;
 
         }
 
 
-        // 신규 등록일 경우
+        /*// 신규 등록일 경우
         if((Integer)jsonData.get("cartResult") == null){
 
             map.put("result", result);
@@ -183,6 +201,7 @@ public class ProductController {
             ProductDTO product = prodService.selectProductByProdNo(prodNo);
             cartService.insertCart(product);
         }*/
+        log.info("insertCart here...6");
 
         return map;
     }
