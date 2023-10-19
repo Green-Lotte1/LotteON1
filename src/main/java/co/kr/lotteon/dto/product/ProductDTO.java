@@ -1,16 +1,12 @@
 package co.kr.lotteon.dto.product;
 
-import co.kr.lotteon.dto.MemberDTO;
-import co.kr.lotteon.dto.Utils;
-import co.kr.lotteon.entity.product.ProdCate1Entity;
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.product.ProductEntity;
 import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor

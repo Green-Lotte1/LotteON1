@@ -1,20 +1,12 @@
 package co.kr.lotteon.controller.cs;
 
 import co.kr.lotteon.dto.cs.*;
-import co.kr.lotteon.entity.cs.CsEntity;
-import co.kr.lotteon.entity.cs.CsGroupEntity;
-import co.kr.lotteon.service.CsService;
-import com.nimbusds.jose.shaded.gson.Gson;
-import com.nimbusds.jose.shaded.gson.JsonObject;
+import co.kr.lotteon.service.cs.CsService;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 

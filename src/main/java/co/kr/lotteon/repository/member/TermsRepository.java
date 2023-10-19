@@ -1,4 +1,4 @@
-package co.kr.lotteon.repository;
+package co.kr.lotteon.repository.member;
 
 import co.kr.lotteon.entity.member.TermsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

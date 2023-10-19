@@ -1,6 +1,6 @@
 package co.kr.lotteon.dto.product;
 
-import co.kr.lotteon.dto.MemberDTO;
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.product.ReviewEntity;
 import jakarta.persistence.Id;
 import lombok.*;

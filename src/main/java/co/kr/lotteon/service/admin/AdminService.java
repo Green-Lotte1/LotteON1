@@ -1,4 +1,4 @@
-package co.kr.lotteon.service;
+package co.kr.lotteon.service.admin;
 
 
 import co.kr.lotteon.dto.product.PageRequestDTO;
@@ -8,7 +8,7 @@ import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.product.ProdCate1Entity;
 import co.kr.lotteon.entity.product.ProdCate2Entity;
 import co.kr.lotteon.entity.product.ProductEntity;
-import co.kr.lotteon.repository.MemberRepository;
+import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.repository.product.ProdCate1Repository;
 import co.kr.lotteon.repository.product.ProdCate2Repository;
 import co.kr.lotteon.repository.product.ProductRepository;

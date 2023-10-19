@@ -1,14 +1,10 @@
-package co.kr.lotteon.entity;
+package co.kr.lotteon.dto.member;
 
-import co.kr.lotteon.dto.MemberDTO;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import co.kr.lotteon.entity.member.MemberEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -16,11 +12,8 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "km_member")
-public class MemberEntity {
+public class MemberDTO {
 
-    @Id
     private String uid;
     private String pass;
     private String name;
@@ -43,8 +36,6 @@ public class MemberEntity {
     private String fax;
     private String regip;
     private LocalDateTime wdate;
-
-    @CreationTimestamp
     private LocalDateTime rdate;
     private int location;
     private int etc2;
@@ -52,8 +43,12 @@ public class MemberEntity {
     private String etc4;
     private String etc5;
 
-    public MemberDTO toDTO(){
-        return MemberDTO.builder()
+    public String getUidMasking(){
+        return uid.replaceAll("(?<=.{3})." , "*");
+    }
+
+    public MemberEntity toEntity(){
+        return MemberEntity.builder()
                 .uid(uid)
                 .pass(pass)
                 .name(name)

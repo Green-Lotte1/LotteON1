@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/fragments/cs_layout.html}">
+      layout:decorate="~{/fragments/cs/cs_layout.html}">
 <head>
-  <script th:src="@{/js/cs_deleteBoard.js}"></script>
+  <script th:src="@{/js/cs/cs_deleteBoard.js}"></script>
 </head>
   <article layout:fragment="content">
     <input type="hidden" name="no"    th:value="${view.no}">
@@ -17,7 +17,7 @@
 
     <div class="content">
       <p th:utext="${view.brContent}"></p>
-      <p article th:replace="~{/fragments/cs_report}">
+      <p article th:replace="~{/fragments/cs/cs_report}">
 
         <!-- 주의사항 들어갈 위치! -->
 

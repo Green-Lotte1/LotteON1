@@ -1,12 +1,12 @@
-package co.kr.lotteon.service;
+package co.kr.lotteon.service.cs;
 
 import co.kr.lotteon.dto.cs.*;
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.entity.cs.CsCate1Entity;
 import co.kr.lotteon.entity.cs.CsCate2Entity;
 import co.kr.lotteon.entity.cs.CsEntity;
 import co.kr.lotteon.entity.cs.CsGroupEntity;
-import co.kr.lotteon.repository.MemberRepository;
+import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.repository.cs.CsCate1Repository;
 import co.kr.lotteon.repository.cs.CsCate2Repository;
 import co.kr.lotteon.repository.cs.CsGroupRepository;
