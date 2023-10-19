@@ -12,6 +12,7 @@
 				</nav>
                 
 				<form th:action="@{/member/registerSeller}" method="POST" th:object="${member}">
+					<input type="hidden" name="location" th:field="*{location}">
 					<section>
 						<table>
 							<caption>필수 정보입력</caption>

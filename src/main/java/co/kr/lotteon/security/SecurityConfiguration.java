@@ -23,12 +23,6 @@ public class SecurityConfiguration {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http    
-                // 개발전용 - 에러 페이지 띄우기
-                .exceptionHandling()
-                .accessDeniedHandler((request, response, accessDeniedException) -> {
-                    response.sendRedirect("/error/403"); // 403 Forbidden 에러 페이지로 리디렉트
-                })
-                .and()
                 // 사이트 위변조 방지 비활성
                 .csrf(CsrfConfigurer::disable) // 메서드 참조 연산자로 람다식을 간결하게 표현
                 // 토큰방식으로 로그인처리하기 때문에 폼방식 비활성
@@ -48,7 +42,7 @@ public class SecurityConfiguration {
                 .rememberMe(httpSecurityRememberMeConfigurer -> httpSecurityRememberMeConfigurer
                         .rememberMeParameter("auto")
                         .alwaysRemember(false)
-                        .tokenValiditySeconds(604800)
+                        .tokenValiditySeconds(60*60*24*30*3)
                         .key("autoLogin")
                         .userDetailsService(service))
                 // 인가 권한 설정

@@ -38,7 +38,10 @@ $(function(){
             alert('개인정보 수집동의에 동의하셔야 합니다.');
             return;
         }else{
+            const local = agree4.checked ? 1 : 0;
+            console.log(local);
 
+            localStorage.setItem('local', local);
             // 일반 회원, 판매 회원 구분
             if(type == 'normal'){
                 location.href ="/LotteOn/member/register";
