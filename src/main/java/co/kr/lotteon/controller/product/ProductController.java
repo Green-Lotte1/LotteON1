@@ -3,6 +3,7 @@ package co.kr.lotteon.controller.product;
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.CartEntity;
 import co.kr.lotteon.security.MyUserDetails;
+import co.kr.lotteon.service.MainService;
 import co.kr.lotteon.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -20,14 +21,14 @@ import java.util.Map;
 public class ProductController {
 
     private final ProductService prodService;
-
+    private final MainService mainService;
     //////////////////////////////
     ////////    product aside 값 가져오기
     //////////////////////////////
     public void layout(Model model) {
         List<ProdCate1DTO> cate1 = prodService.selectAllProdCate1();
         List<ProdCate2DTO> cate2 = prodService.selectAllProdCate1AndProdCate2();
-
+        mainService.appVersion(model);
         model.addAttribute("cate1List", cate1);
         model.addAttribute("cate2List", cate2);
     }
