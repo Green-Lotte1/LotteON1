@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.CartMapper">
+
+    <select id="selectCountCartByUidAndProdNo">
+        SELECT COUNT(*) FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNo`=#{prodNo};
+    </select>
+
+    <update id="updateCartProductByUidAndProdNo">
+        UPDATE `km_product_cart` SET `count`=`count`+#{count} WEHRE `uid`=#{uid} AND `prodNo`=#{prodNo};
+    </update>
+
+</mapper>

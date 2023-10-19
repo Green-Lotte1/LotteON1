@@ -5,6 +5,7 @@ import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.entity.product.CartEntity;
 import co.kr.lotteon.entity.product.ProductEntity;
+import co.kr.lotteon.mapper.CartMapper;
 import co.kr.lotteon.repository.product.CartRepository;
 import co.kr.lotteon.repository.product.ProductRepository;
 import co.kr.lotteon.security.MyUserDetails;
@@ -22,42 +23,39 @@ public class CartService {
     private CartRepository cartRepository;
     @Autowired
     private ProductRepository productRepository;
+    @Autowired
+    private CartMapper cartMapper;
 
     ///////////////////////////////////////////////////////////////////////////////////
     /////////////////////////// insertCart
     ///////////////////////////////////////////////////////////////////////////////////
-    public int selectCountCartByUidAndProdNo(MemberEntity member, int prodNo){
+    public int selectCountCartByUidAndProdNo(String uid, int prodNo){
         int result = 0;
-        ProductEntity product = productRepository.findById(prodNo).orElse(null);
-        int selectResult = cartRepository.countByUidAndProdNo(member, product);
+        int selectResult = cartMapper.selectCountCartByUidAndProdNo(uid, prodNo);
         if(selectResult > 0){
             result = 1;
         }
         return result;
     }
 
-    /*public void insertCart(MyUserDetails member, int prodNo, int inputCount, int result){
+    public void insertCart(String uid, int prodNo, int inputCount){
 
-        String uid = member.getMember().getUid();
         ProductEntity product = productRepository.findById(prodNo).orElse(null);
         // cart에 동일한 상품이 없는 경우
-        if(result < 1){
+        CartEntity cartEntity = CartEntity.builder()
+                .uid(product.getSeller())
+                .prodNo(product)
+                .count(inputCount)
+                .price(product.discountingPrice())
+                .discount(product.getDiscount())
+                .point(product.getPoint())
+                .delivery(product.getDelivery())
+                .total(product.discountingPrice() * inputCount)
+                .build();
+        cartRepository.save(cartEntity);
+    }
 
-
-            CartEntity cartEntity = CartEntity.builder()
-                    .uid(product.getSeller())
-                    .prodNo(product)
-                    .count(inputCount)
-                    .price(product.discountingPrice())
-                    .discount(product.getDiscount())
-                    .point(product.getPoint())
-                    .delivery(product.getDelivery())
-                    .total(product.discountingPrice() * inputCount)
-                    .build();
-            cartRepository.save(cartEntity);
-        // cart에 동일한 상품이 이미 있는 경우
-        }else if(result > 0){
-            cartRepository.updateByUidCartProduct(uid, inputCount, prodNo);
-        }
-    }*/
+    public void updateCart(int inputCount, String uid, int prodNo){
+        cartMapper.updateCartProductByUidAndProdNo(inputCount, uid, prodNo);
+    }
 }

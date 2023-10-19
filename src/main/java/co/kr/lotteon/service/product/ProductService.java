@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -205,10 +206,7 @@ public class ProductService {
     ////////    product view
     //////////////////////////////
     public ProductDTO selectProductByProdNo(int prodNo) {
-        log.info("view service here...1");
         ProductEntity entity = prodRepo.findById(prodNo).orElse(null);
-        log.info("view service ProductName :"+entity.getProdName());
-        log.info("view service here...2");
         return entity.toDTO();
     }
 
@@ -278,12 +276,43 @@ public class ProductService {
     ////////    product list 현재 페이지 nav cate1과 cate2 가져오기
     //////////////////////////////
     public ProdCate2DTO selectAllProdCateByCate2(int cate1, int cate2){
-        log.info("selectProdCateByCate2...1");
         ProdCate1Entity cate1Entity = prodCate1Repository.findById(cate1).orElse(null);
-        log.info("selectProdCateByCate2...2");
         return prodCate2Repository.findByCate1AndCate2(cate1Entity, cate2).toDTO();
     }
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    public String loginStatus() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        log.info("username : " + SecurityContextHolder.getContext().getAuthentication().getName());
+        return username;
+    }
 }
