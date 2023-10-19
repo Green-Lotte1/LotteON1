@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/admin/admin_layout.html}">
+<head>
+  <script th:src="@{/js/cs/cs_deleteBoard.js}"></script>
+</head>
+  <article layout:fragment="content">
+    <input type="hidden" name="no">
+    <nav>
+      <h2 class="title">[안녕] 하세요.</h2>
+      <p>
+        <span>a12345</span>
+        <span>2023-10-19</span>
+      </p>
+    </nav>
+
+    <div class="content">
+      <h2 class="answer">☞ [답변] 답변제목</h2>
+      <p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--th:utext="${answer.brContent}"-->
+      </p>
+    </div>
+
+    <div id="buttons">
+      <!--<th:block sec:authorize="isAuthenticated()"
+                th:if="${#authentication.principal.member.uid eq view.uid.uid}">-->
+        <a href="#" class="btnDelete">삭제</a>
+        <a href="#" class="btnModify">수정</a>
+      <!--</th:block>-->
+      <a href="#" class="btnList">목록보기</a>
+    </div>
+  </article>
+</html>

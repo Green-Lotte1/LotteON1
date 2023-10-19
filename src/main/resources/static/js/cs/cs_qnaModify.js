@@ -6,7 +6,7 @@ $(function() {
     const url = $('input[name=url]').val();
 
     // 수정완료 클릭
-    $('.btnSubmit').click(function(e) {
+    $('#modifyBtn').click(function(e) {
         e.preventDefault();
 
         if(confirm('수정하시겠습니까?')) {

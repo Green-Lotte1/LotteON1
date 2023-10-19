@@ -317,11 +317,21 @@ public class CsService {
     // 게시글 작성
     @Transactional
     public int saveBoard(PageRequestDTO pageRequestDTO) {
+        log.info("csService Start!");
+
+        pageRequestDTO.setUid(loginStatus());
+        log.info("uid : " + loginStatus());
+
         CsGroupEntity groupEntity  = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
         CsCate1Entity cate1Entity  = cate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
         CsCate2Entity cate2Entity  = cate2Repository.findById(pageRequestDTO.getCate2()).orElse(null);
         MemberEntity  memberEntity = memberRepository.findById(pageRequestDTO.getUid()).orElse(null);
         log.info("no : " + pageRequestDTO.getNo());
+
+        log.info("groupEntity  : " + groupEntity);
+        log.info("cate1Entity  : " + cate1Entity);
+        log.info("cate2Entity  : " + cate2Entity);
+        log.info("memberEntity : " + memberEntity);
 
         CsEntity entity = new CsEntity();
         entity.setGroup(groupEntity);
@@ -331,17 +341,23 @@ public class CsService {
         entity.setTitle(pageRequestDTO.getTitle());
         entity.setContent(pageRequestDTO.getContent());
 
-        if(pageRequestDTO.getNo() == 0) {
+        log.info("entity : " + entity);
+
+        if(pageRequestDTO.getNo() != 0) {
+            // 게시글을 수정할 때
+            log.info("csService...a");
             CsDTO dto = findById(pageRequestDTO.getNo());
             String uid = dto.getUid().getUid();
             String use = loginStatus();
             log.info("uid : " + uid + "/ use : " + use);
 
             if(!uid.equals(use)) {
+                log.info("csService...b");
                 // 권한 없음
                 return 403;
 
             }else {
+                log.info("csService...c");
                 // 게시글 수정
                 entity.setNo(dto.getNo());
                 entity.setParent(dto.getParent());
@@ -349,6 +365,8 @@ public class CsService {
             }
         }
         CsEntity result = csRepository.save(entity);
+        log.info("result : " + result);
+        log.info("csService...END");
         return (result != null)? 0:100;
     }
 
@@ -380,6 +398,7 @@ public class CsService {
             pageRequestDTO.setCate1(cate1);
         }
 
+        log.info("@get.no    : " + pageRequestDTO.getNo());
         log.info("@get.group : " + pageRequestDTO.getGroup());
         log.info("@get.cate1 : " + pageRequestDTO.getCate1());
         log.info("@get.cate2 : " + pageRequestDTO.getCate2());

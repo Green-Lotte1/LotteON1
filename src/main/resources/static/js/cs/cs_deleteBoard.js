@@ -30,7 +30,7 @@ $(function() {
                 // window.location.reload();
                 if(data.result == 'success') {
                     alert('게시글이 삭제되었습니다.');
-                    window.location.href = path + data.url;
+                    window.location.href = path + data.successUrl;
                 }else {
                     window.location.href = path + data.result;
                 }
