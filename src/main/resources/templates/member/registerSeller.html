@@ -12,7 +12,7 @@
 				</nav>
                 
 				<form th:action="@{/member/registerSeller}" method="POST" th:object="${member}">
-					<input type="hidden" name="location" th:field="*{location}">
+					<input type="hidden" name="location" th:field="*{location}" readonly>
 					<section>
 						<table>
 							<caption>필수 정보입력</caption>
@@ -143,9 +143,9 @@
 					</div>
 				</form>
 				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-				<script th:src="@{/js/zipcode.js}"></script>
-				<script th:src="@{/js/validation.js}"></script>
-				<script th:src="@{/js/memberCheck.js}"></script>
+				<script th:src="@{/js/member/zipcode.js}"></script>
+				<script th:src="@{/js/member/validation.js}"></script>
+				<script th:src="@{/js/member/memberCheck.js}"></script>
             </div>
         </main>        
 

@@ -5,7 +5,7 @@
 <div class="top" th:fragment="loginBar">
     <div>
             <span sec:authorize="isAuthenticated()">
-              <span class="client">[[${#authentication.principal.member.uid}]]</span>님 환영합니다.
+              <span class="client">[[${#authentication.principal.member.name}]]</span>님 환영합니다.
             </span>
         <th:block sec:authorize="isAnonymous()">
             <a th:href="@{/member/login}">로그인</a>
