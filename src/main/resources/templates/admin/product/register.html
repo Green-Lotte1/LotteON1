@@ -27,6 +27,7 @@
         </header>
         <script type="text/javascript">
 
+            /*
             $(document).ready(function() {
 
                 //Main 카테고리를 선택 할때 마다 AJAX를 호출할 수 있지만 DB접속을 매번 해야 하기 때문에 main, sub카테고리 전체을 들고온다.
@@ -88,6 +89,8 @@
                 });
 
             });
+
+            */
         </script>
         <main>
             <aside>
@@ -151,7 +154,7 @@
                 </nav>
                 <!-- 상품등록 컨텐츠 시작 -->
                 <article>
-                    <form method="post" th:action="@{/admin/product/register}" enctype="multipart/form-data">
+                    <form th:action="@{/admin/product/register}" method="post" enctype="multipart/form-data">
                         <input type="hidden" name="seller" value="a12345"/>
                         <!-- 상품분류 -->
                         <section>
@@ -164,11 +167,8 @@
                                     <td>1차 분류</td>
                                     <td>
                                         <select name="prodCate1">
-                                            <option value="cate0">1차 분류 선택</option>
+                                            <option value="00">1차 분류 선택</option>
                                             <option value="10">패션·의류·뷰티</option>
-                                            <option value="cate12">가전·디지털</option>
-                                            <option value="cate13">식품·생필품</option>
-                                            <option value="cate14">홈·문구·취미</option>                                                
                                         </select>
                                     </td>
                                 </tr>
@@ -176,11 +176,11 @@
                                     <td>2차 분류</td>
                                     <td>
                                         <select name="prodCate2">
-                                            <option value="cate0">2차 분류 선택</option>
+                                            <option value="00">2차 분류 선택</option>
                                             <option value="10">남성의류</option>
-                                            <option value="cate22">여성의류</option>
-                                            <option value="cate23">잡화</option>
-                                            <option value="cate24">뷰티</option>                                                
+                                            <option value="11">여성의류</option>
+                                            <option value="12">잡화</option>
+                                            <option value="13">뷰티</option>
                                         </select>
                                     </td>
                                 </tr>
@@ -207,12 +207,12 @@
                                 </tr>
                                 <tr>
                                     <td>제조사</td>
-                                    <td><input type="text" name="company"/></td>
+                                    <td><input type="text" name="prodCompany"/></td>
                                 </tr>
                                 <tr>
                                     <td>판매가격</td>
                                     <td><input type="text" name="price"/>원</td>
-                                </tr>                                    
+                                </tr>
                                 <tr>
                                     <td>할인율</td>
                                     <td>
@@ -251,23 +251,23 @@
                                     <td>상품 썸네일</td>
                                     <td>
                                         <span>크기 190 x 190, 상품 목록에 출력될 이미지 입니다. </span>
-                                        <input type="file" name="thumb1"/>
+                                        <input type="file" name="fileThumb1"/>
 
                                         <span>크기 230 x 230, 상품 메인에 출력될 이미지 입니다. </span>
-                                        <input type="file" name="thumb2"/>
+                                        <input type="file" name="fileThumb2"/>
 
                                         <span>크기 456 x 456, 상품 상세에 출력될 이미지 입니다. </span>
-                                        <input type="file" name="thumb3"/>
+                                        <input type="file" name="fileThumb3"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>상세 상품정보</td>
                                     <td>
                                         <span>크기 가로 940px 높이 제약없음, 크기 최대 1MB, 상세페이지 상품정보에 출력될 이미지 입니다.</span>
-                                        <input type="file" name="detail"/>
+                                        <input type="file" name="fileDetail"/>
                                     </td>
                                 </tr>
-                            </table>                                
+                            </table>
                         </section>
 
                         <!-- 상품정보 제공 고시 -->
@@ -292,15 +292,15 @@
                                 <tr>
                                     <td>사업자구분</td>
                                     <td><input type="text" name="bizType" value="사업자 판매자"/></td>
-                                </tr>                                
+                                </tr>
                                 <tr>
                                     <td>원산지</td>
                                     <td><input type="text" name="origin" value="국내산"/></td>
-                                </tr>                                
-                            </table>                                
+                                </tr>
+                            </table>
                         </section>
                         
-                        <input type="submit" th:action="@{/admin/product/register}" value="등록하기"/>
+                        <input type="submit" value="등록하기"/>
                     </form>
                 </article>
 

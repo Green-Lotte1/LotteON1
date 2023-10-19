@@ -28,15 +28,5 @@ public class ReviewDTO {
         return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
-    public ReviewEntity toEntity(){
-        return ReviewEntity.builder()
-                .revNo(revNo)
-                .prodNo(prodNo.toEntity())
-                .content(content)
-                .uid(uid.toEntity())
-                .rating(rating)
-                .regip(regip)
-                .rdate(rdate)
-                .build();
-    }
+
 }

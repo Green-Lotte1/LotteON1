@@ -59,15 +59,16 @@ public class ProductEntity {
     private String etc4;
     private String etc5;
 
+
     public ProductDTO toDTO() {
         return ProductDTO.builder()
                 .prodNo(prodNo)
                 .prodName(prodName)
-                .prodCate1(prodCate1.toDTO())
+                .prodCate1(prodCate1.getCate1())
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
-                .seller(seller.toDTO())
+                .seller(seller.getUid())
                 .price(price)
                 .discount(discount)
                 .point(point)

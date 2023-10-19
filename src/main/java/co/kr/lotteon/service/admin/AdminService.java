@@ -1,4 +1,4 @@
-package co.kr.lotteon.service;
+package co.kr.lotteon.service.admin;
 
 
 import co.kr.lotteon.dto.product.PageRequestDTO;

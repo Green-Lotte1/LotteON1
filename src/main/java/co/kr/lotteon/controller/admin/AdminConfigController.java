@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Log4j2
 @RequiredArgsConstructor
 @Controller
-public class AdminController {
+public class AdminConfigController {
 
     private final AdminService adminService;
     private final ProductService productService;
@@ -20,10 +20,17 @@ public class AdminController {
     private final MemberService memberService;
 
 
-    @GetMapping(value = {"/admin","/admin/index"})
-    public String index(){
-        return "/admin/index";
+    @GetMapping("/admin/config/banner")
+    public String banner(){
+        return "/admin/config/banner";
     }
+    @GetMapping("/admin/config/info")
+    public String info(){
+        return "/admin/config/info";
+    }
+
+
+
 
 
 }
