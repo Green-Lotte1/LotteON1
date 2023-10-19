@@ -3,10 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/cs_layout :: content}">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script th:src="@{/js/faq.js}"></script>
+  <script th:src="@{/js/cs_faqList.js}"></script>
 </head>
   <article layout:fragment="content">
     <nav th:replace="~{/fragments/cs_nav :: nav}">
@@ -18,7 +15,7 @@
       </h3>
       <ul>
         <li th:each="brd:${board}">
-          <a th:href="@{/cs/qna/view(cate1=${brd.cate1.cate1}, no=${brd.no})}">
+          <a th:href="@{/cs/faq/view(cate1=${brd.cate1.cate1}, no=${brd.no})}">
             <span>Q.</span>[[${brd.title}]]
           </a>
         </li>

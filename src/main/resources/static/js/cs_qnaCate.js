@@ -16,25 +16,25 @@ $(document).ready(function () {
             url: url,
             type: 'post',
             data: JSON.stringify(jsonData),
-                dataType: 'json',
-                contentType: 'application/json',
-                success: function(data) {
-                    // 2차유형 초기화
-                    cate2.empty();
-                    cate2.append($('<option>', {
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function(data) {
+                // 2차유형 초기화
+                cate2.empty();
+                cate2.append($('<option>', {
                     value: '0',
                     text: '2차유형'
                 }));
 
-              // 2차유형 동적처리
+                // 2차유형 동적처리
                 for(let i=0 ; i<data.returnCate.length ; i++) {
                     const category = data.returnCate[i];
                     cate2.append($('<option>', {
                         value: category.cate2,
                         text: category.cate2_name
                     }));
-                  }
                 }
+            }
         });
     });
 
