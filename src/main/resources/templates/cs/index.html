@@ -10,17 +10,10 @@
   <body>
     <div id="wrapper">
       <header>
-        <div class="top">
-          <div>
-            <p>
-              <a th:href="@{/member/login}">로그인</a>
-              <a href="#">회원가입</a>
-              <a href="#">마이페이지</a>
-              <a href="#">
-                <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;장바구니
-              </a>
-            </p>
-          </div>
+        <div class="top" th:replace="~{/fragments/loginBar}">
+
+          <!--로그인바 들어올 위치-->
+
         </div>
         <div class="logo">
           <div>
@@ -99,7 +92,7 @@
                   <strong>1566-5700</strong><span>(평일 09:00 ~ 18:00)</span>
                 </p>
                 <p>
-                  <a href="#">판매자 가입 및 서류 접수 안내 〉</a>
+                  <a th:href="@{/member/signup?type=seller}">판매자 가입 및 서류 접수 안내 〉</a>
                 </p>
               </div>
             </article>

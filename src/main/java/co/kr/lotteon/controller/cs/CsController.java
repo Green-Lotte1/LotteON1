@@ -158,7 +158,7 @@ public class CsController {
         log.info("content : " + pageRequestDTO.getContent());
         log.info(" ========================================= ");
 
-        int result = csService.insertQna(pageRequestDTO);
+        int result = csService.saveBoard(pageRequestDTO);
         log.info("success : " + result);
 
         return "redirect:/cs/qna/list?cate1=" + pageRequestDTO.getCate1()
@@ -178,6 +178,65 @@ public class CsController {
 
         selectCate.put("returnCate", category);
         return selectCate;
+    }
+
+    // 문의사항 수정 폼
+    @GetMapping("/cs/qna/modify")
+    public String qnaModify(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO) {
+        csService.layout(request, model, pageRequestDTO);
+        model.addAttribute("pageRequestDTO", pageRequestDTO);
+        log.info("no    : " + pageRequestDTO.getNo());
+        log.info("group : " + pageRequestDTO.getGroup());
+        log.info("cate1 : " + pageRequestDTO.getCate1());
+        log.info("cate2 : " + pageRequestDTO.getCate2());
+        log.info("pg : " + pageRequestDTO.getPg());
+
+        // 게시글 정보 출력
+        CsDTO dto = csService.view(pageRequestDTO.getNo(), model);
+
+        // cate1_name 출력용 (경로... cate1.cate1_name)
+        List<CsCate1DTO> cate1 = csService.findByCate(pageRequestDTO.getGroup());
+        model.addAttribute("cate1", cate1);
+        log.info("cate1 result : " + cate1);
+
+        // cate2_name 출력용 (경로... cate2.cate2_name)
+        List<CsCate2DTO> cate2 = csService.findByCate1(pageRequestDTO.getCate1());
+        model.addAttribute("cate2", cate2);
+        log.info("cate2 result : " + cate2);
+
+        // json url을 위한 contextPath
+        String path = request.getContextPath();
+        String url = path + "/cs/cate2";
+        model.addAttribute("url", url);
+
+        log.info(" ========================================= ");
+        log.info("group   : " + dto.getGroup().getGroup());
+        log.info("cate1   : " + dto.getCate1().getCate1());
+        log.info("cate2   : " + dto.getCate2().getCate2());
+        log.info("uid     : " + dto.getUid().getUid());
+        log.info("title   : " + dto.getTitle());
+        log.info("content : " + dto.getContent());
+        log.info(" ========================================= ");
+
+        return "/cs/qna/modify";
+    }
+
+    // 문의사항 수정 끝
+    @PostMapping("/cs/qna/modify")
+    public String qnaModify(Model model, PageRequestDTO pageRequestDTO) {
+        String   cate1     =   pageRequestDTO.getCate1();
+        String   cate2     =   pageRequestDTO.getCate2();
+        int      no        =   pageRequestDTO.getNo();
+        int      pg        =   pageRequestDTO.getPg();
+        String   success   =   pageRequestDTO.getSuccess();
+
+        int result = csService.saveBoard(pageRequestDTO);
+
+        if(result == 0) {
+            return "redirect:/cs/qna/list?cate1=" + cate1 + "&success=" + success;
+
+        }
+        return "redirect:/cs/qna/view?cate1=" + cate1 + "&no=" + no + "&success=" + success;
     }
 
     // 문의사항 게시글 삭제

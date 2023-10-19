@@ -316,11 +316,12 @@ public class CsService {
 
     // 게시글 작성
     @Transactional
-    public int insertQna(PageRequestDTO pageRequestDTO) {
+    public int saveBoard(PageRequestDTO pageRequestDTO) {
         CsGroupEntity groupEntity  = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
         CsCate1Entity cate1Entity  = cate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
         CsCate2Entity cate2Entity  = cate2Repository.findById(pageRequestDTO.getCate2()).orElse(null);
         MemberEntity  memberEntity = memberRepository.findById(pageRequestDTO.getUid()).orElse(null);
+        log.info("no : " + pageRequestDTO.getNo());
 
         CsEntity entity = new CsEntity();
         entity.setGroup(groupEntity);
@@ -330,10 +331,29 @@ public class CsService {
         entity.setTitle(pageRequestDTO.getTitle());
         entity.setContent(pageRequestDTO.getContent());
 
-        CsEntity result = csRepository.save(entity);
+        if(pageRequestDTO.getNo() == 0) {
+            CsDTO dto = findById(pageRequestDTO.getNo());
+            String uid = dto.getUid().getUid();
+            String use = loginStatus();
+            log.info("uid : " + uid + "/ use : " + use);
 
+            if(!uid.equals(use)) {
+                // 권한 없음
+                return 403;
+
+            }else {
+                // 게시글 수정
+                entity.setNo(dto.getNo());
+                entity.setParent(dto.getParent());
+                entity.setRdate(dto.getRdate());
+            }
+        }
+        CsEntity result = csRepository.save(entity);
         return (result != null)? 0:100;
     }
+
+    // 게시글 수정
+
 
     //////////////////////////////////////////////////////////////////////////////////////////
     // View method (게시글 출력 메서드)
@@ -432,10 +452,11 @@ public class CsService {
     //////////////////////////////////////////////////////////////////////////////////////////
     // login status method (로그인 정보 출력 메서드)
     //////////////////////////////////////////////////////////////////////////////////////////
-    public void loginStatus() {
-        SecurityContextHolder.getContext().getAuthentication().getName();
+    public String loginStatus() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("username : " + SecurityContextHolder.getContext().getAuthentication().getName());
 
+        return username;
         /*Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         UserDetails userDetails = (UserDetails) principal;
         String username = ((UserDetails) principal).getUsername();

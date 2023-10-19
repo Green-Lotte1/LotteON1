@@ -35,7 +35,7 @@
       <th:block sec:authorize="isAuthenticated()"
                 th:if="${#authentication.principal.member.uid eq view.uid.uid}">
         <a href="#" th:status="${#authentication.principal.member.uid eq view.uid.uid ? 'true':'false'}" class="btnDelete">삭제</a>
-        <a href="#" class="btnModify">수정</a>
+        <a th:href="@{/cs/qna/modify(cate1=${view.cate1.cate1}, cate2=${view.cate2.cate2}, no=${view.no})}" class="btnModify">수정</a>
       </th:block>
       <a th:href="@{/cs/qna/list}" class="btnList">목록보기</a>
     </div>
