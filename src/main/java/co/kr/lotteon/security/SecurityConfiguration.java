@@ -23,10 +23,9 @@ public class SecurityConfiguration {
 
         http    
                 // 사이트 위변조 방지 비활성
-                .csrf(CsrfConfigurer::disable) // 메서드 참조 연산자로 람다식을 간결하게 표현
-                // 토큰방식으로 로그인처리하기 때문에 폼방식 비활성
+                .csrf(CsrfConfigurer::disable)
                 .formLogin(config -> config.loginPage("/member/login")
-                        .defaultSuccessUrl("/",true) // 첫방문도 가능하게 해줌
+                        .defaultSuccessUrl("/",true)
                         .failureUrl("/member/login?success=100")
                         .usernameParameter("uid")
                         .passwordParameter("pass")

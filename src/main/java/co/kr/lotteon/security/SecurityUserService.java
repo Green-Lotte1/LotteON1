@@ -32,7 +32,4 @@ public class SecurityUserService implements UserDetailsService {
 
         return userDetails;
     }
-    public List<MemberEntity> getAllUsers(){
-        return repo.findAll();
-    }
 }
