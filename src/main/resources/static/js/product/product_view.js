@@ -132,8 +132,9 @@ $(document).ready(function () {
                         $.ajax({
                             url: '/LotteOn/product/insertCartProduct',
                             type: 'post',
-                            data: checkData,
+                            data: JSON.stringify(checkData),
                             dataType: 'json',
+                            contentType: 'application/json;charset=UTF-8',
                             success: function(data){
                             console.log('here...5');
                             }
@@ -141,7 +142,7 @@ $(document).ready(function () {
                         if(confirm('장바구니에 추가되었습니다. 지금 장바구니로 이동하시겠습니까?')){
                             console.log('here...6');
                             console.log('jsonData :'+JSON.stringify(jsonData));
-                            window.location.href = '@{/product/cart}';
+                            window.location.href = '/LotteOn/product/cart';
                         }else{
                             console.log('here...7');
                                 console.log('jsonData :'+JSON.stringify(jsonData));
