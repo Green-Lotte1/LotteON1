@@ -170,7 +170,7 @@ $(function (){
     });
 
     // 최종 전송
-    $('#formMember').submit(function(){
+    $('#formMember').submit(function(e){
 
         if(!isUidOk){
             alert('아이디를 확인 하십시요.');
@@ -230,24 +230,6 @@ $(function (){
                 alert('담당자 번호를 확인 하십시요.');
                 return false; // 폼 전송 취소
             }
-        }
-        let auto = false;
-
-        if(confirm("바로 로그인하시겠습니까?")) {
-            auto = true;
-
-            $.ajax({
-                type:"post",
-                url:"/member/register",
-                data:{
-                  "auto":auto
-                },
-                dataType:'json',
-                success:function (data){
-                    console.log(data);
-                }
-            });
-            return;
         }
         return true; // 폼 전송 시작
 
