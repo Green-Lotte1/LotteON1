@@ -85,6 +85,9 @@ public class ProductDTO {
                 .build();
     }
 
+    public int discountingPrice(){
+        return price - ((price/100)*discount);
+    }
 
 
     /*public String fileRename(String thumb) {

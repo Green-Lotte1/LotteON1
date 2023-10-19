@@ -95,4 +95,8 @@ public class ProductEntity {
                 .build();
     }
 
+    public int discountingPrice(){
+        return price - ((price/100)*discount);
+    }
+
 }

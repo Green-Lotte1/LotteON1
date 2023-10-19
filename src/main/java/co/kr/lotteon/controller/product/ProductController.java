@@ -1,7 +1,9 @@
 package co.kr.lotteon.controller.product;
 
 import co.kr.lotteon.dto.product.*;
+import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.MainService;
+import co.kr.lotteon.service.product.CartService;
 import co.kr.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -9,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @Controller
@@ -18,6 +23,7 @@ public class ProductController {
 
     private final ProductService prodService;
     private final MainService mainService;
+    private final CartService cartService;
     //////////////////////////////
     ////////    product aside 값 가져오기
     //////////////////////////////
@@ -65,7 +71,7 @@ public class ProductController {
         model.addAttribute("products", pageResponseDTO);
 
         log.info("here...3");
-
+        log.info("request type: "+ pageRequestDTO.getType());
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
         log.info("here...4");
@@ -100,6 +106,7 @@ public class ProductController {
 
 
 
+
     //////////////////////////////
     ////////    product cart
     //////////////////////////////
@@ -110,41 +117,85 @@ public class ProductController {
         return "/product/cart";
     }
 
-
-
-
-/*
     @ResponseBody
-    @PostMapping(value = "/product/cart")
-    public void cart(MyUserDetails member, @RequestBody Map<String, Object> jsonData){
+    @GetMapping(value = "/product/cartCountProduct")
+    public int cartCountProduct(MyUserDetails member, @RequestBody Map<String, Object> jsonData) {
+        String uid = member.getMember().getUid();
+        int prodNo = (Integer)jsonData.get("prodNo");
+
+        // SELECT COUNT 처리
+        int result = 0;
+        result = cartService.selectCountCartByUidAndProdNo(member.getMember(), prodNo);
+
+        return result;
+    }
+
+
+
+    @ResponseBody
+    @PostMapping(value = "/product/insertCartProduct")
+    public Map<String, Integer> insertCartProduct(MyUserDetails member, @RequestBody Map<String, Object> jsonData){
+
         String uid = member.getMember().getUid();
         int prodNo = (Integer)jsonData.get("prodNo");
         int inputCount = (Integer)jsonData.get("inputCount");
-        int result = prodService.selectCountCartByUidAndProdNo(uid, prodNo);
 
+        Map<String, Integer> map = new HashMap<String, Integer>();
+
+        int result = map.get("result");
+
+        /*cartService.insertCart(member, prodNo, inputCount,result);*/
+
+        /*if(result > 0){
+            // 상품이 장바구니에 있는 경우
+
+            // UPDATE 처리
+
+            map.put("result", result);
+            log.info("result 전송 성공");
+            return map;
+
+        }else{
+            // 상품이 장바구니에 없는 경우
+
+            // INSERT 처리
+
+            map.put("result", result);
+            log.info("result 전송 성공");
+            return map;
+
+        }
+
+
+        // 신규 등록일 경우
         if((Integer)jsonData.get("cartResult") == null){
 
+            map.put("result", result);
+            log.info("result 전송 성공");
+            return map;
+
+        // 이미 상품이 장바구니에 담겨있을 경우
         }else if(!((Integer)jsonData.get("cartResult") == null)){
 
         }
+
         if(result == 0){
             ProductDTO product = prodService.selectProductByProdNo(prodNo);
-            prodService.insertCart(product);
-        }
-    }*/
+            cartService.insertCart(product);
+        }*/
+
+        return map;
+    }
 
 
 
 
 
-    /*@ResponseBody
+    @ResponseBody
     @PutMapping(value = "/product/cart")
     public void insertCart(){
 
-    }*/
-
-
-
+    }
 
     //////////////////////////////
     ////////    product order
