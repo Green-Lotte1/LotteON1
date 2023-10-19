@@ -39,7 +39,8 @@
 
                   //서브 카테고리
                 var subCategorySelectBox = document.getElementById("prodCate2");;
-
+                event.preventDefault();
+                ajax.post();
                 $.ajax({
                     url: '/LotteOn/admin/product/setCate2List.do',
                     type: 'GET',
