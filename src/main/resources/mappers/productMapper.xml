@@ -8,8 +8,8 @@
         SELECT * FROM `km_product` WHERE `prodNo`=#{prodNo};
     </select>
 
-    <update id="increaseProductHit">
-        UPDATE `km_product` SET `hit`=`hit`+1 WEHRE `prodNo`=#{prodNo}
+    <update id="increaseProductHitByProdNo">
+        UPDATE `km_product` SET `hit`=`hit`+1 WHERE `prodNo`=#{prodNo};
     </update>
 
 </mapper>
