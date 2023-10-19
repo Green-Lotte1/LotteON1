@@ -231,8 +231,26 @@ $(function (){
                 return false; // 폼 전송 취소
             }
         }
+        let auto = false;
 
+        if(confirm("바로 로그인하시겠습니까?")) {
+            auto = true;
+
+            $.ajax({
+                type:"post",
+                url:"/member/register",
+                data:{
+                  "auto":auto
+                },
+                dataType:'json',
+                success:function (data){
+                    console.log(data);
+                }
+            });
+            return;
+        }
         return true; // 폼 전송 시작
+
     });
 
 });
