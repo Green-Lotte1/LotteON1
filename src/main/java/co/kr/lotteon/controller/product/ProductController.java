@@ -132,7 +132,7 @@ public class ProductController {
 
     @ResponseBody
     @PostMapping(value = "/product/insertCartProduct")
-    public Map<String, Integer> insertCartProduct(@RequestBody PageRequestDTO pageRequestDTO){
+    public int insertCartProduct(@RequestBody PageRequestDTO pageRequestDTO){
 
         log.info("insertCart here...1");
 
@@ -149,11 +149,9 @@ public class ProductController {
 
         Map<String, Integer> map = new HashMap<String, Integer>();
 
-        /*int result = (int) checkData.get("result");*/
         int result = pageRequestDTO.getResult();
 
         log.info("insertCart result: "+result);
-
 
         if(result > 0){
             log.info("insertCart here...2");
@@ -169,8 +167,7 @@ public class ProductController {
             log.info("insertCart here...3");
             map.put("result", result);
             log.info("result 전송 성공...1");
-            return map;
-
+            return result;
         }else if(result < 1){
             log.info("insertCart here...4");
             // 상품이 장바구니에 없는 경우
@@ -180,8 +177,7 @@ public class ProductController {
             log.info("insertCart here...5");
             map.put("result", result);
             log.info("result 전송 성공...2");
-            return map;
-
+            return result;
         }
 
 
@@ -203,7 +199,7 @@ public class ProductController {
         }*/
         log.info("insertCart here...6");
 
-        return map;
+        return result;
     }
 
 

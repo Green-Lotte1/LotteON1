@@ -6,6 +6,7 @@ import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.entity.product.CartEntity;
 import co.kr.lotteon.entity.product.ProductEntity;
 import co.kr.lotteon.mapper.CartMapper;
+import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.repository.product.CartRepository;
 import co.kr.lotteon.repository.product.ProductRepository;
 import co.kr.lotteon.security.MyUserDetails;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Member;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -24,6 +27,8 @@ public class CartService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
+    private MemberRepository memberRepository;
+    @Autowired
     private CartMapper cartMapper;
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +37,7 @@ public class CartService {
     public int selectCountCartByUidAndProdNo(String uid, int prodNo){
         int result = 0;
         int selectResult = cartMapper.selectCountCartByUidAndProdNo(uid, prodNo);
+        log.info("selectResult: "+selectResult);
         if(selectResult > 0){
             result = 1;
         }
@@ -40,22 +46,30 @@ public class CartService {
 
     public void insertCart(String uid, int prodNo, int inputCount){
 
+        log.info("insertCartService here...1");
         ProductEntity product = productRepository.findById(prodNo).orElse(null);
+        MemberEntity member = memberRepository.findById(uid).orElse(null);
+        log.info("insertCartService here...2");
         // cart에 동일한 상품이 없는 경우
         CartEntity cartEntity = CartEntity.builder()
-                .uid(product.getSeller())
+                .uid(member)
                 .prodNo(product)
                 .count(inputCount)
                 .price(product.discountingPrice())
                 .discount(product.getDiscount())
                 .point(product.getPoint())
                 .delivery(product.getDelivery())
-                .total(product.discountingPrice() * inputCount)
+                .total((product.discountingPrice() * inputCount)+product.getDelivery())
                 .build();
         cartRepository.save(cartEntity);
+        log.info("insertCartService here...3");
     }
 
-    public void updateCart(int inputCount, String uid, int prodNo){
-        cartMapper.updateCartProductByUidAndProdNo(inputCount, uid, prodNo);
+    public void updateCart(int count, String uid, int prodNo){
+        ProductEntity product = productRepository.findById(prodNo).orElse(null);
+        MemberEntity member = memberRepository.findById(uid).orElse(null);
+        CartEntity cart = cartRepository.findByUidAndProdNo(member, product);
+        int total = cart.getTotal()+((cart.getPrice()*count) - (((cart.getPrice()*count)/100)*cart.getDiscount()));
+        cartMapper.updateCartProductByUidAndProdNo(count, uid, prodNo, total);
     }
 }

@@ -13,6 +13,8 @@ public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 
     public int countByUidAndProdNo(MemberEntity uid, ProductEntity prodNo);
 
+    public CartEntity findByUidAndProdNo(MemberEntity uid, ProductEntity prodNo);
+
     /*@Modifying(clearAutomatically = true)
     @Query("update km_product_cart c set c.count=c.count+ ?2 where c.prodNo= ?3 and c.uid = ?1")
     public int updateByUidCartProduct(String uid, int count, int prodNo);*/
