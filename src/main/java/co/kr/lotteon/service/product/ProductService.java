@@ -1,4 +1,4 @@
-package co.kr.lotteon.service;
+package co.kr.lotteon.service.product;
 
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.*;

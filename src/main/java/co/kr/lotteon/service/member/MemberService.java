@@ -1,12 +1,12 @@
-package co.kr.lotteon.service;
+package co.kr.lotteon.service.member;
 
-import co.kr.lotteon.dto.MemberDTO;
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.dto.member.TermsDTO;
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.entity.member.TermsEntity;
 import co.kr.lotteon.mapper.MemberMapper;
-import co.kr.lotteon.repository.MemberRepository;
-import co.kr.lotteon.repository.TermsRepository;
+import co.kr.lotteon.repository.member.MemberRepository;
+import co.kr.lotteon.repository.member.TermsRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,19 +1,15 @@
 package co.kr.lotteon.controller.product;
 
 import co.kr.lotteon.dto.product.*;
-import co.kr.lotteon.entity.product.CartEntity;
-import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.MainService;
-import co.kr.lotteon.service.ProductService;
+import co.kr.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @Log4j2
 @Controller

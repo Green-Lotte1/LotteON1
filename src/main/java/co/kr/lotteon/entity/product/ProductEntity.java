@@ -1,11 +1,10 @@
 package co.kr.lotteon.entity.product;
 
 import co.kr.lotteon.dto.product.ProductDTO;
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 

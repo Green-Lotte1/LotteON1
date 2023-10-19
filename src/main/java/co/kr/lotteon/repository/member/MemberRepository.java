@@ -1,6 +1,6 @@
-package co.kr.lotteon.repository;
+package co.kr.lotteon.repository.member;
 
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,6 @@
 package co.kr.lotteon.mapper;
 
 
-import co.kr.lotteon.dto.MemberDTO;
-import co.kr.lotteon.dto.member.TermsDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

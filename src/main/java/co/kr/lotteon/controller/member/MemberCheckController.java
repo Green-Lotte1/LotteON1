@@ -1,6 +1,6 @@
 package co.kr.lotteon.controller.member;
 
-import co.kr.lotteon.service.MemberService;
+import co.kr.lotteon.service.member.MemberService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
