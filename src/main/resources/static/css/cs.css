@@ -33,7 +33,7 @@ header > div {
   box-sizing: border-box;
 }
 
-header > .top {
+/*header > .top {
   height: 35px;
   border-bottom: 1px solid #e9e9e9;
 }
@@ -58,7 +58,42 @@ header > .top > div > p > a {
 header > .top > div a:hover {
   color: #333;
   border-bottom: 1px solid #555;
+}*/
+header > .top {
+  height: 35px;
+  border-bottom: 1px solid #e9e9e9;
 }
+
+header > .top > div {
+  width: 1200px;
+  height: 100%;
+  margin: 0 auto;
+  text-align: right;
+}
+header > .top > div > span {
+  float: left;
+  line-height: 35px;
+}
+header > .top > div > span > .client{
+  font-weight: bold;
+}
+header > .top > div > a {
+  display: inline-block;
+  height: 100%;
+  line-height: 35px;
+  border-left: 1px solid #e9e9e9;
+  padding: 0 10px;
+  color: #646464;
+}
+header > .top > div > a:last-child {
+  border-right: 1px solid #e9e9e9;
+}
+
+header > .top > div > a:hover {
+  color: #333;
+  border-bottom: 1px solid #444;
+}
+
 header > .logo {
   height: 115px;
   border-bottom: 2px solid #ef2a23;
@@ -933,6 +968,57 @@ footer p > strong {
 }
 
 #cs > .qna > .write > article table textarea {
+  width: 100%;
+  height: 360px;
+  resize: none;
+  font-size: 16px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+/* qna - 글수정 */
+#cs > .qna > .modify > article table {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid #111;
+}
+#cs > .qna > .modify > article table tr {
+  width: 100%;
+  height: 26px;
+}
+
+#cs > .qna > .modify > article table td {
+  padding: 16px;
+  border-bottom: 1px solid #ccc;
+  font-size: 16px;
+}
+
+#cs > .qna > .modify > article table td:first-child {
+  width: 100px;
+}
+
+#cs > .qna > .modify > article table input {
+  width: 100%;
+  height: 40px;
+  overflow: hidden;
+  resize: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  text-indent: 10px;
+}
+
+#cs > .qna > .modify > article table select {
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+#cs > .qna > .modify > article table select * {
+  font-size: inherit;
+}
+
+#cs > .qna > .modify > article table textarea.content {
   width: 100%;
   height: 360px;
   resize: none;
