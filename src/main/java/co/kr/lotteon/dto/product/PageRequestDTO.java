@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+
+import java.util.ArrayList;
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -36,6 +40,9 @@ public class PageRequestDTO {
 
     @Builder.Default
     private int result = 0;
+
+    @Builder.Default
+    private String selectedCartNos = "/";
 
     public Pageable getPageable(String sort){
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());

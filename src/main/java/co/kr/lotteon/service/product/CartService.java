@@ -39,21 +39,15 @@ public class CartService {
     ///////////////////////////////////////////////////////////////////////////////////
     /////////////////////////// insertCart
     ///////////////////////////////////////////////////////////////////////////////////
-    public Map<String, Object> selectCountCartByUidAndProdNo(Model model, HttpServletRequest request, String uid, int prodNo){
-        Map<String, Object> map = new HashMap<>();
+    public int selectCountCartByUidAndProdNo(Model model, String uid, int prodNo){
         int result = 0;
         int selectResult = cartMapper.selectCountCartByUidAndProdNo(uid, prodNo);
         log.info("selectResult: "+selectResult);
         if(selectResult > 0){
             result = 1;
         }
-        String path = request.getContextPath();
-        model.addAttribute("path", path);
-        log.info("path : " + path);
-        map.put("result", result);
-        map.put("path", path);
 
-        return map;
+        return result;
     }
 
     public int insertCart(String uid, int prodNo, int inputCount){
@@ -107,5 +101,15 @@ public class CartService {
         log.info(cartList.toString());
 
         return cartList;
+    }
+
+    public int deleteCartProductByProdNoAndUid(String[] prodNos, String uid){
+
+        int result = 0;
+        for(int i = 1; i < prodNos.length; i++){
+            int prodNo = Integer.parseInt(prodNos[i]);
+            result = cartMapper.deleteCartProductByProdNoAndUid(prodNo, uid);
+        }
+        return  result;
     }
 }
