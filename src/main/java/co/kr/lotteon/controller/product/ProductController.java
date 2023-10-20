@@ -1,8 +1,10 @@
 package co.kr.lotteon.controller.product;
 
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.MainService;
+import co.kr.lotteon.service.member.MemberService;
 import co.kr.lotteon.service.product.CartService;
 import co.kr.lotteon.service.product.ProductService;
 import jakarta.servlet.http.Cookie;
@@ -29,6 +31,7 @@ public class ProductController {
     private final ProductService prodService;
     private final MainService mainService;
     private final CartService cartService;
+    private final MemberService memberService;
     //////////////////////////////
     ////////    product aside 값 가져오기
     //////////////////////////////
@@ -149,6 +152,10 @@ public class ProductController {
     @GetMapping(value = "/product/cart")
     public String cart(Model model ,PageRequestDTO pageRequestDTO) {
         layout(model);
+        String uid = prodService.loginStatus();
+        MemberDTO member = memberService.selectMemberByUid(uid);
+
+        List<CartDTO> cartList = cartService.selectAllCartByUid(member);
 
 
         return "/product/cart";

@@ -8,12 +8,16 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface CartRepository extends JpaRepository<CartEntity, Integer> {
 
     public int countByUidAndProdNo(MemberEntity uid, ProductEntity prodNo);
 
     public CartEntity findByUidAndProdNo(MemberEntity uid, ProductEntity prodNo);
+
+    public List<CartEntity> findByUid(MemberEntity uid);
 
     /*@Modifying(clearAutomatically = true)
     @Query("update km_product_cart c set c.count=c.count+ ?2 where c.prodNo= ?3 and c.uid = ?1")

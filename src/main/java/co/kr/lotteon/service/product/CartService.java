@@ -1,5 +1,6 @@
 package co.kr.lotteon.service.product;
 
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.dto.product.CartDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
@@ -12,24 +13,24 @@ import co.kr.lotteon.repository.product.ProductRepository;
 import co.kr.lotteon.security.MyUserDetails;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Member;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @RequiredArgsConstructor
 @Service
 public class CartService {
 
-    @Autowired
-    private CartRepository cartRepository;
-    @Autowired
-    private ProductRepository productRepository;
-    @Autowired
-    private MemberRepository memberRepository;
-    @Autowired
-    private CartMapper cartMapper;
+    private final CartRepository cartRepository;
+    private final ProductRepository productRepository;
+    private final MemberRepository memberRepository;
+    private final CartMapper cartMapper;
+    private final ModelMapper modelMapper;
 
     ///////////////////////////////////////////////////////////////////////////////////
     /////////////////////////// insertCart
@@ -81,5 +82,19 @@ public class CartService {
         int result = cartMapper.updateCartProductByUidAndProdNo(count, uid, prodNo, total);
         log.info("updateCart result :"+result);
         return result;
+    }
+
+
+    public List<CartDTO> selectAllCartByUid(MemberDTO member){
+        MemberEntity memberEntity = member.toEntity();
+        List<CartEntity> cartEntity = cartRepository.findByUid(memberEntity);
+
+        List<CartDTO> cartList = cartEntity.stream()
+                .map(entity -> modelMapper.map(entity, CartDTO.class))
+                .collect(Collectors.toList());
+
+        log.info(cartList.toString());
+
+        return cartList;
     }
 }
