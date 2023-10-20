@@ -98,10 +98,11 @@ $(document).ready(function () {
     //*************** 장바구니 버튼 ***************//
     //***********************************************//
     const prodNo = $('#prodNo').val();
+    const path = $('#path').val();
 
     $('.cart').click(function(){
         const input = inputCount.val();
-        alert('장바구니');
+        /*alert('장바구니');*/
         console.log('input: '+input);
         console.log('prodNo: '+prodNo);
         console.log('here...1');
@@ -112,26 +113,22 @@ $(document).ready(function () {
         console.log('jsonData :'+JSON.stringify(jsonData));
         // CHECK THIS PRODUCT IN CART
         $.ajax({
-            url: '/LotteOn/product/cartCountProduct',
+            url: path+'/product/cartCountProduct',
             type: 'get',
             data: jsonData,
-            contentType: 'application/json;charset=UTF-8',
             success: function(data){
                 console.log('here...2');
-                console.log('data result:'+data.result);
-                console.log('data path:'+data.path);
+                console.log('data result: '+data);
+                console.log('path: '+path)
                 /*CHECK THIS PRODUCT IN CART RESULT
                 result == 1 (THIS PRODUCT ALREADY IN CART)
                 result == 0 (THIS PRODUCT NOT IN CART)*/
-                const checkData = Object.assign({},jsonData,{"result":data.result});
-
-                const checkResult = data.result;
-                const path = data.path;
+                const checkData = Object.assign({},jsonData,{"result":data});
 
                 console.log('jsonData :'+JSON.stringify(jsonData));
                 // (해당 상품이 장바구니에 있는 경우)
                 // THIS PRODUCT ALREADY IN CART
-                if(checkResult == 1){
+                if(data == 1){
                     console.log('here...data == 1');
                     console.log('here...3');
                     // UPDATE CART CONFIRM
@@ -139,7 +136,7 @@ $(document).ready(function () {
                         console.log('here...4');
                         // UPDATE CART
                         $.ajax({
-                            url: '/LotteOn/product/insertCartProduct',
+                            url: path+'/product/insertCartProduct',
                             type: 'post',
                             data: JSON.stringify(checkData),
                             dataType: 'json',
@@ -173,12 +170,12 @@ $(document).ready(function () {
 
                 // (해당 상품이 장바구니에 없는 경우)
                 // THIS PRODUCT NOT IN CART
-                }else if(checkResult == 0){
+                }else if(data == 0){
                     console.log('here...data == 0');
                     console.log('checkData :'+JSON.stringify(checkData));
                     // INSERT CART
                     $.ajax({
-                        url: '/LotteOn/product/insertCartProduct',
+                        url: path+'/product/insertCartProduct',
                         type: 'post',
                         dataType: 'json',
                         data: JSON.stringify(checkData),
@@ -204,7 +201,7 @@ $(document).ready(function () {
                             }
                         }
                     }); // ajax end
-                }
+                } // THIS PRODUCT NOT IN CART END
             } // 전체 ajax success end
         }); // 전체 ajax end
     });

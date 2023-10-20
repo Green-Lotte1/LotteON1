@@ -8,6 +8,6 @@ public interface CartMapper {
 
     public int selectCountCartByUidAndProdNo(String uid, int prodNo);
     public int updateCartProductByUidAndProdNo(int count, String uid, int prodNo, int total);
-
+    public int deleteCartProductByProdNoAndUid(int prodNo, String uid);
 
 }

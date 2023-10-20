@@ -35,10 +35,12 @@ public class ProductController {
     //////////////////////////////
     ////////    product aside 값 가져오기
     //////////////////////////////
-    public void layout(Model model) {
+    public void layout(Model model, HttpServletRequest request) {
         List<ProdCate1DTO> cate1 = prodService.selectAllProdCate1();
         List<ProdCate2DTO> cate2 = prodService.selectAllProdCate1AndProdCate2();
+        String path = prodService.getPath(model, request);
         mainService.appVersion(model);
+        model.addAttribute("path", path);
         model.addAttribute("cate1List", cate1);
         model.addAttribute("cate2List", cate2);
     }
@@ -64,8 +66,8 @@ public class ProductController {
     ////////    product list
     //////////////////////////////
     @GetMapping(value = "/product/list")
-    public String list(Model model, PageRequestDTO pageRequestDTO){
-        layout(model);
+    public String list(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request){
+        layout(model, request);
         if(!(pageRequestDTO.getProdCate1() == 1)){
             nav(model, pageRequestDTO);
         }else{
@@ -88,7 +90,7 @@ public class ProductController {
     @GetMapping(value = "/product/view")
     public String view(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request, HttpServletResponse response) {
         log.info("view here...1");
-        layout(model);
+        layout(model, request);
         if(!(pageRequestDTO.getProdCate1() == 1)){
             nav(model, pageRequestDTO);
         }else{
@@ -150,8 +152,8 @@ public class ProductController {
     ////////    product cart
     //////////////////////////////
     @GetMapping(value = "/product/cart")
-    public String cart(Model model ,PageRequestDTO pageRequestDTO) {
-        layout(model);
+    public String cart(Model model ,PageRequestDTO pageRequestDTO, HttpServletRequest request) {
+        layout(model, request);
         String uid = prodService.loginStatus();
         MemberDTO member = memberService.selectMemberByUid(uid);
 
@@ -164,7 +166,8 @@ public class ProductController {
 
     @ResponseBody
     @GetMapping(value = "/product/cartCountProduct")
-    public Map<String, Object> cartCountProduct(Model model, HttpServletRequest request, PageRequestDTO pageRequestDTO) {
+    public int cartCountProduct(Model model, PageRequestDTO pageRequestDTO) {
+        int result = 0;
 
         log.info("cartCountProduct here...1");
         String uid = prodService.loginStatus();
@@ -177,9 +180,8 @@ public class ProductController {
         // SELECT COUNT 처리
         /*int result = 0;*/
         log.info("cartCountProduct here...2");
-        Map<String, Object> result = cartService.selectCountCartByUidAndProdNo(model, request, uid, prodNo);
-        log.info("cartCountProduct result: "+result.get("result"));
-        log.info("cartCountProduct path: "+result.get("path"));
+        result = cartService.selectCountCartByUidAndProdNo(model, uid, prodNo);
+        log.info("cartCountProduct result: "+result);
         log.info("cartCountProduct here...3");
 
         return result;
@@ -237,16 +239,30 @@ public class ProductController {
         return result;
     }
 
+    @ResponseBody
+    @PostMapping(value = "/product/deleteCartProduct")
+    public int deleteCartProductByProdNo(@RequestBody PageRequestDTO pageRequestDTO){
 
+        int result = 0;
+        log.info("deleteCartProduct here...1");
+        log.info(pageRequestDTO.getSelectedCartNos().toString());
+        String[] selectedNos = pageRequestDTO.getSelectedCartNos().toString().split("/");
+        log.info(selectedNos[1]);
 
+        String uid = prodService.loginStatus();
+        result = cartService.deleteCartProductByProdNoAndUid(selectedNos, uid);
+
+        return result;
+
+    }
 
 
     //////////////////////////////
     ////////    product order
     //////////////////////////////
     @GetMapping(value = "/product/order")
-    public String order(Model model) {
-        layout(model);
+    public String order(Model model, HttpServletRequest request) {
+        layout(model, request);
         return "/product/order";
     }
 
@@ -257,8 +273,8 @@ public class ProductController {
     ////////    product complete
     //////////////////////////////
     @GetMapping(value = "/product/complete")
-    public String complete(Model model) {
-        layout(model);
+    public String complete(Model model, HttpServletRequest request) {
+        layout(model, request);
         return "/product/complete";
     }
 }

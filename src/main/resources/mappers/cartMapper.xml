@@ -18,4 +18,8 @@
         UPDATE `km_product_cart` SET `count` = `count` + #{count}, `total` = `total` + #{total} WHERE `uid`=#{uid} AND `prodNo`=#{prodNo};
     </update>
 
+    <delete id="deleteCartProductByProdNoAndUid">
+        DELETE FROM `km_product_cart` WHERE `prodNo` = #{prodNo} AND `uid` = #{uid};
+    </delete>
+
 </mapper>
