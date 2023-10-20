@@ -5,48 +5,62 @@
 <head>
   <script th:src="@{/js/cs/cs_qnaCate.js}"></script>
 </head>
-  <article layout:fragment="content">
-    <input type="hidden" name="url" th:value="${jsonUrl}">
-    <form th:action="@{/cs/qna/write}" method="post" id="write">
-      <!-- uid는 나중에 session에 담긴 uid 정보 담기 -->
-      <input type="hidden" name="group" value="qna"/>
-      <table>
-        <tr>
-          <td>문의유형</td>
-          <td>
-            <select name="cate1">
-              <option value="0">1차유형</option>
-              <option th:each="ct1:${cate1}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq pageRequestDTO.cate1}">
-                [[${ct1.cate1_name}]]
-              </option>
-            </select>
+  <section layout:fragment="content" id="qna">
+    <!--<input type="hidden" name="url" th:value="${jsonUrl}">-->
 
-            <select name="cate2">
-              <option value="0">2차유형</option>
-              <option th:each="ct2:${cate2}" th:value="${ct2.cate2}">
-                [[${ct2.cate2_name}]]
-              </option>
+    <head>
+      <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
+    </head>
 
-            </select>
-          </td>
-        </tr>
-        <tr>
-          <td>문의제목</td>
-          <td>
-            <input type="text" name="title" placeholder="제목을 입력하세요."/>
-          </td>
-        </tr>
-        <tr>
-          <td>문의내용</td>
-          <td>
-            <textarea name="content" placeholder="내용을 입력하세요."></textarea>
-          </td>
-        </tr>
-      </table>
-      <div id="buttons">
-        <a th:href="@{/cs/qna/list(cate1=${cate1Info.cate1}, pg=${pageRequestDTO.pg})}" class="btnList">취소하기</a>
-        <input type="submit" class="btnSubmit" value="등록하기"/>
-      </div>
-    </form>
-  </article>
+    <nav th:replace="~{/fragments/admin/admin_nav :: nav}">
+      <!-- nav 들어올 영역 -->
+    </nav>
+
+    <article id="write">
+
+      <form>
+        <table>
+          <tr>
+            <td>문의유형</td>
+            <td>
+
+              <select name="cate1">
+                <option value="0">1차유형</option>
+                <option>
+                  회원
+                </option>
+              </select>
+
+              <select name="cate2">
+                <option value="0">2차유형</option>
+                <option>
+                  가입/탈퇴
+                </option>
+              </select>
+            </td>
+          </tr>
+
+          <tr>
+            <td>문의제목</td>
+            <td>
+              <input type="text" name="title" placeholder="제목을 입력하세요."/>
+            </td>
+          </tr>
+          <tr>
+            <td>문의내용</td>
+            <td>
+              <textarea name="content" placeholder="내용을 입력하세요."></textarea>
+            </td>
+          </tr>
+        </table>
+
+        <div id="buttons">
+          <a class="btnCancel"/>취소하기</a>
+          <input type="submit" class="btnWrite" value="등록하기"/>
+        </div>
+
+      </form>
+    </article>
+
+  </section>
 </html>

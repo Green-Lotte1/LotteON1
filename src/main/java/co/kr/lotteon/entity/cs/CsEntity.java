@@ -46,6 +46,8 @@ public class CsEntity {
     @CreationTimestamp
     private LocalDateTime rdate;
 
+    private int hit;
+
     public CsDTO toDTO() {
         return CsDTO.builder()
                 .no(no)
@@ -56,6 +58,7 @@ public class CsEntity {
                 .uid(uid.toDTO())
                 .title(title)
                 .content(content)
+                .hit(hit)
                 .rdate(rdate)
                 .build();
     }
