@@ -92,7 +92,7 @@ public class CartService {
 
     public List<CartDTO> selectAllCartByUid(MemberDTO member){
         MemberEntity memberEntity = member.toEntity();
-        List<CartEntity> cartEntity = cartRepository.findByUid(memberEntity);
+        List<CartEntity> cartEntity = cartRepository.findByUidOrderByRdateDesc(memberEntity);
 
         List<CartDTO> cartList = cartEntity.stream()
                 .map(entity -> modelMapper.map(entity, CartDTO.class))
@@ -103,13 +103,14 @@ public class CartService {
         return cartList;
     }
 
-    public int deleteCartProductByProdNoAndUid(String[] prodNos, String uid){
+    public int deleteCartProductByCartNo(String[] cartNos){
 
         int result = 0;
-        for(int i = 1; i < prodNos.length; i++){
-            int prodNo = Integer.parseInt(prodNos[i]);
-            result = cartMapper.deleteCartProductByProdNoAndUid(prodNo, uid);
+        for(int i = 1; i < cartNos.length; i++){
+            int cartNo = Integer.parseInt(cartNos[i]);
+            result = cartMapper.deleteCartProductByCartNo(cartNo);
         }
+        log.info("deleteCart result: "+result);
         return  result;
     }
 }
