@@ -13,7 +13,7 @@ public class AdminCsController {
     ////////////////////////////////////////////////////////////////////
     @GetMapping("/admin/cs/notice/list")
     public String acnList() {
-        return "/admin/cs/notice/list";
+        return "/admin/cs/list";
     }
 
     @GetMapping("/admin/cs/notice/view")
@@ -23,12 +23,12 @@ public class AdminCsController {
 
     @GetMapping("/admin/cs/notice/write")
     public String acnWrite() {
-        return "/admin/cs/notice/write";
+        return "/admin/cs/write";
     }
 
     @GetMapping("/admin/cs/notice/modify")
     public String acnModify() {
-        return "/admin/cs/notice/modify";
+        return "/admin/cs/modify";
     }
 
 
@@ -38,22 +38,22 @@ public class AdminCsController {
     ////////////////////////////////////////////////////////////////////
     @GetMapping("/admin/cs/faq/list")
     public String acfList() {
-        return "/admin/cs/faq/list";
+        return "/admin/cs/list";
     }
 
     @GetMapping("/admin/cs/faq/view")
     public String acfView() {
-        return "/admin/cs/faq/view";
+        return "/admin/cs/view";
     }
 
     @GetMapping("/admin/cs/faq/write")
     public String acfWrite() {
-        return "/admin/cs/faq/write";
+        return "/admin/cs/write";
     }
 
     @GetMapping("/admin/cs/faq/modify")
     public String acfModify() {
-        return "/admin/cs/faq/modify";
+        return "/admin/cs/modify";
     }
 
 
@@ -63,16 +63,16 @@ public class AdminCsController {
     ////////////////////////////////////////////////////////////////////
     @GetMapping("/admin/cs/qna/list")
     public String acqList() {
-        return "/admin/cs/notice/list";
+        return "/admin/cs/list";
     }
 
     @GetMapping("/admin/cs/qna/view")
     public String acqView() {
-        return "/admin/cs/qna/view";
+        return "/admin/cs/view";
     }
 
     @GetMapping("/admin/cs/qna/reply")
     public String acqReply() {
-        return "/admin/cs/qna/reply";
+        return "/admin/cs/reply";
     }
 }

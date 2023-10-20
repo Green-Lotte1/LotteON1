@@ -2,33 +2,47 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/admin/admin_layout.html}">
-<head>
-  <script th:src="@{/js/cs/cs_deleteBoard.js}"></script>
-</head>
-  <article layout:fragment="content">
-    <input type="hidden" name="no">
-    <nav>
-      <h2 class="title">[안녕] 하세요.</h2>
-      <p>
-        <span>a12345</span>
-        <span>2023-10-19</span>
-      </p>
+  <section layout:fragment="content" id="qna">
+
+    <head>
+      <link><link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
+    </head>
+
+    <nav th:replace="~{/fragments/admin/admin_nav :: nav}">
+      <!-- nav 들어올 영역 -->
     </nav>
 
-    <div class="content">
-      <h2 class="answer">☞ [답변] 답변제목</h2>
-      <p>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<!--th:utext="${answer.brContent}"-->
-      </p>
-    </div>
+    <article id="view">
+      <nav>
+        <span>유형</span>
+        <p>고객서비스</p>
+      </nav>
 
-    <div id="buttons">
-      <!--<th:block sec:authorize="isAuthenticated()"
-                th:if="${#authentication.principal.member.uid eq view.uid.uid}">-->
+      <div class="title">
+        <span>제목</span>
+        <p>개인회원간 법인회원에 차이가 있나요?</p>
+      </div>
+
+      <div class="content">
+        <span>내용</span>
+        <p>
+          법인회원이 뭔지 궁금해요
+        </p>
+      </div>
+
+      <div class="anwer">
+        <span>답변</span>
+        <p>
+          개인회원은 본인인증, 법인회원은 사업자등록번호를 기준으로 사업자 인증 후 가입 가능
+          합니다.
+        </p>
+      </div>
+
+      <div id="buttons">
         <a href="#" class="btnDelete">삭제</a>
         <a href="#" class="btnModify">수정</a>
-      <!--</th:block>-->
-      <a href="#" class="btnList">목록보기</a>
-    </div>
-  </article>
+        <a href="#" class="btnList">목록</a>
+      </div>
+    </article>
+  </section>
 </html>
