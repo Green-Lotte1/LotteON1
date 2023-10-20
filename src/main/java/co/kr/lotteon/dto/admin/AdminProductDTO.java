@@ -1,26 +1,29 @@
-package co.kr.lotteon.dto.product;
+package co.kr.lotteon.dto.admin;
 
 import co.kr.lotteon.dto.member.MemberDTO;
+import co.kr.lotteon.dto.product.ProdCate1DTO;
 import co.kr.lotteon.entity.product.ProductEntity;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@ToString
-@Data
-public class ProductDTO {
+public class AdminProductDTO {
 
     private int prodNo;
-    private ProdCate1DTO prodCate1;
+    private int prodCate1;
     private int prodCate2;
     private String prodName;
     private String descript;
     private String prodCompany;
-    private MemberDTO seller;
+    private String seller;
     private int price;
     private int discount;
     private int point;
@@ -51,42 +54,7 @@ public class ProductDTO {
     private String etc4;
     private String etc5;
 
-
-    public ProductEntity toEntity() {
-
-        return ProductEntity.builder()
-                .prodNo(prodNo)
-                .prodCate1(prodCate1.toEntity())
-                .prodCate2(prodCate2)
-                .descript(descript)
-                .prodCompany(prodCompany)
-                .seller(seller.toEntity())
-                .price(price)
-                .discount(discount)
-                .point(point)
-                .stock(stock)
-                .sold(sold)
-                .delivery(delivery)
-                .hit(hit)
-                .score(score)
-                .review(review)
-                .status(status)
-                .duty(duty)
-                .receipt(receipt)
-                .bizType(bizType)
-                .origin(origin)
-                .ip(ip)
-                .rdate(rdate)
-                .sale(sale)
-                .etc2(etc2)
-                .etc3(etc3)
-                .etc4(etc4)
-                .etc5(etc5)
-                .build();
-    }
-
     public int discountingPrice(){
         return price - ((price/100)*discount);
     }
-
 }

@@ -1,6 +1,7 @@
 package co.kr.lotteon.service.admin;
 
 
+import co.kr.lotteon.dto.admin.AdminProductDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.mapper.AdminProductMapper;
 import lombok.extern.log4j.Log4j2;
@@ -24,7 +25,7 @@ public class AdminProductService {
     @Autowired
     private AdminProductMapper adminProductMapper;
 
-    public void insertProduct(ProductDTO dto){
+    public void insertProduct(AdminProductDTO dto){
 
         List<String> saveNames = fileUpload(dto);
 
@@ -39,13 +40,13 @@ public class AdminProductService {
 
 
     }
-    public ProductDTO selectProduct(int prodNo){
+    public AdminProductDTO selectProduct(int prodNo){
         return adminProductMapper.selectProduct(prodNo);
     }
-    public List<ProductDTO> selectProducts(){
+    public List<AdminProductDTO> selectProducts(){
         return adminProductMapper.selectProducts();
     }
-    public void updateProduct(ProductDTO dto){
+    public void updateProduct(AdminProductDTO dto){
         adminProductMapper.updateProduct(dto);
     }
     public void deleteProduct(int prodNo){
@@ -55,7 +56,7 @@ public class AdminProductService {
     @Value("${spring.servlet.multipart.location}")
     private String filePath;
 
-    public List<String> fileUpload(ProductDTO dto) {
+    public List<String> fileUpload(AdminProductDTO dto) {
 
         // 파일 첨부 경로
         String path = new File(filePath).getAbsolutePath();

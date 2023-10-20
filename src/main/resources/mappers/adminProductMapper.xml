@@ -29,8 +29,7 @@
             `rdate`=NOW(),
             `sale` =#{sale};
     </insert>
-    <select id="selectProduct" resultType="co.kr.lotteon.dto.product.ProductDTO"></select>
-    <select id="selectProducts" resultType="co.kr.lotteon.dto.product.ProductDTO"></select>
+
     <update id="updateProduct"></update>
     <delete id="deleteProduct"></delete>
 </mapper>

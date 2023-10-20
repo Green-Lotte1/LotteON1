@@ -1,5 +1,6 @@
 package co.kr.lotteon.controller.admin;
 
+import co.kr.lotteon.dto.admin.AdminProductDTO;
 import co.kr.lotteon.dto.cs.PageRequestDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.service.admin.AdminProductService;
@@ -46,7 +47,7 @@ public class AdminProductController {
     }
 
     @PostMapping("/admin/product/register")
-    public String productRegister(ProductDTO productDTO, HttpServletRequest request){
+    public String productRegister(AdminProductDTO productDTO, HttpServletRequest request){
 
         log.info("register...1 : " + productDTO);
         String ip = request.getRemoteAddr();
