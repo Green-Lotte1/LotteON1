@@ -58,15 +58,16 @@ public class ProductEntity {
     private String etc4;
     private String etc5;
 
+
     public ProductDTO toDTO() {
         return ProductDTO.builder()
                 .prodNo(prodNo)
                 .prodName(prodName)
-                .prodCate1(prodCate1.toDTO())
+                .prodCate1(prodCate1.getCate1())
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
-                .seller(seller.toDTO())
+                .seller(seller.getUid())
                 .price(price)
                 .discount(discount)
                 .point(point)
@@ -76,10 +77,10 @@ public class ProductEntity {
                 .hit(hit)
                 .score(score)
                 .review(review)
-                /*.thumb1(thumb1)
+                .thumb1(thumb1)
                 .thumb2(thumb2)
                 .thumb3(thumb3)
-                .detail(detail)*/
+                .detail(detail)
                 .status(status)
                 .duty(duty)
                 .receipt(receipt)

@@ -48,7 +48,7 @@ spring:
         prefix: classpath:/templates
     servlet:
         multipart:
-            location: src/main/resources/static/file
+            location: src/main/resources/static/thumbs
             max-file-size: 10MB
 # mybatis 설정
 mybatis:

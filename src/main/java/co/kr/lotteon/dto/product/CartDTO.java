@@ -30,7 +30,7 @@ public class CartDTO {
         return CartEntity.builder()
                 .cartNo(cartNo)
                 .uid(uid.toEntity())
-                .prodNo(prodNo.toEntity())
+                //.prodNo(prodNo)
                 .count(count)
                 .price(price)
                 .point(point)

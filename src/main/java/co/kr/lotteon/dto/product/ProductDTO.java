@@ -2,7 +2,6 @@ package co.kr.lotteon.dto.product;
 
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.product.ProductEntity;
-import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,14 +14,15 @@ import java.time.LocalDateTime;
 @Data
 public class ProductDTO {
 
-    @Id
     private int prodNo;
-    private ProdCate1DTO prodCate1;
+    private ProdCate1DTO prodCate1DTO;
+    private int prodCate1;
     private int prodCate2;
     private String prodName;
     private String descript;
     private String prodCompany;
-    private MemberDTO seller;
+    private String seller;
+    private MemberDTO sellerDTO;
     private int price;
     private int discount;
     private int point;
@@ -32,10 +32,14 @@ public class ProductDTO {
     private int hit;
     private int score;
     private int review;
-    private MultipartFile thumb1;
-    private MultipartFile thumb2;
-    private MultipartFile thumb3;
-    private MultipartFile detail;
+    private String thumb1;
+    private String thumb2;
+    private String thumb3;
+    private String detail;
+    private MultipartFile fileThumb1;
+    private MultipartFile fileThumb2;
+    private MultipartFile fileThumb3;
+    private MultipartFile fileDetail;
     private String status;
     private String duty;
     private String receipt;
@@ -49,14 +53,20 @@ public class ProductDTO {
     private String etc4;
     private String etc5;
 
+
     public ProductEntity toEntity() {
+
+        // 이거는 강사가 처리한 거임 --> 왜 했는지 궁금하면 질문
+        prodCate1DTO.setCate1(prodCate1);
+        sellerDTO.setUid(seller);
+
         return ProductEntity.builder()
                 .prodNo(prodNo)
-                .prodCate1(prodCate1.toEntity())
+                .prodCate1(prodCate1DTO.toEntity())
                 .prodCate2(prodCate2)
                 .descript(descript)
                 .prodCompany(prodCompany)
-                .seller(seller.toEntity())
+                .seller(sellerDTO.toEntity())
                 .price(price)
                 .discount(discount)
                 .point(point)
@@ -66,10 +76,6 @@ public class ProductDTO {
                 .hit(hit)
                 .score(score)
                 .review(review)
-               // .thumb1(thumb1)
-//                .thumb2(thumb2)
-//                .thumb3(thumb3)
-//                .detail(detail)
                 .status(status)
                 .duty(duty)
                 .receipt(receipt)
@@ -84,28 +90,6 @@ public class ProductDTO {
                 .etc5(etc5)
                 .build();
     }
-
-    public int discountingPrice(){
-        return price - ((price/100)*discount);
-    }
-
-
-    /*public String fileRename(String thumb) {
-
-        int i = thumb.lastIndexOf(".");
-        // 확장자
-        String ext = thumb.substring(i);
-        // 중복되지 않는 랜덤 이름 생성
-        String uuid = UUID.randomUUID().toString();
-        // 랜덤 이름과 확장자 붙여서 저장할 때 사용할 이름 생성
-        String sName = uuid + ext;
-
-        File f1 = new File(path+"/"+thumb);
-        File f2 = new File(path+"/"+sName);
-        f1.renameTo(f2);
-
-        return sName;
-    }*/
 
 
 }
