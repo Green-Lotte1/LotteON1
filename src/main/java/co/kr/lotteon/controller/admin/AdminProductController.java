@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.io.File;
+import java.util.List;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -35,7 +36,9 @@ public class AdminProductController {
 
     @GetMapping("/admin/product/list")
     public String productList(Model model, PageRequestDTO pageRequestDTO){
-       // PageResponseDTO pageResponseDTO = productServic
+
+        List<AdminProductDTO> productDTOList = adminProductService.selectProducts();
+        model.addAttribute("adminproducts" , productDTOList );
         return "/admin/product/list";
     }
 

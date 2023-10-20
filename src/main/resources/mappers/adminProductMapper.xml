@@ -29,7 +29,11 @@
             `rdate`=NOW(),
             `sale` =#{sale};
     </insert>
+    <select id="selectProducts" resultType="hashMap">
 
+        select * from `km_product`
+
+    </select>
     <update id="updateProduct"></update>
     <delete id="deleteProduct"></delete>
 </mapper>
