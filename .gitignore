@@ -38,5 +38,5 @@ out/
 
 ### add ###
 *.yml
-*.gradle
+
 *.log

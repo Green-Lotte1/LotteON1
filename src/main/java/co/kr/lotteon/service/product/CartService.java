@@ -11,14 +11,18 @@ import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.repository.product.CartRepository;
 import co.kr.lotteon.repository.product.ProductRepository;
 import co.kr.lotteon.security.MyUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.lang.reflect.Member;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -35,14 +39,21 @@ public class CartService {
     ///////////////////////////////////////////////////////////////////////////////////
     /////////////////////////// insertCart
     ///////////////////////////////////////////////////////////////////////////////////
-    public int selectCountCartByUidAndProdNo(String uid, int prodNo){
+    public Map<String, Object> selectCountCartByUidAndProdNo(Model model, HttpServletRequest request, String uid, int prodNo){
+        Map<String, Object> map = new HashMap<>();
         int result = 0;
         int selectResult = cartMapper.selectCountCartByUidAndProdNo(uid, prodNo);
         log.info("selectResult: "+selectResult);
         if(selectResult > 0){
             result = 1;
         }
-        return result;
+        String path = request.getContextPath();
+        model.addAttribute("path", path);
+        log.info("path : " + path);
+        map.put("result", result);
+        map.put("path", path);
+
+        return map;
     }
 
     public int insertCart(String uid, int prodNo, int inputCount){
