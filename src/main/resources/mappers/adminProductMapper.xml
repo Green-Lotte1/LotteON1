@@ -31,9 +31,12 @@
     </insert>
     <select id="selectProducts" resultType="hashMap">
 
-        select * from `km_product`
+        select * from `km_product` WHERE `sale` > 0;
 
     </select>
     <update id="updateProduct"></update>
+    <update id="UpdateDeleteProduct">
+        UPDATE `km_product` SET `sale`=-1 WHERE `prodNo`=#{prodNo};
+    </update>
     <delete id="deleteProduct"></delete>
 </mapper>

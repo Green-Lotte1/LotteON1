@@ -15,4 +15,6 @@ public interface AdminProductMapper {
     public void updateProduct(AdminProductDTO dto);
     public void deleteProduct(int prodNo);
 
+    public void UpdateDeleteProduct(int prodNo);
+
 }

@@ -15,7 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 import java.io.File;
 import java.util.List;
@@ -62,6 +64,13 @@ public class AdminProductController {
         return "redirect:/admin/product/register";
     }
 
+    @GetMapping("/admin/product/delete")
+    public String deleteProduct(int prodNo){
+        log.info("deleteProduct...1");
+        adminProductService.deleteProduct(prodNo);
+
+        return "redirect:/admin/product/list";
+    }
 }
 
 
