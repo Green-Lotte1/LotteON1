@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+
+import java.util.logging.Handler;
 
 @Configuration
 public class SecurityConfiguration {
@@ -29,7 +32,8 @@ public class SecurityConfiguration {
                         .failureUrl("/member/login?success=100")
                         .usernameParameter("uid")
                         .passwordParameter("pass")
-                        .permitAll())
+                        .permitAll()
+                        .successHandler(savedRequestAwareAuthenticationSuccessHandler()))
                 // 로그아웃 설정
                 .logout(config -> config
                         .logoutUrl("/member/logout")
@@ -46,7 +50,7 @@ public class SecurityConfiguration {
                 // 인가 권한 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/admin/**").permitAll()
-                        .requestMatchers("/cs/**").permitAll()
+                        .requestMatchers("/cs/**").authenticated()
                         .requestMatchers("/member/**").permitAll()
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/").permitAll()
@@ -67,6 +71,13 @@ public class SecurityConfiguration {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
+    }
+
+    @Bean
+    public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler(){
+        SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
+        handler.setDefaultTargetUrl("/"); // 원하는 기본 리다이렉트 페이지로 설정
+        return handler;
     }
 
 }
