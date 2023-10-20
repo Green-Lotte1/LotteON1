@@ -43,5 +43,8 @@ public class CartDTO {
     public int getSavePoint(){
         return ((price*count)/100)*point;
     }
+    public int discountingPrice(){
+        return price - ((price/100)*discount);
+    }
 
 }

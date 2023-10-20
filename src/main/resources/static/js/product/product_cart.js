@@ -20,21 +20,30 @@ $(document).ready(function () {
         // CHECKED CHECKBOX AMOUNT TOTAL
         $('input[name^="cartNo"]:checked').each(function() {
             // 합산 값을 초기화(누를때마다 초기화 해야되기 때문에 밖으로 빼면 안됨)
+            var count = parseFloat($(this).closest('tr').find('td:eq(2)').text().replace(/,/g, ''));
+            var orgPrice = parseFloat($(this).closest('tr').find('td:eq(3)').text().replace(/,/g, ''));
+            var discount = parseFloat($(this).closest('tr').find('td:eq(4)').text().replace(/,/g, ''));
+            var point = parseFloat($(this).closest('tr').find('td:eq(5)').text().replace(/,/g, ''));
+            var delivery = parseFloat($(this).closest('tr').find('td:eq(6)').text().replace(/,/g, ''));
             var orderTotal = parseFloat($(this).closest('tr').find('td:last').text().replace(/,/g, ''));
-            var countTotal = parseFloat($(this).closest('tr').find('td:eq(2)').text().replace(/,/g, ''));
-            var orgPriceTotal = parseFloat($(this).closest('tr').find('td:eq(3)').text().replace(/,/g, ''));
-            var discountTotal = parseFloat($(this).closest('tr').find('td:eq(4)').text().replace(/,/g, ''));
-            var pointTotal = parseFloat($(this).closest('tr').find('td:eq(5)').text().replace(/,/g, ''));
-            var deliveryTotal = parseFloat($(this).closest('tr').find('td:eq(6)').text().replace(/,/g, ''));
+
+
+            console.log('count : '+ count);
+            console.log('orgPrice : '+ orgPrice);
+            console.log('discount : '+ discount);
+            console.log('point : '+ point);
+            console.log('delivery : '+ delivery);
+            console.log('order : '+ orderTotal);
+            console.log('==============================================')
 
             // 할인된 금액과 정가의 차액
-            discountTotal = orderTotal - orgPriceTotal - deliveryTotal;
+            discount = orderTotal - (orgPrice*count) - delivery;
 
             totalOrderAmount += orderTotal;
-            totalOrgPriceAmount += orgPriceTotal;
-            totalDiscountAmount += discountTotal;
-            totalDeliveryAmount += deliveryTotal;
-            totalPointAmount += pointTotal;
+            totalOrgPriceAmount += orgPrice*count;
+            totalDiscountAmount += discount;
+            totalDeliveryAmount += delivery;
+            totalPointAmount += point;
         });
         // 합산된 값을 전체주문금액(td#totalOrderAmount)에 입력
         $('#totalOrderAmount').text(totalOrderAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원');
@@ -64,28 +73,28 @@ $(document).ready(function () {
         // 체크된 체크박스들의 cart.total 값을 합산
         $('input[name^="cartNo"]:checked').each(function() {
             var orderTotal = parseFloat($(this).closest('tr').find('td:last').text().replace(/,/g, ''));
-            var countTotal = parseFloat($(this).closest('tr').find('td:eq(2)').text().replace(/,/g, ''));
-            var orgPriceTotal = parseFloat($(this).closest('tr').find('td:eq(3)').text().replace(/,/g, ''));
-            var discountTotal = parseFloat($(this).closest('tr').find('td:eq(4)').text().replace(/,/g, ''));
-            var pointTotal = parseFloat($(this).closest('tr').find('td:eq(5)').text().replace(/,/g, ''));
-            var deliveryTotal = parseFloat($(this).closest('tr').find('td:eq(6)').text().replace(/,/g, ''));
+            var count = parseFloat($(this).closest('tr').find('td:eq(2)').text().replace(/,/g, ''));
+            var orgPrice = parseFloat($(this).closest('tr').find('td:eq(3)').text().replace(/,/g, ''));
+            var discount = parseFloat($(this).closest('tr').find('td:eq(4)').text().replace(/,/g, ''));
+            var point = parseFloat($(this).closest('tr').find('td:eq(5)').text().replace(/,/g, ''));
+            var delivery = parseFloat($(this).closest('tr').find('td:eq(6)').text().replace(/,/g, ''));
 
-            console.log('orderTotal : '+ orderTotal);
-            console.log('countTotal : '+ countTotal);
-            console.log('orgPriceTotal : '+ orgPriceTotal);
-            console.log('discountTotal : '+ discountTotal);
-            console.log('pointTotal : '+ pointTotal);
-            console.log('deliveryTotal : '+ deliveryTotal);
+            console.log('count : '+ count);
+            console.log('orgPrice : '+ orgPrice);
+            console.log('discount : '+ discount);
+            console.log('point : '+ point);
+            console.log('delivery : '+ delivery);
+            console.log('order : '+ orderTotal);
             console.log('==============================================')
 
             // 할인된 금액과 정가의 차액
-            discountTotal = orderTotal - orgPriceTotal - deliveryTotal;
+            discount = orderTotal - (orgPrice*count) - delivery;
 
             totalOrderAmount += orderTotal;
-            totalOrgPriceAmount += orgPriceTotal;
-            totalDiscountAmount += discountTotal;
-            totalDeliveryAmount += deliveryTotal;
-            totalPointAmount += pointTotal;
+            totalOrgPriceAmount += orgPrice*count;
+            totalDiscountAmount += discount;
+            totalDeliveryAmount += delivery;
+            totalPointAmount += point;
         });
         // 합산된 값을 전체주문금액(td#totalOrderAmount)에 입력
         $('#totalOrderAmount').text(totalOrderAmount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")+'원');
@@ -160,4 +169,54 @@ $(document).ready(function () {
         }// 삭제 confirm end
     }); // 선택삭제 click end
 
+    //*******************************************************//
+    //******************* 선택된 상품 order *********************//
+    //*******************************************************//
+    $('input[name="order"]').click(function(e){
+        e.preventDefault();
+        alert('order click');
+
+        // 체크돼있는 prodNo를 배열로 만들어 넣음
+        $('input[name^="cartNo"]:checked').each(function(){
+            selectedCartNos = selectedCartNos + $(this).val() + "/";
+            //selectedCartNos.push($(this).val());
+        });
+        if(selectedCartNos === "/"){
+            alert('주문할 상품을 선택해주세요.');
+            return;
+        }
+
+        const chk = {
+            "selectedCartNos" : selectedCartNos
+        }
+        alert('chk: '+chk.selectedCartNos);
+        console.log('here...1');
+        window.location.href = path+'/product/order?chk='+ encodeURIComponent(chk.selectedCartNos);
+        alert('다시 시도해주세요.');
+        return;
+        const parametersJsonData = $.param(jsonData);
+        console.log(parametersJsonData);
+        /*$.ajax({
+            url: path+'/product/order',
+            type: 'get',
+            data: jsonData,
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            success: function(data){
+                console.log('here...2');
+                if(data > 0){
+                    console.log('here...3');
+
+                    console.log('here...4');
+                    const newURL = path + '/product/order?' + parametersJsonData;
+                    console.log('here...5');
+                    alert('선택된 상품들을 주문합니다.');
+                    window.location.href = newURL;
+                }else if(data < 1){
+                    alert('다시 시도해주세요.');
+                    return;
+                }
+            }
+        })*/
+    }); // order click end
 });

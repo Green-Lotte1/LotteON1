@@ -7,6 +7,9 @@ import co.kr.lotteon.service.MainService;
 import co.kr.lotteon.service.member.MemberService;
 import co.kr.lotteon.service.product.CartService;
 import co.kr.lotteon.service.product.ProductService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -246,11 +249,9 @@ public class ProductController {
         int result = 0;
         log.info("deleteCartProduct here...1");
         log.info(pageRequestDTO.getSelectedCartNos().toString());
-        String[] selectedNos = pageRequestDTO.getSelectedCartNos().toString().split("/");
-        log.info(selectedNos[1]);
+        String[] selectedCartNos = pageRequestDTO.getSelectedCartNos().toString().split("/");
 
-        String uid = prodService.loginStatus();
-        result = cartService.deleteCartProductByProdNoAndUid(selectedNos, uid);
+        result = cartService.deleteCartProductByCartNo(selectedCartNos);
 
         return result;
 
@@ -261,8 +262,24 @@ public class ProductController {
     ////////    product order
     //////////////////////////////
     @GetMapping(value = "/product/order")
-    public String order(Model model, HttpServletRequest request) {
+    public String order(Model model, HttpServletRequest request, @RequestParam("chk") String chk, PageRequestDTO pageRequestDTO) throws JsonProcessingException {
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        /*String[] cartNos = objectMapper.readValue(jsonData, new TypeReference<String[]>() {});*/
+
+        // jsonData를 String[]로 파싱하지 않고 그대로 사용
+        /*String cartNos = objectMapper.readValue(jsonData, String.class);*/
+
+        // cartNos를 배열로 출력
+        log.info(chk);
+
+
+        log.info("order here...1");
+        log.info(chk.toString());
         layout(model, request);
+
+
+
         return "/product/order";
     }
 
