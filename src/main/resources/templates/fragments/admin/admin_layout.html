@@ -14,16 +14,8 @@
 </head>
 <body>
 <div id="admin-wrapper">
-    <header>
-        <div>
-            <a th:href="@{/admin/index}" class="logo"><img th:src="@{/images/admin_logo.png}" alt="admin_logo"/></a>
-            <p>
-                <span>홍길동님 반갑습니다.</span>
-                <a th:href="@{/}">HOME |</a>
-                <a th:href="@{/}">로그아웃 |</a>
-                <a th:href="@{/cs}">고객센터</a>
-            </p>
-        </div>
+    <header th:replace="~{/fragments/admin/admin_header}">
+        <!-- admin header -->
     </header>
     <main>
         <aside th:replace="~{/fragments/admin/admin_aside}">
@@ -274,10 +266,8 @@
             </div>
         </section>
     </main>
-    <footer>
-        <div>
-            <p>Copyright ©lotteon.com All rights reserved. ADMINISTRATOR Version 5.4.1.2</p>
-        </div>
+    <footer th:replace="~{/fragments/admin/admin_footer}">
+        <!-- admin footer -->
     </footer>
 </div>
 </body>
