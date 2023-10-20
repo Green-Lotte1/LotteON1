@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/fragments/cs_layout.html}">
+      layout:decorate="~{/fragments/cs/cs_layout.html}">
 <head>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-  <script th:src="@{/js/qna.js}"></script>
+  <script th:src="@{/js/cs/cs_qnaCate.js}"></script>
 </head>
   <article layout:fragment="content">
-    <input type="hidden" name="url" th:value="${url}">
+    <input type="hidden" name="url" th:value="${jsonUrl}">
     <form th:action="@{/cs/qna/write}" method="post" id="write">
       <!-- uid는 나중에 session에 담긴 uid 정보 담기 -->
-      <input type="hidden" name="uid" th:value="${#authentication.principal.member.uid}"/>
       <input type="hidden" name="group" value="qna"/>
       <table>
         <tr>
@@ -47,7 +43,7 @@
           </td>
         </tr>
       </table>
-      <div>
+      <div id="buttons">
         <a th:href="@{/cs/qna/list(cate1=${cate1Info.cate1}, pg=${pageRequestDTO.pg})}" class="btnList">취소하기</a>
         <input type="submit" class="btnSubmit" value="등록하기"/>
       </div>

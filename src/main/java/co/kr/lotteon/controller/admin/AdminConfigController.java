@@ -1,9 +1,9 @@
 package co.kr.lotteon.controller.admin;
 
 import co.kr.lotteon.service.admin.AdminService;
-import co.kr.lotteon.service.CsService;
-import co.kr.lotteon.service.MemberService;
-import co.kr.lotteon.service.ProductService;
+import co.kr.lotteon.service.cs.CsService;
+import co.kr.lotteon.service.member.MemberService;
+import co.kr.lotteon.service.product.ProductService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;

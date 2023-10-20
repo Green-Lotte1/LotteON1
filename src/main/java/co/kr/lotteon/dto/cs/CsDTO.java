@@ -1,8 +1,7 @@
 package co.kr.lotteon.dto.cs;
 
-import co.kr.lotteon.dto.MemberDTO;
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.cs.CsEntity;
-import co.kr.lotteon.entity.cs.CsGroupEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;

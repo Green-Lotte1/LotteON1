@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  xmlns="http://www.w3.org/1999/html"
-	  layout:decorate="~{/fragments/member_layout.html}">
+	  layout:decorate="~{/fragments/member/member_layout.html}">
 <body>
     <div id="wrapper">
         <main id="member">
@@ -11,6 +11,7 @@
                     <h1>일반 회원가입</h1>
                 </nav>
 				<form id="formMember" th:action="@{/member/register}" method="POST" th:object="${member}">
+					<input type="hidden" name="location" th:field="*{location}" readonly>
 					<section>
 						<table>
 							<caption>필수 정보입력</caption>
@@ -53,7 +54,7 @@
 							<tr>
 								<th><span class="essential">*</span>성별</th>
 								<td>
-									<label><input type="radio" name="km_gender" th:field="*{gender}" value="1" checked>&nbsp;남</label>
+									<label><input type="radio" name="km_gender" th:field="*{gender}" value="1">&nbsp;남</label>
 									<label><input type="radio" name="km_gender" th:field="*{gender}" value="2">&nbsp;여</label>
 								</td>
 							</tr>
@@ -94,9 +95,9 @@
 					</div>
 				</form>
 				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-				<script th:src="@{/js/zipcode.js}"></script>
-				<script th:src="@{/js/validation.js}"></script>
-				<script th:src="@{/js/memberCheck.js}"></script>
+				<script th:src="@{/js/member/zipcode.js}"></script>
+				<script th:src="@{/js/member/validation.js}"></script>
+				<script th:src="@{/js/member/memberCheck.js}"></script>
             </div>
         </main>
     </div>    

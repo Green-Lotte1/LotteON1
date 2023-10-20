@@ -1,12 +1,11 @@
 package co.kr.lotteon.security;
 
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -1,7 +1,7 @@
 package co.kr.lotteon.entity.product;
 
 import co.kr.lotteon.dto.product.CartDTO;
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -28,7 +28,7 @@ public class CartEntity {
     @JoinColumn(name = "prodNo")
     private ProductEntity prodNo;
     private int count;
-    private int cartPrice;
+    private int price;
     private int discount;
     private int point;
     private int delivery;
@@ -42,7 +42,7 @@ public class CartEntity {
                 .uid(uid.toDTO())
                 .prodNo(prodNo.toDTO())
                 .count(count)
-                .cartPrice(cartPrice)
+                .price(price)
                 .point(point)
                 .delivery(delivery)
                 .total(total)

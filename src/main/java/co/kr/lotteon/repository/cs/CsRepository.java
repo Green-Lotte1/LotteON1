@@ -42,4 +42,11 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     // write page
     ////////////////////////////////////
 
+
+
+    ////////////////////////////////////
+    // etc page
+    ////////////////////////////////////
+    public int countByNo(int no);
+
 }

@@ -1,11 +1,10 @@
 package co.kr.lotteon.entity.product;
 
 import co.kr.lotteon.dto.product.ProductDTO;
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -78,10 +77,10 @@ public class ProductEntity {
                 .hit(hit)
                 .score(score)
                 .review(review)
-                /*.thumb1(thumb1)
+                .thumb1(thumb1)
                 .thumb2(thumb2)
                 .thumb3(thumb3)
-                .detail(detail)*/
+                .detail(detail)
                 .status(status)
                 .duty(duty)
                 .receipt(receipt)
@@ -95,6 +94,10 @@ public class ProductEntity {
                 .etc4(etc4)
                 .etc5(etc5)
                 .build();
+    }
+
+    public int discountingPrice(){
+        return price - ((price/100)*discount);
     }
 
 }

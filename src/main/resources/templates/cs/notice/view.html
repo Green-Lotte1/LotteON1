@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{/fragments/cs_layout.html}">
+      layout:decorate="~{/fragments/cs/cs_layout.html}">
   <article layout:fragment="content">
     <nav>
       <h2 class="title">[[${view.cate2.wrapping}]] [[${view.title}]]</h2>
@@ -10,12 +10,14 @@
 
     <div class="content">
       <p th:utext="${view.brContent}"></p>
-      <p article th:replace="~{/fragments/cs_report}">
+      <p article th:replace="~{/fragments/cs/cs_report}">
 
         <!-- 주의사항 들어갈 위치! -->
 
       </p>
     </div>
-    <a th:href="@{/cs/notice/list}" class="btnList">목록보기</a>
+    <div id="buttons">
+      <a th:href="@{/cs/notice/list}" class="btnList">목록보기</a>
+    </div>
   </article>
 </html>

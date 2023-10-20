@@ -1,8 +1,8 @@
 package co.kr.lotteon.security;
 
 import ch.qos.logback.classic.spi.LoggingEventVO;
-import co.kr.lotteon.entity.MemberEntity;
-import co.kr.lotteon.repository.MemberRepository;
+import co.kr.lotteon.entity.member.MemberEntity;
+import co.kr.lotteon.repository.member.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,8 +31,5 @@ public class SecurityUserService implements UserDetailsService {
                 .build();
 
         return userDetails;
-    }
-    public List<MemberEntity> getAllUsers(){
-        return repo.findAll();
     }
 }

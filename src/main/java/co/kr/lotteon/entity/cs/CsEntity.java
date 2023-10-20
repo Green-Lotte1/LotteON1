@@ -1,7 +1,7 @@
 package co.kr.lotteon.entity.cs;
 
 import co.kr.lotteon.dto.cs.CsDTO;
-import co.kr.lotteon.entity.MemberEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
