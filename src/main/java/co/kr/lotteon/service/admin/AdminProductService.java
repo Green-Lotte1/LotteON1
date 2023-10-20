@@ -53,7 +53,8 @@ public class AdminProductService {
         adminProductMapper.updateProduct(dto);
     }
     public void deleteProduct(int prodNo){
-        adminProductMapper.deleteProduct(prodNo);
+        // sale -1 로 변경
+        adminProductMapper.UpdateDeleteProduct(prodNo);
     }
 
     @Value("${spring.servlet.multipart.location}")
