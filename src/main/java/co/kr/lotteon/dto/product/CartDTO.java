@@ -40,4 +40,8 @@ public class CartDTO {
                 .build();
     }
 
+    public int getSavePoint(){
+        return ((price*count)/100)*point;
+    }
+
 }

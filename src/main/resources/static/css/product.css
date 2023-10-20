@@ -16,6 +16,17 @@
     float: right;
     margin-top: 10px;
 }
+#product > .cart > nav > p {
+    float: right;
+    margin-top: 10px;
+}
+#product > .cart > nav > .cartNav {
+    font-weight: bold;
+}
+#product > .cart > nav > p * {
+    color:gray;
+}
+
 #product > section > nav > h1 {
     display: inline-block;
     font-weight: bold;
@@ -760,6 +771,12 @@
 }
 #product > .cart > form > table td {
   text-align: center;
+}
+#product > .cart > form > table .free-delivery {
+    background-image: url('../images/product/ico_free_delivery.gif');
+    background-repeat: no-repeat;
+    background-position: center center;
+    color: transparent;
 }
 #product > .cart > form > table th:first-child {
   width: 60px;

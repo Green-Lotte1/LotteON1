@@ -2,13 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/product/product_layout.html}">
+<head>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script th:src="@{/js/product/product_cart.js}"></script>
+</head>
 <section layout:fragment="content" class="cart">
         <!-- 장바구니 페이지 시작 -->
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>장바구니</h1>
-                <p>
-                    HOME > <span>패션·의류·뷰티</span> > <strong>장바구니</strong>
+                <p class="cartNav">
+                    장바구니  <span>> 주문결제</span>  <strong>> 주문완료</strong>
                 </p>
             </nav>
 
@@ -17,7 +23,7 @@
                 <table>
                     <thead>
                     <tr>
-                        <th><input type="checkbox" name="all"></th>
+                        <th><input type="checkbox" name="all" id="selectAll"></th>
                         <th>상품명</th>
                         <th>총수량</th>
                         <th>판매가</th>
@@ -31,59 +37,24 @@
                     <tr class="empty">
                         <td colspan="7">장바구니에 상품이 없습니다.</td>
                     </tr>
-                    <tr>
-                        <td><input type="checkbox" name=""></td>
+                    <tr th:each="cart:${cartList}" th:if="${cart.prodNo.sale > 0}">
+                        <td><input type="checkbox" name="cartNo" th:value="${cart.prodNo.prodNo}"></td>
                         <td>
                             <article>
                                 <a href="#"><img src="https://via.placeholder.com/80x80" alt=""></a>
                                 <div>
-                                    <h2><a href="#">상품명</a></h2>
-                                    <p>상품설명</p>
+                                    <h2><a href="#" th:text="${cart.prodNo.prodName}">상품명</a></h2>
+                                    <p th:text="${cart.prodNo.descript}">상품설명</p>
                                 </div>
                             </article>
                         </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>5%</td>
-                        <td>270</td>
-                        <td>무료배송</td>
-                        <td>27,000</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" name=""></td>
-                        <td>
-                            <article>
-                                <a href="#"><img src="https://via.placeholder.com/80x80" alt=""></a>
-                                <div>
-                                    <h2><a href="#">상품명</a></h2>
-                                    <p>상품설명</p>
-                                </div>
-                            </article>
-                        </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>5%</td>
-                        <td>270</td>
-                        <td>무료배송</td>
-                        <td>27,000</td>
-                    </tr>
-                    <tr>
-                        <td><input type="checkbox" name=""></td>
-                        <td>
-                            <article>
-                                <a href="#"><img src="https://via.placeholder.com/80x80" alt=""></a>
-                                <div>
-                                    <h2><a href="#">상품명</a></h2>
-                                    <p>상품설명</p>
-                                </div>
-                            </article>
-                        </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>5%</td>
-                        <td>270</td>
-                        <td>무료배송</td>
-                        <td>27,000</td>
+                        <td th:text="${#numbers.formatInteger(cart.count, 0, 'COMMA')}">1</td>
+                        <td th:text="${#numbers.formatInteger(cart.price, 0, 'COMMA')}">27,000</td>
+                        <td th:text="${cart.discount}+'%'">5%</td>
+                        <td th:text="${#numbers.formatInteger(cart.savePoint, 0, 'COMMA')}">270</td>
+                        <td th:if="${cart.delivery < 1}" class="free-delivery">[[${cart.delivery}]]</td>
+                        <td th:if="${cart.delivery > 0}" th:text="${#numbers.formatInteger(cart.delivery, 0, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatInteger(cart.total, 0, 'COMMA')}">27,000</td>
                     </tr>
 
                     </tbody>
@@ -96,27 +67,27 @@
                     <table border="0">
                         <tr>
                             <td>상품수</td>
-                            <td>1</td>
+                            <td id="totalCountAmount">0개</td>
                         </tr>
                         <tr>
                             <td>상품금액</td>
-                            <td>27,000</td>
+                            <td id="totalOrgPriceAmount">0원</td>
                         </tr>
                         <tr>
                             <td>할인금액</td>
-                            <td>-1,000</td>
+                            <td id="totalDiscountAmount">0원</td>
                         </tr>
                         <tr>
                             <td>배송비</td>
-                            <td>0</td>
+                            <td id="totalDeliveryAmount">0원</td>
                         </tr>
                         <tr>
                             <td>포인트</td>
-                            <td>260</td>
+                            <td id="totalPointAmount">0점</td>
                         </tr>
                         <tr>
                             <td>전체주문금액</td>
-                            <td>26,000</td>
+                            <td id="totalOrderAmount">0원</td>
                         </tr>
                     </table>
                     <input type="submit" name="" value="주문하기">

@@ -157,6 +157,7 @@ public class ProductController {
 
         List<CartDTO> cartList = cartService.selectAllCartByUid(member);
 
+        model.addAttribute("cartList", cartList);
 
         return "/product/cart";
     }
@@ -237,12 +238,6 @@ public class ProductController {
 
 
 
-
-    @ResponseBody
-    @PutMapping(value = "/product/cart")
-    public void insertCart(){
-
-    }
 
     //////////////////////////////
     ////////    product order
