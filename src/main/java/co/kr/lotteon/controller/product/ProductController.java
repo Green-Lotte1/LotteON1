@@ -164,7 +164,8 @@ public class ProductController {
 
     @ResponseBody
     @GetMapping(value = "/product/cartCountProduct")
-    public int cartCountProduct(PageRequestDTO pageRequestDTO) {
+    public Map<String, Object> cartCountProduct(Model model, HttpServletRequest request, PageRequestDTO pageRequestDTO) {
+
         log.info("cartCountProduct here...1");
         String uid = prodService.loginStatus();
 
@@ -174,10 +175,11 @@ public class ProductController {
         log.info("cartCountProduct prodNo: "+prodNo);
         log.info("cartCountProduct input: "+pageRequestDTO.getInput());
         // SELECT COUNT 처리
-        int result = 0;
+        /*int result = 0;*/
         log.info("cartCountProduct here...2");
-        result = cartService.selectCountCartByUidAndProdNo(uid, prodNo);
-        log.info("cartCountProduct result: "+result);
+        Map<String, Object> result = cartService.selectCountCartByUidAndProdNo(model, request, uid, prodNo);
+        log.info("cartCountProduct result: "+result.get("result"));
+        log.info("cartCountProduct path: "+result.get("path"));
         log.info("cartCountProduct here...3");
 
         return result;
