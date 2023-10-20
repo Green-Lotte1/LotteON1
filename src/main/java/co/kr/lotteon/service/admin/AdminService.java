@@ -58,14 +58,6 @@ public class AdminService {
                 .build();
     }
 
- //  public void save(ProductDTO dto) {
-
-
-   //     productRepository.save(dto.toEntity());
-
-
-   // }
-
     public List<ProdCate2DTO> selectAllProdCate1AndProdCate2() {
         List<ProdCate2Entity> entity = prodCate2Repository.findAll();
 

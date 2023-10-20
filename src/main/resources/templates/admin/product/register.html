@@ -26,72 +26,60 @@
             </div>
         </header>
         <script type="text/javascript">
+            function changeSelect() {
 
-            /*
-            $(document).ready(function() {
+             const selectValue = $('select[name=prodCate1]').val();
 
-                //Main 카테고리를 선택 할때 마다 AJAX를 호출할 수 있지만 DB접속을 매번 해야 하기 때문에 main, sub카테고리 전체을 들고온다.
-                //Sub 카테고리 data
-                var subCategoryArray = new Array();
-                var subCategoryObject = new Object();
+             console.log(selectValue);
 
-                  //메인 카테고리
-                var mainCategorySelectBox = document.getElementById("prodCate1");;
+     $.ajax({
+         url: '/LotteON/admin/product/registerCate2?selectValue=' + selectValue,
+         type: 'GET',
+         dataType: 'json',
+         success: function (data) {
 
-                  //서브 카테고리
-                var subCategorySelectBox = document.getElementById("prodCate2");;
-                event.preventDefault();
-                ajax.post();
-                $.ajax({
-                    url: '/LotteOn/admin/product/setCate2List.do',
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(data){
-                        const depth2 = data;
-                        const depth2keys = Object.keys(data);
-                        //alert(Object.keys(data[depth2keys[0]])[0]); //첫번째 map 첫번째 key
-                        for(let i=0; i<depth2keys.length; i++){
-                            for(let j=0; j<Object.keys(data[depth2keys[i]]).length; j++){
+             console.log("data" + data);
 
-                                subCategoryObject = new Object();
-                                let mainId = depth2keys[i];
-                                let subId = Object.keys(data[mainId])[j];
-                                let subName = data[mainId][subId];
-                                subCategoryObject.main_category_id = mainId;
-                                subCategoryObject.sub_category_id = subId;
-                                subCategoryObject.sub_category_name = subName;
-                                subCategoryArray.push(subCategoryObject);
+             const cate2Select = $('select[name=prodCate2]');
 
-                                console.log('c2Name : ' + subCategoryObject.sub_category_name);
-                            }
-                        }
-                    }
-                });
 
-                // depth1 선택값에 따른 depth2 옵션 수정
-                $(document).on("change","select[name='prodCate1']",function(){
+             cate2Select.empty();
+             cate2Select.append($('<option>', {
+                 value: 'cate0',
+                 text: '2차 분류 선택'
+             }));
+             $.each(data, function (index, item) {
+                 cate2Select.append($('<option>', {
+                     value: item.cate2,
+                     text: item.c2Name
+                 }));
+             });
+         }
+     });
+ }
 
-                    //두번째 셀렉트 박스를 삭제 시킨다.
-                    var subCategorySelectBox = $("select[name='prodCate2']");
-                    subCategorySelectBox.children().remove(); //기존 리스트 삭제
+ $(function () {
 
-                    //선택한 첫번째 박스의 값을 가져와 일치하는 값을 두번째 셀렉트 박스에 넣는다.
-                    $("option:selected", this).each(function(){
-                        var selectValue = $(this).val(); //main category 에서 선택한 값
-                        subCategorySelectBox.append("<option value=''>2차 분류 선택</option>");
-                        for(var i=0;i<subCategoryArray.length;i++){
-                            if(selectValue == subCategoryArray[i].main_category_id){
-                                subCategorySelectBox.append("<option value='"+subCategoryArray[i].sub_category_id+"'>"+subCategoryArray[i].sub_category_name+"</option>");
+     $('select[name=prodCate2]').change(function () {
 
-                            }
-                        }
-                    });
+         let cate1 = $('select[name=prodCate1]').val();
+         let cate2 = $(this).val();
 
-                });
 
-            });
+         let actionUrl = "/admin/product/register?prodCate1=" + cate1 + "&prodCate2=" + cate2;
+         $('#formRegister').attr('action', actionUrl);
 
-            */
+
+     });
+
+     $('input[name=price]').focusout(function () {
+         const price = $(this).val();
+         const point = $('input[name=point]');
+
+         point.val(price * 0.01);
+     });
+
+ });
         </script>
         <main>
             <aside>
@@ -156,7 +144,7 @@
                 <!-- 상품등록 컨텐츠 시작 -->
                 <article>
                     <form th:action="@{/admin/product/register}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="seller" value="a12345"/>
+                        <input type="hidden" name="seller" value="seller"/>
                         <!-- 상품분류 -->
                         <section>
                             <h4>상품분류</h4>
@@ -167,9 +155,11 @@
                                 <tr>
                                     <td>1차 분류</td>
                                     <td>
-                                        <select name="prodCate1">
-                                            <option value="00">1차 분류 선택</option>
-                                            <option value="10">패션·의류·뷰티</option>
+                                        <select name="prodCate1" onchange="changeSelect()">
+                                            <option value="0">1차 분류 선택</option>
+                                            <th:block th:each="cate1 : ${setCate1}">
+                                                <option th:value="${cate1.cate1}" th:text="${cate1.c1Name}"></option>
+                                            </th:block>
                                         </select>
                                     </td>
                                 </tr>
@@ -182,6 +172,23 @@
                                             <option value="11">여성의류</option>
                                             <option value="12">잡화</option>
                                             <option value="13">뷰티</option>
+                                            <option value="10">노트북/PC</option>
+                                            <option value="11">가전</option>
+                                            <option value="12">휴대폰</option>
+                                            <option value="13">기타</option>
+                                            <option value="10">신선식품</option>
+                                            <option value="11">가공식품</option>
+                                            <option value="12">건강식품</option>
+                                            <option value="13">생필품</option>
+                                            <option value="14">커피•음료</option>
+                                            <option value="10">가구/DIY</option>
+                                            <option value="11">침구•커튼</option>
+                                            <option value="12">생활용품</option>
+                                            <option value="13">사무용품</option>
+                                            <option value="10">국내도서</option>
+                                            <option value="11">해외도서</option>
+                                            <option value="12">학습/교육</option>
+                                            <option value="13">음반</option>
                                         </select>
                                     </td>
                                 </tr>
