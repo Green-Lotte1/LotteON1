@@ -44,7 +44,10 @@ public class AdminProductService {
         return adminProductMapper.selectProduct(prodNo);
     }
     public List<AdminProductDTO> selectProducts(){
-        return adminProductMapper.selectProducts();
+        List<AdminProductDTO> productlist = adminProductMapper.selectProducts();
+        log.info(productlist.toString());
+
+        return productlist;
     }
     public void updateProduct(AdminProductDTO dto){
         adminProductMapper.updateProduct(dto);
