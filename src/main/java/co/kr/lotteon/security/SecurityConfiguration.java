@@ -1,5 +1,6 @@
 package co.kr.lotteon.security;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,7 +12,9 @@ import org.springframework.security.config.annotation.web.configurers.CsrfConfig
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 import java.util.logging.Handler;
@@ -20,6 +23,8 @@ import java.util.logging.Handler;
 public class SecurityConfiguration {
     @Autowired
     private SecurityUserService service;
+    @Autowired
+    private MyAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -33,7 +38,7 @@ public class SecurityConfiguration {
                         .usernameParameter("uid")
                         .passwordParameter("pass")
                         .permitAll()
-                        .successHandler(savedRequestAwareAuthenticationSuccessHandler()))
+                        .successHandler(new LoginSuccessHandler("/")))
                 // 로그아웃 설정
                 .logout(config -> config
                         .logoutUrl("/member/logout")
@@ -49,16 +54,20 @@ public class SecurityConfiguration {
                         .userDetailsService(service))
                 // 인가 권한 설정
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/admin/**").permitAll()
-                        .requestMatchers("/cs/**").authenticated()
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/cs/**").permitAll()
                         .requestMatchers("/member/**").permitAll()
                         .requestMatchers("/product/**").permitAll()
+                        .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll())
-                // 403 Forbidden 에러 처리
+                // 에러 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.FORBIDDEN))
-                );
+                        .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/member/login"))
+                                //.accessDeniedHandler(accessDeniedHandler)
+                                //.accessDeniedPage("/error/404")
+                                //.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.NOT_FOUND))
+                        );
 
         return http.build();
     }
@@ -72,12 +81,4 @@ public class SecurityConfiguration {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
-    @Bean
-    public SavedRequestAwareAuthenticationSuccessHandler savedRequestAwareAuthenticationSuccessHandler(){
-        SavedRequestAwareAuthenticationSuccessHandler handler = new SavedRequestAwareAuthenticationSuccessHandler();
-        handler.setDefaultTargetUrl("/"); // 원하는 기본 리다이렉트 페이지로 설정
-        return handler;
-    }
-
 }
