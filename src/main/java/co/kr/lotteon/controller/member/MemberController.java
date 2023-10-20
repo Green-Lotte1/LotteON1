@@ -9,10 +9,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Log4j2
 @Controller
@@ -38,6 +35,16 @@ public class MemberController {
     @GetMapping("/member/login")
     public String login(){
         log.info("login...1");
+        return "/member/login";
+    }
+    
+    // 비회원 로그인시 이전 페이지로 이동(인가 권한이 필요한 페이지 경우)
+    @RequestMapping ("/member/login")
+    public String login(HttpServletRequest request,Model model){
+        log.info("request login...1");
+        // 이전페이지 URL 추출
+        String referrer = request.getHeader("Referer");
+        request.getSession().setAttribute("prevPage", referrer);
         return "/member/login";
     }
     @GetMapping("/member/register")
