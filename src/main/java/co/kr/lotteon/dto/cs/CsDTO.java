@@ -23,6 +23,7 @@ public class CsDTO {
     private MemberDTO uid;
     private String title;
     private String content;
+    private int hit;
     private LocalDateTime rdate;
 
     public String getBrContent() {
@@ -60,6 +61,7 @@ public class CsDTO {
                 .uid(uid.toEntity())
                 .title(title)
                 .content(content)
+                .hit(hit)
                 .rdate(rdate)
                 .build();
     }
