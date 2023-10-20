@@ -11,14 +11,18 @@ import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.repository.product.CartRepository;
 import co.kr.lotteon.repository.product.ProductRepository;
 import co.kr.lotteon.security.MyUserDetails;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.lang.reflect.Member;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Log4j2
@@ -35,13 +39,14 @@ public class CartService {
     ///////////////////////////////////////////////////////////////////////////////////
     /////////////////////////// insertCart
     ///////////////////////////////////////////////////////////////////////////////////
-    public int selectCountCartByUidAndProdNo(String uid, int prodNo){
+    public int selectCountCartByUidAndProdNo(Model model, String uid, int prodNo){
         int result = 0;
         int selectResult = cartMapper.selectCountCartByUidAndProdNo(uid, prodNo);
         log.info("selectResult: "+selectResult);
         if(selectResult > 0){
             result = 1;
         }
+
         return result;
     }
 
@@ -96,5 +101,15 @@ public class CartService {
         log.info(cartList.toString());
 
         return cartList;
+    }
+
+    public int deleteCartProductByProdNoAndUid(String[] prodNos, String uid){
+
+        int result = 0;
+        for(int i = 1; i < prodNos.length; i++){
+            int prodNo = Integer.parseInt(prodNos[i]);
+            result = cartMapper.deleteCartProductByProdNoAndUid(prodNo, uid);
+        }
+        return  result;
     }
 }

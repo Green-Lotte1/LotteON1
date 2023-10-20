@@ -4,14 +4,21 @@
       layout:decorate="~{/fragments/admin/admin_layout.html}">
 <head>
   <script th:src="@{/js/cs/cs_qnaCate.js}"></script>
-  <script th:src="@{/js/cs/cs_qnaModify.js}"></script>
 </head>
-  <article layout:fragment="content">
-    <input type="hidden" name="url" th:value="${jsonUrl}">
-    <form th:action="@{/cs/qna/modify}" method="post" id="modify">
-      <input type="hidden" name="no"     th:value="${view.no}"/>
-      <input type="hidden" name="parent" th:value="${view.parent}"/>
-      <input type="hidden" name="group"  th:value="${view.group.group}"/>
+<section layout:fragment="content" id="qna">
+  <!--<input type="hidden" name="url" th:value="${jsonUrl}">-->
+
+  <head>
+    <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
+  </head>
+
+  <nav th:replace="~{/fragments/admin/admin_nav :: nav}">
+    <!-- nav 들어올 영역 -->
+  </nav>
+
+  <article id="modify">
+
+    <form>
       <table>
         <tr>
           <td>문의유형</td>
@@ -19,45 +26,41 @@
 
             <select name="cate1">
               <option value="0">1차유형</option>
-              <option th:each="ct1:${cate1}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq pageRequestDTO.cate1}">
-                [[${ct1.cate1_name}]]
+              <option>
+                회원
               </option>
             </select>
 
             <select name="cate2">
               <option value="0">2차유형</option>
-              <option th:each="ct2:${cate2}" th:value="${ct2.cate2}" th:selected="${ct2.cate2 eq pageRequestDTO.cate2}">
-                [[${ct2.cate2_name}]]
+              <option>
+                가입/탈퇴
               </option>
             </select>
-
           </td>
         </tr>
-        <tr>
 
+        <tr>
           <td>문의제목</td>
           <td>
-            <input type="text" name="title" placeholder="제목을 입력하세요." maxlength="45"
-              th:value="${view.title}"/>
+            <input type="text" name="title" placeholder="제목을 입력하세요."/>
           </td>
-
         </tr>
-
         <tr>
           <td>문의내용</td>
           <td>
-            <textarea name="content" class="content" placeholder="내용을 입력하세요.">[[${view.content}]]</textarea>
+            <textarea name="content" placeholder="내용을 입력하세요."></textarea>
           </td>
-
         </tr>
       </table>
+
       <div id="buttons">
-        <a th:href="@{/cs/qna/view(cate1=${view.cate1.cate1}, cate2=${view.cate2.cate2}, no=${view.no}, pg=${pageRequestDTO.pg})}" class="btnList">취소하기</a>
-        <th:block sec:authorize="isAuthenticated()"
-                  th:if="${#authentication.principal.member.uid eq view.uid.uid}">
-        <input type="submit" class="btnSubmit" id="modifyBtn" value="수정완료"></input>
-        </th:block>
+        <a class="btnCancel"/>취소하기</a>
+        <input type="submit" class="btnWrite" value="등록하기"/>
       </div>
+
     </form>
   </article>
+
+</section>
 </html>

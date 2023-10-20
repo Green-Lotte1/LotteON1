@@ -98,10 +98,11 @@ $(document).ready(function () {
     //*************** 장바구니 버튼 ***************//
     //***********************************************//
     const prodNo = $('#prodNo').val();
+    const path = $('#path').val();
 
     $('.cart').click(function(){
         const input = inputCount.val();
-        alert('장바구니');
+        /*alert('장바구니');*/
         console.log('input: '+input);
         console.log('prodNo: '+prodNo);
         console.log('here...1');
@@ -112,12 +113,13 @@ $(document).ready(function () {
         console.log('jsonData :'+JSON.stringify(jsonData));
         // CHECK THIS PRODUCT IN CART
         $.ajax({
-            url: '/LotteOn/product/cartCountProduct',
+            url: path+'/product/cartCountProduct',
             type: 'get',
             data: jsonData,
             success: function(data){
                 console.log('here...2');
-                console.log('data:'+data);
+                console.log('data result: '+data);
+                console.log('path: '+path)
                 /*CHECK THIS PRODUCT IN CART RESULT
                 result == 1 (THIS PRODUCT ALREADY IN CART)
                 result == 0 (THIS PRODUCT NOT IN CART)*/
@@ -134,7 +136,7 @@ $(document).ready(function () {
                         console.log('here...4');
                         // UPDATE CART
                         $.ajax({
-                            url: '/LotteOn/product/insertCartProduct',
+                            url: path+'/product/insertCartProduct',
                             type: 'post',
                             data: JSON.stringify(checkData),
                             dataType: 'json',
@@ -173,7 +175,7 @@ $(document).ready(function () {
                     console.log('checkData :'+JSON.stringify(checkData));
                     // INSERT CART
                     $.ajax({
-                        url: '/LotteOn/product/insertCartProduct',
+                        url: path+'/product/insertCartProduct',
                         type: 'post',
                         dataType: 'json',
                         data: JSON.stringify(checkData),
@@ -199,7 +201,7 @@ $(document).ready(function () {
                             }
                         }
                     }); // ajax end
-                }
+                } // THIS PRODUCT NOT IN CART END
             } // 전체 ajax success end
         }); // 전체 ajax end
     });

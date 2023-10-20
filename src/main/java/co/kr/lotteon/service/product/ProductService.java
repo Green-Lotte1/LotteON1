@@ -4,6 +4,7 @@ import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.*;
 import co.kr.lotteon.mapper.ProductMapper;
 import co.kr.lotteon.repository.product.*;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -244,7 +246,12 @@ public class ProductService {
 
 
 
-
+    public String getPath(Model model, HttpServletRequest request){
+        String path = request.getContextPath();
+        model.addAttribute("path", path);
+        log.info("path : " + path);
+        return path;
+    }
 
     public String loginStatus() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();

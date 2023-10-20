@@ -27,6 +27,7 @@
         <div class="top" th:replace="~{/fragments/loginBar}">
 
         </div>
+        <input type="hidden" id="path" th:value="${path}">
         <div class="logo">
             <div>
                 <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" /></a>
