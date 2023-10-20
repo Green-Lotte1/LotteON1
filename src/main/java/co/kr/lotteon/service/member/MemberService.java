@@ -57,4 +57,8 @@ public class MemberService {
         return result;
     }
 
+    public MemberDTO selectMemberByUid(String uid){
+        return memberRepository.findById(uid).orElse(null).toDTO();
+    }
+
 }
