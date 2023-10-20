@@ -20,4 +20,5 @@ public class MainService {
 
         model.addAttribute("appInfo", appName+"-"+version);
     }
+
 }

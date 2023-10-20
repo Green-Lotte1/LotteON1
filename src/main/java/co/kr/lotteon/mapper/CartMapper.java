@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface CartMapper {
 
     public int selectCountCartByUidAndProdNo(String uid, int prodNo);
-    public void updateCartProductByUidAndProdNo(int count, String uid, int prodNo, int total);
+    public int updateCartProductByUidAndProdNo(int count, String uid, int prodNo, int total);
 
 
 }

@@ -44,8 +44,8 @@ public class CartService {
         return result;
     }
 
-    public void insertCart(String uid, int prodNo, int inputCount){
-
+    public int insertCart(String uid, int prodNo, int inputCount){
+        int result = 0;
         log.info("insertCartService here...1");
         ProductEntity product = productRepository.findById(prodNo).orElse(null);
         MemberEntity member = memberRepository.findById(uid).orElse(null);
@@ -55,21 +55,31 @@ public class CartService {
                 .uid(member)
                 .prodNo(product)
                 .count(inputCount)
-                .price(product.discountingPrice())
+                .price(product.getPrice())
                 .discount(product.getDiscount())
                 .point(product.getPoint())
                 .delivery(product.getDelivery())
                 .total((product.discountingPrice() * inputCount)+product.getDelivery())
                 .build();
-        cartRepository.save(cartEntity);
+        CartEntity cart = cartRepository.save(cartEntity);
+        log.info(cart.toString());
         log.info("insertCartService here...3");
+
+        if(cart != null){
+            result = 1;
+        }
+        log.info("insertCartService result: "+ result);
+        return result;
     }
 
-    public void updateCart(int count, String uid, int prodNo){
+    public int updateCart(int count, String uid, int prodNo){
         ProductEntity product = productRepository.findById(prodNo).orElse(null);
         MemberEntity member = memberRepository.findById(uid).orElse(null);
         CartEntity cart = cartRepository.findByUidAndProdNo(member, product);
-        int total = cart.getTotal()+((cart.getPrice()*count) - (((cart.getPrice()*count)/100)*cart.getDiscount()));
-        cartMapper.updateCartProductByUidAndProdNo(count, uid, prodNo, total);
+        int total = (cart.getPrice()*count) - (((cart.getPrice()*count)/100)*cart.getDiscount());
+        log.info("updateCart total :"+total);
+        int result = cartMapper.updateCartProductByUidAndProdNo(count, uid, prodNo, total);
+        log.info("updateCart result :"+result);
+        return result;
     }
 }

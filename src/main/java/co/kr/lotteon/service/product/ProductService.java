@@ -210,6 +210,10 @@ public class ProductService {
         return entity.toDTO();
     }
 
+    /*public void addHitCount(int prodNo){
+        mapper.increaseProductHitByProdNo(prodNo);
+    }*/
+
     //////////////////////////////
     ////////    product 해당 review 불러오기
     //////////////////////////////
@@ -231,8 +235,8 @@ public class ProductService {
                 .build();
     }
 
-    public void increaseProductHit(int prodNo){
-        mapper.increaseProductHit(prodNo);
+    public void addHitCount(int prodNo){
+        mapper.increaseProductHitByProdNo(prodNo);
     }
 
     ////////////////////////////////////////////////////////////////////

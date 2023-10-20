@@ -71,10 +71,10 @@
                     <div class="button">
                         <input type="button" class="cart"  value="장바구니"/>
                         <input type="button" class="order" value="구매하기"/>
-                        <input type="text" id="prodNo" th:value="${product.prodNo}">
-                        <input type="text" id="dis_price" th:value="${product.discountingPrice}">
-                        <input type="text" id="discount" th:value="${product.discount}">
-                        <input type="text" id="input" value=1>
+                        <input type="hidden" id="prodNo" th:value="${product.prodNo}">
+                        <input type="hidden" id="dis_price" th:value="${product.discountingPrice}">
+                        <input type="hidden" id="discount" th:value="${product.discount}">
+                        <input type="hidden" id="input" value=1>
                     </div>
                 </div>
             </article>

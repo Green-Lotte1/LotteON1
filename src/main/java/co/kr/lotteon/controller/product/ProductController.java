@@ -5,6 +5,9 @@ import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.MainService;
 import co.kr.lotteon.service.product.CartService;
 import co.kr.lotteon.service.product.ProductService;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
@@ -12,9 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.lang.reflect.Type;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.ZoneOffset;
+import java.util.*;
 
 @Log4j2
 @Controller
@@ -78,19 +83,61 @@ public class ProductController {
     ////////    product view
     //////////////////////////////
     @GetMapping(value = "/product/view")
-    public String view(Model model, PageRequestDTO pageRequestDTO) {
+    public String view(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request, HttpServletResponse response) {
+        log.info("view here...1");
         layout(model);
         if(!(pageRequestDTO.getProdCate1() == 1)){
             nav(model, pageRequestDTO);
         }else{
             model.addAttribute("cate", null);
         }
+        log.info("view here...2");
         ProductDTO product =  prodService.selectProductByProdNo(pageRequestDTO.getProdNo());
+        log.info("view here...3");
+        // productHit 유효성 검사 및 쿠키 생성
+        viewCountValidation(product, request, response);
+        log.info("view here...4");
+        // 주소값으로 잘못된 주소 요청시 다른 페이지를 요청하게끔 구현 필요
         PageResponseDTO reviews = prodService.selectReviewByProdNo(pageRequestDTO);
+        log.info("view here...5");
         log.info(reviews.toString());
         model.addAttribute("product", product);
         model.addAttribute("reviews", reviews);
         return "/product/view";
+    }
+
+    // 한달에 한번만 조회수 1 증가하게끔 하는 쿠키 생성 및 유효성 검사
+    private void viewCountValidation(ProductDTO product, HttpServletRequest request, HttpServletResponse response) {
+        int prodNo = product.getProdNo();
+        Cookie[] cookies = Optional.ofNullable(request.getCookies()).orElseGet(() ->new Cookie[0]);
+        Cookie cookie = Arrays.stream(cookies)
+                .filter(c -> c.getName().equals("productView"))
+                .findFirst()
+                .orElseGet(() -> {
+                    prodService.addHitCount(prodNo);
+                    return new Cookie("productView", "[" + prodNo + "]");
+                });
+
+        if (!cookie.getValue().contains("[" + prodNo + "]")) {
+            prodService.addHitCount(prodNo);
+            cookie.setValue(cookie.getValue() + "[" + prodNo + "]");
+        }
+        // 현재 시간
+        LocalDateTime now = LocalDateTime.now();
+
+        // 한 달 후의 시간을 계산
+        LocalDateTime oneMonthLater = now.plusMonths(1);
+
+        // 초 단위로 변환
+        long currentSecond = now.toEpochSecond(ZoneOffset.UTC);
+        long oneMonthLaterSecond = oneMonthLater.toEpochSecond(ZoneOffset.UTC);
+
+        /*long todayEndSecond = LocalDate.now().atTime(LocalTime.MAX).toEpochSecond(ZoneOffset.UTC);
+        long currentSecond = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);*/
+        cookie.setPath("/"); // 모든 경로에서 접근 가능
+        /*cookie.setMaxAge((int) (todayEndSecond - currentSecond)); // 오늘 하루 자정까지 남은 시간초 설정*/
+        cookie.setMaxAge((int) (oneMonthLaterSecond - currentSecond)); // 한 달 동안의 초로 설정
+        response.addCookie(cookie);
     }
 
 
@@ -147,56 +194,34 @@ public class ProductController {
         log.info("insertCart prodNo: "+prodNo);
         log.info("insertCart input: "+input);
 
-        Map<String, Integer> map = new HashMap<String, Integer>();
-
+        /*CHECK THIS PRODUCT IN CART RESULT
+        result == 1 (THIS PRODUCT ALREADY IN CART)
+        result == 0 (THIS PRODUCT NOT IN CART)*/
         int result = pageRequestDTO.getResult();
 
         log.info("insertCart result: "+result);
 
+        // THIS PRODUCT ALREADY IN CART
         if(result > 0){
             log.info("insertCart here...2");
             // 상품이 장바구니에 있는 경우
 
             // UPDATE 처리
-            /*if(jsonData.get("updateConfirm").equals("yes")){
-
-            }else if(jsonData.get("updateConfirm").equals("no")){
-
-            }*/
-            cartService.updateCart(input, uid, prodNo);
+            result = cartService.updateCart(input, uid, prodNo);
             log.info("insertCart here...3");
-            map.put("result", result);
             log.info("result 전송 성공...1");
             return result;
+        // THIS PRODUCT NOT IN CART
         }else if(result < 1){
             log.info("insertCart here...4");
             // 상품이 장바구니에 없는 경우
 
             // INSERT 처리
-            cartService.insertCart(uid, prodNo, input);
+            result = cartService.insertCart(uid, prodNo, input);
             log.info("insertCart here...5");
-            map.put("result", result);
             log.info("result 전송 성공...2");
             return result;
         }
-
-
-        /*// 신규 등록일 경우
-        if((Integer)jsonData.get("cartResult") == null){
-
-            map.put("result", result);
-            log.info("result 전송 성공");
-            return map;
-
-        // 이미 상품이 장바구니에 담겨있을 경우
-        }else if(!((Integer)jsonData.get("cartResult") == null)){
-
-        }
-
-        if(result == 0){
-            ProductDTO product = prodService.selectProductByProdNo(prodNo);
-            cartService.insertCart(product);
-        }*/
         log.info("insertCart here...6");
 
         return result;
