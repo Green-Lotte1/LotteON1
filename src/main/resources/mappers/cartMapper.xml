@@ -10,6 +10,28 @@
         SELECT COUNT(*) FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNo`=#{prodNo} ORDER BY `rdate` DESC;
     </select>
 
+    <select id="selectProductsForOrder" resultType="co.kr.lotteon.dto.product.ItemDTO">
+        SELECT
+        a.prodNo,
+        a.prodName,
+        a.prodCate1,
+        a.prodCate2,
+        a.descript,
+        a.price,
+        a.discount,
+        b.`point`,
+        b.delivery,
+        b.total,
+        b.count
+        FROM
+        `km_product`
+        AS a
+        JOIN `km_product_cart`
+        AS b
+        ON a.prodNo=b.prodNo
+        WHERE b.uid= #{uid} AND b.cartNo= #{cartNo};
+    </select>
+
     <!--<select id="selectCartByUidAndProdNo">
         SELECT * FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNo`=#{prodNo};
     </select>-->

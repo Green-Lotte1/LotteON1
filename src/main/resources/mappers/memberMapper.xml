@@ -7,4 +7,8 @@
     <select id="countUid" resultType="int">
         SELECT COUNT(*) FROM `km_member` WHERE `uid`=#{uid};
     </select>
+
+    <select id="selectMemberOrderInfoByUid" resultType="co.kr.lotteon.entity.member.MemberEntity">
+        SELECT `uid`, `name`, `hp`, `point`, `zip`, `addr1`, `addr2` FROM `km_member` WHERE `uid` = #{uid};
+    </select>
 </mapper>

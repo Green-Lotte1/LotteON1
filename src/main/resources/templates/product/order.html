@@ -2,12 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/product/product_layout.html}">
+    <head>
+        <script th:src="@{/js/product/product_order.js}"></script>
+        <script th:src="@{/js/member/zipcode.js}"></script>
+    </head>
     <section layout:fragment="content" class="order">
         <!-- 주문 페이지 시작-->
             <!-- 제목, 페이지 네비게이션 -->
             <nav>
                 <h1>주문결제</h1>
-                <p>
+                <p class="orderNav">
                     HOME > 장바구니 > <strong>주문결제</strong>
                 </p>
             </nav>
@@ -28,51 +32,23 @@
                     <tr class="empty">
                         <td colspan="7">장바구니에 상품이 없습니다.</td>
                     </tr>
-                    <tr>
+
+                    <tr th:each="item:${itemDTOList}">
                         <td>
                             <article>
-                                <a href="#"><img src="https://via.placeholder.com/80x80" alt=""></a>
+                                <a th:href="@{/product/view(prodCate1=${item.prodCate1},prodCate2=${item.prodCate2},prodNo=${item.prodNo})}"><img src="https://via.placeholder.com/80x80" alt=""></a>
                                 <div>
-                                    <h2><a href="#">상품명</a></h2>
-                                    <p>상품설명</p>
+                                    <h2><a th:href="@{/product/view(prodCate1=${item.prodCate1},prodCate2=${item.prodCate2},prodNo=${item.prodNo})}" th:text="${item.prodName}">상품명</a></h2>
+                                    <p th:text="${item.descript}">상품설명</p>
                                 </div>
                             </article>
                         </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>무료배송</td>
-                        <td>27,000</td>
+                        <td th:text="${#numbers.formatInteger(item.count, 0, 'COMMA')}+'개'">1</td>
+                        <td th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')}+'원'">27,000</td>
+                        <td th:text="${#numbers.formatInteger(item.delivery, 0, 'COMMA')}+'원'" th:class="${item.delivery eq 0 ? 'free-delivery' : 'delivery'}">무료배송</td>
+                        <td th:text="${#numbers.formatInteger(item.totalPrice, 0, 'COMMA')}+'원'">27,000</td>
                     </tr>
-                    <tr>
-                        <td>
-                            <article>
-                                <a href="#"><img src="https://via.placeholder.com/80x80" alt=""></a>
-                                <div>
-                                    <h2><a href="#">상품명</a></h2>
-                                    <p>상품설명</p>
-                                </div>
-                            </article>
-                        </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>무료배송</td>
-                        <td>27,000</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <article>
-                                <a href="#"><img src="https://via.placeholder.com/80x80" alt=""></a>
-                                <div>
-                                    <h2><a href="#">상품명</a></h2>
-                                    <p>상품설명</p>
-                                </div>
-                            </article>
-                        </td>
-                        <td>1</td>
-                        <td>27,000</td>
-                        <td>무료배송</td>
-                        <td>27,000</td>
-                    </tr>
+
                     </tbody>
                 </table>
 
@@ -82,19 +58,23 @@
                     <table border="0">
                         <tr>
                             <td>총</td>
-                            <td>2 건</td>
+                            <td th:text="${#numbers.formatInteger(itemDTOList.size, 0, 'COMMA')}+'건'">2 건</td>
                         </tr>
                         <tr>
                             <td>상품금액</td>
-                            <td>27,000</td>
+                            <td th:text="${#numbers.formatInteger(total.ordPrice, 0, 'COMMA')}+'원'">27,000</td>
                         </tr>
                         <tr>
                             <td>할인금액</td>
-                            <td>-1,000</td>
+                            <td th:text="${#numbers.formatInteger(total.ordDiscount, 0, 'COMMA')}+'원'">-1,000</td>
                         </tr>
                         <tr>
                             <td>배송비</td>
-                            <td>0</td>
+                            <td th:text="${#numbers.formatInteger(total.ordDelivery, 0, 'COMMA')}+'원'">0</td>
+                        </tr>
+                        <tr>
+                            <td>적립 포인트</td>
+                            <td th:text="${#numbers.formatInteger(total.savePoint, 0, 'COMMA')}+'원'">-1000</td>
                         </tr>
                         <tr>
                             <td>포인트 할인</td>
@@ -102,7 +82,7 @@
                         </tr>
                         <tr>
                             <td>전체주문금액</td>
-                            <td>25,000</td>
+                            <td th:text="${#numbers.formatInteger(total.ordTotPrice, 0, 'COMMA')}+'원'">25,000</td>
                         </tr>
                     </table>
                     <input type="button" name="" value="결제하기">
@@ -114,32 +94,32 @@
                     <table>
                         <tr>
                             <td>주문자</td>
-                            <td><input type="text" name="orderer" /></td>
+                            <td><input type="text" name="orderer" th:value="${memberOrderInfo.name}" required/></td>
                         </tr>
                         <tr>
                             <td>휴대폰</td>
                             <td>
-                                <input type="text" name="hp" />
+                                <input type="text" name="hp" th:value="${memberOrderInfo.hp}" required/>
                                 <span>- 포함 입력</span>
                             </td>
                         </tr>
                         <tr>
                             <td>우편번호</td>
                             <td>
-                                <input type="text" name="zip"/>
-                                <input type="button" value="검색"/>
+                                <input type="text" name="zip" th:value="${memberOrderInfo.zip}" readonly required/>
+                                <input type="button" value="검색" id="btnZip" onclick="zipcode()"/>
                             </td>
                         </tr>
                         <tr>
                             <td>기본주소</td>
                             <td>
-                                <input type="text" name="addr1"/>
+                                <input type="text" name="addr1" th:value="${memberOrderInfo.addr1}" readonly required/>
                             </td>
                         </tr>
                         <tr>
                             <td>상세주소</td>
                             <td>
-                                <input type="text" name="addr2"/>
+                                <input type="text" name="addr2" th:value="${memberOrderInfo.addr2}" />
                             </td>
                         </tr>
                     </table>
@@ -150,9 +130,9 @@
                     <h1>할인정보</h1>
 
                     <div>
-                        <p>현재 포인트 : <span>7200</span>점</p>
+                        <p>현재 포인트 : <span th:text="${#numbers.formatInteger(memberOrderInfo.point, 0, 'COMMA')}">7200</span>점</p>
                         <label>
-                            <input type="text" name="point" />점
+                            <input type="text" name="point" id="usePoint" th:attr="disabled=${memberOrderInfo.point < 5000}"/>점
                             <input type="button" value="적용"/>
                         </label>
                         <span>포인트 5,000점 이상이면 현금처럼 사용 가능합니다.</span>
@@ -165,7 +145,7 @@
                     <div>
                         <span>신용카드</span>
                         <p>
-                            <label><input type="radio" name="payment" value="type1"/>신용카드 결제</label>
+                            <label><input type="radio" name="payment" value="type1" checked/>신용카드 결제</label>
                             <label><input type="radio" name="payment" value="type2"/>체크카드 결제</label>
                         </p>
                     </div>

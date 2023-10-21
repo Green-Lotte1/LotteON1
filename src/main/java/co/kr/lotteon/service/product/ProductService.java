@@ -2,6 +2,7 @@ package co.kr.lotteon.service.product;
 
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.*;
+import co.kr.lotteon.mapper.CartMapper;
 import co.kr.lotteon.mapper.ProductMapper;
 import co.kr.lotteon.repository.product.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -33,19 +34,16 @@ public class ProductService {
     private final ProdCate1Repository prodCate1Repository;
     private final ProdCate2Repository prodCate2Repository;
     private final ReviewRepository reviewRepository;
+    private final ProductMapper productMapper;
+    private final CartMapper cartMapper;
     private final ModelMapper modelMapper;
-    
 
-    
+
     ////////////////////////////////////////////////////////////////////
-    ////////////// product
+    ///////////////// PRODUCT LIST
     ////////////////////////////////////////////////////////////////////
-    //////////////////////// 
-    ////////////////////////////////////////////////////////////////////
-    
-    //////////////////////////////
-    ////////    product list 카테고리 및 type에 맞게 가져오기
-    //////////////////////////////
+
+    // SELECT PRODUCTS
     public PageResponseDTO selectProductByCate1AndCate2(PageRequestDTO pageRequestDTO) {
         log.info("prodService here...1");
         Pageable pageable = pageRequestDTO.getPageable("prodNo");
@@ -136,21 +134,30 @@ public class ProductService {
                 .build();
     }
 
-    //////////////////////////////
-    ////////    product view
-    //////////////////////////////
+
+    // PRODUCT LIST NAV CONTROL
+    public ProdCate2DTO selectAllProdCateByCate2(int cate1, int cate2){
+        ProdCate1Entity cate1Entity = prodCate1Repository.findById(cate1).orElse(null);
+        return prodCate2Repository.findByCate1AndCate2(cate1Entity, cate2).toDTO();
+    }
+
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT VIEW
+    ////////////////////////////////////////////////////////////////////
+
+    // SELECT PRODUCT
     public ProductDTO selectProductByProdNo(int prodNo) {
         ProductEntity entity = prodRepo.findById(prodNo).orElse(null);
         return entity.toDTO();
     }
 
-    /*public void addHitCount(int prodNo){
+    // IF NEVER BEFORE HIT INCREASE PRODUCT HIT
+    public void addHitCount(int prodNo){
         mapper.increaseProductHitByProdNo(prodNo);
-    }*/
+    }
 
-    //////////////////////////////
-    ////////    product 해당 review 불러오기
-    //////////////////////////////
+
+    // SELECT REVIEWS
     public PageResponseDTO selectReviewByProdNo(PageRequestDTO pageRequestDTO){
         ProductEntity prodEntity = prodRepo.findById(pageRequestDTO.getProdNo()).orElse(null);
         pageRequestDTO.setSize(5);
@@ -169,17 +176,90 @@ public class ProductService {
                 .build();
     }
 
-    public void addHitCount(int prodNo){
-        mapper.increaseProductHitByProdNo(prodNo);
-    }
+
+
 
     ////////////////////////////////////////////////////////////////////
-    ///////////////// 카테고리
+    ///////////////// PRODUCT ORDER
     ////////////////////////////////////////////////////////////////////
-    
-    //////////////////////////////
-    ////////    product aside cate1 가져오기
-    //////////////////////////////
+
+    public List<ItemDTO> selectProductForOrder(String chk, String uid){
+
+        List<ItemDTO> itemDTOList = new ArrayList<>();
+        ItemDTO itemDTO = new ItemDTO();
+
+        String[] chkNos = chk.split("/");
+
+        log.info("chkNos.length: " +chkNos.length);
+
+        if(chkNos[1].equals("cart")){
+            for(int i = 2; i < chkNos.length; i++){
+                int cartNo = Integer.parseInt(chkNos[i]);
+                itemDTO = cartMapper.selectProductsForOrder(cartNo, uid);
+                itemDTOList.add(itemDTO);
+            }
+
+        }else if(chkNos[1].equals("order")){
+            log.info("chkNos[0]: " +chkNos[0]);
+            log.info("chkNos[1]: " +chkNos[1]);
+            log.info("chkNos[2]: " +chkNos[2]);
+            log.info("chkNos[3]: " +chkNos[3]);
+            int prodNo = Integer.parseInt(chkNos[2]);
+            int count = Integer.parseInt(chkNos[3]);
+            log.info("prodNo: " +prodNo);
+            log.info("count: " +count);
+            itemDTO = productMapper.selectProductForOrder(prodNo);
+            itemDTO.setCount(count);
+            itemDTOList.add(itemDTO);
+        }
+
+        for(int i = 0; i < itemDTOList.size(); i++){
+
+        }
+
+        log.info("selectProductForOrder: "+itemDTOList.toString());
+        return itemDTOList;
+    }
+
+    public OrderDTO setTotalOrder(Model model, List<ItemDTO> itemDTOList){
+
+        OrderDTO totalOrder = new OrderDTO();
+
+        int totOrgPrice = 0;
+        int totDiscount = 0;
+        int totDelivery = 0;
+        int totPrice = 0;
+        int totSavePoint = 0;
+
+        for(int i = 0; i < itemDTOList.size(); i++){
+            totOrgPrice += itemDTOList.get(i).getPrice() * itemDTOList.get(i).getCount();
+            totDiscount += itemDTOList.get(i).getPrice() - itemDTOList.get(i).discountingPrice();
+            totDelivery += itemDTOList.get(i).getDelivery();
+            totPrice += itemDTOList.get(i).totalPrice();
+            totSavePoint += itemDTOList.get(i).savePoint();
+        }
+
+        totalOrder.setOrdPrice(totOrgPrice);
+        totalOrder.setOrdDiscount(totDiscount);
+        totalOrder.setOrdDelivery(totDelivery);
+        totalOrder.setOrdTotPrice(totPrice);
+        totalOrder.setSavePoint(totSavePoint);
+
+        return totalOrder;
+    }
+
+
+
+
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// CATEGORY
+    ////////////////////////////////////////////////////////////////////
+
+
+    // SELECT ALL PRODUCT CATE 1
     public List<ProdCate1DTO> selectAllProdCate1(){
         List<ProdCate1Entity> entity = prodCate1Repository.findAll();
 
@@ -192,9 +272,8 @@ public class ProductService {
         return dto;
     }
 
-    //////////////////////////////
-    ////////    product 전체 cate 가져오기
-    //////////////////////////////
+
+    // SELECT PRODUCT CATE 2 WITH CATE 1
     public List<ProdCate2DTO> selectAllProdCate1AndProdCate2() {
         List<ProdCate2Entity> entity = prodCate2Repository.findAll();
 
@@ -207,45 +286,14 @@ public class ProductService {
 
         return dto;
     }
-  
-    
-
-    //////////////////////////////
-    ////////    product list 현재 페이지 nav cate1과 cate2 가져오기
-    //////////////////////////////
-    public ProdCate2DTO selectAllProdCateByCate2(int cate1, int cate2){
-        ProdCate1Entity cate1Entity = prodCate1Repository.findById(cate1).orElse(null);
-        return prodCate2Repository.findByCate1AndCate2(cate1Entity, cate2).toDTO();
-    }
 
 
 
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// ETC
+    ////////////////////////////////////////////////////////////////////
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // GET PATH
     public String getPath(Model model, HttpServletRequest request){
         String path = request.getContextPath();
         model.addAttribute("path", path);
@@ -253,6 +301,7 @@ public class ProductService {
         return path;
     }
 
+    // GET LOGIN MEMBER UID
     public String loginStatus() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("username : " + SecurityContextHolder.getContext().getAuthentication().getName());

@@ -4,7 +4,10 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.kr.lotteon.mapper.ProductMapper">
 
-
+    <select id="selectProductForOrder" resultType="co.kr.lotteon.dto.product.ItemDTO">
+        SELECT `prodNo`, `prodName`, `descript`, `price`, `discount`, `point`, `delivery`, `prodCate1`, `prodCate2`
+                FROM `km_product` WHERE `prodNo`= #{prodNo};
+    </select>
 
     <update id="increaseProductHitByProdNo">
         UPDATE `km_product` SET `hit`=`hit`+1 WHERE `prodNo`=#{prodNo};

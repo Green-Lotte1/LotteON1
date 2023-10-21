@@ -35,9 +35,11 @@ public class ProductController {
     private final MainService mainService;
     private final CartService cartService;
     private final MemberService memberService;
-    //////////////////////////////
-    ////////    product aside 값 가져오기
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT ASIDE
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT LAYOUT ASIDE
     public void layout(Model model, HttpServletRequest request) {
         List<ProdCate1DTO> cate1 = prodService.selectAllProdCate1();
         List<ProdCate2DTO> cate2 = prodService.selectAllProdCate1AndProdCate2();
@@ -51,9 +53,11 @@ public class ProductController {
 
 
 
-    //////////////////////////////
-    ////////    product nav 값 가져오기
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT NAV
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT NAV
     public void nav(Model model,PageRequestDTO pageRequestDTO){
         int cate1 = pageRequestDTO.getProdCate1();
         int cate2 = pageRequestDTO.getProdCate2();
@@ -65,9 +69,11 @@ public class ProductController {
 
 
 
-    //////////////////////////////
-    ////////    product list
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT LIST
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT LIST
     @GetMapping(value = "/product/list")
     public String list(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request){
         layout(model, request);
@@ -87,9 +93,11 @@ public class ProductController {
 
 
 
-    //////////////////////////////
-    ////////    product view
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT VIEW
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT VIEW
     @GetMapping(value = "/product/view")
     public String view(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request, HttpServletResponse response) {
         log.info("view here...1");
@@ -114,6 +122,7 @@ public class ProductController {
         return "/product/view";
     }
 
+    // PRODUCT VIEW VALIDATION CHECK
     // 한달에 한번만 조회수 1 증가하게끔 하는 쿠키 생성 및 유효성 검사
     private void viewCountValidation(ProductDTO product, HttpServletRequest request, HttpServletResponse response) {
         int prodNo = product.getProdNo();
@@ -151,22 +160,25 @@ public class ProductController {
 
 
 
-    //////////////////////////////
-    ////////    product cart
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT CART
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT CART
     @GetMapping(value = "/product/cart")
     public String cart(Model model ,PageRequestDTO pageRequestDTO, HttpServletRequest request) {
         layout(model, request);
         String uid = prodService.loginStatus();
         MemberDTO member = memberService.selectMemberByUid(uid);
-
+        log.info("cart here...1");
         List<CartDTO> cartList = cartService.selectAllCartByUid(member);
-
+        log.info("cart here...2");
         model.addAttribute("cartList", cartList);
 
         return "/product/cart";
     }
 
+    // PRODUCT CART CHECK
     @ResponseBody
     @GetMapping(value = "/product/cartCountProduct")
     public int cartCountProduct(Model model, PageRequestDTO pageRequestDTO) {
@@ -191,7 +203,7 @@ public class ProductController {
     }
 
 
-
+    // INSERT CART
     @ResponseBody
     @PostMapping(value = "/product/insertCartProduct")
     public int insertCartProduct(@RequestBody PageRequestDTO pageRequestDTO){
@@ -242,43 +254,39 @@ public class ProductController {
         return result;
     }
 
+
+    // DELETE CART
     @ResponseBody
     @PostMapping(value = "/product/deleteCartProduct")
     public int deleteCartProductByProdNo(@RequestBody PageRequestDTO pageRequestDTO){
 
         int result = 0;
-        log.info("deleteCartProduct here...1");
-        log.info(pageRequestDTO.getSelectedCartNos().toString());
-        String[] selectedCartNos = pageRequestDTO.getSelectedCartNos().toString().split("/");
 
-        result = cartService.deleteCartProductByCartNo(selectedCartNos);
+        result = cartService.deleteCartProductByCartNo(pageRequestDTO);
 
         return result;
 
     }
 
 
-    //////////////////////////////
-    ////////    product order
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT ORDER
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT ORDER
     @GetMapping(value = "/product/order")
     public String order(Model model, HttpServletRequest request, @RequestParam("chk") String chk, PageRequestDTO pageRequestDTO) throws JsonProcessingException {
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        /*String[] cartNos = objectMapper.readValue(jsonData, new TypeReference<String[]>() {});*/
-
-        // jsonData를 String[]로 파싱하지 않고 그대로 사용
-        /*String cartNos = objectMapper.readValue(jsonData, String.class);*/
-
-        // cartNos를 배열로 출력
-        log.info(chk);
-
-
-        log.info("order here...1");
-        log.info(chk.toString());
         layout(model, request);
 
+        String uid = prodService.loginStatus();
 
+        MemberDTO memberOrderInfo = memberService.selectMemberOrderInfoByUid(uid);
+        List<ItemDTO> itemDTOList = prodService.selectProductForOrder(chk, uid);
+        OrderDTO total = prodService.setTotalOrder(model, itemDTOList);
+
+        model.addAttribute("total", total);
+        model.addAttribute("memberOrderInfo", memberOrderInfo);
+        model.addAttribute("itemDTOList", itemDTOList);
 
         return "/product/order";
     }
@@ -286,9 +294,11 @@ public class ProductController {
 
 
 
-    //////////////////////////////
-    ////////    product complete
-    //////////////////////////////
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT COMPLETE
+    ////////////////////////////////////////////////////////////////////
+
+    // PRODUCT CMPLETE
     @GetMapping(value = "/product/complete")
     public String complete(Model model, HttpServletRequest request) {
         layout(model, request);

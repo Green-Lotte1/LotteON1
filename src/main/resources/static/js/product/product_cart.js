@@ -113,7 +113,7 @@ $(document).ready(function () {
     //*******************************************************//
     //********************** 선택삭제 클릭 ************************//
     //*******************************************************//
-    var selectedCartNos = "/";
+    var selectedItemNos = "/";
     const path = $('#path').val();
 
     $('#del').click(function(e){
@@ -122,22 +122,22 @@ $(document).ready(function () {
         console.log('delete here...1');
         // 체크돼있는 prodNo를 배열로 만들어 넣음
         $('input[name^="cartNo"]:checked').each(function(){
-            selectedCartNos = selectedCartNos + $(this).val() + "/";
-            //selectedCartNos.push($(this).val());
+            selectedItemNos = selectedItemNos + $(this).val() + "/";
+            //selectedItemNos.push($(this).val());
             console.log('반복');
         });
         console.log('delete here...2');
         console.log('delete path: '+path);
-        console.log(selectedCartNos);
+        console.log(selectedItemNos);
         // 체크돼있는 prodNo를 배열이 없다면 돌려보냄.
-        if(selectedCartNos === "/"){
+        if(selectedItemNos === "/"){
             alert('선택된 상품이 없습니다.');
             return;
         }
         console.log('delete here...3');
         // 체크된 prodNo 전체와 uid를 jsonData로 만듬
         const jsonData ={
-                "selectedCartNos" : selectedCartNos
+                "selectedItemNos" : selectedItemNos
         };
 
         console.log(JSON.stringify(jsonData));
@@ -174,25 +174,27 @@ $(document).ready(function () {
     //*******************************************************//
     $('input[name="order"]').click(function(e){
         e.preventDefault();
-        alert('order click');
+        /*alert('order click');*/
 
         // 체크돼있는 prodNo를 배열로 만들어 넣음
         $('input[name^="cartNo"]:checked').each(function(){
-            selectedCartNos = selectedCartNos + $(this).val() + "/";
-            //selectedCartNos.push($(this).val());
+            selectedItemNos = selectedItemNos + $(this).val() + "/";
         });
-        if(selectedCartNos === "/"){
+
+        if(selectedItemNos === "/"){
             alert('주문할 상품을 선택해주세요.');
             return;
         }
+        selectedItemNos= "/cart" + selectedItemNos;
+        /*alert("selectedItemNos: "+selectedItemNos);*/
 
         const chk = {
-            "selectedCartNos" : selectedCartNos
+            "selectedItemNos" : selectedItemNos
         }
-        alert('chk: '+chk.selectedCartNos);
+        /*alert('chk: '+chk.selectedItemNos);*/
         console.log('here...1');
-        window.location.href = path+'/product/order?chk='+ encodeURIComponent(chk.selectedCartNos);
-        alert('다시 시도해주세요.');
+        window.location.href = path+'/product/order?chk='+ encodeURIComponent(chk.selectedItemNos);
+        /*alert('다시 시도해주세요.');*/
         return;
         const parametersJsonData = $.param(jsonData);
         console.log(parametersJsonData);
