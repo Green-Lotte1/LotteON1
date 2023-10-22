@@ -297,20 +297,35 @@ public class CsService {
     ////////////////////////////////////////////////////////////////////
     // cate1_name 출력용
     public List<CsCate1DTO> findByCate(String group) {
+        log.info(" ===== findByCate() start ===== ");
         CsGroupEntity entity = groupRepository.findById(group).orElse(null);
         List<CsCate1Entity> entities = cate1Repository.findByGroup(entity);
         List<CsCate1DTO> dto = convertToCate1(entities);
-        log.info("findByCate : " + dto);
+
+        // group의 경우 cate1에 '전체'가 포함되어있으므로 제외함.
+        if(group.equals("notice")) {
+            dto.remove(0);
+        }
+
+        for(int i=0; i<dto.size(); i++) {
+            log.info(" - " + (i+1) + ". " + dto.get(i).getCate1_name());
+        }
+
         return dto;
     }
 
     // cate2_name 출력용
     public List<CsCate2DTO> findByCate1(String cate1) {
-        CsCate1Entity entity = cate1Repository.findById(cate1).orElse(null);
-        List<CsCate2Entity> entities = cate2Repository.findByCate1(entity);
-        List<CsCate2DTO> dto = convertToCate2(entities);
-        log.info("findByCate1 : " + dto);
-
+        log.info(" ===== findByCate1() start ===== ");
+        List<CsCate2DTO> dto = null;
+        if(cate1 != null) {
+            CsCate1Entity entity = cate1Repository.findById(cate1).orElse(null);
+            List<CsCate2Entity> entities = cate2Repository.findByCate1(entity);
+            dto = convertToCate2(entities);
+            for(int i=0; i<dto.size(); i++) {
+                log.info(" - " + (i+1) + ". " + dto.get(i).getCate2_name());
+            }
+        }
         return dto;
     }
 

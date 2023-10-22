@@ -1,15 +1,14 @@
 $(document).ready(function () {
     // 초기화
-    let selectCate = null;
     const cate1 = $('select[name=cate1]');
     const cate2 = $('select[name=cate2]');
-    const url   = $('input[name=url]').val();
+    const url   = $('input[name=url]').val() + '/cs/cate2';
 
     // 1차 유형 선택시
     $(cate1).change(function() {
-        const selectCate1 = $(this).val();
+        const selectCate = $(this).val();
         const jsonData = {
-            "selectCate1": selectCate1
+            "selectCate": selectCate
         }
 
         $.ajax({

@@ -4,16 +4,16 @@
       layout:decorate="~{/fragments/admin/admin_layout.html}">
 <head>
   <script th:src="@{/js/cs/cs_qnaCate.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
 </head>
-<section layout:fragment="content" id="qna">
+<section layout:fragment="content" th:id="${group}">
   <!--<input type="hidden" name="url" th:value="${jsonUrl}">-->
 
-  <head>
-    <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
-  </head>
-
-  <nav th:replace="~{/fragments/admin/admin_nav :: nav}">
-    <!-- nav 들어올 영역 -->
+  <nav>
+    <h3>[[${groupName}]] 보기</h3>
+    <p>
+      HOME > 고객센터 > <strong>[[${groupName}]]</strong>
+    </p>
   </nav>
 
   <article id="modify">
