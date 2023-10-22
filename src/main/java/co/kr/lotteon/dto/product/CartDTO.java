@@ -30,7 +30,7 @@ public class CartDTO {
         return CartEntity.builder()
                 .cartNo(cartNo)
                 .uid(uid.toEntity())
-                //.prodNo(prodNo)
+                .prodNo(prodNo.toEntity())
                 .count(count)
                 .price(price)
                 .point(point)
@@ -40,8 +40,8 @@ public class CartDTO {
                 .build();
     }
 
-    public int getSavePoint(){
-        return ((price*count)/100)*point;
+    public int savePoint(){
+        return ((discountingPrice())/100)*point;
     }
     public int discountingPrice(){
         return price - ((price/100)*discount);

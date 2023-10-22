@@ -3,9 +3,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/product/product_layout.html}">
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
     <script th:src="@{/js/product/product_cart.js}"></script>
 </head>
 <section layout:fragment="content" class="cart">
@@ -48,9 +45,9 @@
                                 </div>
                             </article>
                         </td>
-                        <td th:text="${#numbers.formatInteger(cart.count, 0, 'COMMA')}">1</td>
+                        <td th:text="${#numbers.formatInteger(cart.count, 0, 'COMMA')}+'개'">1</td>
 
-                        <td th:text="${#numbers.formatInteger(cart.price, 0, 'COMMA')}">27,000</td>
+                        <td th:text="${#numbers.formatInteger(cart.price, 0, 'COMMA')}+'원'">27,000</td>
                         <!--<td th:if="${cart.discount ne 0}">
                             [[${#numbers.formatInteger(cart.discountingPrice, 0, 'COMMA')}]] </br>
                             <span th:if="${cart.discount ne 0}" th:text="${#numbers.formatInteger(cart.price, 0, 'COMMA')}" class="throughPrice"></span>
@@ -58,9 +55,8 @@
 
                         <td th:text="${cart.discount}+'%'">5%</td>
                         <td th:text="${#numbers.formatInteger(cart.savePoint, 0, 'COMMA')+'p'}">270</td>
-                        <td th:if="${cart.delivery < 1}" class="free-delivery">[[${cart.delivery}]]</td>
-                        <td th:if="${cart.delivery > 0}" th:text="${#numbers.formatInteger(cart.delivery, 0, 'COMMA')}"></td>
-                        <td th:text="${#numbers.formatInteger(cart.total, 0, 'COMMA')}">27,000</td>
+                        <td th:class="${cart.delivery eq 0 ? 'free-delivery' : 'delivery'}" th:text="${#numbers.formatInteger(cart.delivery, 0, 'COMMA')}+'원'">[[${cart.delivery}]]</td>
+                        <td th:text="${#numbers.formatInteger(cart.total, 0, 'COMMA')}+'원'">27,000</td>
                     </tr>
 
                     </tbody>

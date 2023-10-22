@@ -61,4 +61,13 @@ public class MemberService {
         return memberRepository.findById(uid).orElse(null).toDTO();
     }
 
+    public MemberDTO selectMemberOrderInfoByUid(String uid){
+
+        MemberDTO memberDTO = new MemberDTO();
+
+        memberDTO = memberMapper.selectMemberOrderInfoByUid(uid).toDTO();
+
+        return memberDTO;
+    }
+
 }

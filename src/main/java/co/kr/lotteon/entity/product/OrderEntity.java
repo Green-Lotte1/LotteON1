@@ -1,19 +1,25 @@
-package co.kr.lotteon.dto.product;
+package co.kr.lotteon.entity.product;
 
-import co.kr.lotteon.dto.member.MemberDTO;
+import co.kr.lotteon.entity.member.MemberEntity;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-
-@AllArgsConstructor
+@Setter
+@Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Entity
 @Builder
-@ToString
-@Data
-public class OrderDTO {
+@Table(name = "km_product_order")
+public class OrderEntity {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ordNo;
-    private String ordUid;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prodCate1")
+    private MemberEntity ordUid;
     private int ordPrice;
     private int ordCount;
     private int ordDiscount;

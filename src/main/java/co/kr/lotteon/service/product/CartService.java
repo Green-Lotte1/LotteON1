@@ -2,6 +2,7 @@ package co.kr.lotteon.service.product;
 
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.dto.product.CartDTO;
+import co.kr.lotteon.dto.product.PageRequestDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.entity.product.CartEntity;
@@ -103,11 +104,15 @@ public class CartService {
         return cartList;
     }
 
-    public int deleteCartProductByCartNo(String[] cartNos){
+    public int deleteCartProductByCartNo(PageRequestDTO pageRequestDTO){
+
+        String[] selectedCartNos = pageRequestDTO.getSelectedCartNos().split("/");
+
+        log.info("deleteCartService selectedCartNos: "+selectedCartNos.toString());
 
         int result = 0;
-        for(int i = 1; i < cartNos.length; i++){
-            int cartNo = Integer.parseInt(cartNos[i]);
+        for(int i = 1; i < selectedCartNos.length; i++){
+            int cartNo = Integer.parseInt(selectedCartNos[i]);
             result = cartMapper.deleteCartProductByCartNo(cartNo);
         }
         log.info("deleteCart result: "+result);

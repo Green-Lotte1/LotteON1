@@ -23,6 +23,7 @@
 #product > .cart > nav > .cartNav {
     font-weight: bold;
 }
+
 #product > .cart > nav > p * {
     color:gray;
 }
@@ -777,7 +778,7 @@
     display: block; /* 줄을 긋는 텍스트를 블록 요소로 설정하여 줄을 아래로 내림 */
     color: gray;
 }
-#product > .cart > form > table .free-delivery {
+.free-delivery {
     background-image: url('../images/product/ico_free_delivery.gif');
     background-repeat: no-repeat;
     background-position: center center;
@@ -942,7 +943,7 @@
 #product > .order > form > .final {
   float: right;
   width: 360px;
-  height: 412px;
+  height: 450px;
   padding: 20px;
   margin-top: 12px;
   background: #fff;
@@ -963,7 +964,7 @@
 #product > .order > form > .final > table tr {}
 #product > .order > form > .final > table tr:nth-last-child(2) {}
 #product > .order > form > .final > table tr:nth-last-child(1) td {font-size: 20px;}
-#product > .order > form > .final > table tr:nth-last-child(1) td:last-child {
+#product > .order > form > .final > table tr:nth-last-child(1) td:nth-child(2) {
   color: #ff006c;
   font-size: 20px;
   font-weight: bold;
@@ -974,7 +975,7 @@
   font-size: 14px;
   color: #555;
 }
-#product > .order > form > .final > table td:last-child {
+#product > .order > form > .final > table td:nth-child(2) {
   text-align: right;
 }
 #product > .order > form > .final > input[type=button] {
@@ -1034,8 +1035,8 @@
   padding: 6px;
 }
 
-#product > .order > form > .delivery > table input[name=addr1] {width: 400px;}
-#product > .order > form > .delivery > table input[name=addr2] {width: 400px;}
+#product > .order > form > .delivery > table input[name=recipAddr1] {width: 400px;}
+#product > .order > form > .delivery > table input[name=recipAddr2] {width: 400px;}
 #product > .order > form > .delivery > table input[type=button] {
   padding: 4px 6px;
   border: 1px solid #ccc;
