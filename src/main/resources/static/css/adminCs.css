@@ -111,47 +111,48 @@
     padding: 16px;
     border-bottom: 1px solid #ccc;
 }
+#list table th > a {
+    font-weight: bold;
+}
 
 #list table td {
     text-align: center;
-    padding: 12px;
+    height: 22px;
+    padding: 0 12px;
     border-bottom: 1px solid #ccc;
 }
-#list #notice td {padding: 4px; }
-#list #faq td {padding: 4px; }
+#notice #list td {padding: 4px; }
+#faq #list td {padding: 4px; }
 
-#list table#notice td.tit,
-#list table#qna td.tit,
-#list table#faq td.tit {
-    text-align: left;
-    padding: 12px 50px;
-}
+#notice #list .tit {text-align: left; padding: 12px 50px;}
+#faq #list .tit {text-align: left; padding: 12px 50px;}
+#qna #list .tit {text-align: left; padding: 12px 50px;}
 
-#list #qna th:nth-child(1) { width: 5%;}
-#list #qna th:nth-child(2) { width: 10%;}
-#list #qna th:nth-child(3) { width: 10%;}
-#list #qna th:nth-child(4) { width: 10%;}
-#list #qna th:nth-child(5) { width: 35%;}
-#list #qna th:nth-child(6) { width: 10%;}
-#list #qna th:nth-child(7) { width: 10%;}
-#list #qna th:nth-child(8) { width: 10%;}
+#qna #list th:nth-child(1) { width: 5%;}
+#qna #list th:nth-child(2) { width: 10%;}
+#qna #list th:nth-child(3) { width: 10%;}
+#qna #list th:nth-child(4) { width: 10%;}
+#qna #list th:nth-child(5) { width: 35%;}
+#qna #list th:nth-child(6) { width: 10%;}
+#qna #list th:nth-child(7) { width: 10%;}
+#qna #list th:nth-child(8) { width: 10%;}
 
-#list #faq th:nth-child(1) { width: 5%;}
-#list #faq th:nth-child(2) { width: 10%;}
-#list #faq th:nth-child(3) { width: 10%;}
-#list #faq th:nth-child(4) { width: 10%;}
-#list #faq th:nth-child(5) { width: 35%;}
-#list #faq th:nth-child(6) { width: 10%;}
-#list #faq th:nth-child(7) { width: 10%;}
-#list #faq th:nth-child(8) { width: 10%;}
+#faq #list th:nth-child(1) { width: 5%;}
+#faq #list th:nth-child(2) { width: 10%;}
+#faq #list th:nth-child(3) { width: 10%;}
+#faq #list th:nth-child(4) { width: 10%;}
+#faq #list th:nth-child(5) { width: 35%;}
+#faq #list th:nth-child(6) { width: 10%;}
+#faq #list th:nth-child(7) { width: 10%;}
+#faq #list th:nth-child(8) { width: 10%;}
 
-#list #notice th:nth-child(1) { width: 5%;}
-#list #notice th:nth-child(2) { width: 10%;}
-#list #notice th:nth-child(3) { width: 10%;}
-#list #notice th:nth-child(4) { width: 45%;}
-#list #notice th:nth-child(5) { width: 10%;}
-#list #notice th:nth-child(6) { width: 10%;}
-#list #notice th:nth-child(7) { width: 10%;}
+#notice #list th:nth-child(1) { width: 5%;}
+#notice #list th:nth-child(2) { width: 10%;}
+#notice #list th:nth-child(3) { width: 10%;}
+#notice #list th:nth-child(4) { width: 45%;}
+#notice #list th:nth-child(5) { width: 10%;}
+#notice #list th:nth-child(6) { width: 10%;}
+#notice #list th:nth-child(7) { width: 10%;}
 
 
 

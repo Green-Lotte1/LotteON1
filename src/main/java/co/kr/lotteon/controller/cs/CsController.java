@@ -169,15 +169,17 @@ public class CsController {
     // 문의사항 게시글 작성시, cate loading
     @ResponseBody
     @RequestMapping(value = "/cs/cate2", method = RequestMethod.POST)
-    public HashMap<String, Object> cateJson(@RequestBody HashMap<String, Object> selectCate) {
-        Object selectCate1 = selectCate.get("selectCate1");
-        log.info("selectCate1-Object : " + selectCate1);
-        log.info("selectCate1-String : " + selectCate1.toString());
+    public HashMap<String, Object> jsonCate(@RequestBody HashMap<String, Object> selectCate) {
+        log.info(" vvvvv jsonCate START vvvvv ");
+        Object selectCate1 = selectCate.get("selectCate");
+        log.info(" - jc.selectCate : " + selectCate1.toString());
 
         List<CsCate2DTO> category = csService.findByCate1(selectCate1.toString());
-        log.info("category : " + category);
+        log.info(" - jc.cate2List is " + ((category != null)?"OK":"NULL"));
 
         selectCate.put("returnCate", category);
+
+        log.info(" ^^^^^ jsonCate END ^^^^^ ");
         return selectCate;
     }
 
