@@ -4,7 +4,7 @@
       layout:decorate="~{/fragments/product/product_layout.html}">
     <head>
         <script th:src="@{/js/product/product_order.js}"></script>
-        <script th:src="@{/js/member/zipcode.js}"></script>
+        <script th:src="@{/js/product/product_order_zipcode.js}"></script>
     </head>
     <section layout:fragment="content" class="order">
         <!-- 주문 페이지 시작-->
@@ -16,7 +16,7 @@
                 </p>
             </nav>
 
-            <form action="#">
+            <form class="orderForm" th:action="@{/product/insertOrderForm}" method="post">
                 <!-- 주문 상품 목록 -->
                 <table>
                     <thead>
@@ -33,7 +33,7 @@
                         <td colspan="7">장바구니에 상품이 없습니다.</td>
                     </tr>
 
-                    <tr th:each="item:${itemDTOList}">
+                    <tr class="ordComplete" th:each="item:${itemDTOList}">
                         <td>
                             <article>
                                 <a th:href="@{/product/view(prodCate1=${item.prodCate1},prodCate2=${item.prodCate2},prodNo=${item.prodNo})}"><img src="https://via.placeholder.com/80x80" alt=""></a>
@@ -58,34 +58,41 @@
                     <table border="0">
                         <tr>
                             <td>총</td>
-                            <td th:text="${#numbers.formatInteger(itemDTOList.size, 0, 'COMMA')}+'건'">2 건</td>
+                            <td id="ordTotCount" th:text="${#numbers.formatInteger(itemDTOList.size, 0, 'COMMA')}+'건'">2 건</td>
+                            <input type="hidden" name="ordCount" th:value="${itemDTOList.size}"/>
                         </tr>
                         <tr>
                             <td>상품금액</td>
-                            <td th:text="${#numbers.formatInteger(total.ordPrice, 0, 'COMMA')}+'원'">27,000</td>
+                            <td id="ordTotOrgPrice" th:text="${#numbers.formatInteger(total.ordPrice, 0, 'COMMA')}+'원'">27,000</td>
+                            <input type="hidden" name="ordPrice" th:value="${total.ordPrice}"/>
                         </tr>
                         <tr>
                             <td>할인금액</td>
-                            <td th:text="${#numbers.formatInteger(total.ordDiscount, 0, 'COMMA')}+'원'">-1,000</td>
+                            <td id="ordTotDiscount" th:text="${#numbers.formatInteger(total.ordDiscount, 0, 'COMMA')}+'원'">-1,000</td>
+                            <input type="hidden" name="ordDiscount" th:value="${total.ordDiscount}"/>
                         </tr>
                         <tr>
                             <td>배송비</td>
-                            <td th:text="${#numbers.formatInteger(total.ordDelivery, 0, 'COMMA')}+'원'">0</td>
+                            <td id="ordTotDelivery" th:text="${#numbers.formatInteger(total.ordDelivery, 0, 'COMMA')}+'원'">0</td>
+                            <input type="hidden" name="ordDelivery" th:value="${total.ordDelivery}"/>
                         </tr>
                         <tr>
                             <td>적립 포인트</td>
-                            <td th:text="${#numbers.formatInteger(total.savePoint, 0, 'COMMA')}+'원'">-1000</td>
+                            <td id="ordTotSavePoint" th:text="${#numbers.formatInteger(total.savePoint, 0, 'COMMA')}+'원'">-1000</td>
+                            <input type="hidden" name="savePoint" th:value="${total.savePoint}"/>
                         </tr>
                         <tr>
                             <td>포인트 할인</td>
-                            <td>-1000</td>
+                            <td id="ordTotUsePoint">0원</td>
+                            <input type="hidden" name="usedPoint" value="0"/>
                         </tr>
                         <tr>
                             <td>전체주문금액</td>
-                            <td th:text="${#numbers.formatInteger(total.ordTotPrice, 0, 'COMMA')}+'원'">25,000</td>
+                            <td id="ordTotPrice" th:text="${#numbers.formatInteger(total.ordTotPrice, 0, 'COMMA')}+'원'">25,000</td>
+                            <input type="hidden" name="ordTotPrice" th:value="${total.ordTotPrice}"/>
                         </tr>
                     </table>
-                    <input type="button" name="" value="결제하기">
+                    <input type="button" name="" id="ordComplete" value="결제하기">
                 </div>
 
                 <!-- 배송정보 -->
@@ -94,32 +101,32 @@
                     <table>
                         <tr>
                             <td>주문자</td>
-                            <td><input type="text" name="orderer" th:value="${memberOrderInfo.name}" required/></td>
+                            <td><input type="text" id="recipName" name="recipName" th:value="${memberOrderInfo.name}" required/></td>
                         </tr>
                         <tr>
                             <td>휴대폰</td>
                             <td>
-                                <input type="text" name="hp" th:value="${memberOrderInfo.hp}" required/>
+                                <input type="text" id="recipHp" name="recipHp" th:value="${memberOrderInfo.hp}" required/>
                                 <span>- 포함 입력</span>
                             </td>
                         </tr>
                         <tr>
                             <td>우편번호</td>
                             <td>
-                                <input type="text" name="zip" th:value="${memberOrderInfo.zip}" readonly required/>
+                                <input type="text" name="recipZip" id="recipZip" th:value="${memberOrderInfo.zip}" readonly required/>
                                 <input type="button" value="검색" id="btnZip" onclick="zipcode()"/>
                             </td>
                         </tr>
                         <tr>
                             <td>기본주소</td>
                             <td>
-                                <input type="text" name="addr1" th:value="${memberOrderInfo.addr1}" readonly required/>
+                                <input type="text" name="recipAddr1" id="recipAddr1" th:value="${memberOrderInfo.addr1}" readonly required/>
                             </td>
                         </tr>
                         <tr>
                             <td>상세주소</td>
                             <td>
-                                <input type="text" name="addr2" th:value="${memberOrderInfo.addr2}" />
+                                <input type="text" name="recipAddr2" id="recipAddr2" th:value="${memberOrderInfo.addr2}" />
                             </td>
                         </tr>
                     </table>
@@ -130,10 +137,10 @@
                     <h1>할인정보</h1>
 
                     <div>
-                        <p>현재 포인트 : <span th:text="${#numbers.formatInteger(memberOrderInfo.point, 0, 'COMMA')}">7200</span>점</p>
+                        <p>현재 포인트 : <span th:text="${#numbers.formatInteger(memberOrderInfo.point, 0, 'COMMA')}" id="hasPoint">7200</span>점</p>
                         <label>
-                            <input type="text" name="point" id="usePoint" th:attr="disabled=${memberOrderInfo.point < 5000}"/>점
-                            <input type="button" value="적용"/>
+                            <input type="text" name="point" id="usePoint" th:attr="disabled=${memberOrderInfo.point < 5000}" value="" maxlength="20"/>점
+                            <input type="button" value="적용" id="applyDiscount"/>
                         </label>
                         <span>포인트 5,000점 이상이면 현금처럼 사용 가능합니다.</span>
                     </div>
@@ -145,23 +152,23 @@
                     <div>
                         <span>신용카드</span>
                         <p>
-                            <label><input type="radio" name="payment" value="type1" checked/>신용카드 결제</label>
-                            <label><input type="radio" name="payment" value="type2"/>체크카드 결제</label>
+                            <label><input type="radio" name="ordPayment" value="11" checked/>신용카드 결제</label>
+                            <label><input type="radio" name="payment" value="12"/>체크카드 결제</label>
                         </p>
                     </div>
                     <div>
                         <span>계좌이체</span>
                         <p>
-                            <label><input type="radio" name="payment" value="type3"/>실시간 계좌이체</label>
-                            <label><input type="radio" name="payment" value="type4"/>무통장 입금</label>
+                            <label><input type="radio" name="payment" value="21"/>실시간 계좌이체</label>
+                            <label><input type="radio" name="payment" value="22"/>무통장 입금</label>
                         </p>
                     </div>
                     <div>
                         <span>기타</span>
                         <p>
-                            <label><input type="radio" name="payment" value="type3"/>휴대폰결제</label>
+                            <label><input type="radio" name="payment" value="31"/>휴대폰결제</label>
                             <label>
-                                <input type="radio" name="payment" value="type4"/>카카오페이
+                                <input type="radio" name="payment" value="32"/>카카오페이
                                 <img src="../images/ico_kakaopay.gif" alt="카카오페이"/>
                             </label>
                         </p>

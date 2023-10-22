@@ -300,8 +300,27 @@ public class ProductController {
 
     // PRODUCT CMPLETE
     @GetMapping(value = "/product/complete")
-    public String complete(Model model, HttpServletRequest request) {
+    public String complete(Model model, HttpServletRequest request, PageRequestDTO pageRequestDTO) {
         layout(model, request);
+
+
         return "/product/complete";
+    }
+
+    /*@ResponseBody*/
+    @PostMapping(value = "/product/insertOrderForm")
+    public String insertOrderForm(Model model, HttpServletRequest request, OrderDTO order, /*List<OrderItemDTO> orderItemDTOList,*/ PageRequestDTO pageRequestDTO) {
+        layout(model, request);
+
+        int result = 0;
+
+        log.info(order.toString());
+        String uid = prodService.loginStatus();
+
+        log.info("insertOrderController here...1");
+        result = prodService.insertOrder(order, uid);
+        log.info("insertOrderController here...2");
+
+        return "redirect:/product/complete";
     }
 }

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.OrderMapper">
+
+    <insert id="insertOrder">
+        INSERT INTO `km_product_order` SET
+                            `ordUid`= #{ordUid},
+                            `ordPrice`= #{ordPrice},
+                            `ordCount`= #{ordCount},
+                            `ordDiscount`= #{ordDiscount},
+                            `ordDelivery`= #{ordDelivery},
+                            `savePoint`= #{savePoint},
+                            `usedPoint`= #{usedPoint},
+                            `ordTotPrice`= #{ordTotPrice},
+                            `recipName`= #{recipName},
+                            `recipHp`= #{recipHp},
+                            `recipZip`= #{recipZip},
+                            `recipAddr1`= #{recipAddr1},
+                            `recipAddr2`= #{recipAddr2},
+                            `ordPayment`= #{ordPayment},
+                            `ordComplete`= #{ordComplete},
+                            `ordDate`= NOW();
+    </insert>
+
+</mapper>

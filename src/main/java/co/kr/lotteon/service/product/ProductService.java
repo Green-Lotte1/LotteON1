@@ -3,6 +3,7 @@ package co.kr.lotteon.service.product;
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.*;
 import co.kr.lotteon.mapper.CartMapper;
+import co.kr.lotteon.mapper.OrderMapper;
 import co.kr.lotteon.mapper.ProductMapper;
 import co.kr.lotteon.repository.product.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,6 +37,7 @@ public class ProductService {
     private final ReviewRepository reviewRepository;
     private final ProductMapper productMapper;
     private final CartMapper cartMapper;
+    private final OrderMapper orderMapper;
     private final ModelMapper modelMapper;
 
 
@@ -183,6 +185,19 @@ public class ProductService {
     ///////////////// PRODUCT ORDER
     ////////////////////////////////////////////////////////////////////
 
+    public int insertOrder(OrderDTO order, String uid){
+
+        int result = 0;
+
+        log.info("insertOrder here...1");
+        order.setOrdUid(uid);
+        result = orderMapper.insertOrder(order);
+        log.info("insertOrder result: "+result);
+        log.info("insertOrder here...2");
+
+        return result;
+    }
+
     public List<ItemDTO> selectProductForOrder(String chk, String uid){
 
         List<ItemDTO> itemDTOList = new ArrayList<>();
@@ -249,7 +264,9 @@ public class ProductService {
     }
 
 
-
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT COMPLETE
+    ////////////////////////////////////////////////////////////////////
 
 
 

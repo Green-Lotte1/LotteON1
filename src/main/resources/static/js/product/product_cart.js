@@ -198,6 +198,13 @@ $(document).ready(function () {
         return;
         const parametersJsonData = $.param(jsonData);
         console.log(parametersJsonData);
+
+        //////////////////////////////////////////////////////////////////////////
+        /*
+        유효성 검증을 위해 AJAX 전송을 하려 했으나
+        ORDER 구현이 우선순위라서 보류
+        */
+        //////////////////////////////////////////////////////////////////////////
         /*$.ajax({
             url: path+'/product/order',
             type: 'get',
