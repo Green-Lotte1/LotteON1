@@ -140,12 +140,12 @@ $(document).ready(function () {
     //****************** 결제 하기 클릭 ******************//
     //***********************************************//
     const path = $('#path').val();
-    const savePoint = parseFloat($('#ordTotSavePoint').text().replace(/[^0-9.]+/g, ''));
+    /*const savePoint = parseFloat($('#ordTotSavePoint').text().replace(/[^0-9.]+/g, ''));*/
     $('#ordComplete').click(function(e){
         e.preventDefault();
         /*console.log(savePoint);*/
-        const usedPoint = parseFloat($('#ordTotUsePoint').text().replace(/[^0-9.]+/g, ''));
-        const completeTotPrice =  parseFloat($('#ordTotPrice').text().replace(/[^0-9.]+/g, ''));
+        /*const usedPoint = parseFloat($('#ordTotUsePoint').text().replace(/[^0-9.]+/g, ''));
+        const completeTotPrice =  parseFloat($('#ordTotPrice').text().replace(/[^0-9.]+/g, ''));*/
         const recipName = $('#recipName').val();
         const recipHp = $('#recipHp').val();
         const recipZip = $('#recipZip').val();
@@ -184,6 +184,23 @@ $(document).ready(function () {
         PROD NO들을 어떻게 보낼 것인지 연구 필요
         */
         //////////////////////////////////////////////////////////////////////////
+
+        /*const length = [[${products.size()}]];
+        const count = $('input[name=count]');
+        const price = $('input[name=price]');
+        const disPrice = $('input[name=disPrice]');
+        const delivery = $('input[name=delivery]');
+        const total = 0;
+        let ordPrice = 0;
+        let ordDiscount = 0;
+        let ordDelivery = 0;
+        let ordTotPrice = 0;
+        for (let i = 0; i < length; i++) {
+            ordPrice += (count[i].value * 1) * (price[i].value * 1);
+            ordDiscount += ((price[i].value * 1) - (disPrice[i].value * 1)) * (count[i].value * 1);
+            ordDelivery += (delivery[i].value * 1);
+        }
+        ordTotPrice += ordPrice - ordDiscount + ordDelivery;*/
 
         /*const ordCount = $('input[type="hidden"][name="ordCount"]').val();
         const ordPrice = $('input[type="hidden"][name="ordPrice"]').val();

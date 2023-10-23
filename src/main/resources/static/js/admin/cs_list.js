@@ -128,8 +128,6 @@ $(function() {
                     dataType: 'json',
                     contentType: 'application/json',
                     success: function(data) {
-                        // 2차유형 초기화
-
                         // 2차유형 동적처리
                         for(let i=0 ; i<data.returnCate.length ; i++) {
                             const category = data.returnCate[i];

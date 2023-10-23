@@ -12,7 +12,6 @@ import co.kr.lotteon.repository.cs.CsCate2Repository;
 import co.kr.lotteon.repository.cs.CsGroupRepository;
 import co.kr.lotteon.repository.cs.CsRepository;
 import co.kr.lotteon.repository.member.MemberRepository;
-import co.kr.lotteon.service.cs.CsService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Builder
@@ -32,12 +32,22 @@ import java.util.List;
 public class AdminCsService {
 
     private final ModelMapper modelMapper;
-    private final CsService csService;
     private final CsRepository csRepository;
     private final CsGroupRepository groupRepository;
     private final CsCate1Repository cate1Repository;
     private final CsCate2Repository cate2Repository;
     private final MemberRepository memberRepository;
+
+    //////////////////////////////////////////////////////////////
+    // convert List<CsDTO> <---> Page<CsEntity>
+    //////////////////////////////////////////////////////////////
+    public List<CsDTO> convertToCs(Page<CsEntity> entities) {
+        return entities.stream()
+                .map(entity -> modelMapper.map(entity, CsDTO.class))
+                .collect(Collectors.toList());
+    }
+
+
 
     //////////////////////////////////////////////////////////////
     // admin/cs/*/list page
@@ -64,23 +74,23 @@ public class AdminCsService {
             // LIST(where group) - 전체 글 보기
             if (cate1 == null & cate2 == null) {
                 entities = csRepository
-                        .findByGroupAndParentLessThanEqual(group, 0, pageable);
+                        .findByGroupAndParent(group, 0, pageable);
                 log.info(" - 2. adminCsList :: group");
 
                 // LIST(where cate1) - 1차유형 글 보기
             } else if (cate2 == null) {
                 entities = csRepository
-                        .findByCate1AndParentLessThanEqual(cate1, 0, pageable);
+                        .findByCate1AndParent(cate1, 0, pageable);
                 log.info(" - 2. adminCsList :: cate1");
 
                 // LIST(where cate2) - 2차유형 글 보기
             } else {
                 entities = csRepository
-                        .findByCate2AndParentLessThanEqual(cate2, 0, pageable);
+                        .findByCate2AndParent(cate2, 0, pageable);
                 log.info(" - 2. adminCsList :: cate2");
             }
 
-            List<CsDTO> dtoList = csService.convertToCs(entities);
+            List<CsDTO> dtoList = convertToCs(entities);
             log.info(" - 3. dtoList is " + (dtoList!=null?"OK":"NULL"));
 
             int totalElement = (int) entities.getTotalElements();
@@ -174,9 +184,9 @@ public class AdminCsService {
     //////////////////////////////////////////////////////////////
     // 게시글 삭제
     //////////////////////////////////////////////////////////////
-    public void csDelete(String no) {
-
-
+    public void adminCsDelete(int no) {
+        log.info(" - adminCsDelete()... ");
+        csRepository.deleteById(no);
     }
 
 

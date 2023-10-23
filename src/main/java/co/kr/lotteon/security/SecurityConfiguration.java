@@ -30,6 +30,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     private final MyAccessDeniedHandler accessDeniedHandler;
     private final ResourceLoader resourceLoader;
 
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
@@ -86,8 +87,11 @@ public class SecurityConfiguration implements WebMvcConfigurer {
         return config.getAuthenticationManager();
     }
 
+
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        WebMvcConfigurer.super.addResourceHandlers(registry);
+        registry.addResourceHandler("/thumbs/**")
+                .addResourceLocations(resourceLoader.getResource("file:thumbs/"));
+
     }
 }

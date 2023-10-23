@@ -27,16 +27,22 @@ public class AdminProductService {
 
     public void insertProduct(AdminProductDTO dto){
 
+        log.info("insertProd...1");
+
         List<String> saveNames = fileUpload(dto);
 
+        log.info("insertProd...2");
         dto.setThumb1(saveNames.get(0));
         dto.setThumb2(saveNames.get(1));
         dto.setThumb3(saveNames.get(2));
         dto.setDetail(saveNames.get(3));
 
+        log.info("insertProd...3");
+        log.info(dto.toString());
         adminProductMapper.insertProduct(dto);
 
 
+        log.info("insertProd...4");
 
 
     }

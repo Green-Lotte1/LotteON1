@@ -70,4 +70,13 @@ public class MemberService {
         return memberDTO;
     }
 
+
+
+    public int selectRoleByUid(String uid) {
+        MemberEntity member = memberRepository.findById(uid).orElse(null);
+        member.setPass("");
+        int level = member.getLevel();
+
+        return level;
+    }
 }
