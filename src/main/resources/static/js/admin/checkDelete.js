@@ -14,7 +14,6 @@ $(function (){
 
     // 선택 삭제
     $('.deleteProduct').click(function () {
-        alert('click');
         console.log('delete here...1');
         // 체크돼있는 prodNo를 배열로 만들어 넣음
         $('input[name=prod]:checked').each(function () {
@@ -58,3 +57,8 @@ $(function (){
 
                 }
             })// ajax end
+        } else {
+            return;
+        }// 삭제 confirm end
+    }); // 선택삭제 click end
+});
