@@ -4,15 +4,22 @@ $(function() {
     const cate1 = $('select[name=cate1]');
     const cate2 = $('select[name=cate2]');
 
+    const prev = $('.prev');
+    const numb = $('.num');
+    const next = $('.next');
+
     const table = $('.adminList').parent();
     const path  = $('input[name=url]').val();
 
     const trigger = $('.shot');
 
-    if(cate2.length == 0) {
-        console.log('cate2 is null');
-        /*공지사항의 경우 cate2를 출력하지않으므로 거기서 사용*/
-    }
+    $(cate1).change(function() {
+        cate2.empty();
+        cate2.append($('<option>', {
+            value: '0',
+            text: '2차유형'
+        }));
+    });
 
     // 유형 선택시
     $(trigger).change(function() {
@@ -56,7 +63,7 @@ $(function() {
 
                         tr.append('<td class="tit"><a href="' + path + '/admin/cs/' + data.group + '/view?'
                             + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
-                            + (selectCate2 != null ? 'cate2=' + dto.cate2.cate2 + '&' : '')
+                            + (selectCate2 != '2차유형' ? 'cate2=' + dto.cate2.cate2 + '&' : '')
                             + 'no=' + dto.no + '&pg=' + data.pg + '">' + dto.title + '</a></td>');
 
                         if (data.group === 'qna') {
@@ -71,7 +78,7 @@ $(function() {
                             tr.append('<td><a href="#">[삭제]</a><br>'
                                 + '<a href="' + path + '/admin/cs/' + data.group + '/modify?'
                                 + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
-                                + (selectCate2 !=  null ? 'cate2=' + dto.cate2.cate2 + '&' : '')
+                                + (selectCate2 != '2차유형' ? 'cate2=' + dto.cate2.cate2 + '&' : '')
                                 + 'no=' + dto.no + '">[수정]</a></td>');
 
                         } else if (data.group === 'qna') {
@@ -81,6 +88,37 @@ $(function() {
                         table.append(tr);
                     }
                 }
+                prev.empty();
+                numb.empty();
+                next.empty();
+
+                if(data.prev) {
+                    prev.append('<a href="' + path + '/admin/cs' + data.group + '/list?'
+                        + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
+                        + (selectCate2 != '2차유형' ? 'cate2=' + dto.cate2.cate2 + '&' : '')
+                        + 'pg=' + data.start-1 + '"</a>');
+                }
+
+                for(var num = data.start ; num <= data.end ; num++) {
+                    var hrefUrl  = path + '/admin/cs/' + data.group + '/list?'
+                                  + (selectCate1 != '1차유형' ? 'cate1=' + selectCate1 + '&' : '')
+                                  + (selectCate2 != '2차유형' ? 'cate2=' + selectCate2 + '&' : '')
+                                  + 'pg=' + num;
+                    var numClass = (data.pg == num) ? 'num on' : 'num';
+                    numb.append($('<a>')
+                                .attr('href', hrefUrl)
+                                .addClass(numClass)
+                                .text(num)
+                    );
+                }
+
+                if(data.next) {
+                    next.append('<a href="' + path + '/admin/cs' + data.group + '/list?'
+                        + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
+                        + (selectCate2 != '2차유형' ? 'cate2=' + dto.cate2.cate2 + '&' : '')
+                        + 'pg=' + data.end+1 + '"</a>')
+                }
+
 
                 /*2유형선택 동적생성*/
                 $.ajax({
@@ -91,11 +129,6 @@ $(function() {
                     contentType: 'application/json',
                     success: function(data) {
                         // 2차유형 초기화
-                        cate2.empty();
-                        cate2.append($('<option>', {
-                            value: '0',
-                            text: '2차유형'
-                        }));
 
                         // 2차유형 동적처리
                         for(let i=0 ; i<data.returnCate.length ; i++) {
