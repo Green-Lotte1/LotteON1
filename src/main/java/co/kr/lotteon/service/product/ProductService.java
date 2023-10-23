@@ -268,6 +268,16 @@ public class ProductService {
     ///////////////// PRODUCT COMPLETE
     ////////////////////////////////////////////////////////////////////
 
+    public int selectLatestOrdNo(){
+
+        int result = 0;
+
+        String ordUid = loginStatus();
+
+        result = productMapper.selectLatestOrdNo(ordUid);
+
+        return result;
+    }
 
 
 

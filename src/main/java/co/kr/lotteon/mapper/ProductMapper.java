@@ -15,4 +15,6 @@ public interface ProductMapper {
 
     public void increaseProductHitByProdNo(int prodNo);
 
+    public int selectLatestOrdNo(String ordUid);
+
 }

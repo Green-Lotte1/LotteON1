@@ -1,6 +1,7 @@
 package co.kr.lotteon.dto.product;
 
 import co.kr.lotteon.dto.member.MemberDTO;
+import jakarta.persistence.Id;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Data
 public class OrderDTO {
 
+    @Id
     private int ordNo;
     private String ordUid;
     private int ordPrice;

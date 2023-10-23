@@ -2,6 +2,7 @@ package co.kr.lotteon.dto.product;
 
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.product.ProductEntity;
+import jakarta.persistence.Id;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 @Data
 public class ProductDTO {
 
+    @Id
     private int prodNo;
     private ProdCate1DTO prodCate1;
     private int prodCate2;
