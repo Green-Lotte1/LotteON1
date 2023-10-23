@@ -17,4 +17,9 @@ public interface AdminProductMapper {
 
     public void UpdateDeleteProduct(int prodNo);
 
+    public List<AdminProductDTO> SearchProductProdName(String prodName);
+    public List<AdminProductDTO> SearchProductProdNo(String prodNo);
+    public List<AdminProductDTO> SearchProductProdCompany(String prodCompany);
+    public List<AdminProductDTO> SearchProductSeller(String seller);
+
 }

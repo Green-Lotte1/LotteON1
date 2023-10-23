@@ -97,6 +97,33 @@ public class AdminProductService {
 
         return saveNames;
     }
+
+    public List<AdminProductDTO> searchProduct(String search, String searchType){
+        log.info("SearchProduct...2");
+        log.info("searchType : "+searchType);
+
+        List<AdminProductDTO> searchProductList = null;
+
+        switch (searchType){
+            case "prodName":
+                searchProductList = adminProductMapper.SearchProductProdName(search);
+                break;
+            case "prodNo":
+                searchProductList = adminProductMapper.SearchProductProdNo(search);
+                break;
+            case "prodCompany":
+                searchProductList = adminProductMapper.SearchProductProdCompany(search);
+                break;
+            case "seller":
+                searchProductList = adminProductMapper.SearchProductSeller(search);
+                break;
+        }
+
+
+        log.info("searchProductList :"+searchProductList.toString());
+
+        return searchProductList;
+    }
 }
 /*
 
