@@ -14,13 +14,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -71,6 +69,28 @@ public class AdminProductController {
 
         return "redirect:/admin/product/list";
     }
+
+    @PostMapping("/admin/product/searchProduct")
+    public String SearchProduct(@RequestParam("search") String search, @RequestParam("searchType") String searchType, Model model){
+        log.info("SearchProduct...1");
+        List<AdminProductDTO> productDTOList = adminProductService.searchProduct(search, searchType);
+        model.addAttribute("adminproducts" , productDTOList );
+
+        return "/admin/product/list";
+    }
+    @ResponseBody
+    @PostMapping("/admin/product/deleteCheckProduct")
+    public List<String> deleteCheckProduct(@RequestBody Map<String,List<String>> data){
+        log.info("deleteCheckProduct...1");
+        List<String> prodNos = data.get("prodNo");
+
+        for(String prodNo : prodNos){
+            adminProductService.deleteProduct(Integer.parseInt(prodNo));
+        }
+
+        return prodNos;
+    }
+
 }
 
 

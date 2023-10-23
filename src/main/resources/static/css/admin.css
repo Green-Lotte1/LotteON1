@@ -400,7 +400,14 @@ button[type=submit] {
 /* 상품목록 : product-list */
 #admin-product-list {}
 #admin-product-list > section > div  {
+    position: relative;
     margin-bottom: 10px;
+}
+
+#admin-product-list > section > div > form > input {
+    position: absolute;
+    top: 0;
+    left: 155px;
 }
 
 #admin-product-list > section > table  {

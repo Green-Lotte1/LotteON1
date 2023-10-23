@@ -39,4 +39,18 @@
         UPDATE `km_product` SET `sale`=-1 WHERE `prodNo`=#{prodNo};
     </update>
     <delete id="deleteProduct"></delete>
+
+    <select id="SearchProductProdName" resultType="hashMap">
+        SELECT * FROM `km_product` WHERE `prodName` LIKE '%${prodName}%' ORDER BY `prodNo` DESC;
+    </select>
+    <select id="SearchProductProdNo" resultType="hashMap">
+        SELECT * FROM `km_product` WHERE `prodNo` LIKE #{prodNo} ORDER BY `prodNo` DESC;
+    </select>
+    <select id="SearchProductProdCompany" resultType="hashMap">
+        SELECT * FROM `km_product` WHERE `prodCompany` LIKE '%${prodCompany}%' ORDER BY `prodNo` DESC;
+    </select>
+    <select id="SearchProductSeller" resultType="hashMap">
+        SELECT * FROM `km_product` WHERE `seller` LIKE '%${seller}%' ORDER BY `prodNo` DESC;
+    </select>
+
 </mapper>
