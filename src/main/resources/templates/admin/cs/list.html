@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/admin/admin_layout :: content}">
 <head>
-
+  <script th:src="@{/js/admin/cs_delete.js}"></script>
   <script th:src="@{/js/admin/cs_list.js}"></script>
   <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
 </head>
@@ -49,7 +49,7 @@
     <article>
       <table>
         <tr>
-          <th><input type="checkbox" class="allChk"/></th>
+          <th><input type="checkbox" id="allChk"/></th>
           <th>번호</th>
           <th th:if="${group eq 'notice'}">유형</th>
           <th th:if="${group eq 'faq' or group eq 'qna'}">1차유형</th>
@@ -63,7 +63,7 @@
         </tr>
 
         <tr class="adminList" th:each="list:${adminCsList.csList}">
-          <td><input type="checkbox" th:value="${list.no}"></td>
+          <td><input class="chk" type="checkbox" th:value="${list.no}"></td>
           <td th:text="${list.no}"></td>
           <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'notice'}"></td>
           <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>

@@ -83,6 +83,7 @@ public class ProductController {
             model.addAttribute("cate", null);
         }
         PageResponseDTO pageResponseDTO = prodService.selectProductByCate1AndCate2(pageRequestDTO);
+        log.info("products: "+pageResponseDTO);
         model.addAttribute("products", pageResponseDTO);
         model.addAttribute("pageRequestDTO", pageRequestDTO);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
@@ -298,10 +299,15 @@ public class ProductController {
     ///////////////// PRODUCT COMPLETE
     ////////////////////////////////////////////////////////////////////
 
-    // PRODUCT CMPLETE
+    // PRODUCT COMPLETE
     @GetMapping(value = "/product/complete")
     public String complete(Model model, HttpServletRequest request, PageRequestDTO pageRequestDTO) {
         layout(model, request);
+
+        int ordNo = 0;
+
+
+
 
 
         return "/product/complete";
@@ -309,16 +315,24 @@ public class ProductController {
 
     /*@ResponseBody*/
     @PostMapping(value = "/product/insertOrderForm")
-    public String insertOrderForm(Model model, HttpServletRequest request, OrderDTO order, /*List<OrderItemDTO> orderItemDTOList,*/ PageRequestDTO pageRequestDTO) {
+    public String insertOrderForm(Model model, HttpServletRequest request, OrderDTO order, /*@ModelAttribute("orderItemDTOList") List<OrderItemDTO> orderItemDTOList,*/ PageRequestDTO pageRequestDTO) {
         layout(model, request);
 
+        log.info("insertOrderForm here...1");
+        /*log.info("orderItemDTOList: "+orderItemDTOList.toString());*/
+
         int result = 0;
+        int ordNo = 0;
 
         log.info(order.toString());
         String uid = prodService.loginStatus();
 
         log.info("insertOrderController here...1");
         result = prodService.insertOrder(order, uid);
+        ordNo = prodService.selectLatestOrdNo();
+
+
+
         log.info("insertOrderController here...2");
 
         return "redirect:/product/complete";

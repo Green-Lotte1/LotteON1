@@ -6,7 +6,7 @@
     <nav th:replace="~{/fragments/cs/cs_nav :: nav}">
       <!-- nav 들어올 영역 -->
     </nav>
-    <table>
+    <table th:style="${pageResponseDTO.total < 1 ? 'margin-bottom: 60px;' : ''}">
       <tr th:each="board:${boardList}">
         <td>
           <a th:href="@{/cs/qna/view(cate1=${board.cate1.cate1}, no=${board.no})}">

@@ -59,15 +59,14 @@ public class SecurityConfiguration {
                         .requestMatchers("/member/**").permitAll()
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/error/**").permitAll()
+                        .requestMatchers("/my/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/policy/**").permitAll()
-                        .requestMatchers("/css/**", "/js/**", "/images/**").permitAll())
+                        .requestMatchers("/css/**", "/js/**", "/images/**", "/thumbs/**").permitAll())
+
                 // 에러 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/member/login"))
-                                //.accessDeniedHandler(accessDeniedHandler)
-                                //.accessDeniedPage("/error/404")
-                                //.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.NOT_FOUND))
                         );
 
         return http.build();
