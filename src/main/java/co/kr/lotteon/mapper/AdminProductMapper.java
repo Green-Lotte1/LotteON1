@@ -23,6 +23,6 @@ public interface AdminProductMapper {
     public List<AdminProductDTO> SearchProductProdCompany(String prodCompany);
     public List<AdminProductDTO> SearchProductSeller(String seller);
 
-    public List<ProdCate2DTO> selectProductCate();
+    public List<ProdCate2DTO> selectProductCate(int cate1);
 
 }
