@@ -239,10 +239,10 @@ footer p > strong {
 
 #my > nav > div > ol > li:first-child {border-left: none;}
 #my > nav > div > ol > li:last-child {border-right: none;}
-#my > nav > div > ol > li:nth-child(1) {background-image: url('../images/ico_delivery.png');}
-#my > nav > div > ol > li:nth-child(2) {background-image: url('../images/ico_point.jpg');}
-#my > nav > div > ol > li:nth-child(3) {background-image: url('../images/ico_coupon.jpg');}
-#my > nav > div > ol > li:nth-child(4) {background-image: url('../images/ico_qna.png');}
+#my > nav > div > ol > li:nth-child(1) {background-image: url('../images/my/ico_delivery.png');}
+#my > nav > div > ol > li:nth-child(2) {background-image: url('../images/my/ico_point.jpg');}
+#my > nav > div > ol > li:nth-child(3) {background-image: url('../images/my/ico_coupon.jpg');}
+#my > nav > div > ol > li:nth-child(4) {background-image: url('../images/my/ico_qna.png');}
 #my > nav > div > ol > li > a {
     display: block;
     width: 100%;
@@ -299,7 +299,7 @@ footer p > strong {
     top: -2px;
     width: 8px;
     height: 13px;
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     background-position: -160px -50px;
 }
 
@@ -343,7 +343,7 @@ footer p > strong {
     width: 35px;
     height: 14px;
     margin-top: -10px;
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     background-position: 0 -279px;
     font-size: 0;
 }
@@ -409,7 +409,7 @@ footer p > strong {
     display: block;
     width: 90px;
     height: 19px;            
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     font-size: 0;            
 }
 
@@ -443,7 +443,7 @@ footer p > strong {
     width: 84px;
     height: 20px;
     font-size: 0px;
-    background-image: url('../images/my_rating_star.png');
+    background-image: url('../images/my/my_rating_star.png');
     background-repeat: no-repeat;
     background-position: 36px 0px;    
 }
@@ -462,7 +462,7 @@ footer p > strong {
 #my > .home > section > .myinfo > h3 {
     width: 96px;
     height: 15px;
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     background-position: -144px -281px;
     font-size: 0;
 }
@@ -491,7 +491,7 @@ footer p > strong {
 #my > .home > section > .myinfo > div > div > span {
     display: inline-block;
     height: 11px;
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     font-size: 0;
 }
 
@@ -513,7 +513,7 @@ footer p > strong {
     width: 33px;
     height: 11px;
     margin-left: 10px;
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     background-position: -423px -822px;
     font-size: 0;
 }
@@ -550,12 +550,12 @@ footer p > strong {
     height: 11px;
     margin-right: 20px;
     margin-top: 6px;
-    background: url('../images/my_sprites.png') no-repeat 0px -227px;
+    background: url('../images/my/my_sprites.png') no-repeat 0px -227px;
     font-size: 0;
 }
 
 #my > .ordered > section > article > .byDate > ul {
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     
 }
 #my > .ordered > section > article > .byDate > ul > li {
@@ -574,11 +574,11 @@ footer p > strong {
 }
 
 #my > .ordered > section > article > .byDate > ul a:hover {
-    background: url('../images/my_sprites.png') no-repeat -377px -908px;
+    background: url('../images/my/my_sprites.png') no-repeat -377px -908px;
     color: rgb(255, 255, 255);
 }
 #my > .ordered > section > article > .byDate > ul a.on {
-    background: url('../images/my_sprites.png') no-repeat -377px -908px;
+    background: url('../images/my/my_sprites.png') no-repeat -377px -908px;
     color: rgb(255, 255, 255);
 }
 #my > .ordered > section > article > .byDate > ul a > em {
@@ -602,7 +602,7 @@ footer p > strong {
 #my > .ordered > section > article > .byDate > p {
     width: 190px;
     height: 29px;
-    background: url('../images/my_sprites.png') no-repeat -461px -879px;
+    background: url('../images/my/my_sprites.png') no-repeat -461px -879px;
     padding: 5px;
     box-sizing: border-box;
 }
@@ -620,7 +620,7 @@ footer p > strong {
     height: 27px;
     border: none;
     font-size: 0;
-    background: url('../images/my_sprites.png') no-repeat -491px -80px;
+    background: url('../images/my/my_sprites.png') no-repeat -491px -80px;
 }        
 
 #my > .ordered > section > article > table {
@@ -677,7 +677,7 @@ footer p > strong {
     display: block;
     width: 90px;
     height: 19px;            
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     font-size: 0;            
 }
 
@@ -725,12 +725,12 @@ footer p > strong {
 }
 
 #my > .ordered > section > article > .page > .prev {
-    background: url('../images/my_sprites2.png') no-repeat 0 -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat 0 -300px;
     font-size: 0;
 }
 
 #my > .ordered > section > article > .page > .next {
-    background: url('../images/my_sprites2.png') no-repeat -120px -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat -120px -300px;
     font-size: 0;
 }
 /* my - point(포인트내역) */
@@ -757,12 +757,12 @@ footer p > strong {
     height: 11px;
     margin-right: 20px;
     margin-top: 6px;
-    background: url('../images/my_sprites.png') no-repeat 0px -227px;
+    background: url('../images/my/my_sprites.png') no-repeat 0px -227px;
     font-size: 0;
 }
 
 #my > .point > section > article > .byDate > ul {
-    background-image: url('../images/my_sprites.png');
+    background-image: url('../images/my/my_sprites.png');
     
 }
 #my > .point > section > article > .byDate > ul > li {
@@ -781,11 +781,11 @@ footer p > strong {
 }
 
 #my > .point > section > article > .byDate > ul a:hover {
-    background: url('../images/my_sprites.png') no-repeat -377px -908px;
+    background: url('../images/my/my_sprites.png') no-repeat -377px -908px;
     color: rgb(255, 255, 255);
 }
 #my > .point > section > article > .byDate > ul a.on {
-    background: url('../images/my_sprites.png') no-repeat -377px -908px;
+    background: url('../images/my/my_sprites.png') no-repeat -377px -908px;
     color: rgb(255, 255, 255);
 }
 #my > .point > section > article > .byDate > ul a > em {
@@ -809,7 +809,7 @@ footer p > strong {
 #my > .point > section > article > .byDate > p {
     width: 190px;
     height: 29px;
-    background: url('../images/my_sprites.png') no-repeat -461px -879px;
+    background: url('../images/my/my_sprites.png') no-repeat -461px -879px;
     padding: 5px;
     box-sizing: border-box;
 }
@@ -827,7 +827,7 @@ footer p > strong {
     height: 27px;
     border: none;
     font-size: 0;
-    background: url('../images/my_sprites.png') no-repeat -491px -80px;
+    background: url('../images/my/my_sprites.png') no-repeat -491px -80px;
 }        
 
 #my > .point > section > article > table {
@@ -886,12 +886,12 @@ footer p > strong {
 }
 
 #my > .point > section > article > .page > .prev {
-    background: url('../images/my_sprites2.png') no-repeat 0 -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat 0 -300px;
     font-size: 0;
 }
 
 #my > .point > section > article > .page > .next {
-    background: url('../images/my_sprites2.png') no-repeat -120px -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat -120px -300px;
     font-size: 0;
 }
 
@@ -907,7 +907,7 @@ footer p > strong {
     position: relative;
     width: 100%;
     height: 209px;
-    background-image: url('../images/my_coupon_bg.gif');
+    background-image: url('../images/my/my_coupon_bg.gif');
     background-size: contain;
 }       
 
@@ -1044,7 +1044,7 @@ footer p > strong {
     width: 84px;
     height: 20px;
     font-size: 0px;
-    background-image: url('../images/my_rating_star.png');
+    background-image: url('../images/my/my_rating_star.png');
     background-repeat: no-repeat;
     background-position: 36px 0px;    
 }
@@ -1074,12 +1074,12 @@ footer p > strong {
 }
 
 #my > .review > section > article > .page > .prev {
-    background: url('../images/my_sprites2.png') no-repeat 0 -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat 0 -300px;
     font-size: 0;
 }
 
 #my > .review > section > article > .page > .next {
-    background: url('../images/my_sprites2.png') no-repeat -120px -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat -120px -300px;
     font-size: 0;
 }
 
@@ -1136,10 +1136,10 @@ footer p > strong {
     box-sizing: border-box;
 }
 #my > .qna > section > article > table .answerRow div.question {
-    background: url('../images/my_ico_question.gif') no-repeat 0px 24px;
+    background: url('../images/my/my_ico_question.gif') no-repeat 0px 24px;
 }
 #my > .qna > section > article > table .answerRow div.answer {
-    background: url('../images/my_ico_answer.gif') no-repeat 0px 24px;
+    background: url('../images/my/my_ico_answer.gif') no-repeat 0px 24px;
 }
 #my > .qna > section > article > table .answerRow div > p {
     margin-bottom: 10px;
@@ -1173,12 +1173,12 @@ footer p > strong {
 }
 
 #my > .qna > section > article > .page > .prev {
-    background: url('../images/my_sprites2.png') no-repeat 0 -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat 0 -300px;
     font-size: 0;
 }
 
 #my > .qna > section > article > .page > .next {
-    background: url('../images/my_sprites2.png') no-repeat -120px -300px;
+    background: url('../images/my/my_sprites2.png') no-repeat -120px -300px;
     font-size: 0;
 }
 
@@ -1254,7 +1254,7 @@ footer p > strong {
     width: 160px;
     height: 30px;
     margin: 10px auto;
-    background-image: url('../images/btn_my_change.png');
+    background-image: url('../images/my/btn_my_change.png');
     color: #fff;
     font-family: '돋움';
     border: none;
@@ -1303,7 +1303,7 @@ footer p > strong {
     float: right;
     width: 30px;
     height: 30px;
-    background-image: url('../../images/ico_sprites.png');
+    background-image: url('../images/ico_sprites.png');
     background-color: transparent;
     background-position: 227px -25px;
     border: none;
