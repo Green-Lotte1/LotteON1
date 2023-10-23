@@ -60,6 +60,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/policy/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**").permitAll())
                 // 에러 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling
