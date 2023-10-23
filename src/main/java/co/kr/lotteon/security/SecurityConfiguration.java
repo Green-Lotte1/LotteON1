@@ -1,6 +1,7 @@
 package co.kr.lotteon.security;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,15 +24,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.logging.Handler;
 
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfiguration implements WebMvcConfigurer {
+    private final SecurityUserService service;
+    private final MyAccessDeniedHandler accessDeniedHandler;
+    private final ResourceLoader resourceLoader;
 
-    @Autowired
-    private ResourceLoader resourceLoader;
-
-    @Autowired
-    private SecurityUserService service;
-    @Autowired
-    private MyAccessDeniedHandler accessDeniedHandler;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -90,10 +88,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
     }
 
 
-
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/thumbs/**")
                 .addResourceLocations(resourceLoader.getResource("file:thumbs/"));
+
     }
 }
