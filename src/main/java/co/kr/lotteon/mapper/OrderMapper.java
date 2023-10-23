@@ -10,5 +10,7 @@ public interface OrderMapper {
 
     public int insertOrder(OrderDTO orderDTO);
 
+    public int selectLatestOrdNo(String uid);
+
 
 }

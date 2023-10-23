@@ -313,14 +313,18 @@ public class ProductController {
         return "/product/complete";
     }
 
-    /*@ResponseBody*/
+    @ResponseBody
     @PostMapping(value = "/product/insertOrderForm")
-    public String insertOrderForm(Model model, HttpServletRequest request, OrderDTO order, /*@ModelAttribute("orderItemDTOList") List<OrderItemDTO> orderItemDTOList,*/ PageRequestDTO pageRequestDTO) {
+    public int insertOrderForm(Model model, HttpServletRequest request, @RequestBody OrderDTO order) {
         layout(model, request);
 
         log.info("insertOrderForm here...1");
         /*log.info("orderItemDTOList: "+orderItemDTOList.toString());*/
+        /*log.info("insertOrderForm orderDTO: "+pageRequestDTO.getOrderDTO().toString());*/
 
+/*        OrderDTO order = pageRequestDTO.getOrderDTO();*/
+
+        log.info("insertOrderForm here...2");
         int result = 0;
         int ordNo = 0;
 
@@ -328,13 +332,17 @@ public class ProductController {
         String uid = prodService.loginStatus();
 
         log.info("insertOrderController here...1");
-        result = prodService.insertOrder(order, uid);
+        result = prodService.insertOrder(order);
         ordNo = prodService.selectLatestOrdNo();
-
-
 
         log.info("insertOrderController here...2");
 
-        return "redirect:/product/complete";
+        return ordNo;
     }
+
+    /*@ResponseBody
+    @PostMapping(value = "/product/insertOrderItems")
+    public int insertOrderItems(Model model, Page){
+
+    }*/
 }

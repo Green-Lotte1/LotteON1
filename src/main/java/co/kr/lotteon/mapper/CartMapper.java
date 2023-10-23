@@ -14,4 +14,6 @@ public interface CartMapper {
     public int updateCartProductByUidAndProdNo(int count, String uid, int prodNo, int total);
     public int deleteCartProductByCartNo(int cartNo);
 
+    public int deleteCartProductByProdNoAndUid(String uid, int prodNo);
+
 }
