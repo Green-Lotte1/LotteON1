@@ -62,6 +62,18 @@ public class AdminProductController {
         return "redirect:/admin/product/register";
     }
 
+    @ResponseBody
+    @PostMapping("/admin/product/register/category")
+    public List<Integer> productRegisterCate(@RequestBody co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO){
+        log.info("productRegisterCate...1");
+
+        int cate1 = pageRequestDTO.getProdCate1();
+        log.info(cate1);
+
+
+        return null;
+    }
+
     @GetMapping("/admin/product/delete")
     public String deleteProduct(int prodNo){
         log.info("deleteProduct...1");
