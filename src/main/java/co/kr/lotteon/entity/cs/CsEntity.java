@@ -23,6 +23,7 @@ public class CsEntity {
     private int no;
 
     private int parent;
+    private int comment;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "`group`")
@@ -52,6 +53,7 @@ public class CsEntity {
         return CsDTO.builder()
                 .no(no)
                 .parent(parent)
+                .comment(comment)
                 .group(group.toDTO())
                 .cate1(cate1.toDTO())
                 .cate2(cate2.toDTO())

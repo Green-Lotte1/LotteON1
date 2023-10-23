@@ -272,25 +272,41 @@ public class AdminCsController {
     ////////////////////////////////////////////////////////////////////
     // 게시글 삭제
     ////////////////////////////////////////////////////////////////////
-    /*@ResponseBody
-    @RequestMapping(value = "/cs/delete", method = RequestMethod.DELETE)
+    @ResponseBody
+    @RequestMapping(value = "/cs/deletes", method = RequestMethod.DELETE)
     public String csDelete(@RequestBody PageRequestDTO pageRequestDTO) {
+        log.info(" ===== csDelete :: DELETE START ===== ");
         // 접근 유저 정보
         String username  = csService.loginStatus();
-        *//*memberService.*//*
-
+        int level = memberService.selectRoleByUid(username);
 
         // 글쓴이 정보
         String athor = csService.findById(pageRequestDTO.getNo()).getUid().getUid();
 
+        log.info(" - delete ok?  : " + ((athor.equals(username))?"true":(level == 7)?"true":"false"));
 
-        if(!username.equals(athor)) {
-            return null; // 권한 없음 return 할 것
-        }else if(true) {
-            return null;
+        if(username.equals(athor) || level == 7) {
+            if(pageRequestDTO.getNoSelect().equals("/")) {
+                // 숫자 삭제.
+                int no = pageRequestDTO.getNo();
+                log.info(" - no : " + no + " delete...");
+                adminCsService.adminCsDelete(no);
+                return "200";
+
+            }else {
+                // 숫자 리스트 삭제
+                String comma = pageRequestDTO.getNoSelect().replace("/", ", ");
+                log.info(" - no : " + comma + "delete...");
+                String[] noarr = pageRequestDTO.getNoSelect().split("/"); // "/3/3/4/5/76/534/123/" 같은 구조.
+                for(int i=1; i<noarr.length; i++) {
+                    int no = Integer.parseInt(noarr[i]);
+                    adminCsService.adminCsDelete(no);
+                }
+                return "200";
+            }
         }
-        return null;
-    }*/
+        return "403"; // 권한 없음
+    }
 
 
     ////////////////////////////////////////////////////////////////////
