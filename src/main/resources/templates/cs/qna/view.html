@@ -24,7 +24,7 @@
       </p>
     </div>
 
-    <div class="content" th:if="${view.parent < 0}">
+    <div class="content" th:if="${view.comment > 0}">
       <h2 class="answer">☞ [답변] [[${answer.title}]]</h2>
       <p th:utext="${answer.brContent}">
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

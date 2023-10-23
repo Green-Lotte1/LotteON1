@@ -23,10 +23,16 @@ $(function() {
 
     // 유형 선택시
     $(trigger).change(function() {
-        selectCate1 = $(this).val();
+        selectCate1 = (cate1.length != 0)?$('select[name=cate1]').val():null;
         selectCate2 = (cate2.length != 0)?$('select[name=cate2]').val():null;
         console.log("selectCate1 : " + selectCate1);
         console.log("selectCate2 : " + selectCate2);
+
+        newUrl = path + '/admin/cs/' + group + '/write'
+              + (selectCate1 != 0 ? '?cate1=' + selectCate1 : '')
+              + (selectCate2 != 0 ? (selectCate2 != null ? '&cate2=' + selectCate2 : '') : '');
+        $('.btnWrite').attr('href', newUrl);
+        console.log('url : ' + newUrl);
 
         const jsonData = {
             "group": group,
@@ -43,11 +49,13 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 const list  = $('.adminList');
+
                 list.remove();
+                $('.notfind').remove();
                 console.log('group : ' + data.group);
 
-                for(const dto of data.csList) {
-                    if(dto.no > 0) {
+                if(data.total > 0) {
+                    for(const dto of data.csList) {
                         var tr = $('<tr>').addClass('adminList');
 
                         tr.append('<td><input type="checkbox" value="' + dto.no + '"></td>');
@@ -62,9 +70,9 @@ $(function() {
                         }
 
                         tr.append('<td class="tit"><a href="' + path + '/admin/cs/' + data.group + '/view?'
-                            + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
-                            + (selectCate2 != '2차유형' ? 'cate2=' + dto.cate2.cate2 + '&' : '')
-                            + 'no=' + dto.no + '&pg=' + data.pg + '">' + dto.title + '</a></td>');
+                            + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 : '')
+                            + (selectCate2 != 0 ? (selectCate2 != null ? '&cate2=' + selectCate2 : '') : '')
+                            + '&no=' + dto.no + '&pg=' + data.pg + '">' + dto.brTitle + '</a></td>');
 
                         if (data.group === 'qna') {
                             tr.append('<td>' + dto.uid.uid + '</td>');
@@ -82,11 +90,15 @@ $(function() {
                                 + 'no=' + dto.no + '">[수정]</a></td>');
 
                         } else if (data.group === 'qna') {
-                            tr.append('<td>' + (dto.parent === -1 ? '답변완료' : '검토중') + '</td>');
+                            dto.comment>0? tr.append('<td style="color: green; font-weight: bold">답변완료</td>') : tr.append('<td>검토중</td>');
                         }
-
                         table.append(tr);
+
                     }
+                }else {
+                    /*var article = table.parent().parent().parent();*/
+                    table.parent().after('<div class="notfind" style="text-align: center; font-size: 14px; padding: 50px 0;">'
+                            + '<br><br>등록된 문의 내용이 없습니다.</div>');
                 }
                 prev.empty();
                 numb.empty();

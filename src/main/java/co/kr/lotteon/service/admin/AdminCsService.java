@@ -7,6 +7,7 @@ import co.kr.lotteon.entity.cs.CsCate1Entity;
 import co.kr.lotteon.entity.cs.CsCate2Entity;
 import co.kr.lotteon.entity.cs.CsEntity;
 import co.kr.lotteon.entity.cs.CsGroupEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.repository.cs.CsCate1Repository;
 import co.kr.lotteon.repository.cs.CsCate2Repository;
 import co.kr.lotteon.repository.cs.CsGroupRepository;
@@ -121,18 +122,18 @@ public class AdminCsService {
             log.info(" - 2. entity is " + (entity!=null?"OK":"NULL..1"));
 
             CsDTO dto = entity.toDTO();
-            int parent = dto.getParent();
-            log.info(" - 3. parent : " + parent);
+            int comment = dto.getComment();
+            log.info(" - 3. comment : " + comment);
 
-            if(parent > 0) {
-                log.info(" - 4. `parent` is greater than 0.");
-                CsEntity entity1 = csRepository.findByParent(parent);
+            if(comment > 0) {
+                log.info(" - 4. `comment` is greater than 0.");
+                CsEntity entity1 = csRepository.findByParent(no);
                 log.info(" -  answer is " + (entity1!=null?"OK":"NULL"));
 
                 if(entity1!=null) {
                     log.info(" - 5. answer -> model");
                     model.addAttribute("answer",
-                            csRepository.findByParent(parent).toDTO());
+                            entity1.toDTO());
                 }
             }
 
@@ -158,27 +159,78 @@ public class AdminCsService {
 
 
     //////////////////////////////////////////////////////////////
-    // admin/cs/*/write page
+    // admin/cs/*/write + modify + reply page
     //////////////////////////////////////////////////////////////
-    public CsDTO adminCsWrite() {
-        return null;
+    public int adminCsWrite(PageRequestDTO pageRequestDTO) {
+        log.info(" ===== adminCsWrite() start =====");
+
+        MemberEntity memberEntity = memberRepository.findById(pageRequestDTO.getUid()).orElse(null);
+        log.info(" - 1. memberEntity : " + memberEntity.getUid());
+        CsGroupEntity groupEntity = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
+        log.info(" - 2. groupEntity  : " + groupEntity.getGroup_name());
+        CsCate1Entity cate1Entity = cate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
+        log.info(" - 3. cate1Entity  : " + cate1Entity.getCate1_name());
+        CsCate2Entity cate2Entity = cate2Repository.findById(pageRequestDTO.getCate2()).orElse(null);
+        log.info(" - 4. cate2Entity  : " + cate2Entity.getCate2_name());
+
+        CsEntity result = null;
+
+        log.info(" - 5. type... ");
+        if(pageRequestDTO.getNo() > 0) {
+            log.info(" - - a. type is modify... ");
+            // 게시글 수정
+            CsEntity origin = csRepository.findById(pageRequestDTO.getNo()).orElse(null);
+            origin.setCate1(cate1Entity);
+            origin.setCate2(cate2Entity);
+            origin.setTitle(pageRequestDTO.getTitle());
+            origin.setContent(pageRequestDTO.getContent());
+            result = csRepository.save(origin);
+            log.info(" - - .....end");
+            return result != null ? result.getNo() : null;
+
+        }else {
+            if(pageRequestDTO.getParent() > 0) {
+                log.info(" - - b. type is answer... ");
+                // 답변 작성
+                CsEntity answer = new CsEntity();
+                answer.setParent(pageRequestDTO.getParent());
+                answer.setGroup(groupEntity);
+                answer.setCate1(cate1Entity);
+                answer.setCate2(cate2Entity);
+                answer.setUid(memberEntity);
+                answer.setTitle(pageRequestDTO.getTitle());
+                answer.setContent(pageRequestDTO.getContent());
+                result = csRepository.save(answer);
+
+                if(result != null) {
+                    CsEntity origin = csRepository.findById(pageRequestDTO.getParent()).orElse(null);
+                    if(origin != null) {
+                        origin.setComment(1);
+                        CsEntity rs = csRepository.save(origin);
+                        log.info((rs != null)?" - - b-1. comment ++; ":"comment ++ FAILED");
+                    }
+                }
+
+                log.info(" - - .....end");
+                return result != null ? result.getParent() : null;
+
+            }else {
+                log.info(" - - c. type is write... ");
+                // 게시글 작성
+                CsEntity csEntity = new CsEntity();
+                csEntity.setGroup(groupEntity);
+                csEntity.setCate1(cate1Entity);
+                csEntity.setCate2(cate2Entity);
+                csEntity.setUid(memberEntity);
+                csEntity.setTitle(pageRequestDTO.getTitle());
+                csEntity.setContent(pageRequestDTO.getContent());
+                result = csRepository.save(csEntity);
+                log.info(" - - .....end");
+                return result != null ? result.getNo() : null;
+            }
+        }
     }
 
-
-    //////////////////////////////////////////////////////////////
-    // admin/cs/*/modify page
-    //////////////////////////////////////////////////////////////
-    public CsDTO adminCsModify() {
-        return null;
-    }
-
-
-    //////////////////////////////////////////////////////////////
-    // admin/cs/qna/reply page
-    //////////////////////////////////////////////////////////////
-    public CsDTO adminCsReply() {
-        return null;
-    }
 
 
     //////////////////////////////////////////////////////////////
@@ -217,7 +269,7 @@ public class AdminCsService {
     }
 
     // css 적용을 위해 section에 id값 주는 메서드
-    public String forAdminCssCSS(Model model, HttpServletRequest request) {
+    public String forAdminCssCSS(Model model, HttpServletRequest request, PageRequestDTO pageRequestDTO) {
         log.info(" ===== forAdminCssCSS() start ===== ");
 
         String curl = request.getRequestURI();
@@ -226,8 +278,12 @@ public class AdminCsService {
         String[] arr = curl.split("/");
         log.info(" - 2. url 정보 = group : " + arr[4] + ", type : " + arr[5]);
 
+        int pg = pageRequestDTO.getPg();
+        log.info(" - 3. 현재 페이지 : " + pg);
+
         model.addAttribute("group", arr[4]);
         model.addAttribute("type",  arr[5]);
+        model.addAttribute("pg",    pg);
 
         return arr[4]; // group
         /* crul  = /LotteOn/admin/cs/notice/list

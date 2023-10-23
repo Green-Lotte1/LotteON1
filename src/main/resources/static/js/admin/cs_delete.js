@@ -1,7 +1,11 @@
 $(function() {
     const allChk = $('#allChk'); // 전체선택 토글
-    const chk = $('input[name=chk]'); // 개별선택 토글
+    const chk   = $('input[name=chk]'); // 개별선택 토글
     const path  = $('input[name=url]').val();
+    const group = $('.group').attr('id');
+
+    const c1 = $('input[name=cate1]');
+    const c2 = $('input[name=cate2]');
 
     // 전체 선택
     allChk.change(function() {
@@ -24,15 +28,29 @@ $(function() {
 
     ///////////////////////////////////////////////////////
     // view 페이지에서 삭제 버튼 or list 페이지에서 개별 삭제 버튼
-    const btnDelete = $('.btnDelete');
-    btnDelete.click(function(e) {
+    $('.delete').click(function(e) {
         if(confirm('정말 삭제하시겠습니까?')) {
-            return true;
+            const no = $(this).parent().parent().find('input[name=chk]').val();
+            const jsonData = {
+                "no": no
+            }
+
+            $.ajax({
+                url: path + '/cs/deletes',
+                type: 'delete',
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(data) {
+                    console.log(data);
+                    location.href = path + '/admin/cs/' + group
+                                + '/list?'
+                                + '&success=' + data;
+                }
+            });
         }
         e.preventDefault();
     });
-
-
 
     // list페이지에서 선택 삭제 버튼
     const btnCD = $('.btnCD');
@@ -46,7 +64,7 @@ $(function() {
             console.log('total : ' + selects);
 
             const jsonData = {
-                "noSelect" = selects;
+                "noSelect": selects
             }
 
             $.ajax({
@@ -57,8 +75,10 @@ $(function() {
                 contentType: 'application/json',
                 success: function(data) {
                     console.log(data);
+                    location.href = path + '/admin/cs/' + group
+                                + '/list?'
+                                + '&success=' + data;
                 }
-
             });
         }
         e.preventDefault();

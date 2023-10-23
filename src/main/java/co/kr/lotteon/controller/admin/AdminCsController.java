@@ -35,8 +35,8 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : String group (faq, qna..), type (list, view..);
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
@@ -62,8 +62,8 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : String group (faq, qna..), type (list, view..);
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
@@ -76,7 +76,8 @@ public class AdminCsController {
         model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
         model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
 
-
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
 
         return "/admin/cs/view";
     }
@@ -86,9 +87,20 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
-        model.addAttribute("nav",
-                adminCsService.nav(adminCsService.forAdminCssCSS(model, request)));
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
+        pageRequestDTO.setGroup(group);
+
+        model.addAttribute("groupName",
+                adminCsService.nav(group));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+
+        model.addAttribute("cate1List",
+                csService.findByCate(group));
+
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
 
         return "/admin/cs/write";
     }
@@ -98,9 +110,28 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
-        model.addAttribute("nav",
-                adminCsService.nav(adminCsService.forAdminCssCSS(model, request)));
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
+        pageRequestDTO.setGroup(group);
+
+        model.addAttribute("groupName",
+                adminCsService.nav(group));
+
+        // include model... : answer (CsDTO)
+        model.addAttribute("view",
+                adminCsService.adminCsView(model, pageRequestDTO));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
+
+        model.addAttribute("cate1List",
+                csService.findByCate(group));
+
+        model.addAttribute("cate2List",
+                csService.findByCate1(pageRequestDTO.getCate1()));
+
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
 
         return "/admin/cs/modify";
     }
@@ -115,8 +146,8 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : String group (faq, qna..), type (list, view..);
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
@@ -145,8 +176,8 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : String group (faq, qna..), type (list, view..);
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
@@ -159,6 +190,9 @@ public class AdminCsController {
         model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
         model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
 
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
+
         return "/admin/cs/view";
     }
 
@@ -167,12 +201,24 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
                 adminCsService.nav(group));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
+
+        model.addAttribute("cate1List",
+                csService.findByCate(group));
+
+        model.addAttribute("cate2List",
+                csService.findByCate1(pageRequestDTO.getCate1()));
+
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
 
         return "/admin/cs/write";
     }
@@ -182,12 +228,28 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
                 adminCsService.nav(group));
+
+        // include model... : answer (CsDTO)
+        model.addAttribute("view",
+                adminCsService.adminCsView(model, pageRequestDTO));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
+
+        model.addAttribute("cate1List",
+                csService.findByCate(group));
+
+        model.addAttribute("cate2List",
+                csService.findByCate1(pageRequestDTO.getCate1()));
+
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
 
         return "/admin/cs/modify";
     }
@@ -202,8 +264,8 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : String group (faq, qna..), type (list, view..);
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
@@ -232,11 +294,8 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        log.info("category test1 : " + pageRequestDTO.getCate1());
-        log.info("category test2 : " + pageRequestDTO.getCate2());
-
-        // include model... : group (faq, qna..), type (list, view..)
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
@@ -249,6 +308,9 @@ public class AdminCsController {
         model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
         model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
 
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
+
         return "/admin/cs/view";
     }
 
@@ -257,12 +319,28 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
-        String group = adminCsService.forAdminCssCSS(model, request);
+        // include model... : String group (faq, qna..), type (list, view..), pg;
+        String group = adminCsService.forAdminCssCSS(model, request, pageRequestDTO);
         pageRequestDTO.setGroup(group);
 
         model.addAttribute("groupName",
                 adminCsService.nav(group));
+
+        // include model... : answer (CsDTO)
+        model.addAttribute("view",
+                adminCsService.adminCsView(model, pageRequestDTO));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
+
+        model.addAttribute("cate1List",
+                csService.findByCate(group));
+
+        model.addAttribute("cate2List",
+                csService.findByCate1(pageRequestDTO.getCate1()));
+
+        model.addAttribute("path",
+                adminCsService.ctxPath(request));
 
         return "/admin/cs/reply";
     }
@@ -281,31 +359,47 @@ public class AdminCsController {
         int level = memberService.selectRoleByUid(username);
 
         // 글쓴이 정보
-        String athor = csService.findById(pageRequestDTO.getNo()).getUid().getUid();
-
-        log.info(" - delete ok?  : " + ((athor.equals(username))?"true":(level == 7)?"true":"false"));
-
-        if(username.equals(athor) || level == 7) {
-            if(pageRequestDTO.getNoSelect().equals("/")) {
-                // 숫자 삭제.
-                int no = pageRequestDTO.getNo();
-                log.info(" - no : " + no + " delete...");
-                adminCsService.adminCsDelete(no);
-                return "200";
-
-            }else {
-                // 숫자 리스트 삭제
-                String comma = pageRequestDTO.getNoSelect().replace("/", ", ");
-                log.info(" - no : " + comma + "delete...");
-                String[] noarr = pageRequestDTO.getNoSelect().split("/"); // "/3/3/4/5/76/534/123/" 같은 구조.
-                for(int i=1; i<noarr.length; i++) {
-                    int no = Integer.parseInt(noarr[i]);
-                    adminCsService.adminCsDelete(no);
-                }
-                return "200";
+        if(level != 7) {
+            String writer = csService.findById(pageRequestDTO.getNo()).getUid().getUid();
+            if(username.equals(writer)){
+                return "403";
             }
         }
-        return "403"; // 권한 없음
+        log.info(" - delete validation ok");
+
+        if(pageRequestDTO.getNoSelect().equals("/")) {
+            // 숫자 삭제.
+            int no = pageRequestDTO.getNo();
+            log.info(" - no : " + no + " delete...");
+            adminCsService.adminCsDelete(no);
+            return "200";
+
+        }else {
+            // 숫자 리스트 삭제
+            String comma = pageRequestDTO.getNoSelect().replace("/", ", ");
+            log.info(" - no : " + comma + "delete...");
+            String[] noarr = pageRequestDTO.getNoSelect().split("/"); // "/3/3/4/5/76/534/123/" 같은 구조.
+            for(int i=1; i<noarr.length; i++) {
+                int no = Integer.parseInt(noarr[i]);
+                adminCsService.adminCsDelete(no);
+            }
+            return "200";
+        }
+    }
+
+
+
+    ////////////////////////////////////////////////////////////////////
+    // 게시글 작성 및 수정
+    ////////////////////////////////////////////////////////////////////
+    @PostMapping("/admin/cs/write")
+    public String acWrite(PageRequestDTO pageRequestDTO) {
+        pageRequestDTO.setUid(csService.loginStatus());
+        int result = adminCsService.adminCsWrite(pageRequestDTO);
+
+        // 작성한 게시글, 답글단 게시글로 return
+        return "redirect:/admin/cs/" + pageRequestDTO.getGroup()
+                + "/view?no=" + result;
     }
 
 

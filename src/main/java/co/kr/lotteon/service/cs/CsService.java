@@ -417,7 +417,6 @@ public class CsService {
         log.info("@get.cate1 : " + pageRequestDTO.getCate1());
         log.info("@get.cate2 : " + pageRequestDTO.getCate2());
         log.info("@get.article : " + group_type[4]);
-        log.info("success : " + pageRequestDTO.getSuccess());
 
         CsGroupDTO groupInfo = groupInfo(pageRequestDTO.getGroup());
         log.info("groupInfo : " + groupInfo);
@@ -434,8 +433,6 @@ public class CsService {
         // aside atag에 담을 url
         String url = "/cs/"+group_type[3]+"/list";
         log.info("url : " + url);
-
-        model.addAttribute("success", pageRequestDTO.getSuccess());
 
         model.addAttribute("url", url);
         model.addAttribute("groupInfo", groupInfo);

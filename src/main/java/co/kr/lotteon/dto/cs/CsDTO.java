@@ -40,6 +40,19 @@ public class CsDTO {
                 .replace("\r\n", "<br/>");
     }
 
+    public String getBrTitle() {
+        return title
+                .replace("&", "&amp;")
+                .replace("<", "&lt;")
+                .replace(">", "&gt;")
+                .replace("\"", "&quot;")
+                .replace("'", "&#39;")
+                .replace(" ", "&nbsp;")
+                .replace("  ", "&Tab;")
+                .replace("\n", "<br/>")
+                .replace("\r\n", "<br/>");
+    }
+
     public String getYyMMdd() {
         return rdate.format(DateTimeFormatter.ofPattern("yy.MM.dd"));
     }

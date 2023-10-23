@@ -163,7 +163,7 @@ public class CsController {
         log.info("success : " + result);
 
         return "redirect:/cs/qna/list?cate1=" + pageRequestDTO.getCate1()
-                                    + "&success=" + result;
+                                    + (result == 0 ? "" : "&success=" + result);
     }
 
     // 문의사항 게시글 작성시, cate loading
@@ -247,11 +247,11 @@ public class CsController {
 
         if(result == 0) {
             log.info("csController...a");
-            return "redirect:/cs/qna/list?cate1=" + cate1 + "&success=" + success;
+            return "redirect:/cs/qna/list?cate1=" + cate1 + (result == 0 ? "" : "&success=" + result);
 
         }
         log.info("csController...b");
-        return "redirect:/cs/qna/view?cate1=" + cate1 + "&no=" + no + "&success=" + success;
+        return "redirect:/cs/qna/view?cate1=" + cate1 + "&no=" + no + (result == 0 ? "" : "&success=" + result);
     }
 
     // 문의사항 게시글 삭제

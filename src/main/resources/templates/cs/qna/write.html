@@ -8,7 +8,6 @@
   <article layout:fragment="content">
     <input type="hidden" name="url" th:value="${path}">
     <form th:action="@{/cs/qna/write}" method="post" id="write">
-      <!-- uid는 나중에 session에 담긴 uid 정보 담기 -->
       <input type="hidden" name="group" value="qna"/>
       <table>
         <tr>

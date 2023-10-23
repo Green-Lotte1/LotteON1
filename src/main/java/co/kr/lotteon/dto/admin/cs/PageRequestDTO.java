@@ -28,12 +28,20 @@ public class PageRequestDTO {
     private String cate1 = null;
     @Builder.Default
     private String cate2 = null;
+
     @Builder.Default
     private String success = "0";
+
     @Builder.Default
     private int no = 0;
     @Builder.Default
     private String noSelect = "/";
+
+    @Builder.Default
+    private int parent = 0;
+    private String uid;
+    private String title;
+    private String content;
 
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());
