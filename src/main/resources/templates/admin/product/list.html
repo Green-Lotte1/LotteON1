@@ -115,7 +115,7 @@
 
                         <tr th:each="product:${adminproducts}">
                             <td><input type="checkbox" name="prod"/></td>
-                            <td><img th:src="@{/images/sample_thumb.jpg}" class="thumb"></td>
+                            <td><img th:src="@{/thumbs/}+${product.prodCate1}+'/'+${product.prodCate2}+'/'+${product.thumb1}" class="thumb"></td>
                             <td>[[${product.prodNo}]]</td>
                             <td>[[${product.prodName}]]</td>
                             <td>[[${product.price}]]</td>
