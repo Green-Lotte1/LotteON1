@@ -36,7 +36,7 @@
                     <tr class="ordComplete" th:each="item:${itemDTOList}">
                         <td>
                             <article>
-                                <a th:href="@{/product/view(prodCate1=${item.prodCate1},prodCate2=${item.prodCate2},prodNo=${item.prodNo})}"><img src="https://via.placeholder.com/80x80" alt=""></a>
+                                <a th:href="@{/product/view(prodCate1=${item.prodCate1},prodCate2=${item.prodCate2},prodNo=${item.prodNo})}"><img th:src="@{/thumbs/${item.prodCate1}/${item.prodCate2}/${item.thumb1}}" alt=""></a>
                                 <div>
                                     <h2><a th:href="@{/product/view(prodCate1=${item.prodCate1},prodCate2=${item.prodCate2},prodNo=${item.prodNo})}" th:text="${item.prodName}">상품명</a></h2>
                                     <p th:text="${item.descript}">상품설명</p>

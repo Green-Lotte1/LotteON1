@@ -5,7 +5,7 @@
 <mapper namespace="co.kr.lotteon.mapper.ProductMapper">
 
     <select id="selectProductForOrder" resultType="co.kr.lotteon.dto.product.ItemDTO">
-        SELECT `prodNo`, `prodName`, `descript`, `price`, `discount`, `point`, `delivery`, `prodCate1`, `prodCate2`
+        SELECT `prodNo`, `prodName`, `descript`, `price`, `discount`, `point`, `delivery`, `prodCate1`, `prodCate2`, `thumb1`
                 FROM `km_product` WHERE `prodNo`= #{prodNo};
     </select>
 

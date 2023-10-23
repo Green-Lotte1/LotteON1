@@ -19,6 +19,7 @@
         a.descript,
         a.price,
         a.discount,
+        a.thumb1,
         b.`point`,
         b.delivery,
         b.total,
