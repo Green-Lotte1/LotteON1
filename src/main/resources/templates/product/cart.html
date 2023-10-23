@@ -38,7 +38,7 @@
                         <td><input type="checkbox" name="cartNo" th:value="${cart.cartNo}"></td>
                         <td>
                             <article>
-                                <a th:href="@{/product/view(prodCate1=${cart.prodNo.prodCate1.cate1},prodCate2=${cart.prodNo.prodCate2},prodNo=${cart.prodNo.prodNo})}"><img th:src="@{/thumbs/${cart.prodNo.prodCate1.cate1 +'/'+ cart.prodNo.prodCate2 + '/' + cart.prodNo.thumb1}}" alt=""></a>
+                                <a th:href="@{/product/view(prodCate1=${cart.prodNo.prodCate1.cate1},prodCate2=${cart.prodNo.prodCate2},prodNo=${cart.prodNo.prodNo})}"><img th:src="@{/thumbs/}+${cart.prodNo.prodCate1.cate1} +'/'+ ${cart.prodNo.prodCate2} + '/' + ${cart.prodNo.thumb1}" alt=""></a>
                                 <div>
                                     <h2><a th:href="@{/product/view(prodCate1=${cart.prodNo.prodCate1.cate1},prodCate2=${cart.prodNo.prodCate2},prodNo=${cart.prodNo.prodNo})}" th:text="${cart.prodNo.prodName}">상품명</a></h2>
                                     <p th:text="${cart.prodNo.descript}">상품설명</p>

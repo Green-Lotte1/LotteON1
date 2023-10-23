@@ -25,7 +25,7 @@
             <!-- 상품목록 -->
             <table border="0">
                 <tr th:each="product:${products.dtoList}">
-                    <td><a th:href="@{/product/view(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2},prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/thumbs/${pageRequestDTO.prodCate1}/${pageRequestDTO.prodCate2}/${product.thumb2}}" alt="상품이미지"/></a></td>
+                    <td><a th:href="@{/product/view(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2},prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지"/></a></td>
                     <td>
                         <h3 class="name"><a th:href="@{/product/view(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2},prodNo=${product.prodNo})}">[[${product.prodName}]]</a></h3>
                         <a th:href="@{/product/view(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2},prodNo=${product.prodNo})}" class="desc">[[${product.descript}]]</a>
