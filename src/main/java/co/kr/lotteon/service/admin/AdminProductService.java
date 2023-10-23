@@ -2,6 +2,7 @@ package co.kr.lotteon.service.admin;
 
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
+import co.kr.lotteon.dto.product.ProdCate2DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.mapper.AdminProductMapper;
 import lombok.extern.log4j.Log4j2;
@@ -67,7 +68,7 @@ public class AdminProductService {
     private String filePath;
 
     public List<String> fileUpload(AdminProductDTO dto) {
-
+        filePath += dto.getProdCate1() + "/" + dto.getProdCate2() + "/";
         // 파일 첨부 경로
         String path = new File(filePath).getAbsolutePath();
         log.info("fileUpload...3 : " + path);
@@ -129,6 +130,11 @@ public class AdminProductService {
         log.info("searchProductList :"+searchProductList.toString());
 
         return searchProductList;
+    }
+
+    public List<ProdCate2DTO> SelectProductCate(int cate1){
+        List<ProdCate2DTO> cates = adminProductMapper.selectProductCate(cate1);
+        return cates;
     }
 }
 /*

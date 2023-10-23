@@ -31,7 +31,7 @@
     </insert>
     <select id="selectProducts" resultType="hashMap">
 
-        select * from `km_product` WHERE `sale` > 0;
+        select * from `km_product` WHERE `sale` > 0 ORDER BY `prodNo` DESC;
 
     </select>
     <update id="updateProduct"></update>
@@ -54,8 +54,9 @@
     </select>
     
     <select id="selectProductCate" resultType="hashMap">
-        SELECT * FROM km_product_cate1 AS a
-        JOIN km_product_cate2 AS b ON a.cate1 = b.cate1;
+        SELECT * FROM `km_product_cate1` AS a
+        JOIN `km_product_cate2` AS b ON a.cate1 = b.cate1
+        WHERE a.`cate1`=#{cate1};
     </select>
 
     

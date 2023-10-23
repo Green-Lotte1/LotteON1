@@ -62,11 +62,10 @@
 
                             console.log('append complete' + data);
                             // 받아온 JSON 데이터를 기반으로 2차 분류 옵션 추가
-                            for (let i = 0; i < data.cate2s.length; i++) {
-                                const category = data.cate2s[i];
+                            for (let i = 0; i < data.length; i++) {
                                 cate2.append($('<option>', {
-                                    value: category.cate2No,
-                                    text: category.c2Name
+                                    value: data[i].cate2,
+                                    text: data[i].c2Name
                                 }));
                             }
                         }
@@ -196,7 +195,7 @@
                 <!-- 상품등록 컨텐츠 시작 -->
                 <article>
                     <form th:action="@{/admin/product/register}" method="post" enctype="multipart/form-data">
-                        <input type="hidden" name="seller" value="seller"/>
+                        <input type="hidden" name="seller" th:value="${#authentication.principal.member.uid}"/>
                         <!-- 상품분류 -->
                         <section>
                             <h4>상품분류</h4>
@@ -224,7 +223,7 @@
                                     <td>2차 분류</td>
                                     <td>
                                         <select name="prodCate2" id="category2">
-                                            <option value="00">2차 분류 선택</option>
+                                            <!--<option value="00">2차 분류 선택</option>
                                             <option value="10">남성의류</option>
                                             <option value="11">여성의류</option>
                                             <option value="12">잡화</option>
@@ -245,7 +244,7 @@
                                             <option value="10">국내도서</option>
                                             <option value="11">해외도서</option>
                                             <option value="12">학습/교육</option>
-                                            <option value="13">음반</option>
+                                            <option value="13">음반</option>-->
                                         </select>
                                     </td>
                                 </tr>

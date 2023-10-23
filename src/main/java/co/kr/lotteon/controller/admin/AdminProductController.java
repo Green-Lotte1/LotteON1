@@ -2,6 +2,7 @@ package co.kr.lotteon.controller.admin;
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
 import co.kr.lotteon.dto.cs.PageRequestDTO;
+import co.kr.lotteon.dto.product.ProdCate2DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.service.admin.AdminProductService;
 import co.kr.lotteon.service.admin.AdminService;
@@ -59,19 +60,20 @@ public class AdminProductController {
         adminProductService.insertProduct(productDTO);
 
 
-        return "redirect:/admin/product/register";
+        return "redirect:/admin/product/list";
     }
 
     @ResponseBody
     @PostMapping("/admin/product/register/category")
-    public List<Integer> productRegisterCate(@RequestBody co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO){
+    public List<ProdCate2DTO> productRegisterCate(@RequestBody co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO){
         log.info("productRegisterCate...1");
-
         int cate1 = pageRequestDTO.getProdCate1();
         log.info(cate1);
 
+        List<ProdCate2DTO> category = adminProductService.SelectProductCate(cate1);
+        log.info(category.toString());
 
-        return null;
+        return category;
     }
 
     @GetMapping("/admin/product/delete")
@@ -100,8 +102,7 @@ public class AdminProductController {
             adminProductService.deleteProduct(Integer.parseInt(prodNo));
         }
 
-        return prodNos;
-    }
+        return prodNos;    }
 
 }
 
