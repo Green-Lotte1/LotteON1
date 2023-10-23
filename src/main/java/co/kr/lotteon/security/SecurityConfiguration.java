@@ -61,7 +61,9 @@ public class SecurityConfiguration {
                         .requestMatchers("/error/**").permitAll()
                         .requestMatchers("/my/**").permitAll()
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/policy/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/thumbs/**").permitAll())
+
                 // 에러 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/member/login"))
