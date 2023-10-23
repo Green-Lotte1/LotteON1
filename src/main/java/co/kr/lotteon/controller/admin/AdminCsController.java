@@ -2,12 +2,17 @@ package co.kr.lotteon.controller.admin;
 
 import co.kr.lotteon.dto.admin.cs.PageRequestDTO;
 import co.kr.lotteon.dto.admin.cs.PageResponseDTO;
+import co.kr.lotteon.dto.cs.CsDTO;
 import co.kr.lotteon.service.MainService;
 import co.kr.lotteon.service.admin.AdminCsService;
 import co.kr.lotteon.service.cs.CsService;
+import co.kr.lotteon.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +25,7 @@ public class AdminCsController {
     private final MainService    mainService;
     private final AdminCsService adminCsService;
     private final CsService      csService;
+    private final MemberService  memberService;
 
     ////////////////////////////////////////////////////////////////////
     // 공지사항 구현
@@ -261,6 +267,30 @@ public class AdminCsController {
         return "/admin/cs/reply";
     }
 
+
+
+    ////////////////////////////////////////////////////////////////////
+    // 게시글 삭제
+    ////////////////////////////////////////////////////////////////////
+    /*@ResponseBody
+    @RequestMapping(value = "/cs/delete", method = RequestMethod.DELETE)
+    public String csDelete(@RequestBody PageRequestDTO pageRequestDTO) {
+        // 접근 유저 정보
+        String username  = csService.loginStatus();
+        *//*memberService.*//*
+
+
+        // 글쓴이 정보
+        String athor = csService.findById(pageRequestDTO.getNo()).getUid().getUid();
+
+
+        if(!username.equals(athor)) {
+            return null; // 권한 없음 return 할 것
+        }else if(true) {
+            return null;
+        }
+        return null;
+    }*/
 
 
     ////////////////////////////////////////////////////////////////////
