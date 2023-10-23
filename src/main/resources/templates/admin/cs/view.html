@@ -49,8 +49,11 @@
 
     <div id="buttons">
       <a href="#" class="btnDelete">삭제</a>
-      <a th:href="@{'/admin/cs/' + ${group} + '/modify?' + ${cate1param} + ${cate2param} + 'no=' + ${view.no}}" class="btnModify">수정</a>
-      <a th:href="@{'/admin/cs/' + ${group} + '/list?' + ${cate1param} + ${cate2param} + 'no=' + ${view.no}}" class="btnList">목록</a>
+      <a th:href="@{'/admin/cs/' + ${group} + '/modify?no=' + ${view.no}}" class="btnModify">수정</a>
+      <a th:href="@{'/admin/cs/' + ${group} + '/list?'
+      + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+      + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+      + 'no=' + ${view.no}}" class="btnList">목록</a>
     </div>
 
   </article>

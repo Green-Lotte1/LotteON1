@@ -5,7 +5,7 @@ $(function() {
     const cate2 = $('select[name=cate2]');
 
     const table = $('.adminList').parent();
-    const url   = $('input[name=url]').val() + '/cs/list';
+    const path  = $('input[name=url]').val();
 
     const trigger = $('.shot');
 
@@ -14,7 +14,7 @@ $(function() {
         /*공지사항의 경우 cate2를 출력하지않으므로 거기서 사용*/
     }
 
-    // 1차 유형 선택시
+    // 유형 선택시
     $(trigger).change(function() {
         selectCate1 = $(this).val();
         selectCate2 = (cate2.length != 0)?$('select[name=cate2]').val():null;
@@ -27,8 +27,9 @@ $(function() {
             "cate2": selectCate2
         }
 
+        /*선택유형에따라 게시글 동적 생성*/
         $.ajax({
-            url: url,
+            url: path + '/cs/list',
             type: 'post',
             data: JSON.stringify(jsonData),
             dataType: 'json',
@@ -53,9 +54,9 @@ $(function() {
                             tr.append('<td>' + dto.cate2.cate2_name + '</td>');
                         }
 
-                        tr.append('<td class="tit"><a href="/admin/cs/' + data.group + '/view?'
-                            + (data.cate1 ? 'cate1=' + data.cate1 + '&' : '')
-                            + (data.cate2 ? 'cate2=' + data.cate2 + '&' : '')
+                        tr.append('<td class="tit"><a href="' + path + '/admin/cs/' + data.group + '/view?'
+                            + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
+                            + (selectCate2 != null ? 'cate2=' + dto.cate2.cate2 + '&' : '')
                             + 'no=' + dto.no + '&pg=' + data.pg + '">' + dto.title + '</a></td>');
 
                         if (data.group === 'qna') {
@@ -67,9 +68,10 @@ $(function() {
                         tr.append('<td>' + dto.yyMMdd + '</td>');
 
                         if (data.group === 'notice' || data.group === 'faq') {
-                            tr.append('<td><a href="#">[삭제]</a><br><a href="/admin/cs/' + data.group + '/modify?'
-                                + (data.cate1 ? 'cate1=' + data.cate1 + '&' : '')
-                                + (data.cate2 ? 'cate2=' + data.cate2 + '&' : '')
+                            tr.append('<td><a href="#">[삭제]</a><br>'
+                                + '<a href="' + path + '/admin/cs/' + data.group + '/modify?'
+                                + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
+                                + (selectCate2 !=  null ? 'cate2=' + dto.cate2.cate2 + '&' : '')
                                 + 'no=' + dto.no + '">[수정]</a></td>');
 
                         } else if (data.group === 'qna') {
@@ -79,6 +81,32 @@ $(function() {
                         table.append(tr);
                     }
                 }
+
+                /*2유형선택 동적생성*/
+                $.ajax({
+                    url: path + '/cs/cate2',
+                    type: 'post',
+                    data: JSON.stringify(jsonData),
+                    dataType: 'json',
+                    contentType: 'application/json',
+                    success: function(data) {
+                        // 2차유형 초기화
+                        cate2.empty();
+                        cate2.append($('<option>', {
+                            value: '0',
+                            text: '2차유형'
+                        }));
+
+                        // 2차유형 동적처리
+                        for(let i=0 ; i<data.returnCate.length ; i++) {
+                            const category = data.returnCate[i];
+                            cate2.append($('<option>', {
+                                value: category.cate2,
+                                text: category.cate2_name
+                            }));
+                        }
+                    }
+                });
             }
         });
     });

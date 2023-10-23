@@ -126,11 +126,6 @@ public class AdminCsService {
                 }
             }
 
-            model.addAttribute("cate1param", "cate1=" + dto.getCate1().getCate1() + "&");
-            model.addAttribute("cate2param",
-                    dto.getCate2().getCate2().equals("notice")?
-                    "":"cate2=" + dto.getCate2().getCate2() + "&");
-
             log.info(" ----- -----  VIEW INFO  ---- ----- ");
             log.info(" - no      : " + dto.getNo());
             log.info(" - title   : " + dto.getTitle());
