@@ -52,5 +52,12 @@
     <select id="SearchProductSeller" resultType="hashMap">
         SELECT * FROM `km_product` WHERE `seller` LIKE '%${seller}%' ORDER BY `prodNo` DESC;
     </select>
+    
+    <select id="selectProductCate" resultType="hashMap">
+        SELECT * FROM km_product_cate1 AS a
+        JOIN km_product_cate2 AS b ON a.cate1 = b.cate1;
+    </select>
+
+    
 
 </mapper>
