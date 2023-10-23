@@ -171,7 +171,7 @@ public class CsController {
     @RequestMapping(value = "/cs/cate2", method = RequestMethod.POST)
     public HashMap<String, Object> jsonCate(@RequestBody HashMap<String, Object> selectCate) {
         log.info(" vvvvv jsonCate START vvvvv ");
-        Object selectCate1 = selectCate.get("selectCate");
+        Object selectCate1 = selectCate.get("cate1");
         log.info(" - jc.selectCate : " + selectCate1.toString());
 
         List<CsCate2DTO> category = csService.findByCate1(selectCate1.toString());

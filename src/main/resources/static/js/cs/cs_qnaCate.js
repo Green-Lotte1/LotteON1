@@ -8,7 +8,7 @@ $(document).ready(function () {
     $(cate1).change(function() {
         const selectCate = $(this).val();
         const jsonData = {
-            "selectCate": selectCate
+            "cate1": selectCate
         }
 
         $.ajax({

@@ -56,7 +56,7 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
+        // include model... : String group (faq, qna..), type (list, view..);
         String group = adminCsService.forAdminCssCSS(model, request);
         pageRequestDTO.setGroup(group);
 
@@ -64,9 +64,13 @@ public class AdminCsController {
                 adminCsService.nav(group));
 
         // include model... : answer (CsDTO)
-        // include model... : String cate1param, cate2param (param)
         model.addAttribute("view",
                 adminCsService.adminCsView(model, pageRequestDTO));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
+
+
 
         return "/admin/cs/view";
     }
@@ -135,7 +139,7 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
-        // include model... : group (faq, qna..), type (list, view..)
+        // include model... : String group (faq, qna..), type (list, view..);
         String group = adminCsService.forAdminCssCSS(model, request);
         pageRequestDTO.setGroup(group);
 
@@ -143,9 +147,11 @@ public class AdminCsController {
                 adminCsService.nav(group));
 
         // include model... : answer (CsDTO)
-        // include model... : String cate1param, cate2param (param)
         model.addAttribute("view",
                 adminCsService.adminCsView(model, pageRequestDTO));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
 
         return "/admin/cs/view";
     }
@@ -220,6 +226,9 @@ public class AdminCsController {
         // include model.. : appInfo (version info)
         mainService.appVersion(model);
 
+        log.info("category test1 : " + pageRequestDTO.getCate1());
+        log.info("category test2 : " + pageRequestDTO.getCate2());
+
         // include model... : group (faq, qna..), type (list, view..)
         String group = adminCsService.forAdminCssCSS(model, request);
         pageRequestDTO.setGroup(group);
@@ -228,9 +237,11 @@ public class AdminCsController {
                 adminCsService.nav(group));
 
         // include model... : answer (CsDTO)
-        // include model... : String cate1param, cate2param (param)
         model.addAttribute("view",
                 adminCsService.adminCsView(model, pageRequestDTO));
+
+        model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
+        model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
 
         return "/admin/cs/view";
     }
