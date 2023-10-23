@@ -32,6 +32,8 @@ public class PageRequestDTO {
     private String success = "0";
     @Builder.Default
     private int no = 0;
+    @Builder.Default
+    private String noSelect = "/";
 
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());

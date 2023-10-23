@@ -63,7 +63,7 @@
         </tr>
 
         <tr class="adminList" th:each="list:${adminCsList.csList}">
-          <td><input class="chk" type="checkbox" th:value="${list.no}"></td>
+          <td><input name="chk" type="checkbox" th:value="${list.no}"></td>
           <td th:text="${list.no}"></td>
           <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'notice'}"></td>
           <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>

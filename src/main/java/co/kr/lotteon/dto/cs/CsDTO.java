@@ -17,6 +17,7 @@ public class CsDTO {
 
     private int no;
     private int parent;
+    private int comment;
     private CsGroupDTO group;
     private CsCate1DTO cate1;
     private CsCate2DTO cate2;
@@ -55,6 +56,7 @@ public class CsDTO {
         return CsEntity.builder()
                 .no(no)
                 .parent(parent)
+                .comment(comment)
                 .group(group.toEntity())
                 .cate1(cate1.toEntity())
                 .cate2(cate2.toEntity())

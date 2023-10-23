@@ -131,7 +131,7 @@ public class CsService {
         CsGroupEntity group = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
         log.info("indexList group : " + group);
 
-        Page<CsEntity> entities = csRepository.findByGroupAndParentLessThanEqual(group,0, pageable);
+        Page<CsEntity> entities = csRepository.findByGroupAndParent(group,0, pageable);
         log.info("indexList entities : " + entities);
 
         if(entities != null) {
@@ -193,7 +193,7 @@ public class CsService {
         if(group.equals("notice") && cate1.equals("101")) {
             // notice 전체 출력
             log.info("findCsLists (notice_all)...");
-            page = csRepository.findByGroupAndParentLessThanEqual(csGroupEntity,0, pageable);
+            page = csRepository.findByGroupAndParent(csGroupEntity,0, pageable);
 
         }else if(group.equals("faq")) {
             // faq 출력 (cate2마다 출력.)
@@ -203,7 +203,7 @@ public class CsService {
             log.info("findCsLists findByCate1 : " + findByCate1);
 
             for(CsCate2Entity ent : findByCate1) {
-                Page<CsEntity> pagaFaq = csRepository.findByGroupAndCate1AndCate2AndParentLessThanEqual(csGroupEntity, cate1Entity, ent, 0, pageable);
+                Page<CsEntity> pagaFaq = csRepository.findByGroupAndCate1AndCate2AndParent(csGroupEntity, cate1Entity, ent, 0, pageable);
                 List<CsDTO> listFaq = convertToCs(pagaFaq);
                 faq.add(listFaq);
             }
@@ -218,7 +218,7 @@ public class CsService {
         }else {
             // 나머지 cate1을 기준으로 list 출력
             log.info("findCsLists (default)...");
-            page = csRepository.findByCate1AndParentLessThanEqual(cate1Entity, 0, pageable);
+            page = csRepository.findByCate1AndParent(cate1Entity, 0, pageable);
         }
         log.info("findCsLists page : " + page);
 
@@ -385,7 +385,6 @@ public class CsService {
         return (result != null)? 0:100;
     }
 
-    // 게시글 수정
 
 
     //////////////////////////////////////////////////////////////////////////////////////////

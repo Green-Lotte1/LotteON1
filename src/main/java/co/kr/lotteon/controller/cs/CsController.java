@@ -96,7 +96,7 @@ public class CsController {
         }
         log.info("no : " + pageRequestDTO.getNo());
         CsDTO dto = csService.view(pageRequestDTO.getNo(), model);
-        if(dto.getParent() < 0) {
+        if(dto.getComment() > 0) {
             CsDTO answer = csService.findByParent(dto.getNo());
             model.addAttribute("answer", answer);
             log.info("answer : " + answer);
