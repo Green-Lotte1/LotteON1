@@ -185,13 +185,17 @@ public class ProductService {
     ///////////////// PRODUCT ORDER
     ////////////////////////////////////////////////////////////////////
 
-    public int insertOrder(OrderDTO order, String uid){
+    public int insertOrder(OrderDTO order){
 
         int result = 0;
 
+        String uid = loginStatus();
         log.info("insertOrder here...1");
         order.setOrdUid(uid);
         result = orderMapper.insertOrder(order);
+        if(result > 0){
+            result = orderMapper.selectLatestOrdNo(uid);
+        }
         log.info("insertOrder result: "+result);
         log.info("insertOrder here...2");
 

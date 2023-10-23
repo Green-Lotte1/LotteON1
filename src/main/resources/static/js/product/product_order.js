@@ -174,7 +174,7 @@ $(document).ready(function () {
         }
 
         alert('click');
-        $(".orderForm").submit();
+        /*$(".orderForm").submit();*/
 
 
         //////////////////////////////////////////////////////////////////////////
@@ -185,30 +185,33 @@ $(document).ready(function () {
         */
         //////////////////////////////////////////////////////////////////////////
 
-        /*const length = [[${products.size()}]];
+        /*const length = [[${itemDTOList.size}]];*/
         const count = $('input[name=count]');
         const price = $('input[name=price]');
         const disPrice = $('input[name=disPrice]');
         const delivery = $('input[name=delivery]');
+        console.log('here...1');
         const total = 0;
         let ordPrice = 0;
         let ordDiscount = 0;
         let ordDelivery = 0;
         let ordTotPrice = 0;
-        for (let i = 0; i < length; i++) {
+        console.log('here...2');
+        /*for (let i = 0; i < length; i++) {
             ordPrice += (count[i].value * 1) * (price[i].value * 1);
             ordDiscount += ((price[i].value * 1) - (disPrice[i].value * 1)) * (count[i].value * 1);
             ordDelivery += (delivery[i].value * 1);
-        }
-        ordTotPrice += ordPrice - ordDiscount + ordDelivery;*/
+        }*/
+        console.log('here...3');
+        /*ordTotPrice += ordPrice - ordDiscount + ordDelivery;*/
 
-        /*const ordCount = $('input[type="hidden"][name="ordCount"]').val();
-        const ordPrice = $('input[type="hidden"][name="ordPrice"]').val();
-        const ordDiscount = $('input[type="hidden"][name="ordDiscount"]').val();
-        const ordDelivery = $('input[type="hidden"][name="ordDelivery"]').val();
+        const ordCount = $('input[type="hidden"][name="ordCount"]').val();
+        const jsonOrdPrice = $('input[type="hidden"][name="ordPrice"]').val();
+        const jsonOrdDiscount = $('input[type="hidden"][name="ordDiscount"]').val();
+        const jsonOrdDelivery = $('input[type="hidden"][name="ordDelivery"]').val();
         const savePoint = $('input[type="hidden"][name="savePoint"]').val();
         const inputUsedPoint = $('input[type="hidden"][name="usedPoint"]').val();
-        const ordTotPrice = $('input[type="hidden"][name="ordTotPrice"]').val();
+        const jsonOrdTotPrice = $('input[type="hidden"][name="ordTotPrice"]').val();
         const inputRecipName = $('input[type="text"][name="recipName"]').val();
         const inputRecipHp = $('input[type="text"][name="recipHp"]').val();
         const inputRecipZip = $('input[type="text"][name="recipZip"]').val();
@@ -218,12 +221,12 @@ $(document).ready(function () {
 
         const jsonData = {
                 "ordCount": ordCount,
-                "ordPrice": ordPrice,
-                "ordDiscount": ordDiscount,
-                "ordDelivery": ordDelivery,
+                "ordPrice": jsonOrdPrice,
+                "ordDiscount": jsonOrdDiscount,
+                "ordDelivery": jsonOrdDelivery,
                 "savePoint": savePoint,
                 "usedPoint": inputUsedPoint,
-                "ordTotPrice": ordTotPrice,
+                "ordTotPrice": jsonOrdTotPrice,
                 "recipName": inputRecipName,
                 "recipHp": inputRecipHp,
                 "recipZip": inputRecipZip,
@@ -232,17 +235,33 @@ $(document).ready(function () {
                 "ordPayment": ordPayment
         };
 
+        console.log('here...4');
         console.log(JSON.stringify(jsonData));
 
+        console.log('here...5');
         $.ajax({
             url: path+'/product/insertOrderForm',
             type: 'post',
             data: JSON.stringify(jsonData), // JSON 데이터를 문자열로 변환
-            contentType: 'application/json', // 컨텐츠 타입을 JSON으로 설정
+            contentType: 'application/json;charset=UTF-8', // 컨텐츠 타입을 JSON으로 설정
             dataType: 'json',
             success: function(data){
+                console.log('here...6');
                 if(data > 0 & ordPayment == 22){
                     alert('주문이 완료되었습니다. 24시간 이내 미입금시 취소됩니다.');
+                    $.ajax({
+                        url: path+'/product/insertOrderItems',
+                        type: 'post',
+                        data: JSON.stringify(jsonData), // JSON 데이터를 문자열로 변환
+                        contentType: 'application/json;charset=UTF-8', // 컨텐츠 타입을 JSON으로 설정
+                        dataType: 'json',
+                        success: function(data){
+                            console.log('here...6');
+
+                        }
+                    });
+
+
                     window.location.href = path+'/product/complete';
                 }else if(data > 0){
                     alert('결제가 완료되었습니다.');
@@ -252,6 +271,6 @@ $(document).ready(function () {
                     return;
                 }
             }
-        });*/
+        });
     });
 });
