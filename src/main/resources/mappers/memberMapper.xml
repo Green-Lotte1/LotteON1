@@ -11,4 +11,10 @@
     <select id="selectMemberOrderInfoByUid" resultType="co.kr.lotteon.entity.member.MemberEntity">
         SELECT `uid`, `name`, `hp`, `point`, `zip`, `addr1`, `addr2` FROM `km_member` WHERE `uid` = #{uid};
     </select>
+
+    <!--policy mapper-->
+    <select id="selectPolicy">
+
+        SELECT * FROM `km_member_terms` WHERE `tno` = 2;
+    </select>
 </mapper>
