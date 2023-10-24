@@ -18,6 +18,7 @@ public class TermsDTO {
     private String location;
     private String finance;
     private String tax;
+    private String seller;
 
     public TermsEntity toEntity(){
         return TermsEntity.builder()
@@ -27,6 +28,7 @@ public class TermsDTO {
                 .location(location)
                 .finance(finance)
                 .tax(tax)
+                .seller(seller)
                 .build();
     }
 }
