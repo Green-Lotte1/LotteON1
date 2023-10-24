@@ -4,6 +4,7 @@ import co.kr.lotteon.entity.cs.CsCate1Entity;
 import co.kr.lotteon.entity.cs.CsCate2Entity;
 import co.kr.lotteon.entity.cs.CsEntity;
 import co.kr.lotteon.entity.cs.CsGroupEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,6 +31,9 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
 
     // 답변 게시글 출력
     public CsEntity findByParent(int no);
+
+    // 내 질문글 리스트 출력
+    public Page<CsEntity> findByGroupAndUid(CsGroupEntity group, MemberEntity member, Pageable pageable);
 
 
     ////////////////////////////////////

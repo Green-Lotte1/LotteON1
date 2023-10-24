@@ -477,6 +477,26 @@ public class CsService {
         model.addAttribute("pageResponseDTO", boardList);
     }
 
+    public PageResponseDTO myQna(PageRequestDTO pageRequestDTO) {
+
+        Page<CsEntity> page = null;
+        int totalElement = 0;
+
+        Pageable pageable = pageRequestDTO.getPageable("no");
+        CsGroupEntity groupEntity = groupRepository.findById(pageRequestDTO.getGroup()).orElse(null);
+        MemberEntity memberEntity = memberRepository.findById(pageRequestDTO.getUid()).orElse(null);
+
+        page = csRepository.findByGroupAndUid(groupEntity, memberEntity, pageable);
+        List<CsDTO> dtoList = convertToCs(page);
+
+        totalElement = (int) page.getTotalElements();
+
+        return PageResponseDTO.builder()
+                .pageRequestDTO(pageRequestDTO)
+                .csList(dtoList)
+                .total(totalElement)
+                .build();
+    }
 
 
     //////////////////////////////////////////////////////////////////////////////////////////

@@ -1,10 +1,17 @@
 package co.kr.lotteon.controller.my;
 
+import co.kr.lotteon.dto.cs.PageRequestDTO;
+import co.kr.lotteon.service.cs.CsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MyController {
+
+    @Autowired
+    private CsService csService;
 
     @GetMapping("/my/coupon")
     public String coupon(){
@@ -32,7 +39,9 @@ public class MyController {
         return "/my/point";
     }
     @GetMapping("/my/qna")
-    public String qna(){
+    public String qna(Model model, PageRequestDTO pageRequestDTO){
+        pageRequestDTO.setUid(csService.loginStatus());
+        model.addAttribute("myQna", csService.myQna(pageRequestDTO));
 
         return "/my/qna";
     }
