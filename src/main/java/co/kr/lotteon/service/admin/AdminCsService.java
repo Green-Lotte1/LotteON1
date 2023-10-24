@@ -145,8 +145,10 @@ public class AdminCsService {
             log.info("           : " + dto.getGroup().getGroup_name());
             log.info(" - cate1   : " + dto.getCate1().getCate1());
             log.info("           : " + dto.getCate1().getCate1_name());
-            log.info(" - cate2   : " + dto.getCate2().getCate2());
-            log.info("           : " + dto.getCate2().getCate2_name());
+            if(dto.getCate2() != null) {
+                log.info(" - cate2   : " + dto.getCate2().getCate2());
+                log.info("           : " + dto.getCate2().getCate2_name());
+            }
             log.info(" ----- ----- ----- ----- ---- ----- ");
 
             return dto;
@@ -171,7 +173,7 @@ public class AdminCsService {
         CsCate1Entity cate1Entity = cate1Repository.findById(pageRequestDTO.getCate1()).orElse(null);
         log.info(" - 3. cate1Entity  : " + cate1Entity.getCate1_name());
         CsCate2Entity cate2Entity = cate2Repository.findById(pageRequestDTO.getCate2()).orElse(null);
-        log.info(" - 4. cate2Entity  : " + cate2Entity.getCate2_name());
+        log.info(" - 4. cate2Entity  : " + ((cate2Entity != null) ? cate2Entity.getCate2_name() : "null" ) );
 
         CsEntity result = null;
 

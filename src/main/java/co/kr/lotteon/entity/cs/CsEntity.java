@@ -1,7 +1,9 @@
 package co.kr.lotteon.entity.cs;
 
 import co.kr.lotteon.dto.cs.CsDTO;
+import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
+import co.kr.lotteon.entity.product.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -44,24 +46,37 @@ public class CsEntity {
     private String title;
     private String content;
 
+    private int hit;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "prodNo")
+    private ProductEntity prodNo;
+    private String email;
     @CreationTimestamp
     private LocalDateTime rdate;
 
-    private int hit;
 
     public CsDTO toDTO() {
-        return CsDTO.builder()
+        CsDTO.CsDTOBuilder builder = CsDTO.builder()
                 .no(no)
                 .parent(parent)
                 .comment(comment)
                 .group(group.toDTO())
                 .cate1(cate1.toDTO())
-                .cate2(cate2.toDTO())
                 .uid(uid.toDTO())
                 .title(title)
                 .content(content)
                 .hit(hit)
-                .rdate(rdate)
-                .build();
+                .email(email)
+                .rdate(rdate);
+
+        if (cate2 != null) {
+            builder.cate2(cate2.toDTO());
+        }
+        if (prodNo != null) {
+            builder.prodNo(prodNo.toDTO());
+        }
+
+        return builder.build();
     }
 }
