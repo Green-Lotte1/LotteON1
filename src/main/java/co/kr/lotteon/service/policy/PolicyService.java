@@ -1,8 +1,10 @@
 package co.kr.lotteon.service.policy;
 
 import co.kr.lotteon.dto.member.TermsDTO;
+import co.kr.lotteon.dto.policy.PolicyTermsDTO;
 import co.kr.lotteon.entity.member.TermsEntity;
 import co.kr.lotteon.mapper.MemberMapper;
+import co.kr.lotteon.mapper.PolicyMapper;
 import co.kr.lotteon.repository.member.TermsRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +19,14 @@ import java.util.List;
 public class PolicyService {
 
     @Autowired
-    private MemberMapper memberMapper;
+    private PolicyMapper policyMapper;
 
 
-    public List<TermsDTO> getTermsList() {
-        return memberMapper.selectPolicy();
+    public List<PolicyTermsDTO> getPolicyTermsList() {
+
+
+
+        return policyMapper.selectPolicy();
     }
 
 }

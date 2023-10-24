@@ -12,6 +12,6 @@ public interface MemberMapper {
     //public void insertMember(MemberDTO dto);
     //public TermsDTO selectTerms();
     public int countUid(String uid);
-    public List<TermsDTO> selectPolicy();
+
     public MemberEntity selectMemberOrderInfoByUid(String uid);
 }
