@@ -33,6 +33,7 @@ public class ProductService {
     private final ProdCate1Repository prodCate1Repository;
     private final ProdCate2Repository prodCate2Repository;
     private final ReviewRepository reviewRepository;
+    private final OrderRepository orderRepository;
     private final ProductMapper productMapper;
     private final CartMapper cartMapper;
     private final OrderMapper orderMapper;
@@ -284,22 +285,50 @@ public class ProductService {
         return result;
     }
 
-    public int insertOrderItems(List<OrderItemDTO> orderItemDTOS, int ordNo){
+    public OrderDTO selectOrder(int ordNo){
+
+        log.info("selectOrder here...1");
+        OrderDTO orderDTO = orderRepository.findById(ordNo).orElse(null).toDTO();
+        log.info("selectOrder here...2");
+
+        return orderDTO;
+    }
+
+    public List<OrderItemDTO> selectOrderItems(OrderDTO orderDTO){
+        List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
+        log.info("selectOrderItems Service here...1");
+        log.info("ordNo: "+orderDTO.getOrdNo());
+        List<OrderItemDTO> orderItemDTO = orderItemMapper.selectOrderItemsByOrdNo(orderDTO.getOrdNo());
+        log.info("orderItemDTO: "+ orderItemDTO);
+        log.info("selectOrderItems Service here...4");
+        return orderItemDTOS;
+    }
+
+    public int insertOrderItems(List<ItemDTO> itemDTOS, int ordNo){
 
         int result = 0;
         String uid = loginStatus();
         log.info("insertOrderItems Service here...1");
-        for(OrderItemDTO orderItem : orderItemDTOS){
-            int prodNo = orderItem.getProdNo();
-            ProductEntity productEntity = prodRepo.findById(prodNo).orElse(null);
-            orderItem.setOrdNo(ordNo);
-            orderItem.setPrice(productEntity.getPrice());
-            orderItem.setDiscount(productEntity.getDiscount());
-            orderItem.setPoint(productEntity.getPoint());
-            orderItem.setDelivery(productEntity.getDelivery());
+        log.info(itemDTOS.toString());
+        for(ItemDTO itemDTO : itemDTOS){
+            int prodNo = itemDTO.getProdNo();
+            ProductDTO productDTO = prodRepo.findById(prodNo).orElse(null).toDTO();
+            log.info(productDTO.toString());
+            ItemDTO item = new ItemDTO();
+            item.setProdNo(itemDTO.getProdNo());
+            item.setProdCate1(productDTO.getProdCate1().getCate1());
+            item.setProdCate2(productDTO.getProdCate2());
+            item.setOrdNo(ordNo);
+            item.setCount(item.getCount());
+            item.setPrice(productDTO.getPrice());
+            item.setDiscount(productDTO.getDiscount());
+            item.setPoint(productDTO.getPoint());
+            item.setDelivery(productDTO.getDelivery());
+            item.setTotal(item.getTotal());
 
-            cartMapper.deleteCartProductByProdNoAndUid(uid, orderItem.getProdNo());
-            result = orderItemMapper.insertOrderItem(orderItem);
+            /*cartMapper.deleteCartProductByProdNoAndUid(uid, orderItem.getProdNo());
+            productMapper.minusStock(orderItem.getProdNo(), orderItem.getCount());*/
+            result = orderItemMapper.insertOrderItem(item);
 
         }
         log.info("insertOrderItems Service here...2");

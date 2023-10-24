@@ -20,6 +20,7 @@ public class ItemDTO {
     private int prodCate1;
     private int prodCate2;
     private int count;
+    private int ordNo;
     private String thumb1;
 
 

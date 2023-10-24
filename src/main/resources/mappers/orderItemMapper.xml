@@ -16,4 +16,8 @@
                             `total`= #{total};
     </insert>
 
+    <select id="selectOrderItemsByOrdNo" resultType="co.kr.lotteon.dto.product.OrderItemDTO">
+        SELECT * FROM `km_product_order_item` WHERE `ordNo`= #{ordNo};
+    </select>
+
 </mapper>

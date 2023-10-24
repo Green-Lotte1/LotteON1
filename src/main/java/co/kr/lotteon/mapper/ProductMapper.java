@@ -17,4 +17,6 @@ public interface ProductMapper {
 
     public int selectLatestOrdNo(String ordUid);
 
+    public void minusStock(int prodNo, int count);
+
 }
