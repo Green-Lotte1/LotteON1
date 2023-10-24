@@ -12,4 +12,8 @@
                             `pointDate`=NOW();
     </insert>
 
+    <update id="minusMemberPoint">
+        UPDATE `km_member` SET `point`= `point`-#{point} WHERE `uid`=#{uid};
+    </update>
+
 </mapper>

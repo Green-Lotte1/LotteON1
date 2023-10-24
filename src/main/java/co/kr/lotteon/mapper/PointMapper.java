@@ -9,5 +9,7 @@ public interface PointMapper {
 
     public int insertPoint(String uid, int ordNo, int point);
 
+    public void minusMemberPoint(String uid, int point);
+
 
 }

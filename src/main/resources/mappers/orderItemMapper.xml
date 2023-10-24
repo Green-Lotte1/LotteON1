@@ -16,8 +16,20 @@
                             `total`= #{total};
     </insert>
 
-    <select id="selectOrderItemsByOrdNo" resultType="co.kr.lotteon.dto.product.OrderItemDTO">
-        SELECT * FROM `km_product_order_item` WHERE `ordNo`= #{ordNo};
+    <select id="selectOrderItemsByOrdNo" resultType="hashmap">
+        SELECT
+        a.*,
+        b.prodName,
+        b.prodCate1,
+        b.prodCate2,
+        b.descript,
+        b.thumb1
+        FROM
+        `km_product_order_item` AS a
+        JOIN
+        `km_product` AS b
+        ON a.prodNo=b.prodNo
+        WHERE a.ordNo= #{ordNo};
     </select>
 
 </mapper>

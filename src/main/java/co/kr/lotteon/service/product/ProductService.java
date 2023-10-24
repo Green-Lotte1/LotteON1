@@ -294,14 +294,13 @@ public class ProductService {
         return orderDTO;
     }
 
-    public List<OrderItemDTO> selectOrderItems(OrderDTO orderDTO){
-        List<OrderItemDTO> orderItemDTOS = new ArrayList<>();
+    public List<ItemDTO> selectOrderItems(int ordNo){
         log.info("selectOrderItems Service here...1");
-        log.info("ordNo: "+orderDTO.getOrdNo());
-        List<OrderItemDTO> orderItemDTO = orderItemMapper.selectOrderItemsByOrdNo(orderDTO.getOrdNo());
-        log.info("orderItemDTO: "+ orderItemDTO);
+        log.info("ordNo: "+ordNo);
+        List<ItemDTO> itemDTO = orderItemMapper.selectOrderItemsByOrdNo(ordNo);
+        log.info("orderItemDTO: "+ itemDTO.toString());
         log.info("selectOrderItems Service here...4");
-        return orderItemDTOS;
+        return itemDTO;
     }
 
     public int insertOrderItems(List<ItemDTO> itemDTOS, int ordNo){
@@ -319,15 +318,15 @@ public class ProductService {
             item.setProdCate1(productDTO.getProdCate1().getCate1());
             item.setProdCate2(productDTO.getProdCate2());
             item.setOrdNo(ordNo);
-            item.setCount(item.getCount());
+            item.setCount(itemDTO.getCount());
             item.setPrice(productDTO.getPrice());
             item.setDiscount(productDTO.getDiscount());
             item.setPoint(productDTO.getPoint());
             item.setDelivery(productDTO.getDelivery());
-            item.setTotal(item.getTotal());
+            item.setTotal(itemDTO.getTotal());
 
-            /*cartMapper.deleteCartProductByProdNoAndUid(uid, orderItem.getProdNo());
-            productMapper.minusStock(orderItem.getProdNo(), orderItem.getCount());*/
+            cartMapper.deleteCartProductByProdNoAndUid(uid, itemDTO.getProdNo());
+            /*productMapper.minusStock(orderItem.getProdNo(), orderItem.getCount());*/
             result = orderItemMapper.insertOrderItem(item);
 
         }
@@ -341,6 +340,14 @@ public class ProductService {
 
         pointMapper.insertPoint(ordUid, ordNo, point);
     }
+
+
+    public void minusMemberPoint(int usedPoint){
+        String uid = loginStatus();
+        pointMapper.minusMemberPoint(uid, usedPoint);
+    }
+
+
 
 
 

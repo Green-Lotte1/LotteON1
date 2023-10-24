@@ -192,7 +192,7 @@ $(document).ready(function () {
         //////////////////////////////////////////////////////////////////////////
 
         /*const length = [[${itemDTOList.size}]];*/
-        const count = $('input[name=count]');
+        /*const count = $('input[name=count]');*/
         const price = $('input[name=price]');
         const disPrice = $('input[name=disPrice]');
         const delivery = $('input[name=delivery]');

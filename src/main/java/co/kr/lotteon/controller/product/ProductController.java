@@ -282,8 +282,14 @@ public class ProductController {
         String uid = prodService.loginStatus();
 
         MemberDTO memberOrderInfo = memberService.selectMemberOrderInfoByUid(uid);
+        log.info("getOrderController here...1");
+        log.info("memberOrderInfo: "+memberOrderInfo.toString());
         List<ItemDTO> itemDTOList = prodService.selectProductForOrder(chk, uid);
+        log.info("getOrderController here...2");
+        log.info("itemDTOList: "+itemDTOList.toString());
         OrderDTO total = prodService.setTotalOrder(model, itemDTOList);
+        log.info("getOrderController here...3");
+        log.info("total: "+total.toString());
 
         model.addAttribute("total", total);
         model.addAttribute("memberOrderInfo", memberOrderInfo);
@@ -308,13 +314,13 @@ public class ProductController {
 
 
         OrderDTO order = prodService.selectOrder(pageRequestDTO.getOrdNo());
-        List<OrderItemDTO> orderItemDTOS = prodService.selectOrderItems(order);
+        List<ItemDTO> itemDTOS = prodService.selectOrderItems(order.getOrdNo());
 
         log.info("complete here...1 :"+order.toString());
-        log.info("complete here...2 :"+orderItemDTOS.toString());
+        log.info("complete here...2 :"+itemDTOS.toString());
 
         model.addAttribute("order", order);
-        model.addAttribute("orderItemDTOS", orderItemDTOS);
+        model.addAttribute("itemDTOS", itemDTOS);
 
         return "/product/complete";
     }
@@ -341,6 +347,7 @@ public class ProductController {
         result = prodService.insertOrder(order);
         ordNo = prodService.selectLatestOrdNo();
         prodService.insertPoint(ordNo, order.getSavePoint());
+        prodService.minusMemberPoint(order.getUsedPoint());
 
         log.info("insertOrderController here...2");
         log.info("ordNo: "+ordNo);
@@ -358,6 +365,8 @@ public class ProductController {
     ObjectMapper objectMapper = new ObjectMapper();
     List<ItemDTO> itemDTOS = objectMapper.readValue(jsonData, new TypeReference<List<ItemDTO>>() {
     });
+
+    log.info(itemDTOS.toString());
 
     log.info("insertOrderItems here...2");
     prodService.insertOrderItems(itemDTOS, ordNo);

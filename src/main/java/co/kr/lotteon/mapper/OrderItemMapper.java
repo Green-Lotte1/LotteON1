@@ -12,6 +12,6 @@ public interface OrderItemMapper {
 
     public int insertOrderItem(ItemDTO item);
 
-    public List<OrderItemDTO> selectOrderItemsByOrdNo(int ordNo);
+    public List<ItemDTO> selectOrderItemsByOrdNo(int ordNo);
 
 }

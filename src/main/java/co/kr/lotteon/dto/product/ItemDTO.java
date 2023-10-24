@@ -36,4 +36,8 @@ public class ItemDTO {
         return (discountingPrice()*count)+delivery;
     }
 
+    public int discounting(){
+        return ((price*count) / 100) * discount;
+    }
+
 }
