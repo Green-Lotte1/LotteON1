@@ -73,9 +73,12 @@ public class MemberService {
 
 
     public int selectRoleByUid(String uid) {
-        MemberEntity member = memberRepository.findById(uid).orElse(null);
+        log.info(" ----- selectRoleByUid() ----- ");
+        MemberEntity entity = memberRepository.findById(uid).orElse(null);
+        MemberDTO member = entity.toDTO();
         member.setPass("");
         int level = member.getLevel();
+        log.info(" - level : " + level);
 
         return level;
     }

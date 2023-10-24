@@ -3,10 +3,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/admin/admin_layout.html}">
 <head>
+  <script th:src="@{/js/cs/cs_layout.js}"></script>
   <script th:src="@{/js/admin/cs_delete.js}"></script>
   <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
 </head>
-<section layout:fragment="content" th:id="${group}">
+<section layout:fragment="content" class="group" th:id="${group}">
+  <input type="hidden" name="success" value="${success}">
 
   <nav>
     <h3>[[${groupName}]] 보기</h3>
@@ -40,7 +42,7 @@
         </td>
       </tr>
 
-      <tr th:if="${view.parent < 0}">
+      <tr th:if="${view.comment > 0}">
         <td>답변</td>
         <td>
           <p th:utext="${answer.brContent}"></p>
@@ -49,12 +51,15 @@
     </table>
 
     <div id="buttons">
-      <a href="#" class="btnDelete">삭제</a>
-      <a th:href="@{'/admin/cs/' + ${group} + '/modify?no=' + ${view.no}}" class="btnModify">수정</a>
+      <a href="#" class="btnDelete delete">삭제</a>
+      <a th:href="@{'/admin/cs/' + ${group} + '/modify?' + 'cate1=' + ${view.cate1.cate1}
+                        + ${group ne 'notice'? '&cate2=' + view.cate2.cate2 : '' } + '&no=' + ${view.no}}" class="btnModify">수정</a>
       <a th:href="@{'/admin/cs/' + ${group} + '/list?'
       + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
       + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
-      + 'no=' + ${view.no}}" class="btnList">목록</a>
+      + 'no=' + ${view.no} + '&pg=' + ${pg}}" class="btnList">목록</a>
+      <input name="chk" type="hidden" th:value="${view.no}">
+      <input name="url" type="hidden" th:value="${path}">
     </div>
 
   </article>

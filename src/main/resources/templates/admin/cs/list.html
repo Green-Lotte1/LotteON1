@@ -3,6 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/admin/admin_layout :: content}">
 <head>
+  <script th:src="@{/js/cs/cs_layout.js}"></script>
   <script th:src="@{/js/admin/cs_delete.js}"></script>
   <script th:src="@{/js/admin/cs_list.js}"></script>
   <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
@@ -68,24 +69,26 @@
           <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'notice'}"></td>
           <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>
           <td th:text="${list.cate2.cate2_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>
+
           <td class="tit">
             <a th:text="${list.title}"
-               th:href="@{'/admin/cs/' + ${group} + '/view?'
+               th:href="@{'/admin/cs/' + ${group} + ${group eq 'qna' and list.comment == 0 ? '/reply?' : '/view?'}
                + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
                + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
                + 'no=' + ${list.no} + '&pg=' + ${adminCsList.pg}}"></a>
           </td>
+
           <td th:text="${list.uid.uid}" th:if="${group eq 'qna'}"></td>
           <td th:text="${list.hit}" th:if="${group eq 'notice' or group eq 'faq'}"></td>
           <td th:text="${list.yyMMdd}"></td>
           <td th:if="${group eq 'notice' or group eq 'faq'}">
-            <a href="#">[삭제]</a><br>
+            <a href="#" class="delete" value="">[삭제]</a><br>
             <a th:href="@{'/admin/cs/' + ${group} + '/modify?'
             + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
             + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
             + 'no=' + ${list.no}}">[수정]</a>
           </td>
-          <td th:if="${group eq 'qna'}" th:text="${list.parent eq -1?'답변완료':'검토중'}"></td>
+          <td th:if="${group eq 'qna'}" th:text="${list.comment > 0?'답변완료':'검토중'}"></td>
         </tr>
       </table>
 

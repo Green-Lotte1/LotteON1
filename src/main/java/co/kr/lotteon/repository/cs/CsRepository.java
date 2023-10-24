@@ -29,7 +29,7 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     public Page<CsEntity> findByCate2AndParent(CsCate2Entity cate2, int parent, Pageable pageable);
 
     // 답변 게시글 출력
-    public CsEntity findByParent(int parent);
+    public CsEntity findByParent(int no);
 
 
     ////////////////////////////////////

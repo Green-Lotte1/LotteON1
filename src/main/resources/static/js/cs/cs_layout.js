@@ -1,5 +1,11 @@
 $(function() {
-    const success = $('input[name=success]').val();
+    /*const success = $('input[name=success]').val();*/
+
+    const queryString = window.location.search;
+
+    // URL에서 'success' 파라미터 값 추출
+    const urlParams = new URLSearchParams(queryString);
+    const success = urlParams.get('success');
 
     if(success != 0) {
         if(success == 100) {
