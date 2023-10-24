@@ -4,6 +4,7 @@
       layout:decorate="~{/fragments/admin/admin_layout.html}">
 <head>
   <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
+  <script th:src="@{/js/admin/cs_delete.js}"></script>
   <script>
     $(function() {
       $('.btnWrite').click(function(e) {
@@ -64,9 +65,14 @@
       </table>
     </form>
     <div id="buttons">
-      <a href="#" class="btnDelete">삭제</a>
+      <a href="#" class="btnDelete delete">삭제</a>
       <a href="#" class="btnWrite">답변등록</a>
-      <a href="#" class="btnList">목록</a>
+      <a th:href="@{'/admin/cs/' + ${group} + '/list?'
+      + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+      + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+      + 'no=' + ${view.no} + '&pg=' + ${pg}}" class="btnList">목록</a>
+      <input name="chk" type="hidden" th:value="${view.no}">
+      <input name="url" type="hidden" th:value="${path}">
     </div>
 
   </article>

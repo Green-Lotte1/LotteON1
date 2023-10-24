@@ -32,7 +32,7 @@
 
       <tr>
         <td>제목</td>
-        <td th:text="${view.title}"></td>
+        <td th:utext="${view.brTitle}"></td>
       </tr>
 
       <tr>
@@ -52,12 +52,17 @@
 
     <div id="buttons">
       <a href="#" class="btnDelete delete">삭제</a>
+
+
       <a th:href="@{'/admin/cs/' + ${group} + '/modify?' + 'cate1=' + ${view.cate1.cate1}
-                        + ${group ne 'notice'? '&cate2=' + view.cate2.cate2 : '' } + '&no=' + ${view.no}}" class="btnModify">수정</a>
+                        + ${group ne 'notice'? '&cate2=' + view.cate2.cate2 : '' } + '&no=' + ${view.no}}"
+         class="btnModify" th:if="${group ne 'qna'}">수정</a>
+
       <a th:href="@{'/admin/cs/' + ${group} + '/list?'
       + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
       + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
       + 'no=' + ${view.no} + '&pg=' + ${pg}}" class="btnList">목록</a>
+
       <input name="chk" type="hidden" th:value="${view.no}">
       <input name="url" type="hidden" th:value="${path}">
     </div>

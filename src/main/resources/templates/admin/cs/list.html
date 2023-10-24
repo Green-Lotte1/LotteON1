@@ -71,7 +71,7 @@
           <td th:text="${list.cate2.cate2_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>
 
           <td class="tit">
-            <a th:text="${list.title}"
+            <a th:utext="${list.brTitle}"
                th:href="@{'/admin/cs/' + ${group} + ${group eq 'qna' and list.comment == 0 ? '/reply?' : '/view?'}
                + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
                + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
@@ -88,7 +88,8 @@
             + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
             + 'no=' + ${list.no}}">[수정]</a>
           </td>
-          <td th:if="${group eq 'qna'}" th:text="${list.comment > 0?'답변완료':'검토중'}"></td>
+          <td th:if="${group eq 'qna'}" th:style="${list.comment>0 ? 'color:green;font-weight:bold;' : ''}"
+              th:text="${list.comment > 0?'답변완료':'검토중'}"></td>
         </tr>
       </table>
 

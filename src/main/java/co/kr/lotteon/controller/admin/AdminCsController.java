@@ -118,8 +118,8 @@ public class AdminCsController {
                 adminCsService.nav(group));
 
         // include model... : answer (CsDTO)
-        model.addAttribute("view",
-                adminCsService.adminCsView(model, pageRequestDTO));
+        CsDTO modify = adminCsService.adminCsView(model, pageRequestDTO);
+        model.addAttribute("view", modify);
 
         model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
         model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
@@ -128,7 +128,7 @@ public class AdminCsController {
                 csService.findByCate(group));
 
         model.addAttribute("cate2List",
-                csService.findByCate1(pageRequestDTO.getCate1()));
+                csService.findByCate1(modify.getCate1().getCate1()));
 
         model.addAttribute("path",
                 adminCsService.ctxPath(request));
@@ -236,8 +236,8 @@ public class AdminCsController {
                 adminCsService.nav(group));
 
         // include model... : answer (CsDTO)
-        model.addAttribute("view",
-                adminCsService.adminCsView(model, pageRequestDTO));
+        CsDTO modify = adminCsService.adminCsView(model, pageRequestDTO);
+        model.addAttribute("view", modify);
 
         model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
         model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
@@ -246,7 +246,7 @@ public class AdminCsController {
                 csService.findByCate(group));
 
         model.addAttribute("cate2List",
-                csService.findByCate1(pageRequestDTO.getCate1()));
+                csService.findByCate1(modify.getCate1().getCate1()));
 
         model.addAttribute("path",
                 adminCsService.ctxPath(request));
@@ -332,12 +332,6 @@ public class AdminCsController {
 
         model.addAttribute("selectedCate1", pageRequestDTO.getCate1());
         model.addAttribute("selectedCate2", pageRequestDTO.getCate2());
-
-        model.addAttribute("cate1List",
-                csService.findByCate(group));
-
-        model.addAttribute("cate2List",
-                csService.findByCate1(pageRequestDTO.getCate1()));
 
         model.addAttribute("path",
                 adminCsService.ctxPath(request));

@@ -35,13 +35,13 @@
               <input type="hidden" name="url" th:value="${path}">
               <th:block th:if="${group eq 'faq' or group eq 'qna'}">
                 <select name="cate1">
-                  <option>1차유형</option>
+                  <option value="0">1차유형</option>
                   <option th:each="ct1:${cate1List}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq selectedCate1}">
                     [[${ct1.cate1_name}]]
                   </option>
                 </select>
                 <select name="cate2">
-                  <option>2차유형</option>
+                  <option value="0">2차유형</option>
                   <option disabled th:if="${cate2List == null}">1차유형을 선택을 해주세요.</option>
                   <option th:if="${cate2List != null}" th:each="ct2:${cate2List}"
                           th:value="${ct2.cate2}"      th:selected="${ct2.cate2 eq selectedCate2}">
