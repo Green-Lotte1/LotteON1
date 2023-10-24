@@ -17,4 +17,11 @@
         UPDATE `km_product` SET `hit`=`hit`+1 WHERE `prodNo`=#{prodNo};
     </update>
 
+    <update id="minusStock">
+        UPDATE `km_product` SET
+                `stock`= `stock` - #{count},
+                `sold`= `sold` + #{count}
+                WHERE `prodNo`= #{prodNo};
+    </update>
+
 </mapper>

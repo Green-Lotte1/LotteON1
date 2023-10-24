@@ -1,6 +1,7 @@
 package co.kr.lotteon.dto.product;
 
 import co.kr.lotteon.dto.member.MemberDTO;
+import co.kr.lotteon.entity.product.OrderEntity;
 import jakarta.persistence.Id;
 import lombok.*;
 
@@ -31,4 +32,28 @@ public class OrderDTO {
     private int ordPayment;
     private int ordComplete;
     private LocalDateTime ordDate;
+
+    private MemberDTO member;
+/*
+    public OrderEntity toEntity(){
+        return OrderEntity.builder()
+                .ordNo(ordNo)
+                .(ordUid.toDTO())
+                .ordPrice(ordPrice)
+                .ordCount(ordCount)
+                .ordDiscount(ordDiscount)
+                .ordDelivery(ordDelivery)
+                .savePoint(savePoint)
+                .usedPoint(usedPoint)
+                .ordTotPrice(ordTotPrice)
+                .recipName(recipName)
+                .recipHp(recipHp)
+                .recipZip(recipZip)
+                .recipAddr1(recipAddr1)
+                .recipAddr2(recipAddr2)
+                .ordPayment(ordPayment)
+                .ordComplete(ordComplete)
+                .ordDate(ordDate)
+                .build();
+    }*/
 }

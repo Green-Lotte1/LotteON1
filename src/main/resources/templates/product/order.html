@@ -2,10 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/product/product_layout.html}">
-    <head>
-        <script th:src="@{/js/product/product_order.js}"></script>
-        <script th:src="@{/js/product/product_order_zipcode.js}"></script>
-    </head>
+<head>
+<script th:inline="javascript">
+    var articleArray = [];
+        /*[# th:each="item : ${itemDTOList}"]*/
+        var article = {
+            prodNo: /*[[${item.prodNo}]]*/,
+            count: /*[[${item.count}]]*/,
+            total: /*[[${item.total}]]*/
+        };
+        articleArray.push(article);
+        /*[/]*/
+</script>
+
+    <script th:src="@{/js/product/product_order.js}"></script>
+    <script th:src="@{/js/product/product_order_zipcode.js}"></script>
+</head>
     <section layout:fragment="content" class="order">
         <!-- 주문 페이지 시작-->
             <!-- 제목, 페이지 네비게이션 -->
@@ -16,7 +28,9 @@
                 </p>
             </nav>
 
-            <form class="orderForm" th:action="@{/product/insertOrderForm}" method="post">
+
+
+            <form action="#">
                 <!-- 주문 상품 목록 -->
                 <table>
                     <thead>
@@ -101,7 +115,7 @@
                             <input type="hidden" name="ordTotPrice" th:value="${total.ordTotPrice}"/>
                         </tr>
                     </table>
-                    <input type="button" name="" id="ordComplete" value="결제하기">
+                    <input type="button" name="" id="complete" value="결제하기">
                 </div>
 
                 <!-- 배송정보 -->

@@ -304,18 +304,24 @@ public class ProductController {
     public String complete(Model model, HttpServletRequest request, PageRequestDTO pageRequestDTO) {
         layout(model, request);
 
-        int ordNo = 0;
+        log.info(pageRequestDTO.getOrdNo());
 
 
+        OrderDTO order = prodService.selectOrder(pageRequestDTO.getOrdNo());
+        List<OrderItemDTO> orderItemDTOS = prodService.selectOrderItems(order);
 
+        log.info("complete here...1 :"+order.toString());
+        log.info("complete here...2 :"+orderItemDTOS.toString());
 
+        model.addAttribute("order", order);
+        model.addAttribute("orderItemDTOS", orderItemDTOS);
 
         return "/product/complete";
     }
 
     @ResponseBody
-    @PostMapping(value = "/product/insertOrderForm")
-    public int insertOrderForm(Model model, HttpServletRequest request, @RequestBody OrderDTO order) {
+    @PostMapping(value = "/product/insertOrder")
+    public int insertOrder(Model model, HttpServletRequest request, @RequestBody OrderDTO order) {
         layout(model, request);
 
         log.info("insertOrderForm here...1");
@@ -334,15 +340,28 @@ public class ProductController {
         log.info("insertOrderController here...1");
         result = prodService.insertOrder(order);
         ordNo = prodService.selectLatestOrdNo();
+        prodService.insertPoint(ordNo, order.getSavePoint());
 
         log.info("insertOrderController here...2");
-
+        log.info("ordNo: "+ordNo);
         return ordNo;
     }
 
-    /*@ResponseBody
+    @ResponseBody
     @PostMapping(value = "/product/insertOrderItems")
-    public int insertOrderItems(Model model, Page){
+    public int insertOrderItems(
+                                @RequestParam("jsonData")String jsonData,
+                                @RequestParam("ordNo") int ordNo) throws JsonProcessingException{
+    int result = 0;
 
-    }*/
+    log.info("insertOrderItems here...1");
+    ObjectMapper objectMapper = new ObjectMapper();
+    List<ItemDTO> itemDTOS = objectMapper.readValue(jsonData, new TypeReference<List<ItemDTO>>() {
+    });
+
+    log.info("insertOrderItems here...2");
+    prodService.insertOrderItems(itemDTOS, ordNo);
+    log.info("insertOrderItems here...3");
+    return result;
+    }
 }
