@@ -7,6 +7,7 @@ $(function(){
     const agree2 = document.getElementsByName('agree2')[0];
     const agree3 = document.getElementsByName('agree3')[0];
     const agree4 = document.getElementsByName('agree4')[0];
+    const agree5 = document.getElementsByName('agree5')[0];
 
     const typeInput = document.getElementsByName('type')[0];
     const type = typeInput.value;
