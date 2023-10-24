@@ -39,10 +39,6 @@ public class PolicyController {
         List<PolicyTermsDTO> dto =  policyService.getPolicyTermsList();
         model.addAttribute("selectPolicy",dto);
 
-       /* List<PolicyTermsDTO> policyTermsDTOList = policyService.getPolicyTermsList();
-        model.addAttribute("selectpolicy",policyTermsDTOList);
-*/
-
         return "/policy/buyer";
     }
 

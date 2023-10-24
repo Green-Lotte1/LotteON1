@@ -24,9 +24,9 @@ public class PolicyService {
 
     public List<PolicyTermsDTO> getPolicyTermsList() {
 
+        List<PolicyTermsDTO> terms = policyMapper.selectPolicy();
 
-
-        return policyMapper.selectPolicy();
+        return terms;
     }
 
 }

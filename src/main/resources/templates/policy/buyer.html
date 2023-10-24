@@ -15,9 +15,9 @@
                 </nav>
                 <article class="selectPolicy">
                   <h2>구매회원 이용약관</h2>
-                  <p th:each="selectPolicy:${termsPolicy}">
-                    <span class="tit">제1조(목적)</span>
-                    <span class="content"></span>
+                  <p th:each="terms:${selectPolicy}">
+                    <span class="tit" th:each="tno : ${terms.buyer}" th:text="${terms.buyer}">제1조(목적)</span>
+                    <span class="content" th:text="${terms.buyer}"></span>
                   </p>
                 </article>
             </section>
