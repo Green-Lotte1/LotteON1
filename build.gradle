@@ -40,6 +40,8 @@ dependencies {
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.1.1'
 	// thymeleaf layout 설정을 위해 임시 추가
 	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core
+	implementation group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.15.3'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.2'
 }
 // Java에서 빌드 정보를 가져오기 위해 gradle buildInfo() 실행

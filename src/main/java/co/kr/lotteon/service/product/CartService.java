@@ -106,7 +106,7 @@ public class CartService {
 
     public int deleteCartProductByCartNo(PageRequestDTO pageRequestDTO){
 
-        String[] selectedCartNos = pageRequestDTO.getSelectedCartNos().split("/");
+        String[] selectedCartNos = pageRequestDTO.getSelectedItemNos().split("/");
 
         log.info("deleteCartService selectedCartNos: "+selectedCartNos.toString());
 

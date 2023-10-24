@@ -42,11 +42,13 @@ $(document).ready(function () {
 
 
     let prevPoint = 0;
+    const maxUsePoint = $('input[type="hidden"][name="ordTotPrice"]').val();
     $('#usePoint').focusout(function(){
         var usePoint = parseInt(($(this).val()).replace(/,/g, ''));
         var hasPoint = parseInt(($("#hasPoint").text()).replace(/,/g, ''));
         // 현재 포인트 초과 입력시 현재 보유 포인트 값을 입력할거임
         var correctPoint = Math.min(usePoint, hasPoint);
+
 
         // 입력된 값이 숫자가 아니면 이전 prevPoint 값으로 복원
         if (!/^\d+$/.test(usePoint)) {
@@ -56,6 +58,10 @@ $(document).ready(function () {
         // 현재 보유 포인트와 비교하여 입력된 값이 더 크면 현재 보유 포인트 값으로 업데이트
         if (usePoint > hasPoint) {
             $(this).val(correctPoint.toLocaleString());
+        }
+
+        if(usePoint > maxUsePoint){
+            $(this).val(maxUsePoint.toLocaleString());
         }
 
         console.log('prevPoint : '+prevPoint);
@@ -141,7 +147,7 @@ $(document).ready(function () {
     //***********************************************//
     const path = $('#path').val();
     /*const savePoint = parseFloat($('#ordTotSavePoint').text().replace(/[^0-9.]+/g, ''));*/
-    $('#ordComplete').click(function(e){
+    $('#complete').click(function(e){
         e.preventDefault();
         /*console.log(savePoint);*/
         /*const usedPoint = parseFloat($('#ordTotUsePoint').text().replace(/[^0-9.]+/g, ''));
@@ -238,34 +244,47 @@ $(document).ready(function () {
         console.log('here...4');
         console.log(JSON.stringify(jsonData));
 
+
         console.log('here...5');
         $.ajax({
-            url: path+'/product/insertOrderForm',
+            url: path+'/product/insertOrder',
             type: 'post',
             data: JSON.stringify(jsonData), // JSON 데이터를 문자열로 변환
             contentType: 'application/json;charset=UTF-8', // 컨텐츠 타입을 JSON으로 설정
             dataType: 'json',
             success: function(data){
+                console.log('data: '+data);
                 console.log('here...6');
                 if(data > 0 & ordPayment == 22){
+                    console.log('here...7');
                     alert('주문이 완료되었습니다. 24시간 이내 미입금시 취소됩니다.');
                     $.ajax({
                         url: path+'/product/insertOrderItems',
                         type: 'post',
-                        data: JSON.stringify(jsonData), // JSON 데이터를 문자열로 변환
-                        contentType: 'application/json;charset=UTF-8', // 컨텐츠 타입을 JSON으로 설정
-                        dataType: 'json',
-                        success: function(data){
-                            console.log('here...6');
-
+                        data: {jsonData: JSON.stringify(articleArray), ordNo: data}, // JSON 데이터를 문자열로 변환
+                        /*contentType: 'application/json;charset=UTF-8', // 컨텐츠 타입을 JSON으로 설정*/
+                        /*dataType: 'json',*/
+                        success: function(data2){
+                            console.log(data2);
+                            console.log('here...8');
+                            window.location.href = path+'/product/complete?ordNo='+data;
                         }
                     });
-
-
-                    window.location.href = path+'/product/complete';
-                }else if(data > 0){
-                    alert('결제가 완료되었습니다.');
-                    window.location.href = path+'/product/complete';
+                }else if(data > 0 & ordPayment != 22){
+                    console.log('here...9');
+                    $.ajax({
+                        url: path+'/product/insertOrderItems',
+                        type: 'post',
+                        data: {jsonData: JSON.stringify(articleArray), ordNo: data}, // JSON 데이터를 문자열로 변환
+                        /*contentType: 'application/json;charset=UTF-8', // 컨텐츠 타입을 JSON으로 설정*/
+                        /*dataType: 'json',*/
+                        success: function(data2){
+                            console.log(data2);
+                            console.log('here...10');
+                            alert('결제가 완료되었습니다.');
+                            window.location.href = path+'/product/complete?ordNo='+data;
+                        }
+                    });
                 }else if(data < 1){
                     alert('주문에 실패했습니다. 다시 시도해주세요.');
                     return;

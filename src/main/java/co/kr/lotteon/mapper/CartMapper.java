@@ -13,7 +13,6 @@ public interface CartMapper {
     public ItemDTO selectProductsForOrder(int cartNo, String uid);
     public int updateCartProductByUidAndProdNo(int count, String uid, int prodNo, int total);
     public int deleteCartProductByCartNo(int cartNo);
-
-    public int deleteCartProductByProdNoAndUid(String uid, int prodNo);
+    public void deleteCartProductByProdNoAndUid(String uid, int prodNo);
 
 }

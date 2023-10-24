@@ -118,7 +118,7 @@ $(document).ready(function () {
 
     $('#del').click(function(e){
         e.preventDefault();
-        alert('click');
+        /*alert('click');*/
         console.log('delete here...1');
         // 체크돼있는 prodNo를 배열로 만들어 넣음
         $('input[name^="cartNo"]:checked').each(function(){
