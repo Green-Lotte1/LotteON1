@@ -45,4 +45,8 @@
         DELETE FROM `km_product_cart` WHERE `cartNo` = #{cartNo};
     </delete>
 
+    <delete id="deleteCartProductByProdNoAndUid">
+        DELETE FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNo`=#{prodNo};
+    </delete>
+
 </mapper>

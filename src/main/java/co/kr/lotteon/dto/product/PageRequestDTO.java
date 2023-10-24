@@ -42,7 +42,10 @@ public class PageRequestDTO {
     private int result = 0;
 
     @Builder.Default
-    private String selectedCartNos = "/";
+    private String selectedItemNos = "/";
+
+    @Builder.Default
+    private int ordNo = 0;
 
     /*@Builder.Default
     private OrderDTO orderDTO = null;*/

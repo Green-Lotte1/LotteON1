@@ -2,9 +2,7 @@ package co.kr.lotteon.service.product;
 
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.entity.product.*;
-import co.kr.lotteon.mapper.CartMapper;
-import co.kr.lotteon.mapper.OrderMapper;
-import co.kr.lotteon.mapper.ProductMapper;
+import co.kr.lotteon.mapper.*;
 import co.kr.lotteon.repository.product.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +36,8 @@ public class ProductService {
     private final ProductMapper productMapper;
     private final CartMapper cartMapper;
     private final OrderMapper orderMapper;
+    private final OrderItemMapper orderItemMapper;
+    private final PointMapper pointMapper;
     private final ModelMapper modelMapper;
 
 
@@ -279,8 +279,38 @@ public class ProductService {
         String ordUid = loginStatus();
 
         result = productMapper.selectLatestOrdNo(ordUid);
+        log.info(result);
 
         return result;
+    }
+
+    public int insertOrderItems(List<OrderItemDTO> orderItemDTOS, int ordNo){
+
+        int result = 0;
+        String uid = loginStatus();
+        log.info("insertOrderItems Service here...1");
+        for(OrderItemDTO orderItem : orderItemDTOS){
+            int prodNo = orderItem.getProdNo();
+            ProductEntity productEntity = prodRepo.findById(prodNo).orElse(null);
+            orderItem.setOrdNo(ordNo);
+            orderItem.setPrice(productEntity.getPrice());
+            orderItem.setDiscount(productEntity.getDiscount());
+            orderItem.setPoint(productEntity.getPoint());
+            orderItem.setDelivery(productEntity.getDelivery());
+
+            cartMapper.deleteCartProductByProdNoAndUid(uid, orderItem.getProdNo());
+            result = orderItemMapper.insertOrderItem(orderItem);
+
+        }
+        log.info("insertOrderItems Service here...2");
+
+        return result;
+    }
+
+    public void insertPoint(int ordNo, int point){
+        String ordUid = loginStatus();
+
+        pointMapper.insertPoint(ordUid, ordNo, point);
     }
 
 
