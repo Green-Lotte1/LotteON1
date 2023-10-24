@@ -129,9 +129,32 @@
   height: 100%;
 }
 
-#product > .list > table .thumb > img {
+#product > .list > table .thumb {
+  display: block;
   width: 120px;
+  height: 120px;
+  overflow: hidden;
+  text-align: center;
 }
+#product > .list > table .thumb > img {
+  max-width: 100%;
+  width: auto;
+  height: 100%;
+}
+
+main > section > section > article > a > .thumb {
+    display: block;
+    width: 230px;
+    height: 230px;
+    overflow: hidden;
+    text-align: center;
+}
+main > section > section > article > a > .thumb > img {
+    max-width: 100%;
+    width: auto;
+    height: 100%;
+}
+
 #product > .list > table .name > a{
   font-size: 16px;
   font-weight: bold;
@@ -269,6 +292,20 @@
 #product > .view > .info > .image > img {
     width: 100%;
 }
+
+#product > .view > .info > .image {
+  display: block;
+  width: 476px;
+  height: 476px;
+  overflow: hidden;
+  text-align: center;
+}
+#product > .view > .info > .image > img {
+  max-width: 100%;
+  width: auto;
+  height: 100%;
+}
+
 
 #product > .view > .info > .summary * {
 }

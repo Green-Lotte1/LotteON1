@@ -69,7 +69,7 @@ $(function() {
                             tr.append('<td>' + dto.cate2.cate2_name + '</td>');
                         }
 
-                        tr.append('<td class="tit"><a href="' + path + '/admin/cs/' + data.group + '/view?'
+                        tr.append('<td class="tit"><a href="' + path + '/admin/cs/' + data.group + (dto.comment > 0 ? '/view?' : '/reply?')
                             + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 : '')
                             + (selectCate2 != 0 ? (selectCate2 != null ? '&cate2=' + selectCate2 : '') : '')
                             + '&no=' + dto.no + '&pg=' + data.pg + '">' + dto.brTitle + '</a></td>');

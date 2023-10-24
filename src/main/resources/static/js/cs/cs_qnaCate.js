@@ -63,4 +63,29 @@ $(document).ready(function () {
         }
         $('#write').submit();
     });
+
+    $('.btnWrite').click(function(e) {
+
+        // 1, 2차 유형 선택 없이 submit 시
+        if(cate1.val() == 0) {
+            alert('1차 유형을 선택해주세요.');
+            return false;
+        }
+
+        if(cate2.val() == 0) {
+            alert('2차 유형을 선택해주세요.');
+            return false;
+        }
+
+        if($('input[name=title]').val().trim() === '') {
+            alert('제목을 입력해주세요.');
+            return false;
+        }
+        // 제목, 내용 입력 없이 submit 시
+        if($('textarea[name=content]').val().trim() === '') {
+            alert('내용을 입력해주세요.');
+            return false;
+        }
+        return true;
+    });
 });
