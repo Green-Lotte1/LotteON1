@@ -307,8 +307,14 @@ public class ProductController {
         log.info(pageRequestDTO.getOrdNo());
 
 
+        OrderDTO order = prodService.selectOrder(pageRequestDTO.getOrdNo());
+        List<OrderItemDTO> orderItemDTOS = prodService.selectOrderItems(order);
 
+        log.info("complete here...1 :"+order.toString());
+        log.info("complete here...2 :"+orderItemDTOS.toString());
 
+        model.addAttribute("order", order);
+        model.addAttribute("orderItemDTOS", orderItemDTOS);
 
         return "/product/complete";
     }
@@ -350,11 +356,11 @@ public class ProductController {
 
     log.info("insertOrderItems here...1");
     ObjectMapper objectMapper = new ObjectMapper();
-    List<OrderItemDTO> orderItemDTOS = objectMapper.readValue(jsonData, new TypeReference<List<OrderItemDTO>>() {
+    List<ItemDTO> itemDTOS = objectMapper.readValue(jsonData, new TypeReference<List<ItemDTO>>() {
     });
 
     log.info("insertOrderItems here...2");
-    prodService.insertOrderItems(orderItemDTOS, ordNo);
+    prodService.insertOrderItems(itemDTOS, ordNo);
     log.info("insertOrderItems here...3");
     return result;
     }
