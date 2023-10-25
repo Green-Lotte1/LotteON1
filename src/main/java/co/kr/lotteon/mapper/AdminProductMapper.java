@@ -10,6 +10,12 @@ import java.util.List;
 @Mapper
 public interface AdminProductMapper {
 
+
+   public static List<AdminProductDTO> selectPageProducts(int start) {
+
+       return AdminProductMapper.selectPageProducts(start);
+    }
+
     public void insertProduct(AdminProductDTO dto);
     public AdminProductDTO selectProduct(int prodNo);
     public List<AdminProductDTO> selectProducts();

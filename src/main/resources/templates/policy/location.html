@@ -15,9 +15,9 @@
     </nav>
     <article class="selectPolicy">
         <h2>구매회원 이용약관</h2>
-        <p th:each="terms:${selectPolicy}">
+        <p th:each="terms:${selectPolicy}" th:if="${terms.tit ne null}">
             <span class="tit" th:text="${terms.tit}"></span>
-            <span class="content" th:text="${terms.content}"></span>
+            <span class="content" th:utext="${terms.policyContent}"></span>
         </p>
     </article>
 </section>

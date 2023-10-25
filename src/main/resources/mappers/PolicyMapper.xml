@@ -8,28 +8,28 @@
         SELECT
             `tno`,
             SUBSTRING_INDEX(`Buyer`, '\r\n', 1) AS `tit`,
-            SUBSTRING_INDEX(SUBSTRING_INDEX(`seller`, '\r\n', 2), '\r\n', -1) AS `content`
+            SUBSTRING_INDEX(SUBSTRING_INDEX(`buyer`, '\r\n', 2), '\r\n', -1) AS `content`
         FROM `km_member_terms1`;
     </select>
     <select id="selectPolicyFinance" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
         SELECT
             `tno`,
             SUBSTRING_INDEX(`Finance`, '\r\n', 1) AS `tit`,
-            SUBSTRING_INDEX(SUBSTRING_INDEX(`seller`, '\r\n', 2), '\r\n', -1) AS `content`
+            SUBSTRING_INDEX(SUBSTRING_INDEX(`finance`, '\r\n', 2), '\r\n', -1) AS `content`
         FROM `km_member_terms1`;
     </select>
     <select id="selectPolicyLocation" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
         SELECT
             `tno`,
             SUBSTRING_INDEX(`Location`, '\r\n', 1) AS `tit`,
-            SUBSTRING_INDEX(SUBSTRING_INDEX(`seller`, '\r\n', 2), '\r\n', -1) AS `content`
+            SUBSTRING_INDEX(SUBSTRING_INDEX(`location`, '\r\n', 2), '\r\n', -1) AS `content`
         FROM `km_member_terms1`;
     </select>
     <select id="selectPolicyPrivacy" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
         SELECT
         `tno`,
-        SUBSTRING_INDEX(`seller`, '\r\n', 1) AS `tit`,
-        SUBSTRING(`privacy`, CHAR_LENGTH(SUBSTRING_INDEX(`seller`, '\r\n', 1))+1)
+        SUBSTRING_INDEX(`Privacy`, '\r\n', 1) AS `tit`,
+        SUBSTRING(`privacy`, CHAR_LENGTH(SUBSTRING_INDEX(`privacy`, '\r\n', 1))+1)  `content`
         FROM `km_member_terms1`;
     </select>
     <select id="selectPolicySeller" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">

@@ -59,6 +59,15 @@
         WHERE a.`cate1`=#{cate1};
     </select>
 
-    
+    <!-- 여기서 부터 페이징
+    -->
+    <select id="selectProductCountTotal" resultType="int">
+        SELECT COUNT(*) FROM `km_product`;
+    </select>
+
+    <select id="selectPageProducts" resultType="co.kr.lotteon.dto.admin.AdminProductDTO">
+        SELECT * FROM `km_product`
+        LIMIT #{start}, 10;
+    </select>
 
 </mapper>

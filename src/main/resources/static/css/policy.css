@@ -33,7 +33,7 @@
   width: 112px;
   height: 93px;          
   font-size: 0;
-  background-image: url('../images/terms_sprites.png');
+  background-image: url('../images/policy/terms_sprites.png');
   margin-left: 10px;
 }
 #termsPolicy > section > nav > ul > li:nth-child(1) > a {background-position: 0 -150px;}
