@@ -13,6 +13,16 @@
         SELECT `ordNo` FROM `km_product_order` WHERE `ordUid` = #{ordUid} ORDER BY `ordDate` DESC LIMIT 1;
     </select>
 
+    <sql id="searchProducts">
+        SELECT *
+        FROM `km_product` AS a
+        JOIN `km_product_cate1` AS b
+        ON a.prodCate1=b.cate1
+        WHERE a.sale=1 AND a.prodName LIKE '%#{keyword}%'
+    </sql>
+
+    <
+
     <update id="increaseProductHitByProdNo">
         UPDATE `km_product` SET `hit`=`hit`+1 WHERE `prodNo`=#{prodNo};
     </update>
