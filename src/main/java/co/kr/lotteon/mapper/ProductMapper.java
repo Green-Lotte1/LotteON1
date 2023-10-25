@@ -1,15 +1,22 @@
 package co.kr.lotteon.mapper;
 
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.dto.product.ItemDTO;
+import co.kr.lotteon.dto.product.ProdCate1DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.product.ProductEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 @Mapper
 public interface ProductMapper {
 
+    @Autowired
+    MemberDTO MEMBER_DTO();
+    @Autowired
+    ProdCate1DTO PROD_CATE_1_DTO();
     /*
     public ProductEntity selectProduct(int prodNo);
 */
