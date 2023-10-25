@@ -382,15 +382,17 @@ public class ProductService {
     ///////////////// PRODUCT SEARCH
     ////////////////////////////////////////////////////////////////////
 
-    public PageResponseDTO searchProducts(PageRequestDTO pageRequestDTO){
+    public PageResponseDTO searchProducts(PageRequestDTO pageRequestDTO, int start){
         log.info("searchProductsTEST here...1");
         log.info("TEST: "+pageRequestDTO.getKeyword());
         log.info("TEST: "+pageRequestDTO.getProdCate1());
         log.info("TEST: "+pageRequestDTO.getType());
 
-        List<ProductDTO> productTEST = productMapper.search(pageRequestDTO.getKeyword());
+        List<ProductDTO> productTEST = productMapper.search(pageRequestDTO.getKeyword(),
+                                                            pageRequestDTO.getProdCate1(),
+                                                            pageRequestDTO.getType(),
+                                                            start);
 
-        //ProductDTO productTEST = productMapper.search(pageRequestDTO.getKeyword(), pageRequestDTO.getProdCate1(), pageRequestDTO.getType());
         log.info("searchProductsTEST here...2");
         log.info("productTEST: "+productTEST.toString());
         Pageable pageable = pageRequestDTO.getPageable("prodNo");
@@ -403,65 +405,12 @@ public class ProductService {
         int prodCate1 = pageRequestDTO.getProdCate1();
         log.info("searchProducts: "+pageRequestDTO.getProdCate1());
 
-        ///// 현재 상품 페이지가 전체 상품 페이지가 아니라면
-        if (!(pageRequestDTO.getProdCate1() == 0)) {
-            log.info("searchProducts here...1");
-            switch (type){
-                case "default":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEquals(pageRequestDTO.getKeyword(), prodCate1, 1, pageable);
-                    break;
-                case "sold":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderBySoldDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
-                    break;
-                case "priceAsc":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByPriceAsc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
-                    break;
-                case "priceDesc":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByPriceDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
-                    break;
-                case "score":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByScoreDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
-                    break;
-                case "review":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByReviewDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
-                    break;
-                case "rdate":
-                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByRdateAsc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
-                    break;
-            }
 
-        ///// 현재 페이지가 전체 상품 리스트라면
-        }else if(pageRequestDTO.getProdCate1() == 0){
-            log.info("searchProducts here...2");
-            log.info("searchProducts type: "+pageRequestDTO.getType());
-            switch (type){
-                case "default":
-                    result = prodRepo.findByProdNameContainingAndSaleEquals(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-                case "sold":
-                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderBySoldDesc(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-                case "priceAsc":
-                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByPriceAsc(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-                case "priceDesc":
-                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByPriceDesc(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-                case "score":
-                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByScoreDesc(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-                case "review":
-                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByReviewDesc(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-                case "rdate":
-                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByRdateAsc(pageRequestDTO.getKeyword(), 1, pageable);
-                    break;
-            }
-        }
         productDTOList = result.getContent()
                                 .stream()
                                 .map(entity -> modelMapper.map(entity, ProductDTO.class))
                                 .toList();
+
         ///// 불러온 ProductDto의 총 갯수
         int totalElement = (int) result.getTotalElements();
         return PageResponseDTO.builder()
@@ -490,5 +439,64 @@ public class ProductService {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
         log.info("username : " + SecurityContextHolder.getContext().getAuthentication().getName());
         return username;
+    }
+
+
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PAGE
+    ////////////////////////////////////////////////////////////////////
+
+    public int selectSearchCountProducts(String keyword, int prodCate1){
+        return productMapper.selectSearchCountProducts(keyword, prodCate1);
+    }
+
+    public int getLastPageNum(int total) {
+
+        int lastPageNum = 0;
+
+        if(total % 10 == 0){
+            lastPageNum = total / 10;
+        }else{
+            lastPageNum = total / 10 + 1;
+        }
+
+        return lastPageNum;
+    }
+
+    // 페이지 그룹
+    public int[] getPageGroupNum(int currentPage, int lastPageNum) {
+        int currentPageGroup = (int)Math.ceil(currentPage / 10.0);
+        int pageGroupStart = (currentPageGroup - 1) * 10 + 1;
+        int pageGroupEnd = currentPageGroup * 10;
+
+        if(pageGroupEnd > lastPageNum){
+            pageGroupEnd = lastPageNum;
+        }
+
+        int[] result = {pageGroupStart, pageGroupEnd};
+
+        return result;
+    }
+
+    // 페이지 시작번호
+    public int getPageStartNum(int total, int currentPage) {
+        int start = (currentPage - 1) * 10;
+        return total - start;
+    }
+
+    // 현재 페이지 번호
+    public int getCurrentPage(Integer pg) {
+        int currentPage = 1;
+
+        if(pg != null){
+            currentPage = pg;
+        }
+
+        return currentPage;
+    }
+
+    // Limit 시작번호
+    public int getStartNum(int currentPage) {
+        return (currentPage - 1) * 10;
     }
 }

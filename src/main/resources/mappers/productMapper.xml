@@ -13,6 +13,11 @@
         SELECT `ordNo` FROM `km_product_order` WHERE `ordUid` = #{ordUid} ORDER BY `ordDate` DESC LIMIT 1;
     </select>
 
+    <select id="selectSearchCountProducts">
+        SELECT COUNT(*) FROM `km_product` WHERE a.sale=1 AND a.prodName LIKE CONCAT('%', #{keyword}, '%') AND `sale`=1
+        <if test="prodCate1 != '' and prodCate1 != null">WHERE `prodCate1`=#{prodCate1}</if>
+    </select>
+
     <!--SEARCH QUERY 공통 부분-->
     <sql id="searchProductsSame">
         SELECT *
@@ -22,7 +27,7 @@
         WHERE a.sale=1 AND a.prodName LIKE CONCAT('%', #{keyword}, '%')
     </sql>
 
-    <select id="search" resultType="co.kr.lotteon.dto.product.ProductDTO">
+    <select id="search" resultMap="productResultMap">
         <include refid="searchProductsSame"></include>
         <if test="prodCate1 != '' and prodCate1 != null">
             AND a.prodCate1=#{prodCate1}
@@ -33,10 +38,11 @@
         <if test="type == 'score'">ORDER BY a.`score` DESC</if>
         <if test="type == 'review'">ORDER BY a.`review` DESC</if>
         <if test="type == 'rdate'">ORDER BY a.`rdate` ASC</if>
+        <if test="start != '' and start != null">LIMIT #{start}, 10</if>
     </select>
 
 
-    <!--<resultMap id="productResultMap" type="co.kr.lotteon.dto.product.ProductDTO">
+    <resultMap id="productResultMap" type="co.kr.lotteon.dto.product.ProductDTO">
         <id property="prodNo" column="prodNo"/>
         <result property="prodCate2" column="prodCate2"/>
         <result property="prodName" column="prodName"/>
@@ -55,10 +61,6 @@
         <result property="thumb2" column="thumb2"/>
         <result property="thumb3" column="thumb3"/>
         <result property="detail" column="detail"/>
-        <result property="fileThumb1" column="fileThumb1"/>
-        <result property="fileThumb2" column="fileThumb2"/>
-        <result property="fileThumb3" column="fileThumb3"/>
-        <result property="fileDetail" column="fileDetail"/>
         <result property="status" column="status"/>
         <result property="duty" column="duty"/>
         <result property="receipt" column="receipt"/>
@@ -94,6 +96,7 @@
         <result property="addr1" column="addr1"/>
         <result property="addr2" column="addr2"/>
         <result property="company" column="company"/>
+        <result property="ceo" column="ceo"/>
         <result property="bizRegNum" column="bizRegNum"/>
         <result property="comRegNum" column="comRegNum"/>
         <result property="tel" column="tel"/>
@@ -108,7 +111,7 @@
         <result property="etc3" column="etc3"/>
         <result property="etc4" column="etc4"/>
         <result property="etc5" column="etc5"/>
-    </resultMap>-->
+    </resultMap>
 
 
     <update id="increaseProductHitByProdNo">
