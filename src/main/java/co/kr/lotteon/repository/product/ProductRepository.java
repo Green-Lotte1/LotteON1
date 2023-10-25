@@ -83,6 +83,19 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     // return 배포 할 때 / 넣기로
 
     /*@Query("SELECT p FROM ProductEntity p WHERE p.prodName LIKE %:keyword%")*/
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEquals(String keyword, int prodCate1, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderBySoldDesc(String keyword, int prodCate1, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByPriceAsc(String keyword, int prodCate1, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByPriceDesc(String keyword, int prodCate1, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByScoreDesc(String keyword, int prodCate1, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByReviewDesc(String keyword, int prodCate1, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByRdateAsc(String keyword, int prodCate1, int sale,Pageable pageable);
     public Page<ProductEntity> findByProdNameContainingAndSaleEquals(String keyword, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndSaleEqualsOrderBySoldDesc(String keyword, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndSaleEqualsOrderByPriceAsc(String keyword, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndSaleEqualsOrderByPriceDesc(String keyword, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndSaleEqualsOrderByScoreDesc(String keyword, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndSaleEqualsOrderByReviewDesc(String keyword, int sale,Pageable pageable);
+    public Page<ProductEntity> findByProdNameContainingAndSaleEqualsOrderByRdateAsc(String keyword, int sale,Pageable pageable);
 
 }

@@ -68,30 +68,24 @@ public class ProductService {
         ///// ProductEntity 전체를 담을 result 생성
         Page<ProductEntity> result = null;
         log.info("prodService type : "+type);
-        String nav = "히트 상품";
 
         ///// 현재 페이지가 전체 상품 리스트라면
         if (cate1 == 1 && cate2 == 1) {
             switch (type){
                 case "hit":
                     result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByHitDesc(1, 1, pageable);
-                    nav = "히트 상품";
                     break;
                 case "recommend":
                     result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByScoreDesc(1, 1, pageable);
-                    nav = "추천 상품";
                     break;
                 case "latest":
                     result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByRdateAsc(1, 1, pageable);
-                    nav = "최신 상품";
                     break;
                 case "hot":
                     result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderBySoldDesc(1, 1, pageable);
-                    nav = "인기 상품";
                     break;
                 case "discount":
                     result = prodRepo.findByStockGreaterThanEqualAndSaleEqualsOrderByDiscountDesc(1, 1, pageable);
-                    nav = "할인 상품";
                     break;
             }
         ///// 현재 상품 페이지가 전체 상품 페이지가 아니라면
@@ -392,14 +386,73 @@ public class ProductService {
 
         Pageable pageable = pageRequestDTO.getPageable("prodNo");
         List<ProductDTO> productDTOList = new ArrayList<>();
+        Page<ProductEntity> result = null;
 
-        Page<ProductEntity> result = prodRepo.findByProdNameContainingAndSaleEquals(pageRequestDTO.getKeyword(), 1, pageable);
-
-        productDTOList = result.getContent()
-                                                .stream()
-                                                .map(entity -> modelMapper.map(entity, ProductDTO.class))
-                                                .toList();
         log.info("searchProductsByName Service: "+productDTOList.toString());
+
+        String type = pageRequestDTO.getType();
+        int prodCate1 = pageRequestDTO.getProdCate1();
+        log.info("searchProducts: "+pageRequestDTO.getProdCate1());
+
+        ///// 현재 상품 페이지가 전체 상품 페이지가 아니라면
+        if (!(pageRequestDTO.getProdCate1() == 0)) {
+            log.info("searchProducts here...1");
+            switch (type){
+                case "default":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEquals(pageRequestDTO.getKeyword(), prodCate1, 1, pageable);
+                    break;
+                case "sold":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderBySoldDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
+                    break;
+                case "priceAsc":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByPriceAsc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
+                    break;
+                case "priceDesc":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByPriceDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
+                    break;
+                case "score":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByScoreDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
+                    break;
+                case "review":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByReviewDesc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
+                    break;
+                case "rdate":
+                    result = prodRepo.findByProdNameContainingAndProdCate1EqualsAndSaleEqualsOrderByRdateAsc(pageRequestDTO.getKeyword(), prodCate1,1, pageable);
+                    break;
+            }
+
+        ///// 현재 페이지가 전체 상품 리스트라면
+        }else if(pageRequestDTO.getProdCate1() == 0){
+            log.info("searchProducts here...2");
+            log.info("searchProducts type: "+pageRequestDTO.getType());
+            switch (type){
+                case "default":
+                    result = prodRepo.findByProdNameContainingAndSaleEquals(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+                case "sold":
+                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderBySoldDesc(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+                case "priceAsc":
+                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByPriceAsc(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+                case "priceDesc":
+                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByPriceDesc(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+                case "score":
+                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByScoreDesc(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+                case "review":
+                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByReviewDesc(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+                case "rdate":
+                    result = prodRepo.findByProdNameContainingAndSaleEqualsOrderByRdateAsc(pageRequestDTO.getKeyword(), 1, pageable);
+                    break;
+            }
+        }
+        productDTOList = result.getContent()
+                                .stream()
+                                .map(entity -> modelMapper.map(entity, ProductDTO.class))
+                                .toList();
         ///// 불러온 ProductDto의 총 갯수
         int totalElement = (int) result.getTotalElements();
         return PageResponseDTO.builder()
