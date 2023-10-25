@@ -19,7 +19,7 @@ public class ProductMapperTest {
     public void search(){
 
 
-        List<ProductDTO> result  = productMapper.search("50", 10, "priceAsc");
+        List<ProductDTO> result  = productMapper.search("50", 10, "default", 1);
 
 
 

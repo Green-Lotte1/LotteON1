@@ -385,8 +385,31 @@ public class ProductController {
         layout(model, request);
         log.info("search here...2");
         /*String type = */
-        PageResponseDTO pageResponseDTO = prodService.searchProducts(pageRequestDTO);
+        // 페이징 처리 영역 *************************************************
+        int total = 0;
+        int pg = pageRequestDTO.getPg();
+        // 현재 페이지 번호
+        int currentPage = prodService.getCurrentPage(pg);
+        total = prodService.selectSearchCountProducts(pageRequestDTO.getKeyword(), pageRequestDTO.getProdCate1());
 
+        // 마지막 페이지 번호
+        int lastPageNum = prodService.getLastPageNum(total);
+
+        // 페이지 그룹 start, end 번호
+        int[] result = prodService.getPageGroupNum(currentPage, lastPageNum);
+
+        // 페이지 시작번호
+        int pageStartNum = prodService.getPageStartNum(total, currentPage);
+
+        // 시작 인덱스
+        int start = prodService.getStartNum(currentPage);
+
+        PageResponseDTO pageResponseDTO = prodService.searchProducts(pageRequestDTO, start);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("lastPageNum", lastPageNum);
+        model.addAttribute("pageGroupStart", result[0]);
+        model.addAttribute("pageGroupEnd", result[1]);
+        model.addAttribute("pageStartNum", pageStartNum+1);
         model.addAttribute("products", pageResponseDTO);
         /*model.addAttribute("pageRequestDTO", pageRequestDTO);*/
 

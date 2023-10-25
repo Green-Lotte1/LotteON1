@@ -30,10 +30,10 @@ public interface ProductMapper {
     public void minusStock(int prodNo, int count);
 
 
-    public List<ProductDTO> search(String keyword);
 
-    public List<ProductDTO> search(String keyword, int prodCate1);
 
-    public List<ProductDTO> search(String keyword, int prodCate1, String type);
+    public List<ProductDTO> search(String keyword, int prodCate1, String type, int start);
+
+    public int selectSearchCountProducts(String keyword, int prodCate1);
 
 }
