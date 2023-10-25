@@ -134,19 +134,14 @@
 
                     <button type="button" class="deleteProduct">선택삭제</button>
 
-
                     <div class="paging">
                         <span class="prev">
                             <a href="#">&nbsp;이전</a>
                         </span>
                         <span class="num">
-                            <a href="#" class="on">1</a>
-                            <a href="#">2</a>
-                            <a href="#">3</a>
-                            <a href="#">4</a>
-                            <a href="#">5</a>
-                            <a href="#">6</a>
-                            <a href="#">7</a>
+                            <th:block th:each="num : ${#numbers.sequence(1,lastPageNum)}">
+                                <a th:href="@{/admin/product/list(pg=${num})}">[[${num}]]</a>
+                            </th:block>
                         </span>
                         <span class="next">
                             <a href="#">다음&nbsp;></a>

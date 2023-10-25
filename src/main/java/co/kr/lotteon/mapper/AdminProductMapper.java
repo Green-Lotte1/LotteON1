@@ -2,7 +2,6 @@ package co.kr.lotteon.mapper;
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
 import co.kr.lotteon.dto.product.ProdCate2DTO;
-import co.kr.lotteon.dto.product.ProductDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -11,10 +10,11 @@ import java.util.List;
 public interface AdminProductMapper {
 
 
-   public static List<AdminProductDTO> selectPageProducts(int start) {
+   public List<AdminProductDTO> selectPageProducts(int start);
 
-       return AdminProductMapper.selectPageProducts(start);
-    }
+
+   public int selectProductCountTotal();
+
 
     public void insertProduct(AdminProductDTO dto);
     public AdminProductDTO selectProduct(int prodNo);
@@ -30,5 +30,8 @@ public interface AdminProductMapper {
     public List<AdminProductDTO> SearchProductSeller(String seller);
 
     public List<ProdCate2DTO> selectProductCate(int cate1);
+
+
+
 
 }

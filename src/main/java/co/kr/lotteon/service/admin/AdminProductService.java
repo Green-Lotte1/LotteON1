@@ -3,7 +3,6 @@ package co.kr.lotteon.service.admin;
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
 import co.kr.lotteon.dto.product.ProdCate2DTO;
-import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.mapper.AdminProductMapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,21 +138,25 @@ public class AdminProductService {
 
 
 //페이징
-    public static List<AdminProductDTO> selectPageProducts(int start) {
-        return AdminProductMapper.selectPageProducts(start);
+    public List<AdminProductDTO> selectPageProducts(int start) {
+        return adminProductMapper.selectPageProducts(start);
     }
 
-    public static int selectProductCountTotal() {
-        return AdminProductService.selectProductCountTotal();
+    public int selectProductCountTotal() {
+
+
+        int pg = adminProductMapper.selectProductCountTotal();
+        log.info("페이징=================="+pg);
+        return pg;
     }
 
     // 페이지 마지막 번호
-    public int getLastPageNum() {
+   /* public int getLastPageNum() {
         return getLastPageNum(0);
-    }
+    }*/
 
     // 페이지 마지막 번호
-    public static int getLastPageNum(int total) {
+    public int getLastPageNum(int total) {
 
         int lastPageNum = 0;
 
@@ -176,16 +179,19 @@ public class AdminProductService {
             pageGroupEnd = lastPageNum;
         }
 
+        log.info("getPageGroupNum : " );
+
         int[] result = {pageGroupStart, pageGroupEnd};
 
         return result;
     }
 
-    // 페이지 시작번호
+   /* // 페이지 시작번호
     public int getPageStartNum(int total, int currentPage) {
         int start = (currentPage - 1) * 10;
         return total - start;
     }
+*/
 
     // 현재 페이지 번호
     public static int getCurrentPage(String pg) {
@@ -194,83 +200,15 @@ public class AdminProductService {
         if(pg != null){
             currentPage = Integer.parseInt(pg);
         }
-
+    log.info("getCurrentPage : " );
         return currentPage;
     }
 
+
     // Limit 시작번호
-    public static int getStartNum(int currentPage) {
+    public int getStartNum(int currentPage) {
         return (currentPage - 1) * 10;
     }
 
+
 }
-
-
-
-
-
-
-/*
-
-    public ProductDTO registerProduct(ProductDTO productDTO){
-
-        log.info("register...2 : " + productDTO);
-        log.info("register...3 : " + productDTO);
-
-        return null;
-    }
-
-    @Value("${spring.servlet.multipart.location}")
-    private String filePath;
-
-    public void fileUpload(ProductDTO dto) {
-
-        log.info("fileUpload...1");
-        // multipartFile에 초기화
-        List<MultipartFile> files = new ArrayList<>();
-        files.add(dto.getThumb1());
-        files.add(dto.getThumb2());
-        files.add(dto.getThumb3());
-        files.add(dto.getDetail());
-        log.info("fileUpload...2");
-        fileUpload(files, dto);
-        log.info("END");
-
-    }
-
-    public void fileUpload(List<MultipartFile> files, ProductDTO dto) {
-        // 파일이 존재할 때.
-        if(!files.isEmpty()){
-
-            // 파일 첨부 경로
-            String path = new File(filePath).getAbsolutePath();
-            log.info("fileUpload...3 : " + path);
-
-            for (MultipartFile file:files) {
-                // 파일명 변경
-                String oName = file.getOriginalFilename();
-                String ext = oName.substring(oName.lastIndexOf("."));
-                String sName = UUID.randomUUID().toString() + ext;
-                log.info("fileUpload...4 : " + oName);
-
-                //String newPathName = "/" + dto.getProdCate1().getCate1() + "/" + dto.getProdCate2() +"/"+sName;
-                String newPathName = "/";
-
-                try {
-                    log.info("fileUpload...5");
-                    // 업로드 파일에 saveFile이라는 껍데기 입힘
-                    file.transferTo(new File(newPathName, sName)); // 저장할 폴더 이름, 저장할 파일 이름
-                    log.info("fileUpload...6");
-                } catch (IOException e) {
-                    log.error(e.getMessage());
-                }
-                log.info("fileUpload...7");
-            }
-        }
-        log.info("fileUpload...8");
-    }
-
-    public ProdCate1Entity select_Cate1(int prodCate1) {
-        ProdCate1Entity entity = prodCate1Repository.findById(prodCate1).orElse(null);
-        return null;
-    }   */

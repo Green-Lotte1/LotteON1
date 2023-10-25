@@ -1,7 +1,8 @@
 package co.kr.lotteon.controller.admin;
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
-import co.kr.lotteon.dto.cs.PageRequestDTO;
+import co.kr.lotteon.dto.product.PageRequestDTO;
+import co.kr.lotteon.dto.product.PageResponseDTO;
 import co.kr.lotteon.dto.product.ProdCate2DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.service.admin.AdminProductService;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +37,10 @@ public class AdminProductController {
     @Value("${spring.servlet.multipart.location}")
     private String filePath;
 
-    /*@GetMapping("/admin/product/list")
-    public String productList(Model model, PageRequestDTO pageRequestDTO){
+
+    /////////// list paging
+   /* @GetMapping("/admin/product/list")
+    public String productList(Model model, PageRequestDTO productPageRequestDTO){
 
         List<AdminProductDTO> productDTOList = adminProductService.selectProducts();
         model.addAttribute("adminproducts" , productDTOList );
@@ -102,21 +106,40 @@ public class AdminProductController {
             adminProductService.deleteProduct(Integer.parseInt(prodNo));
         }
 
-        return prodNos;    }
+        return prodNos;
+    }
 
-// 페이징
+    // 페이징
 
     @GetMapping("/admin/product/list")
     public String list(Model model, String pg) {
 
-        int total = AdminProductService.selectProductCountTotal();
-        int lastPageNum = AdminProductService.getLastPageNum(total);
-        int currentPg = AdminProductService.getCurrentPage(pg);
-        int start = AdminProductService.getStartNum(currentPg);
+        log.info("컨트롤러 1=====================================");
+
+        int total = adminProductService.selectProductCountTotal();
+
+        log.info("컨트롤러 토탈========================"+total);
+
+        int lastPageNum = adminProductService.getLastPageNum(total);
+
+        log.info("컨트롤러 토탈========================"+lastPageNum);
+
+        int currentPg = adminProductService.getCurrentPage(pg);
+
+        log.info("컨트롤러 토탈========================"+currentPg);
+
+        int[] pageGroup =  adminProductService.getPageGroupNum(currentPg, lastPageNum);
+
+        log.info("페이지 그룹======================="+ Arrays.toString(pageGroup));
+
+        int start = adminProductService.getStartNum(currentPg);
+
+
+        log.info("컨트롤러 토탈========================"+start);
 
 
         // 상품 목록 출력
-        List<AdminProductDTO> products = AdminProductService.selectPageProducts(start);
+        List<AdminProductDTO> products = adminProductService.selectPageProducts(start);
 
         // 뷰(템플릿)에서 참조하기 위해 모델 참조
         model.addAttribute("products", products);
@@ -125,9 +148,6 @@ public class AdminProductController {
 
         return "/admin/product/list";
     }
-
-
-
 }
 
 
