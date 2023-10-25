@@ -47,7 +47,7 @@ public class MemberEntity {
     @CreationTimestamp
     private LocalDateTime rdate;
     private int location;
-    private int etc2;
+    private String ssn;
     private String etc3;
     private String etc4;
     private String etc5;
@@ -55,7 +55,7 @@ public class MemberEntity {
     public MemberDTO toDTO(){
         return MemberDTO.builder()
                 .uid(uid)
-                .pass(pass)
+                .pass("pass")
                 .name(name)
                 .gender(gender)
                 .hp(hp)
@@ -78,7 +78,7 @@ public class MemberEntity {
                 .wdate(wdate)
                 .rdate(rdate)
                 .location(location)
-                .etc2(etc2)
+                .ssn(ssn)
                 .etc3(etc3)
                 .etc4(etc4)
                 .etc5(etc5)

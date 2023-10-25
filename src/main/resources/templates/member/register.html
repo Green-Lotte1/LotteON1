@@ -59,6 +59,15 @@
 								</td>
 							</tr>
 							<tr>
+								<th><span class="essential">*</span>주민번호</th>
+								<td>
+									<input type="text" name="km_ssn1" placeholder="주민번호 앞자리 입력" th:maxlength="6"/> -
+									<input type="text" name="km_ssn2" placeholder="주민번호 뒷자리 입력" th:maxlength="7 "/>
+									<input type="hidden" name="ssn">
+									<span class="msgSsh"></span>
+								</td>
+							</tr>
+							<tr>
 								<th><span class="essential">*</span>EMAIL</th>
 								<td>
 									<input type="email" name="km_email" placeholder="이메일 입력" required th:field="*{email}" /> <br>
