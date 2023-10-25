@@ -346,7 +346,6 @@ public class ProductController {
         log.info("insertOrderController here...1");
         result = prodService.insertOrder(order);
         ordNo = prodService.selectLatestOrdNo();
-        prodService.insertPoint(ordNo, order.getSavePoint());
         prodService.minusMemberPoint(order.getUsedPoint());
 
         log.info("insertOrderController here...2");
