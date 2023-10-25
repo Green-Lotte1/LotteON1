@@ -62,9 +62,10 @@
 								<th><span class="essential">*</span>주민번호</th>
 								<td>
 									<input type="text" name="km_ssn1" placeholder="주민번호 앞자리 입력" th:maxlength="6"/> -
-									<input type="text" name="km_ssn2" placeholder="주민번호 뒷자리 입력" th:maxlength="7 "/>
-									<input type="hidden" name="ssn">
-									<span class="msgSsh"></span>
+									<input type="text" name="km_ssn2" placeholder="주민번호 뒷자리 입력" th:maxlength="7"/>
+									<span class="msgSsh">주민번호를 입력해주세요.</span>
+									<input type="hidden" name="ssn" th:field="*{ssn}" th:maxlength="14">
+									<span class="msgSsh1"></span>
 								</td>
 							</tr>
 							<tr>
@@ -105,8 +106,33 @@
 				</form>
 				<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 				<script th:src="@{/js/member/zipcode.js}"></script>
+				<script>
+					$(function () {
+						const ssn1 = $('input[name=km_ssn1]');
+						const ssn2 = $('input[name=km_ssn2]');
+
+						ssn1.on('input', function (){
+							const value1 = this.value;
+
+							ssnData()
+						});
+						ssn2.on('input', function (){
+							const value2 = this.value;
+
+							ssnData()
+						});
+						function ssnData(){
+							const ssn1value = ssn1.val();
+							const ssn2value = ssn2.val();
+
+							$('input[name=ssn]').val(ssn1value + '-' + ssn2value);
+						}
+
+					});
+				</script>
 				<script th:src="@{/js/member/validation.js}"></script>
 				<script th:src="@{/js/member/memberCheck.js}"></script>
+
             </div>
         </main>
     </div>    
