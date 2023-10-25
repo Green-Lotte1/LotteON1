@@ -26,6 +26,18 @@ public class PolicyTermsDTO {
     private String content;
 
 
+    public String getPolicyContent() {
+        if(content != null){
+            content = content
+                 .replace(" ", "&nbsp;")
+                 .replace("  ", "&Tab;")
+                 .replace("\r\n", "<br/>")
+                 .replace("\n", "<br/>");
+
+        }
+        return content;
+    }
+
         /*public String[] getTermsArr() {
             return terms.split("\n\n");
         }

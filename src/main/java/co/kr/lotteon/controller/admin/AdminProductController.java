@@ -35,13 +35,13 @@ public class AdminProductController {
     @Value("${spring.servlet.multipart.location}")
     private String filePath;
 
-    @GetMapping("/admin/product/list")
+    /*@GetMapping("/admin/product/list")
     public String productList(Model model, PageRequestDTO pageRequestDTO){
 
         List<AdminProductDTO> productDTOList = adminProductService.selectProducts();
         model.addAttribute("adminproducts" , productDTOList );
         return "/admin/product/list";
-    }
+    }*/
 
     @GetMapping("/admin/product/register")
     public String productRegister(){
@@ -103,6 +103,30 @@ public class AdminProductController {
         }
 
         return prodNos;    }
+
+// 페이징
+
+    @GetMapping("/admin/product/list")
+    public String list(Model model, String pg) {
+
+        int total = AdminProductService.selectProductCountTotal();
+        int lastPageNum = AdminProductService.getLastPageNum(total);
+        int currentPg = AdminProductService.getCurrentPage(pg);
+        int start = AdminProductService.getStartNum(currentPg);
+
+
+        // 상품 목록 출력
+        List<AdminProductDTO> products = AdminProductService.selectPageProducts(start);
+
+        // 뷰(템플릿)에서 참조하기 위해 모델 참조
+        model.addAttribute("products", products);
+        model.addAttribute("lastPageNum", lastPageNum);
+
+
+        return "/admin/product/list";
+    }
+
+
 
 }
 

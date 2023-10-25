@@ -113,7 +113,7 @@
                             <th>관리</th>
                         </tr>
 
-                        <tr th:each="product:${adminproducts}">
+                        <tr th:each="product:${products}">
                             <td><input type="checkbox" name="prod"/></td>
                             <td><img th:src="@{/thumbs/}+${product.prodCate1}+'/'+${product.prodCate2}+'/'+${product.thumb1}" class="thumb"></td>
                             <td>[[${product.prodNo}]]</td>

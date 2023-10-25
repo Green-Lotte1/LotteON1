@@ -136,7 +136,80 @@ public class AdminProductService {
         List<ProdCate2DTO> cates = adminProductMapper.selectProductCate(cate1);
         return cates;
     }
+
+
+//페이징
+    public static List<AdminProductDTO> selectPageProducts(int start) {
+        return AdminProductMapper.selectPageProducts(start);
+    }
+
+    public static int selectProductCountTotal() {
+        return AdminProductService.selectProductCountTotal();
+    }
+
+    // 페이지 마지막 번호
+    public int getLastPageNum() {
+        return getLastPageNum(0);
+    }
+
+    // 페이지 마지막 번호
+    public static int getLastPageNum(int total) {
+
+        int lastPageNum = 0;
+
+        if(total % 10 == 0){
+            lastPageNum = total / 10;
+        }else{
+            lastPageNum = total / 10 + 1;
+        }
+
+        return lastPageNum;
+    }
+
+    // 페이지 그룹
+    public int[] getPageGroupNum(int currentPage, int lastPageNum) {
+        int currentPageGroup = (int)Math.ceil(currentPage / 10.0);
+        int pageGroupStart = (currentPageGroup - 1) * 10 + 1;
+        int pageGroupEnd = currentPageGroup * 10;
+
+        if(pageGroupEnd > lastPageNum){
+            pageGroupEnd = lastPageNum;
+        }
+
+        int[] result = {pageGroupStart, pageGroupEnd};
+
+        return result;
+    }
+
+    // 페이지 시작번호
+    public int getPageStartNum(int total, int currentPage) {
+        int start = (currentPage - 1) * 10;
+        return total - start;
+    }
+
+    // 현재 페이지 번호
+    public static int getCurrentPage(String pg) {
+        int currentPage = 1;
+
+        if(pg != null){
+            currentPage = Integer.parseInt(pg);
+        }
+
+        return currentPage;
+    }
+
+    // Limit 시작번호
+    public static int getStartNum(int currentPage) {
+        return (currentPage - 1) * 10;
+    }
+
 }
+
+
+
+
+
+
 /*
 
     public ProductDTO registerProduct(ProductDTO productDTO){
