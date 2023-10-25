@@ -1,6 +1,7 @@
 package co.kr.lotteon.dto.cs;
 
 import co.kr.lotteon.dto.member.MemberDTO;
+import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.cs.CsEntity;
 import lombok.*;
 
@@ -25,6 +26,8 @@ public class CsDTO {
     private String title;
     private String content;
     private int hit;
+    private ProductDTO prodNo;
+    private String email;
     private LocalDateTime rdate;
 
     public String getBrContent() {
@@ -66,18 +69,26 @@ public class CsDTO {
     }
 
     public CsEntity toEntity() {
-        return CsEntity.builder()
+        CsEntity.CsEntityBuilder builder = CsEntity.builder()
                 .no(no)
                 .parent(parent)
                 .comment(comment)
                 .group(group.toEntity())
                 .cate1(cate1.toEntity())
-                .cate2(cate2.toEntity())
                 .uid(uid.toEntity())
                 .title(title)
                 .content(content)
                 .hit(hit)
-                .rdate(rdate)
-                .build();
+                .email(email)
+                .rdate(rdate);
+
+        if (cate2 != null) {
+            builder.cate2(cate2.toEntity());
+        }
+        if (prodNo != null) {
+            builder.prodNo(prodNo.toEntity());
+        }
+
+        return builder.build();
     }
 }

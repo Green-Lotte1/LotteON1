@@ -40,8 +40,9 @@ public class MyController {
     }
     @GetMapping("/my/qna")
     public String qna(Model model, PageRequestDTO pageRequestDTO){
-        pageRequestDTO.setUid(csService.loginStatus());
         model.addAttribute("myQna", csService.myQna(pageRequestDTO));
+
+        /* class="answerRow"의 display:none 상태를 풀면 답변을 볼 수 있음.*/
 
         return "/my/qna";
     }

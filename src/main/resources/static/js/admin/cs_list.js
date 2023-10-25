@@ -86,7 +86,7 @@ $(function() {
                             tr.append('<td><a href="#">[삭제]</a><br>'
                                 + '<a href="' + path + '/admin/cs/' + data.group + '/modify?'
                                 + (dto.cate1.cate1 ? 'cate1=' + dto.cate1.cate1 + '&' : '')
-                                + (selectCate2 != '2차유형' ? 'cate2=' + dto.cate2.cate2 + '&' : '')
+                                + (selectCate2 != '2차유형' ? 'cate2=' + (dto.cate2 == null ? '' : dto.cate2.cate2) + '&' : '')
                                 + 'no=' + dto.no + '">[수정]</a></td>');
 
                         } else if (data.group === 'qna') {
