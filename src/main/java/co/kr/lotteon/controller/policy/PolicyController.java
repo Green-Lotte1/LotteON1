@@ -36,8 +36,8 @@ public class PolicyController {
 
         mainService.appVersion(model);
 
-        //List<PolicyTermsDTO> dto =  policyService.getPolicyTermsList();
-        //model.addAttribute("selectPolicy",dto);
+        List<PolicyTermsDTO> dto =  policyService.selectPolicyBuyer();
+        model.addAttribute("selectPolicy",dto);
 
        /* List<PolicyTermsDTO> policyTermsDTOList = policyService.getPolicyTermsList();
         model.addAttribute("selectpolicy",policyTermsDTOList);
@@ -46,7 +46,7 @@ public class PolicyController {
         return "/policy/buyer";
     }
 
-    @GetMapping("/policy/privacy")
+    @GetMapping("/policy/finance")
     public String privacy (Model model, PageRequestDTO pageRequestDTO) {
 
         List<ProdCate1DTO> cate1 = productService.selectAllProdCate1();
@@ -56,10 +56,10 @@ public class PolicyController {
 
         mainService.appVersion(model);
 
-        //List<PolicyTermsDTO> dto =  policyService.getPolicyTermsList();
-        //model.addAttribute("selectPolicy",dto);
+        List<PolicyTermsDTO> dto =  policyService.selectPolicyFinance();
+        model.addAttribute("selectPolicy",dto);
 
-        return "/policy/privacy";
+        return "/policy/finance";
     }
 
     @GetMapping("/policy/location")
@@ -72,13 +72,13 @@ public class PolicyController {
 
         mainService.appVersion(model);
 
-        //List<PolicyTermsDTO> dto =  policyService.getPolicyTermsList();
-        //model.addAttribute("selectPolicy",dto);
+        List<PolicyTermsDTO> dto =  policyService.selectPolicyLocation();
+        model.addAttribute("selectPolicy",dto);
 
         return "/policy/location";
     }
 
-    @GetMapping("/policy/finance")
+    @GetMapping("/policy/privacy")
     public String finance (Model model, PageRequestDTO pageRequestDTO) {
 
         List<ProdCate1DTO> cate1 = productService.selectAllProdCate1();
@@ -88,10 +88,11 @@ public class PolicyController {
 
         mainService.appVersion(model);
 
-        //List<PolicyTermsDTO> dto =  policyService.getPolicyTermsList();
-        //model.addAttribute("selectPolicy",dto);
+        List<PolicyTermsDTO> dto =  policyService.selectPolicyPrivacy();
+        log.info(dto);
+        model.addAttribute("selectPolicy",dto);
 
-        return "/policy/finance";
+        return "/policy/privacy";
     }
 
     @GetMapping("/policy/seller")

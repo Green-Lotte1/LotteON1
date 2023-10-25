@@ -21,6 +21,10 @@ public class PolicyTermsDTO {
     private String privacy;
     private String seller;
 
+    // 추가필드
+    private String tit;
+    private String content;
+
 
         /*public String[] getTermsArr() {
             return terms.split("\n\n");

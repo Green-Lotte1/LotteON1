@@ -22,12 +22,37 @@ public class PolicyService {
     private PolicyMapper policyMapper;
 
 
+    public List<PolicyTermsDTO> selectPolicyBuyer() {
+
+        List<PolicyTermsDTO> terms = policyMapper.selectPolicyBuyer();
+
+        return terms;
+    }
+    public List<PolicyTermsDTO> selectPolicyFinance() {
+
+        List<PolicyTermsDTO> terms = policyMapper.selectPolicyFinance();
+
+        return terms;
+    }
+    public List<PolicyTermsDTO> selectPolicyLocation() {
+
+        List<PolicyTermsDTO> terms = policyMapper.selectPolicyLocation();
+
+        return terms;
+    }
+    public List<PolicyTermsDTO> selectPolicyPrivacy() {
+
+        List<PolicyTermsDTO> terms = policyMapper.selectPolicyPrivacy();
+
+        return terms;
+    }
     public List<PolicyTermsDTO> selectPolicySeller() {
 
         List<PolicyTermsDTO> terms = policyMapper.selectPolicySeller();
 
         return terms;
     }
+
 
 }
 

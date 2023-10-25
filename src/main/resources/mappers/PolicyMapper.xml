@@ -4,9 +4,40 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="co.kr.lotteon.mapper.PolicyMapper">
 
-    
-    <select id="selectPolicySeller" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
-        SELECT `tno`, `seller` FROM `km_member_terms1`;
+    <select id="selectPolicyBuyer" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
+        SELECT
+            `tno`,
+            SUBSTRING_INDEX(`Buyer`, '\r\n', 1) AS `tit`,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(`seller`, '\r\n', 2), '\r\n', -1) AS `content`
+        FROM `km_member_terms1`;
     </select>
-
+    <select id="selectPolicyFinance" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
+        SELECT
+            `tno`,
+            SUBSTRING_INDEX(`Finance`, '\r\n', 1) AS `tit`,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(`seller`, '\r\n', 2), '\r\n', -1) AS `content`
+        FROM `km_member_terms1`;
+    </select>
+    <select id="selectPolicyLocation" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
+        SELECT
+            `tno`,
+            SUBSTRING_INDEX(`Location`, '\r\n', 1) AS `tit`,
+            SUBSTRING_INDEX(SUBSTRING_INDEX(`seller`, '\r\n', 2), '\r\n', -1) AS `content`
+        FROM `km_member_terms1`;
+    </select>
+    <select id="selectPolicyPrivacy" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
+        SELECT
+        `tno`,
+        SUBSTRING_INDEX(`seller`, '\r\n', 1) AS `tit`,
+        SUBSTRING(`privacy`, CHAR_LENGTH(SUBSTRING_INDEX(`seller`, '\r\n', 1))+1)
+        FROM `km_member_terms1`;
+    </select>
+    <select id="selectPolicySeller" resultType="co.kr.lotteon.dto.policy.PolicyTermsDTO">
+        SELECT
+            `tno`,
+            SUBSTRING_INDEX(`seller`, '\r\n', 1) AS `tit`,
+            SUBSTRING(`seller`, CHAR_LENGTH(SUBSTRING_INDEX(`seller`, '\r\n', 1))+1) AS `content`
+        FROM `km_member_terms1`;
+    </select>
 </mapper>
+<!--나중에 관리자 약관 등록 form 에서는 <br> </br>태그가 들어가는데 그 때는  '\r\n' 대신 br로 개행처리한다-->
