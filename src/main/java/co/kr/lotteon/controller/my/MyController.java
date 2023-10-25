@@ -60,12 +60,7 @@ public class MyController {
     }
     @GetMapping("/my/qna")
     public String qna(Model model, PageRequestDTO pageRequestDTO){
-        PageResponseDTO page = csService.myQna(pageRequestDTO);
-        log.info("output result : ", page.getCsList());
-        model.addAttribute("myQna", page);
-
-        /*th:if="${list.comment > 0}"*/
-        /* class="answerRow"의 display:none 상태를 풀면 답변을 볼 수 있음.*/
+        model.addAttribute("myQna", csService.myQna(pageRequestDTO));
 
         return "/my/qna";
     }

@@ -55,6 +55,12 @@ public class CsService {
                 .collect(Collectors.toList());
     }
 
+    public List<CsDTO> convertToCs2(Page<CsDTO> dtos) {
+        return dtos.stream()
+                .map(dto -> modelMapper.map(dto, CsDTO.class))
+                .collect(Collectors.toList());
+    }
+
     public List<CsCate1DTO> convertToCate1(List<CsCate1Entity> entities) {
         return entities.stream()
                 .map(entity -> modelMapper.map(entity, CsCate1DTO.class))
@@ -482,11 +488,11 @@ public class CsService {
         Pageable pageable = pageRequestDTO.getPageable("no");
 
         Page<CsEntity> page = csRepository.findByMyQna(loginStatus(), pageable);
-        log.info(" - page : " + page);
+        log.info(" - tatalPages : " + page.getTotalPages());
         List<CsDTO> dtoList = convertToCs(page);
-        log.info(" - dtoList : " + dtoList);
         int totalElement = (int) page.getTotalElements();
         log.info(" - totalElment : " + totalElement);
+        log.info(" - dtoList : " + dtoList);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)

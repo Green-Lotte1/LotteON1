@@ -10,6 +10,31 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
+@SqlResultSetMapping(
+    name = "answerMapping",
+    classes = {
+        @ConstructorResult(
+            targetClass = CsDTO.class,
+            columns = {
+                @ColumnResult(name = "no",      type = Integer.class),
+                @ColumnResult(name = "parent",  type = Integer.class),
+                @ColumnResult(name = "comment", type = Integer.class),
+                @ColumnResult(name = "group",   type = String.class),
+                @ColumnResult(name = "cate1",   type = String.class),
+                @ColumnResult(name = "cate2",   type = String.class),
+                @ColumnResult(name = "uid",     type = String.class),
+                @ColumnResult(name = "title",   type = String.class),
+                @ColumnResult(name = "content", type = String.class),
+                @ColumnResult(name = "hit",     type = Integer.class),
+                @ColumnResult(name = "prodNo",  type = Integer.class),
+                @ColumnResult(name = "email",   type = String.class),
+                @ColumnResult(name = "rdate",   type = LocalDateTime.class),
+                @ColumnResult(name = "answer",  type = String.class),
+                @ColumnResult(name = "ansdate", type = LocalDateTime.class)
+            }
+        )
+    }
+)
 @Getter
 @Setter
 @AllArgsConstructor
