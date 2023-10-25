@@ -38,7 +38,7 @@ public class MemberDTO {
     private LocalDateTime wdate;
     private LocalDateTime rdate;
     private int location;
-    private String ssn;
+    private String birth;
     private String etc3;
     private String etc4;
     private String etc5;
@@ -46,9 +46,6 @@ public class MemberDTO {
     public String getUidMasking(){
         return uid.replaceAll("(?<=.{3})." , "*");
     }
-    /*public String getSsnMasking(){
-        return ssn.replaceAll("(?<=.{3})." , "*");
-    }*/
 
     public MemberEntity toEntity(){
         return MemberEntity.builder()
@@ -76,7 +73,7 @@ public class MemberDTO {
                 .wdate(wdate)
                 .rdate(rdate)
                 .location(location)
-                .ssn(ssn)
+                .birth(birth)
                 .etc3(etc3)
                 .etc4(etc4)
                 .etc5(etc5)
