@@ -16,19 +16,23 @@ import java.time.format.DateTimeFormatter;
 @Builder
 public class CsDTO {
 
-    private int no;
-    private int parent;
-    private int comment;
-    private CsGroupDTO group;
-    private CsCate1DTO cate1;
-    private CsCate2DTO cate2;
-    private MemberDTO uid;
-    private String title;
-    private String content;
-    private int hit;
-    private ProductDTO prodNo;
-    private String email;
-    private LocalDateTime rdate;
+    private    int             no;
+    private    int             parent;
+    private    int             comment;
+    private    CsGroupDTO      group;
+    private    CsCate1DTO      cate1;
+    private    CsCate2DTO      cate2;
+    private    MemberDTO       uid;
+    private    String          title;
+    private    String          content;
+    private    int             hit;
+    private    ProductDTO      prodNo;
+    private    String          email;
+    private    LocalDateTime   rdate;
+
+    // 추가필드
+    private    String          answer;
+    private    LocalDateTime   ansdate;
 
     public String getBrContent() {
         return content
@@ -66,6 +70,13 @@ public class CsDTO {
 
     public String getYyyyMMdd2() {
         return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    public String getYyyyMMddHHmmss() {
+        return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+    public String getYyyyMMddHHmmss2() {
+        return ansdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public CsEntity toEntity() {

@@ -28,44 +28,61 @@
                     </tr>
 
 
-                    <th:block th:each="list:${myQna}">
+                    <th:block th:each="list, num:${myQna.csList}">
                         <tr>
-                            <td class="no">4</td>
-                            <td class="channel"><!--[[${list.group == 'seller' ? '판매자 게시판' : '고객센터'}]]--></td>
-                            <td class="type">주문/결제</td>
+                            <td class="no">[[${myQna.total - ((myQna.pg - 1) * myQna.size) - num.index}]]</td>
+                            <td class="channel">[[${list.group.group == 'seller' ? '판매자 게시판' : '고객센터'}]]</td>
+                            <td class="type">[[${list.cate1.cate1_name}]]</td>
                             <td class="tit">
 
                                 <!--고객센터의 경우-->
-                                <a href="#">신용카드 결제 중 오류가 난 경우 어떻게 하나요?</a></td>
+                                <a th:if="${list.group.group ne 'seller'}" href="#"
+                                   th:utext="${list.brTitle}">
+                                    제목
+                                </a>
 
                                 <!--판매자 게시판 경우-->
-                                <ul>
-                                    <li class="prodName"><a href="#">상품명</a></li>
-                                    <li class="question"><a href="#">사이즈가 너무 작아요. 반품 요청합니다.</a></li>
+                                <ul th:if="${list.group.group eq 'seller'}">
+                                    <li class="prodName">
+                                        <a href="#">
+                                            [[${list.prodNo.prodName}]]
+                                        </a>
+                                    </li>
+                                    <li class="question">
+                                        <a th:utext="${list.brTitle}" href="#">
+                                            [[${list.answer}]]
+                                        </a>
+                                    </li>
                                 </ul>
 
-                            <td class="date">2024-12-12</td>
-                            <td class="status"><span class="answered">답변완료</span></td>
+                            </td>
+
+                            <td class="date">[[${list.yyyyMMdd}]]</td>
+                            <td class="status">
+                                <span th:classappend="${list.comment > 0 ? 'answered' : ''}">
+                                    [[${list.comment > 0 ? '답변완료' : '검토중'}]]
+                                </span>
+                            </td>
                         </tr>
 
-                        <tr class="answerRow" >
+                        <tr class="answerRow" th:if="${list.comment > 0}">
                             <td colspan="6">
                                 <div class="question">
                                     <p class="tit">
-                                        사이즈가 너무 작아요. 반품 요청합니다.
-                                        <span class="date">2022-12-16 10:08:25</span>
+                                        [[${list.title}]]
+                                        <span class="date">[[${list.yyyyMMddHHmmss}]]</span>
                                     </p>
                                     <p class="content">
-                                        반품 해주세요.
+                                        [[${list.content}]]
                                     </p>
                                 </div>
                                 <div class="answer">
                                     <p class="tit">
                                         반품 문의 답변입니다.
-                                        <span class="date">2022-12-17 10:08:25</span>
+                                        <span class="date">${list.yyyyMMddHHmmss}</span>
                                     </p>
                                     <p class="content">
-                                        반품 안돼요.
+                                        [[${list.answer}]]
                                     </p>
                                 </div>
                             </td>
