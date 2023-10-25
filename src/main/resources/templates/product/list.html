@@ -24,6 +24,9 @@
 
             <!-- 상품목록 -->
             <table border="0">
+                <tr class="empty" th:if="${#lists.isEmpty(products.dtoList)}">
+                    <td colspan="7">등록된 상품이 없습니다.</td>
+                </tr>
                 <tr th:each="product:${products.dtoList}">
                     <td><a th:href="@{/product/view(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2},prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지"/></a></td>
                     <td>
@@ -50,7 +53,7 @@
             </table>
 
             <!-- 상품목록 페이지번호 -->
-            <div class="paging">
+            <div class="paging" th:if="${not #lists.isEmpty(products.dtoList)}">
                 <span>
                   <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type=${pageRequestDTO.type}, pg=${pageResponseDTO.start-1})}"
                      class="prev" th:if="${pageResponseDTO.prev}"><&nbsp;이전</a>

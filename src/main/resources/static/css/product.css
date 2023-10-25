@@ -124,7 +124,12 @@
     color: red;
     font-weight: bold;
 }
-
+#product > .list .empty td {
+  padding: 50px 0 !important;
+  text-align: center;
+  color: #777 !important;
+  font-weight: bold;
+}
 #product > .list > table {
   width: 100%;
   height: auto;
@@ -274,6 +279,10 @@ main > section > section > article > a > .thumb > img {
 
 /* view : 제품주문상세페이지 */
 #product > .view {}
+#product > .view > .viewNav strong{
+    font-weight: bold;
+    color: red;
+}
 #product > .view > article {
     width: 100%;
     height: auto;
@@ -828,6 +837,7 @@ main > section > section > article > a > .thumb > img {
   text-align: center;
   color: #777 !important;
 }
+
 #product > .cart > form > table td {
   text-align: center;
 }
@@ -1311,6 +1321,10 @@ main > section > section > article > a > .thumb > img {
 
 /* 상품검색 페이지 */
 #product > .search {}
+#product > .search > .searchNav strong{
+    font-weight: bold;
+    color: red;
+}
 #product > .search > .group {
   width: 100%;
   margin: 16px 0;
@@ -1344,7 +1358,7 @@ main > section > section > article > a > .thumb > img {
   padding: 0 10px;
 }
 
-#product > .search > .group > form > input[type=submit] {
+#product > .search > .group > form > input[type=button] {
   height: 32px;
   padding: 0 5px;
   font-weight: bold;
@@ -1457,7 +1471,7 @@ main > section > section > article > a > .thumb > img {
   vertical-align: text-bottom;
   width: 55px;
   height: 13px;
-  background: url('../images/ico_free_delivery.gif') no-repeat;
+  background: url('../images/product/ico_free_delivery.gif') no-repeat;
   margin-top: 4px;
 }
 
