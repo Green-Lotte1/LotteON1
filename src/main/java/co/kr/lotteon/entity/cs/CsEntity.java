@@ -10,7 +10,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
-@SqlResultSetMapping(
+/*@SqlResultSetMapping(
     name = "answerMapping",
     classes = {
         @ConstructorResult(
@@ -34,7 +34,7 @@ import java.time.LocalDateTime;
             }
         )
     }
-)
+)*/
 @Getter
 @Setter
 @AllArgsConstructor
@@ -81,6 +81,26 @@ public class CsEntity {
     private LocalDateTime rdate;
 
 
+    // 추가필드
+    @Transient
+    private String answer;
+    @Transient
+    private LocalDateTime ansdate;
+
+    public String getAnswer() {
+        return answer;
+    }
+    public void setAnswer(String answer) {
+        this.answer = answer;
+    }
+    public LocalDateTime getAnsDate() {
+        return ansdate;
+    }
+    public void setAnsdate(LocalDateTime ansdate) {
+        this.ansdate = ansdate;
+    }
+
+
     public CsDTO toDTO() {
         CsDTO.CsDTOBuilder builder = CsDTO.builder()
                 .no(no)
@@ -100,6 +120,12 @@ public class CsEntity {
         }
         if (prodNo != null) {
             builder.prodNo(prodNo.toDTO());
+        }
+        if (answer != null) {
+            builder.answer(answer);
+        }
+        if (ansdate != null) {
+            builder.ansdate(ansdate);
         }
 
         return builder.build();
