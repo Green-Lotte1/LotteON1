@@ -1,6 +1,7 @@
 package co.kr.lotteon.controller.my;
 
 import co.kr.lotteon.dto.cs.PageRequestDTO;
+import co.kr.lotteon.dto.cs.PageResponseDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.cs.CsService;
@@ -59,8 +60,11 @@ public class MyController {
     }
     @GetMapping("/my/qna")
     public String qna(Model model, PageRequestDTO pageRequestDTO){
-        model.addAttribute("myQna", csService.myQna(pageRequestDTO));
+        PageResponseDTO page = csService.myQna(pageRequestDTO);
+        log.info("output result : ", page.getCsList());
+        model.addAttribute("myQna", page);
 
+        /*th:if="${list.comment > 0}"*/
         /* class="answerRow"의 display:none 상태를 풀면 답변을 볼 수 있음.*/
 
         return "/my/qna";

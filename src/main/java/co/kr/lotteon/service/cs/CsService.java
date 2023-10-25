@@ -482,7 +482,9 @@ public class CsService {
         Pageable pageable = pageRequestDTO.getPageable("no");
 
         Page<CsEntity> page = csRepository.findByMyQna(loginStatus(), pageable);
+        log.info(" - page : " + page);
         List<CsDTO> dtoList = convertToCs(page);
+        log.info(" - dtoList : " + dtoList);
         int totalElement = (int) page.getTotalElements();
         log.info(" - totalElment : " + totalElement);
 

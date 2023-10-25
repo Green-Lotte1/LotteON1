@@ -1,7 +1,15 @@
 $(function() {
-    $('.tit a').click(function(e) {
-        e.preventDefault(); // 기본 클릭 동작(링크 이동)을 막습니다.
+    $('.tit').off('click').on('click', function(e) {
+        e.preventDefault();
+
         var $answerRow = $(this).closest('tr').next('.answerRow');
-        $answerRow.toggle();
+        var displayStyle = $answerRow.css('display');
+        console.log(' current display : ' + displayStyle);
+
+        if(displayStyle === 'none') {
+            $answerRow.css('display', 'table-row');
+        }else {
+            $answerRow.css('display', 'none');
+        }
     });
 });
