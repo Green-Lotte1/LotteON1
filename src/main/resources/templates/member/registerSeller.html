@@ -105,8 +105,9 @@
 								<td>
 									<input type="text" name="km_ssn1" placeholder="주민번호 앞자리 입력" th:maxlength="6"/> -
 									<input type="text" name="km_ssn2" placeholder="주민번호 뒷자리 입력" th:maxlength="7"/>
-									<input type="hidden" name="ssn">
-									<span class="msgSsh"></span>
+									<span class="msgSsh">주민번호를 입력해주세요.</span>
+									<input type="hidden" name="ssn" th:field="*{ssn}" th:maxlength="14">
+									<span class="msgSsh1"></span>
 								</td>
 							</tr>
 							<tr class="addr">
