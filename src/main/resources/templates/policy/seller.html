@@ -15,10 +15,14 @@
     </nav>
     <article class="selectPolicy">
         <h2>구매회원 이용약관</h2>
-        <p th:each="terms:${selectPolicy}" >
-            <span class="tit"  th:text="${#strings.setSplit(terms.seller, '\n')}"></span>
-            <span class="content"></span>
-        </p>
+            <p th:each="terms:${selectPolicy}">
+                <span class="tit" th:text="${terms.tit}"></span>
+                <span class="content" th:text="${terms.content}"></span>
+            </p>
     </article>
 </section>
 </html>
+
+
+
+

@@ -16,8 +16,8 @@
     <article class="selectPolicy">
         <h2>구매회원 이용약관</h2>
         <p th:each="terms:${selectPolicy}">
-            <span class="tit">제1조(목적)</span>
-            <span class="content" th:text="${terms.privacy}"></span>
+            <span class="tit" th:text="${terms.tit}"></span>
+            <span class="content" th:text="${terms.content}"></span>
         </p>
     </article>
 </section>
