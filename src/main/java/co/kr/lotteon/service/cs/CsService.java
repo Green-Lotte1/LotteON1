@@ -33,12 +33,12 @@ import java.util.stream.Collectors;
 @Service
 public class CsService {
 
-    private final ModelMapper modelMapper;
-    private final CsRepository csRepository;
-    private final CsGroupRepository groupRepository;
-    private final CsCate1Repository cate1Repository;
-    private final CsCate2Repository cate2Repository;
-    private final MemberRepository memberRepository;
+    private     final    ModelMapper            modelMapper;
+    private     final    CsRepository           csRepository;
+    private     final    CsGroupRepository      groupRepository;
+    private     final    CsCate1Repository      cate1Repository;
+    private     final    CsCate2Repository      cate2Repository;
+    private     final    MemberRepository       memberRepository;
 
     //////////////////////////////////
     // DTO <-> Entity Convert
@@ -138,7 +138,7 @@ public class CsService {
         log.info("indexList group : " + group);
 
         Page<CsEntity> entities = csRepository.findByGroupAndParent(group,0, pageable);
-        log.info("indexList entities : " + entities);
+        log.info("indexList entities : " + entities.getContent());
 
         if(entities != null) {
             log.info("indexList entities IS NOT NULL");
@@ -258,8 +258,11 @@ public class CsService {
 
     // 답변 출련하기
     public CsDTO findByParent(int parent) {
+        log.info("findByParent()...1");
         CsEntity entity = csRepository.findByParent(parent);
+        log.info("findByParent()...2");
         CsDTO dto = entity.toDTO();
+        log.info("findByParent()...3");
         return dto;
     }
 
@@ -487,7 +490,8 @@ public class CsService {
         log.info("myQna START~~~!!!!!!!!");
         Pageable pageable = pageRequestDTO.getPageable("no");
         log.info(" - 1. here...");
-        Page<CsEntity> entity = csRepository.findByMyQna(loginStatus(), pageable);
+        Page<CsEntity> entity =
+                csRepository.findByMyQna(loginStatus(), pageable);
         log.info(" - 2. entity : " + entity);
         int total = (int) entity.getTotalElements();
         log.info(" - 3. total  : " + total);

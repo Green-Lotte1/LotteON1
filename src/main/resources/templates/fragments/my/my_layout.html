@@ -202,16 +202,16 @@
                         <button class="btnClose">X</button>
                     </nav>
                     <section>
-                        <form action="#">
+                        <form id="qnaForm" th:action="/cs/qna(group='seller')" method="post">
                             <table border="0">
                                 <tr>
                                     <th>문의종류</th>
                                     <td class="kind">
-                                        <label><input type="radio" name="kind"/>상품</label>
-                                        <label><input type="radio" name="kind"/>배송</label>
-                                        <label><input type="radio" name="kind"/>반품/취소</label>
-                                        <label><input type="radio" name="kind"/>교환</label>
-                                        <label><input type="radio" name="kind"/>기타</label>
+                                        <label><input type="radio" name="kind" value="401"/>상품</label>
+                                        <label><input type="radio" name="kind" value="402"/>배송</label>
+                                        <label><input type="radio" name="kind" value="403"/>반품/취소</label>
+                                        <label><input type="radio" name="kind" value="404"/>교환</label>
+                                        <label><input type="radio" name="kind" value="405"/>기타</label>
                                     </td>
                                 </tr>
                                 <tr>

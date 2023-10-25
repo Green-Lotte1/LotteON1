@@ -5,6 +5,7 @@ import co.kr.lotteon.dto.cs.PageResponseDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.cs.CsService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -12,7 +13,9 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @Log4j2
 @Controller
@@ -59,12 +62,27 @@ public class MyController {
         return "/my/point";
     }
     @GetMapping("/my/qna")
-    public String qna(Model model, PageRequestDTO pageRequestDTO){
+    public String qna(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO){
         log.info("qna START~~~!!!!!!!!");
-        model.addAttribute("myQna", csService.myQna(pageRequestDTO));
+        model.addAttribute("myQna",
+                csService.myQna(pageRequestDTO));
+        model.addAttribute("path",
+                request.getContextPath());
+
 
         return "/my/qna";
     }
+
+    @ResponseBody
+    @RequestMapping(value = "/my/myQna", method = RequestMethod.POST)
+    public HashMap<String, Object> myQnaList(@RequestBody HashMap<String, Object> uid) {
+        log.info("myQnaList() POST MAPPING start!");
+        log.info("no : " + uid.get("qno").toString());
+        uid.put("answer", csService.findByParent(Integer.parseInt(uid.get("qno").toString())));
+        log.info("myQnaList() POST MAPPING end!");
+        return uid;
+    }
+
     @GetMapping("/my/review")
     public String review(){
 

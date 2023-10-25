@@ -49,8 +49,13 @@ public class CsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int no;
 
+
     private int parent;
     private int comment;
+
+    /*@OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent", referencedColumnName = "no", insertable = false, updatable = false)
+    private CsEntity answer;*/
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "`group`")
@@ -77,29 +82,9 @@ public class CsEntity {
     @JoinColumn(name = "prodNo")
     private ProductEntity prodNo;
     private String email;
+
     @CreationTimestamp
     private LocalDateTime rdate;
-
-
-    // 추가필드
-    @Transient
-    private String answer;
-    @Transient
-    private LocalDateTime ansdate;
-
-    public String getAnswer() {
-        return answer;
-    }
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-    public LocalDateTime getAnsDate() {
-        return ansdate;
-    }
-    public void setAnsdate(LocalDateTime ansdate) {
-        this.ansdate = ansdate;
-    }
-
 
     public CsDTO toDTO() {
         CsDTO.CsDTOBuilder builder = CsDTO.builder()
@@ -121,12 +106,9 @@ public class CsEntity {
         if (prodNo != null) {
             builder.prodNo(prodNo.toDTO());
         }
-        if (answer != null) {
-            builder.answer(answer);
-        }
-        if (ansdate != null) {
-            builder.ansdate(ansdate);
-        }
+        /*if (answer != null) {
+            builder.answer(answer.toDTO());
+        }*/
 
         return builder.build();
     }
