@@ -484,22 +484,23 @@ public class CsService {
     }
 
     public PageResponseDTO myQna(PageRequestDTO pageRequestDTO) {
-        log.info(" ----- myQna List ----- ");
+        log.info("myQna START~~~!!!!!!!!");
         Pageable pageable = pageRequestDTO.getPageable("no");
-
-        Page<CsEntity> page = csRepository.findByMyQna(loginStatus(), pageable);
-        log.info(" - tatalPages : " + page.getTotalPages());
-        List<CsDTO> dtoList = convertToCs(page);
-        int totalElement = (int) page.getTotalElements();
-        log.info(" - totalElment : " + totalElement);
-        log.info(" - dtoList : " + dtoList);
+        log.info(" - 1. here...");
+        Page<CsEntity> entity = csRepository.findByMyQna(loginStatus(), pageable);
+        log.info(" - 2. entity : " + entity);
+        int total = (int) entity.getTotalElements();
+        log.info(" - 3. total  : " + total);
+        List<CsDTO> list = convertToCs(entity);
+        log.info(" - 4. list   : " + list);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
-                .csList(dtoList)
-                .total(totalElement)
+                .total(total)
+                .csList(list)
                 .build();
     }
+
 
 
     //////////////////////////////////////////////////////////////////////////////////////////

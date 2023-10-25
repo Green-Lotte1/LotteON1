@@ -60,6 +60,7 @@ public class MyController {
     }
     @GetMapping("/my/qna")
     public String qna(Model model, PageRequestDTO pageRequestDTO){
+        log.info("qna START~~~!!!!!!!!");
         model.addAttribute("myQna", csService.myQna(pageRequestDTO));
 
         return "/my/qna";

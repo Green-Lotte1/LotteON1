@@ -1,6 +1,11 @@
 package co.kr.lotteon.repository.cs;
 
+import co.kr.lotteon.dto.cs.CsCate1DTO;
+import co.kr.lotteon.dto.cs.CsCate2DTO;
 import co.kr.lotteon.dto.cs.CsDTO;
+import co.kr.lotteon.dto.cs.CsGroupDTO;
+import co.kr.lotteon.dto.member.MemberDTO;
+import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.cs.CsCate1Entity;
 import co.kr.lotteon.entity.cs.CsCate2Entity;
 import co.kr.lotteon.entity.cs.CsEntity;
@@ -10,6 +15,7 @@ import jakarta.persistence.ColumnResult;
 import jakarta.persistence.ConstructorResult;
 import jakarta.persistence.SqlResultSetMapping;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +24,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public interface CsRepository extends JpaRepository<CsEntity, Integer> {
@@ -40,15 +47,13 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     public CsEntity findByParent(int no);
 
     // 내 질문글 리스트 출력
-    @Query(value = "SELECT *, (SELECT b.content FROM km_board b WHERE parent = a.`no`) AS etc1, " +
-            "(SELECT b.rdate   FROM km_board b WHERE parent = a.`no`) AS etc2 " +
-            "FROM km_board a WHERE (`group` = 'qna' OR `group` = 'seller') AND parent = 0 AND uid = ?1",
+    @Query(value = "SELECT *, " +
+                        "(SELECT b.content FROM km_board b WHERE parent = a.`no`) AS answer, " +
+                        "(SELECT b.rdate   FROM km_board b WHERE parent = a.`no`) AS ansdate FROM km_board a " +
+                    "WHERE (`group` = 'qna' OR `group` = 'seller') AND parent = 0 AND uid = ?1",
         countQuery = "SELECT count(*) FROM km_board WHERE (`group` = 'qna' OR `group` = 'seller') AND parent = 0 AND uid = ?1",
         nativeQuery = true)
     public Page<CsEntity> findByMyQna(@Param("uid") String uid, Pageable pageable);
-
-
-
 
     ////////////////////////////////////
     // etc page

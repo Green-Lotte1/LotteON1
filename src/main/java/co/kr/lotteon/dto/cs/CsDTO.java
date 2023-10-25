@@ -4,10 +4,12 @@ import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.cs.CsEntity;
 import lombok.*;
+import lombok.extern.log4j.Log4j2;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Log4j2
 @Getter
 @Setter
 @AllArgsConstructor
@@ -34,50 +36,6 @@ public class CsDTO {
     private    String          answer;
     private    LocalDateTime   ansdate;
 
-    public String getBrContent() {
-        return content
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("\"", "&quot;")
-                .replace("'", "&#39;")
-                .replace(" ", "&nbsp;")
-                .replace("  ", "&Tab;")
-                .replace("\n", "<br/>")
-                .replace("\r\n", "<br/>");
-    }
-
-    public String getBrTitle() {
-        return title
-                .replace("&", "&amp;")
-                .replace("<", "&lt;")
-                .replace(">", "&gt;")
-                .replace("\"", "&quot;")
-                .replace("'", "&#39;")
-                .replace(" ", "&nbsp;")
-                .replace("  ", "&Tab;")
-                .replace("\n", "<br/>")
-                .replace("\r\n", "<br/>");
-    }
-
-    public String getYyMMdd() {
-        return rdate.format(DateTimeFormatter.ofPattern("yy.MM.dd"));
-    }
-
-    public String getYyyyMMdd() {
-        return rdate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
-    }
-
-    public String getYyyyMMdd2() {
-        return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-    }
-
-    public String getYyyyMMddHHmmss() {
-        return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-    public String getYyyyMMddHHmmss2() {
-        return ansdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
 
     public CsEntity toEntity() {
         CsEntity.CsEntityBuilder builder = CsEntity.builder()
@@ -99,7 +57,64 @@ public class CsDTO {
         if (prodNo != null) {
             builder.prodNo(prodNo.toEntity());
         }
+        if (answer != null) {
+            log.info("dto answer is OK!!!");
+            builder.answer(answer);
+        }
+        if (ansdate != null) {
+            log.info("dto ansdate is OK!!!");
+            builder.ansdate(ansdate);
+        }
 
         return builder.build();
     }
+
+
+
+    public String getBrContent() {
+        return content
+                .replace("&",     "&amp;")
+                .replace("<",     "&lt;")
+                .replace(">",     "&gt;")
+                .replace("\"",    "&quot;")
+                .replace("'",     "&#39;")
+                .replace(" "  ,   "&nbsp;")
+                .replace("  ",    "&Tab;")
+                .replace("\n",    "<br/>")
+                .replace("\r\n",  "<br/>");
+    }
+
+    public String getBrTitle() {
+        return title
+                .replace("&",     "&amp;")
+                .replace("<",     "&lt;")
+                .replace(">",     "&gt;")
+                .replace("\"",    "&quot;")
+                .replace("'",     "&#39;")
+                .replace(" ",     "&nbsp;")
+                .replace("  ",    "&Tab;")
+                .replace("\n",    "<br/>")
+                .replace("\r\n",  "<br/>");
+    }
+
+    public String getYyMMdd() {
+        return rdate.format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+    }
+
+    public String getYyyyMMdd() {
+        return rdate.format(DateTimeFormatter.ofPattern("yyyy.MM.dd"));
+    }
+
+    public String getYyyyMMdd2() {
+        return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+    }
+
+    public String getYyyyMMddHHmmss() {
+        return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public String getYyyyMMddHHmmss2() {
+        return ansdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
 }
