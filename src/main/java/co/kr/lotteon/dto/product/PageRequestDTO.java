@@ -47,6 +47,15 @@ public class PageRequestDTO {
     @Builder.Default
     private int ordNo = 0;
 
+
+    ///////////////////////////////////////////////////////
+    ///////////// SEARCH
+    ///////////////////////////////////////////////////////
+    @Builder.Default
+    private String keyword = "";
+    @Builder.Default
+    private String detail = "";
+
     /*@Builder.Default
     private OrderDTO orderDTO = null;*/
 

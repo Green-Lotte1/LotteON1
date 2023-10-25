@@ -372,4 +372,24 @@ public class ProductController {
     log.info("insertOrderItems here...3");
     return result;
     }
+
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT SEARCH
+    ////////////////////////////////////////////////////////////////////
+
+    @GetMapping(value = "/product/search")
+    public String search(Model model,
+                         HttpServletRequest request,
+                         PageRequestDTO pageRequestDTO) {
+        log.info("search here...1");
+        layout(model, request);
+        log.info("search here...2");
+        /*String type = */
+        PageResponseDTO pageResponseDTO = prodService.searchProducts(pageRequestDTO);
+
+        model.addAttribute("products", pageResponseDTO);
+        /*model.addAttribute("pageRequestDTO", pageRequestDTO);*/
+
+        return "/product/search";
+    }
 }

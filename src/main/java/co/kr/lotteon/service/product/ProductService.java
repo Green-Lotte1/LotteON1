@@ -384,6 +384,31 @@ public class ProductService {
         return dto;
     }
 
+    ////////////////////////////////////////////////////////////////////
+    ///////////////// PRODUCT SEARCH
+    ////////////////////////////////////////////////////////////////////
+
+    public PageResponseDTO searchProducts(PageRequestDTO pageRequestDTO){
+
+        Pageable pageable = pageRequestDTO.getPageable("prodNo");
+        List<ProductDTO> productDTOList = new ArrayList<>();
+
+        Page<ProductEntity> result = prodRepo.findByProdNameContainingAndSaleEquals(pageRequestDTO.getKeyword(), 1, pageable);
+
+        productDTOList = result.getContent()
+                                                .stream()
+                                                .map(entity -> modelMapper.map(entity, ProductDTO.class))
+                                                .toList();
+        log.info("searchProductsByName Service: "+productDTOList.toString());
+        ///// 불러온 ProductDto의 총 갯수
+        int totalElement = (int) result.getTotalElements();
+        return PageResponseDTO.builder()
+                .pageRequestDTO(pageRequestDTO)
+                .dtoList(productDTOList)
+                .total(totalElement)
+                .build();
+    }
+
 
 
     ////////////////////////////////////////////////////////////////////

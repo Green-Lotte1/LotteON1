@@ -82,4 +82,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     public void incrementHitCountByProdNo(int prodNo);*/
     // return 배포 할 때 / 넣기로
 
+    /*@Query("SELECT p FROM ProductEntity p WHERE p.prodName LIKE %:keyword%")*/
+    public Page<ProductEntity> findByProdNameContainingAndSaleEquals(String keyword, int sale,Pageable pageable);
+
 }

@@ -8,7 +8,7 @@
 <section layout:fragment="content" class="view">
         <!-- 상품 상세페이지 시작 -->
             <!-- 제목, 페이지 네비게이션 -->
-            <nav>
+            <nav class="viewNav">
                 <h1>상품보기</h1>
                 <p>
                 <p>HOME > <span th:text="${cate eq null ? '전체 상품' : cate.cate1.c1Name + ' > '}"></span><strong th:text="${cate eq null ? ' ' : cate.c2Name}"></strong></p>
