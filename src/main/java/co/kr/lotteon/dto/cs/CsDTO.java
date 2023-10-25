@@ -33,8 +33,7 @@ public class CsDTO {
     private    LocalDateTime   rdate;
 
     // 추가필드
-    private    String          answer;
-    private    LocalDateTime   ansdate;
+    /*private    CsDTO           answer;*/
 
 
     public CsEntity toEntity() {
@@ -57,14 +56,9 @@ public class CsDTO {
         if (prodNo != null) {
             builder.prodNo(prodNo.toEntity());
         }
-        if (answer != null) {
-            log.info("dto answer is OK!!!");
-            builder.answer(answer);
-        }
-        if (ansdate != null) {
-            log.info("dto ansdate is OK!!!");
-            builder.ansdate(ansdate);
-        }
+        /*if (answer != null) {
+            builder.answer(answer.toEntity());
+        }*/
 
         return builder.build();
     }
@@ -111,10 +105,6 @@ public class CsDTO {
 
     public String getYyyyMMddHHmmss() {
         return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-    }
-
-    public String getYyyyMMddHHmmss2() {
-        return ansdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
 }

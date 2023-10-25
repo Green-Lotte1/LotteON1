@@ -47,13 +47,11 @@ public interface CsRepository extends JpaRepository<CsEntity, Integer> {
     public CsEntity findByParent(int no);
 
     // 내 질문글 리스트 출력
-    @Query(value = "SELECT *, " +
-                        "(SELECT b.content FROM km_board b WHERE parent = a.`no`) AS answer, " +
-                        "(SELECT b.rdate   FROM km_board b WHERE parent = a.`no`) AS ansdate FROM km_board a " +
-                    "WHERE (`group` = 'qna' OR `group` = 'seller') AND parent = 0 AND uid = ?1",
+    @Query(value = "SELECT * FROM km_board WHERE (`group` = 'qna' OR `group` = 'seller') AND parent = 0 AND uid = ?1",
         countQuery = "SELECT count(*) FROM km_board WHERE (`group` = 'qna' OR `group` = 'seller') AND parent = 0 AND uid = ?1",
         nativeQuery = true)
     public Page<CsEntity> findByMyQna(@Param("uid") String uid, Pageable pageable);
+
 
     ////////////////////////////////////
     // etc page
