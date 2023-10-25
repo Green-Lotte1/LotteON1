@@ -9,7 +9,7 @@ let isNameOk	= false;
 let isGenderOk          = false;
 let isEmailOk	= false;
 let isHpOk		= false;
-let isSsnOk             = false;
+let isBirthOk             = false;
 let isTelOk             = false;
 let isFaxOk		= false;
 let isCompanyOk	= false;
@@ -23,7 +23,7 @@ const rePass  = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,1
 const reName  = /^[가-힣]{2,10}$/
 const reEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 const reHp    = /^01(?:0|1|[6-9])-(?:\d{4})-\d{4}$/;
-const reSsn             = /^[0-9]{6}-[0-9]{7}$/;
+const reBirth  = /^(?!0000)[0-9]{4}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])$/;
 const reTel	= /^(0[2-8][0-5]?)-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
 const reComNo = /^(?:[가-힣]{2,4}-[0-9]{5}|제\s\d-\d{2}-\d{2}-\d{4}호|\d{4}-[가-힣]{4}-\d{4})$/;
 const reFax	= /^(0[2-8][0-5]?)-?([1-9]{1}[0-9]{2,3})-?([0-9]{4})$/;
@@ -83,17 +83,17 @@ $(function (){
         isNameOk = true;
     });
 
-    // 주민번호 유효성 검사
-    $('input[name=ssn]').focusout(function (){
-        const ssn = $('input[name=ssn]').val();
+    // 생년월일 유효성 검사
+    $('input[name=birth]').focusout(function (){
+        const birth = $('input[name=birth]').val();
 
-        if (!ssn.match(reSsn)){
-            $('.msgSsh1').css('color', 'red').text('주민번호 양식에 맞게 입력해주십시오.');
-            isSsnOk = false;
+        if (!birth.match(reBirth)){
+            $('.msgbirth1').css('color', 'red').text('생년월일을 다시 입력해주세요.');
+            isBirthOk = false;
             return;
         }
-        $('.msgSsh1').text('');
-        isSsnOk = true;
+        $('.msgbirth1').text('');
+        isBirthOk = true;
     });
 
     // 담당자 이름 유효성 검사
@@ -212,6 +212,10 @@ $(function (){
 
         if(!isHpOk){
             alert('번호를 확인 하십시요.');
+            return false; // 폼 전송 취소
+        }
+        if(!isBirthOk){
+            alert('생년월일을 확인 하십시요.');
             return false; // 폼 전송 취소
         }
 

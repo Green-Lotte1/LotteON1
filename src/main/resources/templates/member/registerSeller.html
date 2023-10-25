@@ -100,16 +100,6 @@
 									<span class="msgEmail"></span>
 								</td>
 							</tr>
-							<tr>
-								<th><span class="essential">*</span>주민번호</th>
-								<td>
-									<input type="text" name="km_ssn1" placeholder="주민번호 앞자리 입력" th:maxlength="6"/> -
-									<input type="text" name="km_ssn2" placeholder="주민번호 뒷자리 입력" th:maxlength="7"/>
-									<span class="msgSsh">주민번호를 입력해주세요.</span>
-									<input type="hidden" name="ssn" th:field="*{ssn}" th:maxlength="14">
-									<span class="msgSsh1"></span>
-								</td>
-							</tr>
 							<tr class="addr">
 								<th>회사주소</th>
 								<td>
@@ -143,6 +133,14 @@
 									<input type="text" name="kms_managerHp" maxlength="13" placeholder="휴대폰번호 입력" required  th:field="*{managerHp}" th:maxlength="13"/>
 									<span class="msgHp">&nbsp;&nbsp;-포함 13자리를 입력하세요.</span> <br>
 									<span class="msgManagerHp1"></span>
+								</td>
+							</tr>
+							<tr>
+								<th><span class="essential">*</span>생년월일</th>
+								<td>
+									<input type="text" name="km_birth" placeholder="생년월일 입력" th:maxlength="8" th:field="*{birth}"/>
+									<span class="msgbirth"> 기호없이 입력 예) 19990101</span> <br>
+									<span class="msgbirth1"></span>
 								</td>
 							</tr>
 						</table>
