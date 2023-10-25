@@ -21,6 +21,23 @@
     margin-top: 10px;
 }
 #product > .cart > nav > .cartNav {
+    color: red;
+    font-weight: bold;
+}
+
+#product > .order > nav > .orderNav {
+    color: gray;
+}
+#product > .order > nav > .orderNav > strong{
+    color: red;
+    font-weight: bold;
+}
+
+#product > .complete > nav > .completeNav {
+    color: gray;
+}
+#product > .complete > nav > .completeNav > strong{
+    color: red;
     font-weight: bold;
 }
 
@@ -81,6 +98,10 @@
 
 /* list */
 #product > .list {}
+#product > .list > .listNav strong{
+    font-weight: bold;
+    color: red;
+}
 #product > .list > .sort {
     margin: 0 0 20px 0;
     border-top: 2px solid #111;
@@ -800,7 +821,7 @@ main > section > section > article > a > .thumb > img {
 }
 
 #product > .cart > form > table .empty {
-  display: none;
+
 }
 #product > .cart > form > table .empty td {
   padding: 50px 0 !important;

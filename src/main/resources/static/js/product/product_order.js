@@ -179,7 +179,7 @@ $(document).ready(function () {
             return;
         }
 
-        alert('click');
+        /*alert('click');*/
         /*$(".orderForm").submit();*/
 
 
