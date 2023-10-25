@@ -61,10 +61,10 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/cs/**").permitAll()
-                        .requestMatchers("/member/**").permitAll()
+                        .requestMatchers("/member/**").anonymous()
                         .requestMatchers("/product/**").permitAll()
                         .requestMatchers("/error/**").permitAll()
-                        .requestMatchers("/my/**").permitAll()
+                        .requestMatchers("/my/**").authenticated()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/policy/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/thumbs/**").permitAll())
