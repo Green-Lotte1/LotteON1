@@ -383,7 +383,16 @@ public class ProductService {
     ////////////////////////////////////////////////////////////////////
 
     public PageResponseDTO searchProducts(PageRequestDTO pageRequestDTO){
+        log.info("searchProductsTEST here...1");
+        log.info("TEST: "+pageRequestDTO.getKeyword());
+        log.info("TEST: "+pageRequestDTO.getProdCate1());
+        log.info("TEST: "+pageRequestDTO.getType());
 
+        List<ProductDTO> productTEST = productMapper.search(pageRequestDTO.getKeyword());
+
+        //ProductDTO productTEST = productMapper.search(pageRequestDTO.getKeyword(), pageRequestDTO.getProdCate1(), pageRequestDTO.getType());
+        log.info("searchProductsTEST here...2");
+        log.info("productTEST: "+productTEST.toString());
         Pageable pageable = pageRequestDTO.getPageable("prodNo");
         List<ProductDTO> productDTOList = new ArrayList<>();
         Page<ProductEntity> result = null;

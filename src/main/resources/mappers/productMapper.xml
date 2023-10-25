@@ -13,15 +13,28 @@
         SELECT `ordNo` FROM `km_product_order` WHERE `ordUid` = #{ordUid} ORDER BY `ordDate` DESC LIMIT 1;
     </select>
 
-    <sql id="searchProducts">
+    <!--SEARCH QUERY 공통 부분-->
+    <sql id="searchProductsSame">
         SELECT *
         FROM `km_product` AS a
-        JOIN `km_product_cate1` AS b
+        LEFT JOIN `km_product_cate1` AS b
         ON a.prodCate1=b.cate1
-        WHERE a.sale=1 AND a.prodName LIKE '%#{keyword}%'
+        WHERE a.sale=1 AND a.prodName LIKE CONCAT('%', #{keyword}, '%')
     </sql>
 
-    <
+    <select id="search" resultType="co.kr.lotteon.dto.product.ProductDTO">
+        <include refid="searchProductsSame"></include>
+        <if test="prodCate1 != '' and prodCate1 != null">
+            AND a.prodCate1=#{prodCate1}
+        </if>
+        <if test="type == 'sold'">ORDER BY a.`sold` DESC</if>
+        <if test="type == 'priceAsc'">ORDER BY a.`price` ASC</if>
+        <if test="type == 'priceDesc'">ORDER BY a.`price` DESC</if>
+        <if test="type == 'score'">ORDER BY a.`score` DESC</if>
+        <if test="type == 'review'">ORDER BY a.`review` DESC</if>
+        <if test="type == 'rdate'">ORDER BY a.`rdate` ASC</if>
+    </select>
+
 
     <update id="increaseProductHitByProdNo">
         UPDATE `km_product` SET `hit`=`hit`+1 WHERE `prodNo`=#{prodNo};
