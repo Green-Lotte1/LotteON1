@@ -7,8 +7,12 @@ import co.kr.lotteon.entity.member.TermsEntity;
 import co.kr.lotteon.mapper.MemberMapper;
 import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.repository.member.TermsRepository;
+import co.kr.lotteon.security.MyUserDetails;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -81,5 +85,23 @@ public class MemberService {
         log.info(" - level : " + level);
 
         return level;
+    }
+    
+    // 계정 정보 조회
+    public MemberDTO MyAccount(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MemberDTO memberDTO = null;
+
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            if (userDetails instanceof MyUserDetails) {
+                MyUserDetails myUserDetails = (MyUserDetails) userDetails;
+                MemberEntity memberEntity = myUserDetails.getMember();
+                memberDTO = memberEntity.toDTO();
+
+            }
+        }
+        return memberDTO;
+
     }
 }
