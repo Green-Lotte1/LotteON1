@@ -19,13 +19,13 @@
           <!-- 검색결과 그룹박스 -->
           <div class="group">
             <h3><strong th:text="${pageRequestDTO.keyword}"></strong>검색결과 <em>(총&nbsp;:&nbsp;<span th:text="${total}">20</span>&nbsp;건)</em></h3>
-            <form action="#">
-              <input type="text" name="search" class="searchDetail"/>
-              <input type="button" value="검색" id="searchDetail"/>
+            <form th:action="@{/product/search}" method="GET">
+              <input type="text" name="keyword" class="searchDetail"/>
+              <input type="submit" value="검색" id="searchDetail"/>
               <span>
-                  <label><input type="checkbox" name="chk" value="상품명" id="byName">상품명</label>
-                  <label><input type="checkbox" name="chk" value="상품설명" id="byDescript">상품설명</label>
-                  <label><input type="checkbox" name="chk" value="상품가격" id="byPrice">상품가격</label>
+                  <label><input type="checkbox" name="chkProdName" value="상품명" id="byName">상품명</label>
+                  <label><input type="checkbox" name="chkProdDesc" value="상품설명" id="byDescript">상품설명</label>
+                  <label><input type="checkbox" name="chkProdPrice" value="상품가격" id="byPrice">상품가격</label>
                   <input type="text" name="min" class="min"/>원&nbsp;~&nbsp;<input type="text" name="max" class="max"/>원
               </span>
             </form>
@@ -47,7 +47,7 @@
 
           <!-- 검색목록 -->
           <table border="0">
-            <input type="hidden" id="keyword" th:value="${keyword}"/>
+            <input type="hidden" id="keyword" th:value="${pageRequestDTO.keyword}"/>
             <input type="hidden" id="path" th:value="${path}"/>
             <tr th:each="product:${products}">
               <td><a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1},prodCate2=${product.prodCate2},prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/thumbs/}+${product.prodCate1.cate1} +'/'+ ${product.prodCate2} + '/' + ${product.thumb1}" alt="상품이미지"/></a></td>
