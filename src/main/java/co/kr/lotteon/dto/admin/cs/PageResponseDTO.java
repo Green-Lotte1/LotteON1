@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.admin.cs;
 
+import co.kr.lotteon.dto.coupon.CouponDTO;
 import co.kr.lotteon.dto.coupon.MemberCouponDTO;
 import co.kr.lotteon.dto.cs.CsDTO;
 import lombok.Builder;
@@ -19,7 +20,8 @@ public class PageResponseDTO {
     private String cate2;
 
     private List<CsDTO> csList;
-    private List<MemberCouponDTO> mcoupList;
+    private List<CouponDTO> myCoupon;
+
     private int pg;
     private int size;
     private int total;
@@ -28,9 +30,7 @@ public class PageResponseDTO {
     private boolean prev, next;
 
     @Builder
-    public PageResponseDTO(PageRequestDTO pageRequestDTO,
-                           List<CsDTO> csList, List<MemberCouponDTO> memCoupList,
-                           int total) {
+    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, List<CouponDTO> myCoupon, int total, int no) {
 
         this.group  = pageRequestDTO.getGroup();
         this.cate1  = pageRequestDTO.getCate1();
@@ -39,8 +39,10 @@ public class PageResponseDTO {
         this.pg     = pageRequestDTO.getPg();
         this.size   = pageRequestDTO.getSize();
         this.total  = total;
+        this.no     = no;
 
         this.csList = csList;
+        this.myCoupon = myCoupon;
 
         this.end   = (int) (Math.ceil(this.pg / 10.0)) * 10;
         this.start = this.end - 9;

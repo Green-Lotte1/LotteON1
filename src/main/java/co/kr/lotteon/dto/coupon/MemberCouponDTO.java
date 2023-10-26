@@ -15,26 +15,14 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class MemberCouponDTO {
 
     private     int              no;
     private     MemberDTO        uid;
     private     CouponDTO        coupNo;
-    private     OrderItemDTO     ordItemNo;
+    private     int              ordItemNo;
     private     LocalDate        rdate;
     private     LocalDate        exp;
-
-    public MemberCouponEntity toEntity() {
-        return MemberCouponEntity
-                .builder()
-                .no(no)
-                .uid(uid.toEntity())
-                .coupNo(coupNo.toEntity())
-                .ordItemNo(ordItemNo != null ? ordItemNo.toEntity() : null)
-                .rdate(rdate)
-                .exp(exp)
-                .build();
-    }
-
 }

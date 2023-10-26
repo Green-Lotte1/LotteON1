@@ -29,7 +29,9 @@
             <h1>공지사항<a th:href="@{/cs/notice/list}">전체보기</a></h1>
             <ul>
               <li th:each="board:${ntc.csList}">
-                <a th:href="@{/cs/notice/view(cate1=${board.cate1.cate1}, no=${board.no})}" class="title">[[${board.title}]]</a>
+                <a th:href="@{/cs/notice/view(no=${board.no})}" class="title">
+                  [[${board.title}]]
+                </a>
                 <span class="date">[[${board.yyMMdd}]]</span>
               </li>
             </ul>

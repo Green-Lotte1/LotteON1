@@ -19,4 +19,7 @@ public class PointDTO {
     private int ordNo;
     private int point;
     private LocalDateTime pointDate;
+
+
+    private LocalDateTime pointExpDate;
 }

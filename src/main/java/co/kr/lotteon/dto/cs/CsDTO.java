@@ -41,24 +41,16 @@ public class CsDTO {
                 .no(no)
                 .parent(parent)
                 .comment(comment)
-                .group(group.toEntity())
-                .cate1(cate1.toEntity())
-                .uid(uid.toEntity())
+                .group(group == null ? null : group.toEntity())
+                .cate1(cate1 == null ? null : cate1.toEntity())
+                .cate2(cate2 == null ? null : cate2.toEntity())
+                .prodNo(prodNo == null ? null : prodNo.toEntity())
+                .uid(uid == null ? null : uid.toEntity())
                 .title(title)
                 .content(content)
                 .hit(hit)
                 .email(email)
                 .rdate(rdate);
-
-        if (cate2 != null) {
-            builder.cate2(cate2.toEntity());
-        }
-        if (prodNo != null) {
-            builder.prodNo(prodNo.toEntity());
-        }
-        /*if (answer != null) {
-            builder.answer(answer.toEntity());
-        }*/
 
         return builder.build();
     }

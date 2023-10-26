@@ -42,6 +42,9 @@ public class PageRequestDTO {
     private String uid;
     private String title;
     private String content;
+    @Builder.Default
+    private String status = "useable";
+    // 사용가능: useable, 사용한 쿠폰: used, 사용만료: expired
 
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());

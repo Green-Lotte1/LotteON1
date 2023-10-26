@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.CouponMapper">
+
+    <sql id="couponStatus">
+        <if test="status == 'useable'">
+            <![CDATA[AND b.ordItemNo IS NULL AND b.`exp` >= CURDATE()]]>
+        </if>
+        <if test="status == 'used'">
+            <![CDATA[AND b.ordItemNo IS NOT NULL]]>
+        </if>
+        <if test="status == 'expired'">
+            <![CDATA[AND b.`exp` < CURDATE() AND b.ordItemNo IS NULL]]>
+        </if>
+    </sql>
+    <select id="myCouponList" resultType="co.kr.lotteon.dto.coupon.CouponDTO">
+        SELECT
+        a.coupNo,
+        a.coupName,
+        a.`type`,
+        a.coupDiscount,
+        a.coupLimit,
+        a.coupStock,
+        a.coupPeriod,
+        b.ordItemNo,
+        b.`exp`
+        FROM
+        `km_coupon`
+        AS a
+        JOIN `km_member_coupon`
+        AS b
+        ON a.coupNo=b.coupNo
+        WHERE b.uid= #{uid}
+        <include refid="couponStatus"/>
+        ORDER BY b.rdate
+        LIMIT #{pg}, 10;
+    </select>
+    <select id="myCouponTotal" resultType="int">
+        SELECT COUNT(*) FROM `km_member_coupon` b WHERE b.uid = #{uid} <include refid="couponStatus"/>
+    </select>
+</mapper>

@@ -33,19 +33,5 @@ public class CouponEntity {
     private     LocalDateTime    rdate;
     private     LocalDateTime    wdate;
 
-    public CouponDTO toDTO() {
-        return CouponDTO.builder()
-                .coupNo(coupNo)
-                .uid(uid.toDTO())
-                .coupName(coupName)
-                .type(type)
-                .coupDiscount(coupDiscount)
-                .coupLimit(coupLimit)
-                .coupStock(coupStock)
-                .coupPeriod(coupPeriod)
-                .rdate(rdate)
-                .wdate(wdate)
-                .build();
-    }
 
 }

@@ -35,14 +35,4 @@ public class MemberCouponEntity {
     private     LocalDate        rdate;
     private     LocalDate        exp;
 
-    public MemberCouponDTO toDTO() {
-        return MemberCouponDTO.builder()
-                .no(no)
-                .uid(uid.toDTO())
-                .coupNo(coupNo.toDTO())
-                .ordItemNo(ordItemNo != null ? ordItemNo.toDTO() : null)
-                .rdate(rdate)
-                .exp(exp)
-                .build();
-    }
 }

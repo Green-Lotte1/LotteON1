@@ -16,4 +16,8 @@
         UPDATE `km_member` SET `point`= `point`-#{point} WHERE `uid`=#{uid};
     </update>
 
+    <select id="myPointList">
+        SELECT * FROM
+    </select>
+
 </mapper>
