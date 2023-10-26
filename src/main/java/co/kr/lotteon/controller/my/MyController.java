@@ -41,8 +41,10 @@ public class MyController {
     @GetMapping("/my/coupon")
     public String coupon(Model model,
                          co.kr.lotteon.dto.admin.cs.PageRequestDTO pageRequestDTO){
-        // 쿠폰 목록 가져와보아요
-        model.addAttribute("myCoupon", memberCouponService.myCouponList(pageRequestDTO));
+        PageResponseDTO pageResponseDTO = memberCouponService.myCouponList(pageRequestDTO);
+        model.addAttribute("myCoupons", pageResponseDTO);
+        model.addAttribute("currentMyCoupon", pageResponseDTO.getNo());
+        model.addAttribute("status", pageRequestDTO.getStatus());
 
         return "/my/coupon";
     }

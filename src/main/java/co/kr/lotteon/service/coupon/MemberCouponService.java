@@ -2,8 +2,11 @@ package co.kr.lotteon.service.coupon;
 
 import co.kr.lotteon.dto.admin.cs.PageRequestDTO;
 import co.kr.lotteon.dto.admin.cs.PageResponseDTO;
+import co.kr.lotteon.dto.coupon.CouponDTO;
 import co.kr.lotteon.dto.coupon.MemberCouponDTO;
 import co.kr.lotteon.entity.coupon.MemberCouponEntity;
+import co.kr.lotteon.entity.member.MemberEntity;
+import co.kr.lotteon.mapper.CouponMapper;
 import co.kr.lotteon.repository.coupon.MemberCouponRepository;
 import co.kr.lotteon.repository.member.MemberRepository;
 import co.kr.lotteon.service.member.MemberService;
@@ -23,37 +26,35 @@ import java.util.stream.Collectors;
 public class MemberCouponService {
 
     private   final   MemberCouponRepository   memberCouponRepository;
-    private   final   MemberRepository         memberRepository;
     private   final   MemberService            memberService;
-    private   final   ModelMapper              modelMapper;
+    private   final   CouponMapper             couponMapper;
 
     public PageResponseDTO myCouponList(PageRequestDTO pageRequestDTO) {
-        Pageable pageable = pageRequestDTO.getPageable("no");
 
-        Page<MemberCouponEntity> entities = memberCouponRepository.findByUid(
-                                                    memberRepository.findById(
-                                                            memberService.MyAccount().getUid())
-                                                            .orElse(null), pageable);
+        String username = memberService.MyAccount().getUid();
+        int    pg       = pageRequestDTO.getPg();
+        String status   = pageRequestDTO.getStatus();
 
-        log.info("entities : " + entities);
-        log.info("entities : " + entities.getContent());
-        log.info("entities : " + entities.getTotalElements());
+        log.info("username : " + username);
+        log.info("pg       : " + pg);
+        log.info("status   : " + status);
 
-        List<MemberCouponDTO> list = entities.stream()
-                                        .map(entity -> modelMapper
-                                                .map(entity, MemberCouponDTO.class))
-                                        .collect(Collectors.toList());
+        List<CouponDTO> list = couponMapper.myCouponList(username,(pg-1)*10, status);
+        int total = couponMapper.myCouponTotal(username, status);
+        int mycpn = couponMapper.myCouponTotal(username, "useable");
 
-        log.info("list : " + list);
+        log.info("list  : " + list);
+        log.info("total : " + total);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)
-                .memCoupList(list)
-                .total((int) entities.getTotalElements())
+                .myCoupon(list)
+                .total(total)
+                .no(mycpn)
                 .build();
     }
 
-    public int myCouponCount() {
-        return memberCouponRepository.countByUseableCoupon();
+    public int nav_myCoupon() {
+        return couponMapper.myCouponTotal(memberService.MyAccount().getUid(), "useable");
     }
 }

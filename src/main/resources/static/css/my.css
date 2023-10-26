@@ -995,6 +995,33 @@ footer p > strong {
     letter-spacing: -1px;
     padding-bottom: 8px;
 }
+#my > .coupon > section > article > .page {
+    margin: 20px 0;
+    text-align: center;
+}
+
+#my > .coupon > section > article > .page > a {
+    display: inline-block;
+    width: 19px;
+    height: 19px;
+    box-sizing: border-box;
+    vertical-align: top;
+    color: #777;
+}
+#my > .coupon > section > article > .page > a.on {
+    font-weight: bold;
+    color: #1179ea;
+}
+
+#my > .coupon > section > article > .page > .prev {
+    background: url('../images/my/my_sprites2.png') no-repeat 0 -300px;
+    font-size: 0;
+}
+
+#my > .coupon > section > article > .page > .next {
+    background: url('../images/my/my_sprites2.png') no-repeat -120px -300px;
+    font-size: 0;
+}
 
 /* my - review(나의리뷰) */
 #my > .review > section > article > table {

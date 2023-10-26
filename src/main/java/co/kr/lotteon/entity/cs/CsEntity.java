@@ -91,24 +91,16 @@ public class CsEntity {
                 .no(no)
                 .parent(parent)
                 .comment(comment)
-                .group(group.toDTO())
-                .cate1(cate1.toDTO())
-                .uid(uid.toDTO())
+                .group(group == null ? null : group.toDTO())
+                .cate1(cate1 == null ? null : cate1.toDTO())
+                .cate2(cate2 == null ? null : cate2.toDTO())
+                .prodNo(prodNo == null ? null : prodNo.toDTO())
+                .uid(uid == null ? null : uid.toDTO())
                 .title(title)
                 .content(content)
                 .hit(hit)
                 .email(email)
                 .rdate(rdate);
-
-        if (cate2 != null) {
-            builder.cate2(cate2.toDTO());
-        }
-        if (prodNo != null) {
-            builder.prodNo(prodNo.toDTO());
-        }
-        /*if (answer != null) {
-            builder.answer(answer.toDTO());
-        }*/
 
         return builder.build();
     }

@@ -6,12 +6,15 @@ import co.kr.lotteon.entity.coupon.CouponEntity;
 import co.kr.lotteon.entity.member.MemberEntity;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 public class CouponDTO {
 
@@ -25,23 +28,14 @@ public class CouponDTO {
     private     int              coupStock;
     private     int              coupPeriod;
     
-    private     LocalDateTime    rdate;
-    private     LocalDateTime    wdate;
+    private     LocalDate        rdate;
+    private     LocalDate        wdate;
 
-    public CouponEntity toEntity() {
-        return CouponEntity.builder()
-                .coupNo(coupNo)
-                .uid(uid.toEntity())
-                .coupName(coupName)
-                .type(type)
-                .coupDiscount(coupDiscount)
-                .coupLimit(coupLimit)
-                .coupStock(coupStock)
-                .coupPeriod(coupPeriod)
-                .rdate(rdate)
-                .wdate(wdate)
-                .build();
-    }
+
+    // 추가 필드
+    private     int              ordItemNo;
+    private     LocalDate        exp;
+
 
     public String getLimitWithComma() {
         return Utils.comma(coupLimit);
@@ -49,5 +43,38 @@ public class CouponDTO {
 
     public String getDiscountWithComma() {
         return Utils.comma(coupDiscount);
+    }
+
+    public String getExpWithWave() {
+        return expWithWave(exp);
+    }
+    public String getResult() {
+        return dateComparison(exp, ordItemNo);
+    }
+
+
+
+
+
+
+    public String expWithWave(LocalDate exp) {
+        return "~" + (""+exp).substring(5).replace("-", "/");
+    }
+
+    public String dateComparison(LocalDate exp, int ordItemNo) {
+        LocalDate today = LocalDate.now();
+
+        String result = null;
+
+        if((exp.equals(today) || exp.isAfter(today)) && ordItemNo == 0) {
+            result = "사용가능";
+
+        }else if(ordItemNo != 0) {
+            result = "사용완료";
+
+        }else if(exp.isBefore(today) && ordItemNo == 0) {
+            result = "기간만료";
+        }
+        return result;
     }
 }
