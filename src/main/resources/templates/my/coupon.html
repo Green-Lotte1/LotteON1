@@ -33,19 +33,32 @@
                         <th>유효기간</th>
                         <th>상태</th>
                     </tr>
-                    <tr>
-                        <td class="tit">1만원 할인 중복쿠폰</td>
-                        <td class="discount"><span>10,000</span>원</td>
-                        <td class="condition"><span>10,100</span>원 이상 구매시</td>
-                        <td class="expire">~12/29</td>
-                        <td class="status">사용가능</td>
-                    </tr>
-                    <tr>
-                        <td class="tit">회원가입 축하 5천원 할인쿠폰</td>
-                        <td class="discount"><span>5,000</span>원</td>
-                        <td class="condition"><span>5,100</span>원 이상 구매시</td>
-                        <td class="expire">~12/29</td>
-                        <td class="status">사용가능</td>
+                    <tr th:each="list:${myCoupon.mcoupList}">
+                        <td class="tit">[[${list.coupNo.coupName}]]</td>
+                        <td class="discount">
+                                <span>
+                                    [[${list.coupNo.coupDiscount}]]
+                                </span>
+                                [[${list.coupNo.type < 1 ? '%' : '원'}]]
+                        </td>
+                        <td class="condition">
+                            [[${list.coupNo.type < 1 ? '최대 할인 금액 ' : '최소 주문 금액 '}]]
+                            <span>
+                                [[${list.coupNo.limitWithComma}]]
+                            </span>
+                            원
+                        </td>
+                        <td class="expire">[[${list.exp}]]</td>
+                        <td class="status">
+                            <th:block th:if="${#dates.createNow().isAfter(#temporals.createLocalDate('yyyy-MM-dd', ${list.exp}))}">
+                                <th:block th:if="${list.ordItemNo eq null}">
+                                    사용가능
+                                </th:block>
+                            </th:block>
+                            <th:block th:if="${#dates.createNow().isBefore(#temporals.createLocalDate('yyyy-MM-dd', ${list.exp}))}">
+                                기간만료
+                            </th:block>
+                        </td>
                     </tr>
                 </table>
 

@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.product;
 
+import co.kr.lotteon.entity.product.OrderItemEntity;
 import jakarta.persistence.Id;
 import lombok.*;
 @AllArgsConstructor
@@ -23,5 +24,17 @@ public class OrderItemDTO {
 
     public int discounting(){
         return ((price*count) / 100) * discount;
+    }
+
+    public OrderItemEntity toEntity() {
+        return OrderItemEntity.builder()
+                .no(no)
+                .count(count)
+                .price(price)
+                .discount(discount)
+                .point(point)
+                .delivery(delivery)
+                .total(total)
+                .build();
     }
 }

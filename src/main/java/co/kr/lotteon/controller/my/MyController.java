@@ -1,14 +1,17 @@
 package co.kr.lotteon.controller.my;
 
+import co.kr.lotteon.dto.admin.cs.PageResponseDTO;
 import co.kr.lotteon.dto.cs.PageRequestDTO;
-import co.kr.lotteon.dto.cs.PageResponseDTO;
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
+import co.kr.lotteon.service.coupon.CouponService;
+import co.kr.lotteon.service.coupon.MemberCouponService;
 import co.kr.lotteon.service.cs.CsService;
 import co.kr.lotteon.service.member.MemberService;
 import co.kr.lotteon.service.product.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,15 +24,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 
 @Log4j2
+@RequiredArgsConstructor
 @Controller
 public class MyController {
 
-    @Autowired
-    private CsService csService;
-    @Autowired
-    private ReviewService reviewService;
-    @Autowired
-    private MemberService memberService;
+    private     final     CsService              csService;
+    private     final     ReviewService          reviewService;
+    private     final     MemberService          memberService;
+    private     final     MemberCouponService    memberCouponService;
 
     @GetMapping( value = {"/my/home", "/my"})
     public String home(){
@@ -37,7 +39,10 @@ public class MyController {
         return "/my/home";
     }
     @GetMapping("/my/coupon")
-    public String coupon(){
+    public String coupon(Model model,
+                         co.kr.lotteon.dto.admin.cs.PageRequestDTO pageRequestDTO){
+        // 쿠폰 목록 가져와보아요
+        model.addAttribute("myCoupon", memberCouponService.myCouponList(pageRequestDTO));
 
         return "/my/coupon";
     }

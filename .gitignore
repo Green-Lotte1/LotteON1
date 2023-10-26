@@ -37,5 +37,7 @@ out/
 .vscode/
 
 ### add ###
+/src/main/resources/*.yml
 *.yml
 *.log
+log/

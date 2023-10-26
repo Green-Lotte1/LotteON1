@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.admin.cs;
 
+import co.kr.lotteon.dto.coupon.MemberCouponDTO;
 import co.kr.lotteon.dto.cs.CsDTO;
 import lombok.Builder;
 import lombok.Data;
@@ -18,6 +19,7 @@ public class PageResponseDTO {
     private String cate2;
 
     private List<CsDTO> csList;
+    private List<MemberCouponDTO> mcoupList;
     private int pg;
     private int size;
     private int total;
@@ -26,7 +28,9 @@ public class PageResponseDTO {
     private boolean prev, next;
 
     @Builder
-    public PageResponseDTO(PageRequestDTO pageRequestDTO, List<CsDTO> csList, int total) {
+    public PageResponseDTO(PageRequestDTO pageRequestDTO,
+                           List<CsDTO> csList, List<MemberCouponDTO> memCoupList,
+                           int total) {
 
         this.group  = pageRequestDTO.getGroup();
         this.cate1  = pageRequestDTO.getCate1();

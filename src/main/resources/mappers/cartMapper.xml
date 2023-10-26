@@ -7,7 +7,7 @@
 
 
     <select id="selectCountCartByUidAndProdNo">
-        SELECT COUNT(*) FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNo`=#{prodNo} ORDER BY `rdate` DESC;
+        SELECT COUNT(*) FROM `km_product_cart` WHERE `uid`=#{uid} AND `prodNo`=#{prodNo};
     </select>
 
     <select id="selectProductsForOrder" resultType="co.kr.lotteon.dto.product.ItemDTO">
