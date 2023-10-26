@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<header th:fragment="company_header">
+    <div>
+        <a th:href="@{/}"><img th:src="@{/images/company/header_logo.png}" width="180" alt="로고"></a>
+        <ul>
+            <li><a th:href="@{/company/introduce}">회사소개</a></li>
+            <li><a th:href="@{/company/notice}">전자공시</a></li>
+            <li><a th:href="@{/company/promote}">홍보채널</a></li>
+            <li><a th:href="@{/company/manage}">투명경영</a></li>
+        </ul>
+    </div>
+</header>
+</html>

@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class LotteonApplication {
+public class LotteOnApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(LotteonApplication.class, args);
+		SpringApplication.run(LotteOnApplication.class, args);
 	}
 
 }
