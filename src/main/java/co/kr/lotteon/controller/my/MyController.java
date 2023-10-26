@@ -7,6 +7,7 @@ import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.cs.CsService;
 import co.kr.lotteon.service.member.MemberService;
+import co.kr.lotteon.service.product.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,19 +26,20 @@ public class MyController {
 
     @Autowired
     private CsService csService;
-
+    @Autowired
+    private ReviewService reviewService;
     @Autowired
     private MemberService memberService;
 
-    @GetMapping("/my/coupon")
-    public String coupon(){
-
-        return "/my/coupon";
-    }
     @GetMapping( value = {"/my/home", "/my"})
     public String home(){
 
         return "/my/home";
+    }
+    @GetMapping("/my/coupon")
+    public String coupon(){
+
+        return "/my/coupon";
     }
     @GetMapping("/my/info")
     public String info(Model model){
@@ -76,29 +78,33 @@ public class MyController {
     }
     @GetMapping("/my/qna")
     public String qna(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO){
-        log.info("qna START~~~!!!!!!!!");
-        model.addAttribute("myQna",
-                csService.myQna(pageRequestDTO));
-        model.addAttribute("path",
-                request.getContextPath());
+        log.info("qna()...1");
+        model.addAttribute("myQna", csService.myQna(pageRequestDTO));
+        model.addAttribute("path",  request.getContextPath());
 
-
+        log.info("qna()...2");
         return "/my/qna";
     }
 
     @ResponseBody
     @RequestMapping(value = "/my/myQna", method = RequestMethod.POST)
     public HashMap<String, Object> myQnaList(@RequestBody HashMap<String, Object> uid) {
-        log.info("myQnaList() POST MAPPING start!");
+        log.info("myQnaList()...1");
         log.info("no : " + uid.get("qno").toString());
+
         uid.put("answer", csService.findByParent(Integer.parseInt(uid.get("qno").toString())));
-        log.info("myQnaList() POST MAPPING end!");
+
+        log.info("myQnaList()...2");
         return uid;
     }
 
     @GetMapping("/my/review")
-    public String review(){
+    public String review(HttpServletRequest request, Model model,
+                         co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO){
+        log.info("review()...1");
+        model.addAttribute("myReview", reviewService.myReview(pageRequestDTO));
 
+        log.info("review()...2");
         return "/my/review";
     }
 }

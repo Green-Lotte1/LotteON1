@@ -1,18 +1,43 @@
 $(document).ready(function () {
 
+
+
+
     const keyword = $('#keyword').val();
     const path = $('#path').val();
     $(".searchDetail").on("keyup",function(key){
-            if(key.keyCode==13) {
-                alert("엔터키 이벤트");
+        alert("엔터키 이벤트");
+        if(key.keyCode==13) {
+            $("#searchDetail").click();
+        }
+    }); // ENTER KEY EVENT
 
-                var detail = $(this).val();
-                console.log("detail: "+detail);
-                console.log("keyword: "+keyword);
+    $("#searchDetail").on("click", function(){
+        alert("클릭 이벤트");
 
-                window.location.href = path+'/product/complete?keyword='+keyword+'&detail='+detail;
+        var detail = $(this).val();
+        console.log("detail: "+detail);
+        console.log("keyword: "+keyword);
+
+        jsonData = {
+            "keyword": keyword,
+            "detail": detail
+        }
+
+        /*$.ajax({
+            url: path+'/product/searchDetail',
+            type: 'post',
+            data: JSON.stringify(jsonData),
+            //traditional: true,
+            dataType: 'json',
+            contentType: 'application/json;charset=UTF-8',
+            success: function(data){
+
+
             }
-        });
+        })// ajax end*/
 
+        /*window.location.href = path+'/product/complete?keyword='+keyword+'&detail='+detail;*/
+    });
 
 });

@@ -14,7 +14,7 @@
     </select>
 
     <select id="selectSearchCountProducts">
-        SELECT COUNT(*) FROM `km_product` WHERE a.sale=1 AND a.prodName LIKE CONCAT('%', #{keyword}, '%') AND `sale`=1
+        SELECT COUNT(*) FROM `km_product` WHERE `sale`=1 AND `prodName` LIKE CONCAT('%', #{keyword}, '%')
         <if test="prodCate1 != '' and prodCate1 != null">WHERE `prodCate1`=#{prodCate1}</if>
     </select>
 
@@ -24,6 +24,8 @@
         FROM `km_product` AS a
         LEFT JOIN `km_product_cate1` AS b
         ON a.prodCate1=b.cate1
+        JOIN `km_member` AS c
+        ON a.seller=c.uid
         WHERE a.sale=1 AND a.prodName LIKE CONCAT('%', #{keyword}, '%')
     </sql>
 

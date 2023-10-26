@@ -55,8 +55,6 @@ public class MainController {
         PageResponseDTO hot = prodService.selectProductByCate1AndCate2(pageRequestDTO);
         model.addAttribute("hot", hot.getDtoList());
 
-
-
         mainService.appVersion(model);
 
         return "/index";
