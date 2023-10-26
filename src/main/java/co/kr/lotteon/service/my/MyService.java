@@ -2,6 +2,7 @@ package co.kr.lotteon.service.my;
 
 import co.kr.lotteon.repository.cs.CsRepository;
 import co.kr.lotteon.repository.member.MemberRepository;
+import co.kr.lotteon.repository.product.ReviewRepository;
 import co.kr.lotteon.service.cs.CsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ public class MyService {
 
     private  final  CsService         csService;
     private  final  MemberRepository  memberEntity;
+    private  final  ReviewRepository  reviewRepository;
     private  final  CsRepository      csRepository;
 
     public void myPageLayout() {

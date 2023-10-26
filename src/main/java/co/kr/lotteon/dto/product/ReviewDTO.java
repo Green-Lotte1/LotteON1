@@ -28,5 +28,17 @@ public class ReviewDTO {
         return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 
+    public String getEscapeContent() {
+        return content
+                .replace("&",     "&amp;")
+                .replace("<",     "&lt;")
+                .replace(">",     "&gt;")
+                .replace("\"",    "&quot;")
+                .replace("'",     "&#39;")
+                .replace(" "  ,   "&nbsp;")
+                .replace("  ",    "&Tab;")
+                .replace("\n",    "<br/>")
+                .replace("\r\n",  "<br/>");
+    }
 
 }

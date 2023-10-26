@@ -22,49 +22,44 @@
                         <th>평점</th>
                         <th>작성일</th>
                     </tr>
-                    <tr>
-                        <td class="no">5</td>
-                        <td class="prodName"><a href="#">상품명</a></td>
-                        <td class="content">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td class="score"><span class="rating star1">평점</span></td>
-                        <td class="date">2024-12-12</td>
-                    </tr>
-                    <tr>
-                        <td class="no">4</td>
-                        <td class="prodName"><a href="#">상품명</a></td>
-                        <td class="content">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td class="score"><span class="rating star2">평점</span></td>
-                        <td class="date">2024-12-12</td>
-                    </tr>
-                    <tr>
-                        <td class="no">3</td>
-                        <td class="prodName"><a href="#">상품명</a></td>
-                        <td class="content">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td class="score"><span class="rating star3">평점</span></td>
-                        <td class="date">2024-12-12</td>
-                    </tr>
-                    <tr>
-                        <td class="no">2</td>
-                        <td class="prodName"><a href="#">상품명</a></td>
-                        <td class="content">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td class="score"><span class="rating star4">평점</span></td>
-                        <td class="date">2024-12-12</td>
-                    </tr>
-                    <tr>
-                        <td class="no">1</td>
-                        <td class="prodName"><a href="#">상품명</a></td>
-                        <td class="content">배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td class="score"><span class="rating star5">평점</span></td>
-                        <td class="date">2024-12-12</td>
+                    <tr th:each="list, num:${myReview.reviewList}">
+                        <td class="no">[[${myReview.total - ((myReview.pg - 1) * myReview.size) - num.index}]]</td>
+                        <td class="prodName">
+                            <a th:href="@{/product/view(prodCate1=${list.prodNo.prodCate1.cate1},
+                                        prodCate2=${list.prodNo.prodCate2}, prodNo=${list.prodNo.prodNo})}">
+                                [[${list.prodNo.prodNo}]]/[[${list.prodNo.prodName}]]
+                            </a>
+                        </td>
+                        <td class="content" th:utext="${list.escapeContent}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                        <td class="score"><span th:class="'rating star' + ${list.rating}">평점</span></td>
+                        <td class="date">[[${list.yyyyMMdd2}]]</td>
                     </tr>
                 </table>
+                <div th:if="${myReview.total eq 0}"
+                     style="width: 100%; height: 150px; font-size: 14px;
+                     line-height: 150px; text-align: center;">
+                    작성하신 리뷰가 없습니다.
+                </div>
 
-                <p class="page">
-                    <a href="#" class="prev">이전</a>
-                    <a href="#" class="num on">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="next">다음</a>
+                <p class="page" th:if="${myReview.total > 0}">
+
+                    <a class="prev"
+                       th:href="@{/my/review(pg=${myReview.start-1})}"
+                       th:if="${myReview.prev}">
+                        이전
+                    </a>
+
+                    <a th:classappend="${myReview.pg eq num ? 'num on' : 'num'}"
+                       th:each="num:${#numbers.sequence(myReview.start, myReview.end)}"
+                       th:href="@{/my/review(pg=${num})}">
+                        [[${num}]]
+                    </a>
+
+                    <a class="next"
+                       th:href="@{/my/review(pg=${myReview.end+1})}"
+                       th:if="${myReview.next}">
+                        다음
+                    </a>
                 </p>
             </article>
         </section>
