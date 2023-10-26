@@ -13,6 +13,52 @@ $(function() {
 
     const trigger = $('.shot');
 
+    table.on('click', '.delete', function(e) {
+        if(confirm('정말 삭제하시겠습니까?')) {
+            $('input[name="chk"]:checked').each(function(){
+                selects = selects + $(this).val() + "/";
+            });
+            console.log('total : ' + selects);
+
+            const jsonData = {
+                "noSelect": selects
+            }
+
+            $.ajax({
+                url: path + '/cs/deletes',
+                type: 'delete',
+                data: JSON.stringify(jsonData),
+                dataType: 'json',
+                contentType: 'application/json',
+                success: function(data) {
+                    console.log(data);
+                    location.href = path + '/admin/cs/' + group
+                                + '/list?'
+                                + '&success=' + data;
+                }
+            });
+        }
+        e.preventDefault();
+    });
+
+    $(document).on('change', '#allChk', function() {
+        const isChecked = $(this).is(':checked');
+        $('input[name="chk"]').prop('checked', isChecked);
+    });
+
+    $(document).on('change', 'input[name="chk"]', function() {
+        let allChecked = true;
+        $('input[name="chk"]').each(function() {
+            if (!$(this).is(':checked')) {
+                allChecked = false;
+                return false; // each 루프 중단
+            }
+        });
+        $('#allChk').prop('checked', allChecked);
+    });
+
+
+
     $(cate1).change(function() {
         cate2.empty();
         cate2.append($('<option>', {
@@ -58,7 +104,7 @@ $(function() {
                     for(const dto of data.csList) {
                         var tr = $('<tr>').addClass('adminList');
 
-                        tr.append('<td><input type="checkbox" value="' + dto.no + '"></td>');
+                        tr.append('<td><input name="chk" type="checkbox" value="' + dto.no + '"></td>');
                         tr.append('<td>' + dto.no + '</td>');
 
                         if (data.group === 'notice') {

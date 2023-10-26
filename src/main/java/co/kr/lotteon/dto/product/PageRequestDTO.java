@@ -47,6 +47,9 @@ public class PageRequestDTO {
     @Builder.Default
     private int ordNo = 0;
 
+    @Builder.Default
+    private int revNo = 0;
+
 
     ///////////////////////////////////////////////////////
     ///////////// SEARCH

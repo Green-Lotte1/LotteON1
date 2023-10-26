@@ -1015,6 +1015,14 @@ footer p > strong {
     box-sizing: border-box;
     color: #fff;
 }
+#my > .review > section > article > table th:nth-child(1) { width: 7%  }
+#my > .review > section > article > table th:nth-child(2) { width: 33% }
+#my > .review > section > article > table th:nth-child(3) { width: 38% }
+#my > .review > section > article > table th:nth-child(4) { width: 12% }
+#my > .review > section > article > table th:nth-child(5) { width: 10% }
+
+#my > .review > section > article > table td:nth-child(1) { text-align: center; }
+
 #my > .review > section > article > table td {
     padding: 10px;            
     border-left: 1px solid #f1f1f1;
