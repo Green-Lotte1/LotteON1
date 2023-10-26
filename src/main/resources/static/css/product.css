@@ -1404,7 +1404,10 @@ main > section > section > article > a > .thumb > img {
   padding: 0 10px;
   border-right: 1px solid #ddd;
 }
-#product > .search > .sort > li > a.on {font-weight: bold;}
+#product > .search > .sort > li > a.on {
+    font-weight: bold;
+    color: red;
+}
 
 #product > .search > table {
   width: 100%;
