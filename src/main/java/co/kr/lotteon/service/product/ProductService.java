@@ -428,8 +428,14 @@ public class ProductService {
     ///////////////// PAGE
     ////////////////////////////////////////////////////////////////////
 
-    public int selectSearchCountProducts(String keyword, int prodCate1){
-        return productMapper.selectSearchCountProducts(keyword, prodCate1);
+    public int selectSearchCountProducts(String keyword,
+                                         int prodCate1,
+                                         boolean chkProdName,
+                                         boolean chkProdDesc,
+                                         boolean chkProdPrice,
+                                         int min,
+                                         int max){
+        return productMapper.selectSearchCountProducts(keyword, prodCate1, chkProdName, chkProdDesc, chkProdPrice, min, max);
     }
 
     public int getLastPageNum(int total) {

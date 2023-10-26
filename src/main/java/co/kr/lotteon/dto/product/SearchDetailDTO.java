@@ -13,6 +13,6 @@ public class SearchDetailDTO {
     private Boolean byName;
     private Boolean byDescript;
     private Boolean byPrice;
-    private int min = 0;
-    private int max = 0;
+    private int min;
+    private int max;
 }

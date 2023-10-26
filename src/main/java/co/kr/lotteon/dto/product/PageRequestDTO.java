@@ -62,8 +62,8 @@ public class PageRequestDTO {
     private Boolean chkProdDesc = false;
     @Builder.Default
     private Boolean chkProdPrice = false;
-    private String min;
-    private String max;
+    private String min = "";
+    private String max = "";
 
     /*@Builder.Default
     private OrderDTO orderDTO = null;*/

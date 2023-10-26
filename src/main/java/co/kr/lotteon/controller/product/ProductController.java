@@ -390,7 +390,15 @@ public class ProductController {
         int pg = pageRequestDTO.getPg();
         // 현재 페이지 번호
         int currentPage = prodService.getCurrentPage(pg);
-        total = prodService.selectSearchCountProducts(pageRequestDTO.getKeyword(), pageRequestDTO.getProdCate1());
+        log.info(pageRequestDTO.getProdCate1());
+        total = prodService.selectSearchCountProducts(pageRequestDTO.getKeyword(),
+                                                        pageRequestDTO.getProdCate1(),
+                                                        pageRequestDTO.getChkProdName(),
+                                                        pageRequestDTO.getChkProdDesc(),
+                                                        pageRequestDTO.getChkProdPrice(),
+                                                        Integer.parseInt(pageRequestDTO.getMin()),
+                                                        Integer.parseInt(pageRequestDTO.getMax())
+                                                        );
 
         // 마지막 페이지 번호
         int lastPageNum = prodService.getLastPageNum(total);
