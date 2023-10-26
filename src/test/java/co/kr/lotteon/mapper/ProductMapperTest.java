@@ -15,7 +15,7 @@ public class ProductMapperTest {
 
 
 
-    @Test
+
     public void search(){
 
 
@@ -26,6 +26,21 @@ public class ProductMapperTest {
         for(ProductDTO dto : result){
             System.out.println(dto);
         }
+
+    }
+    @Test
+    public void selectSearchCountProducts(){
+
+
+        int result = productMapper.selectSearchCountProducts("50",
+                                                            0,
+                                                            false,
+                                                            false,
+                                                            true,
+                                                                10,
+                                                                50000
+                                                            );
+        System.out.println("test: "+result);
 
     }
 

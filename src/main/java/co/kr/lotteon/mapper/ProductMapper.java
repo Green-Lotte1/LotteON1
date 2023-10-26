@@ -38,6 +38,13 @@ public interface ProductMapper {
                                    @Param("type")String type,
                                    @Param("start")int start);
 
-    public int selectSearchCountProducts(@Param("keyword")String keyword, @Param("prodCate1")int prodCate1);
+    public int selectSearchCountProducts(@Param("keyword")String keyword,
+                                         @Param("prodCate1")int prodCate1,
+                                         @Param("chkProdName")boolean chkProdName,
+                                         @Param("chkProdDesc")boolean chkProdDesc,
+                                         @Param("chkProdPrice")boolean chkProdPrice,
+                                         @Param("min")int min,
+                                         @Param("max")int max
+                                         );
 
 }
