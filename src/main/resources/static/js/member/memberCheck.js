@@ -16,7 +16,7 @@ $(function(){
         }
 
         $.ajax({
-            url : '/LotteOn/member/check/uid/'+uid,
+            url : '/LotteON/member/check/uid/'+uid,
             type: 'GET',
             dataType: 'json',
             success:function(data){
@@ -44,7 +44,7 @@ $(function(){
         }
 
         $.ajax({
-            url : '/LotteOn/member/check/email/'+email,
+            url : '/LotteON/member/check/email/'+email,
             type: 'GET',
             dataType: 'json',
             success:function(data){
@@ -72,7 +72,7 @@ $(function(){
         }
 
         $.ajax({
-            url : '/LotteOn/member/check/hp/'+hp,
+            url : '/LotteON/member/check/hp/'+hp,
             type: 'GET',
             dataType: 'json',
             success:function(data){

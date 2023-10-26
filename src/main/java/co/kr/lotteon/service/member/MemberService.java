@@ -39,8 +39,10 @@ public class MemberService {
         memberRepository.save(entity);
     }
 
-    public void updateMember(MemberDTO dto){
+    public MemberDTO updateMember(MemberDTO dto){
         memberMapper.updateMember(dto);
+        MemberDTO memberDTO = memberMapper.selectUpdatedMember(dto.getUid());
+        return memberDTO;
     }
 
     public TermsDTO findTerms(){

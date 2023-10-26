@@ -17,7 +17,7 @@
                 <table border="0">
                     <tr>
                         <td>사용자 ID</td>
-                        <td class="uid">[[${myMember.uid}]]</td>
+                        <td class="uid">[[${#authentication.principal.member.uid}]]</td>
                     </tr>
                     <tr>
                         <td>비밀번호</td>
@@ -27,18 +27,18 @@
                     </tr>
                     <tr>
                         <td>이름</td>
-                        <td class="name">[[${myMember.name}]]</td>
+                        <td class="name">[[${#authentication.principal.member.name}]]</td>
                     </tr>
                     <tr>
                         <td>생년월일</td>
-                        <td class="birth">[[${myMember.birth}]]</td>
+                        <td class="birth">[[${#authentication.principal.member.birth}]]</td>
                     </tr>
                     <tr>
                         <td>E-mail</td>
                         <td>
-                            <input type="text" name="email1" readonly>@
-                            <input type="text" name="email2" readonly>
-                                <select class="emailDomain" disabled>
+                            <input type="text" name="email1" readonly data-before="">@
+                            <input type="text" name="email2" readonly data-before="">
+                                <select class="emailDomain" disabled data-before="">
                                     <option>직접입력</option>
                                     <option>naver.com</option>
                                     <option>daum.net</option>
@@ -47,29 +47,29 @@
                                     <option>outlook.com</option>
                                 </select>
                             <button id="btnChangeEmail" type="button">수정하기</button>
-                            <input type="hidden" id="myEmail" name="myEmail" th:value="${myMember.email}">
+                            <input type="hidden" id="myEmail" name="myEmail" th:value="${#authentication.principal.member.email}">
                         </td>
                     </tr>
                     <tr>
                         <td>휴대폰</td>
                         <td>
                             <p class="hp">
-                                <input type="text" name="hp1" readonly th:maxlength="3"/>-
-                                <input type="text" name="hp2" readonly th:maxlength="4"/>-
-                                <input type="text" name="hp3" readonly th:maxlength="4"/>
+                                <input type="text" name="hp1" readonly th:maxlength="3" data-before=""/>-
+                                <input type="text" name="hp2" readonly th:maxlength="4" data-before=""/>-
+                                <input type="text" name="hp3" readonly th:maxlength="4" data-before=""/>
                                 <button id="btnChangeHp">수정하기</button>
-                                <input type="hidden" id="myHp" name="myHp" th:value="${myMember.hp}">
+                                <input type="hidden" id="myHp" name="myHp" th:value="${#authentication.principal.member.hp}">
                             </p>
                         </td>
                     </tr>
                     <tr>
                         <td>주소</td>
                         <td>
-                            <input type="text" name="zip" th:value="${myMember.zip}"/>
+                            <input type="text" name="zip" th:value="${#authentication.principal.member.zip}"/>
                             <button id="btnFindZip" type="button" onclick="zipcode()">주소검색</button>
                             <p class="address">
-                                <input type="text" name="addr1" th:value="${myMember.addr1}"/>
-                                <input type="text" name="addr2" th:value="${myMember.addr2}"/>
+                                <input type="text" name="addr1" th:value="${#authentication.principal.member.addr1}"/>
+                                <input type="text" name="addr2" th:value="${#authentication.principal.member.addr2}"/>
                             </p>
                         </td>
                     </tr>
@@ -84,17 +84,46 @@
             </article>
         </section>
 
+        <script>
+            // 기존 데이터
+            let myEmail = $('#myEmail').val();
+            let myHp = $('#myHp').val();
+            console.log('myHp : '+myHp);
+            const birth = $('.birth');
+            const birthDate = birth.text();
+            let myZip = $('input[name=zip]').val();
+            let myAddr1 = $('input[name=addr1]').val();
+            let myAddr2 = $('input[name=addr2]').val();
+            let finalEmail = $('#finalEmail').val();
+            let finalHp = $('#finalHp').val();
+            const uid = $('.uid').text();
+            console.log("myuid : "+uid);
+
+            // input 태그
+            const email1Input = $('input[name="email1"]');
+            const email2Input = $('input[name="email2"]');
+            const hp1Input = $('input[name="hp1"]');
+            const hp2Input = $('input[name="hp2"]');
+            const hp3Input = $('input[name="hp3"]');
+
+            // 분리된 이메일, 휴대폰 번호 데이터
+            let emailId = '';
+            let emailDomain = '';
+            let hp1 = '';
+            let hp2 = '';
+            let hp3 = '';
+
+            // 변경전 데이터(백업)
+            let beforeEmail1 = '';
+            let beforeEmail2 = '';
+            let beforeHp1 = '';
+            let beforeHp2 = '';
+            let beforeHp3 = '';
+
+        </script>
         <script th:src="@{/js/my/userDivision.js}"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script th:src="@{/js/member/zipcode.js}"></script>
-        <script>
-            $(function (){
-
-
-
-
-            });
-        </script>
 
     </div>
 </html>

@@ -15,7 +15,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,26 +51,23 @@ public class MyController {
     @GetMapping("/my/info")
     public String info(Model model){
         log.info("info...1");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            if (userDetails instanceof MyUserDetails) {
-                MyUserDetails myUserDetails = (MyUserDetails) userDetails;
-                MemberEntity memberEntity = myUserDetails.getMember();
-
-                model.addAttribute("myMember",memberEntity);
-            }
-        }
-
+        MemberDTO memberDTO = memberService.MyAccount();
+        model.addAttribute("myMember",memberDTO);
             return "/my/info";
     }
 
+    @ResponseBody
     @PutMapping("/my/update/user")
-    public String updateMember(@RequestBody MemberDTO dto){
+    public int updateMember(@RequestBody MemberDTO dto, @AuthenticationPrincipal MyUserDetails test){
         log.info("updateMember...1");
-        memberService.updateMember(dto);
-        return null;
+        int result = 0;
+
+        MemberDTO user = memberService.updateMember(dto);
+        test.setMember(memberService.updateMember(user).toEntity());
+        if(user != null){
+            result = 1;
+        }
+        return result;
     }
 
     @GetMapping("/my/order")
