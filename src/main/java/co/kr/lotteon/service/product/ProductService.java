@@ -382,42 +382,21 @@ public class ProductService {
     ///////////////// PRODUCT SEARCH
     ////////////////////////////////////////////////////////////////////
 
-    public PageResponseDTO searchProducts(PageRequestDTO pageRequestDTO, int start){
+    public List<ProductDTO> searchProducts(PageRequestDTO pageRequestDTO, int start){
         log.info("searchProductsTEST here...1");
         log.info("TEST: "+pageRequestDTO.getKeyword());
         log.info("TEST: "+pageRequestDTO.getProdCate1());
         log.info("TEST: "+pageRequestDTO.getType());
 
-        List<ProductDTO> productTEST = productMapper.search(pageRequestDTO.getKeyword(),
+        List<ProductDTO> products = productMapper.search(pageRequestDTO.getKeyword(),
                                                             pageRequestDTO.getProdCate1(),
                                                             pageRequestDTO.getType(),
                                                             start);
-
         log.info("searchProductsTEST here...2");
-        log.info("productTEST: "+productTEST.toString());
-        Pageable pageable = pageRequestDTO.getPageable("prodNo");
-        List<ProductDTO> productDTOList = new ArrayList<>();
-        Page<ProductEntity> result = null;
-
-        log.info("searchProductsByName Service: "+productDTOList.toString());
-
-        String type = pageRequestDTO.getType();
-        int prodCate1 = pageRequestDTO.getProdCate1();
-        log.info("searchProducts: "+pageRequestDTO.getProdCate1());
-
-
-        productDTOList = result.getContent()
-                                .stream()
-                                .map(entity -> modelMapper.map(entity, ProductDTO.class))
-                                .toList();
+        log.info("products: "+products.toString());
 
         ///// 불러온 ProductDto의 총 갯수
-        int totalElement = (int) result.getTotalElements();
-        return PageResponseDTO.builder()
-                .pageRequestDTO(pageRequestDTO)
-                .dtoList(productDTOList)
-                .total(totalElement)
-                .build();
+        return products;
     }
 
 

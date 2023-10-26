@@ -1,5 +1,6 @@
 package co.kr.lotteon.repository.product;
 
+import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.entity.product.ProductEntity;
 import co.kr.lotteon.entity.product.ReviewEntity;
 import org.springframework.data.domain.Page;
@@ -11,4 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
     public Page<ReviewEntity> findByProdNoOrderByRdateAsc(ProductEntity prodNo, Pageable pageable);
+
+    public Page<ReviewEntity> findByUid(MemberEntity uid, Pageable pageable);
 }

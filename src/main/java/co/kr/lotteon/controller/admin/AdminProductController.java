@@ -144,6 +144,11 @@ public class AdminProductController {
         // 뷰(템플릿)에서 참조하기 위해 모델 참조
         model.addAttribute("products", products);
         model.addAttribute("lastPageNum", lastPageNum);
+        model.addAttribute("total ", total);
+        model.addAttribute("currentPg", currentPg);
+
+        model.addAttribute("pageGroupStart", pageGroup[0]);
+        model.addAttribute("pageGroupEnd", pageGroup[1]);
 
 
         return "/admin/product/list";
