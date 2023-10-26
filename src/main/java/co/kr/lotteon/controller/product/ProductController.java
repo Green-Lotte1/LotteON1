@@ -416,4 +416,19 @@ public class ProductController {
 
         return "/product/search";
     }
+
+    /*@ResponseBody
+    @PostMapping(value = "/product/searchDetail")
+    public String searchDetail(@RequestParam("jsonData")String jsonData) throws JsonProcessingException{
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        SearchDetailDTO searchDetailDTO = objectMapper.readValue(jsonData, new TypeReference<SearchDetailDTO>() {
+        });
+
+        log.info("searchDetail here...1");
+        log.info("searchDetail jsonData: "+searchDetailDTO);
+
+        return null;
+    }*/
 }
