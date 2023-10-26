@@ -18,15 +18,15 @@
 
           <!-- 검색결과 그룹박스 -->
           <div class="group">
-            <h3><strong th:text="${pageRequestDTO.keyword}"></strong>검색결과 <em>(총&nbsp;:&nbsp;<span th:text="${products.total}">20</span>&nbsp;건)</em></h3>
-            <form action="#" id="searchDetail">
+            <h3><strong th:text="${pageRequestDTO.keyword}"></strong>검색결과 <em>(총&nbsp;:&nbsp;<span th:text="${total}">20</span>&nbsp;건)</em></h3>
+            <form action="#">
               <input type="text" name="search" class="searchDetail"/>
-              <input type="button" value="검색"/>
+              <input type="button" value="검색" id="searchDetail"/>
               <span>
-                  <label><input type="checkbox" name="chk" value="상품명">상품명</label>
-                  <label><input type="checkbox" name="chk" value="상품설명">상품설명</label>
-                  <label><input type="checkbox" name="chk" value="상품가격">상품가격</label>
-                  <input type="text" name="min"/>원&nbsp;~&nbsp;<input type="text" name="max"/>원
+                  <label><input type="checkbox" name="chk" value="상품명" id="byName">상품명</label>
+                  <label><input type="checkbox" name="chk" value="상품설명" id="byDescript">상품설명</label>
+                  <label><input type="checkbox" name="chk" value="상품가격" id="byPrice">상품가격</label>
+                  <input type="text" name="min" class="min"/>원&nbsp;~&nbsp;<input type="text" name="max" class="max"/>원
               </span>
             </form>
             <p class="info">
@@ -49,7 +49,7 @@
           <table border="0">
             <input type="hidden" id="keyword" th:value="${keyword}"/>
             <input type="hidden" id="path" th:value="${path}"/>
-            <tr th:each="product:${products.dtoList}">
+            <tr th:each="product:${products}">
               <td><a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1},prodCate2=${product.prodCate2},prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/thumbs/}+${product.prodCate1.cate1} +'/'+ ${product.prodCate2} + '/' + ${product.thumb1}" alt="상품이미지"/></a></td>
               <td>
                 <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1},prodCate2=${product.prodCate2},prodNo=${product.prodNo})}"><h3 class="name" th:text="${product.prodName}">상품명</h3></a>
@@ -75,20 +75,20 @@
           </table>
 
           <!-- 상품목록 페이지번호 -->
-          <div class="paging" th:if="${not #lists.isEmpty(products.dtoList)}">
-                        <span>
-                          <a th:href="@{/product/search(keyword=${products.keyword}, type=${pageRequestDTO.type}, pg=${products.start-1})}"
-                             class="prev" th:if="${products.prev}"><&nbsp;이전</a>
-                        </span>
+          <div class="paging" th:if="${not #lists.isEmpty(products)}">
+                <span th:if="${pageGroupStart > 1}">
+                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${pageGroupStart-1})}"
+                     class="prev"><&nbsp;이전</a>
+                </span>
+              <th:block th:each="i:${#numbers.sequence(pageGroupStart, pageGroupEnd)}">
             <span class="num">
-                            <th:block th:each="num:${#numbers.sequence(products.start, products.end)}">
-                          <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, type=${pageRequestDTO.type}, pg=${num})}" class="on"  th:classappend="${products.pg eq num ? 'num on' : 'num'}">[[${num}]]</a>
-                            </th:block>
-                        </span>
-            <span>
-                          <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, type=${pageRequestDTO.type}, pg=${products.end+1})}"
-                             class="next" th:if="${products.next}">다음&nbsp;></a>
-                        </span>
+                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${i})}" class="on"  th:classappend="${currentPage eq i ? 'i on' : 'i'}">[[${i}]]</a>
+            </span>
+              </th:block>
+            <span th:if="${pageGroupEnd < lastPageNum}">
+                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${pageGroupEnd+1})}"
+                     class="next">다음&nbsp;></a>
+            </span>
           </div>
         </section>
         <!-- 상품검색 화면 끝 -->

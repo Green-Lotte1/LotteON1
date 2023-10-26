@@ -404,13 +404,14 @@ public class ProductController {
         // 시작 인덱스
         int start = prodService.getStartNum(currentPage);
 
-        PageResponseDTO pageResponseDTO = prodService.searchProducts(pageRequestDTO, start);
+        List<ProductDTO> products = prodService.searchProducts(pageRequestDTO, start);
+        model.addAttribute("total", total);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("lastPageNum", lastPageNum);
         model.addAttribute("pageGroupStart", result[0]);
         model.addAttribute("pageGroupEnd", result[1]);
         model.addAttribute("pageStartNum", pageStartNum+1);
-        model.addAttribute("products", pageResponseDTO);
+        model.addAttribute("products", products);
         /*model.addAttribute("pageRequestDTO", pageRequestDTO);*/
 
         return "/product/search";
