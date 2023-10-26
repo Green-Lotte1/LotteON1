@@ -2,9 +2,11 @@ package co.kr.lotteon.controller.my;
 
 import co.kr.lotteon.dto.cs.PageRequestDTO;
 import co.kr.lotteon.dto.cs.PageResponseDTO;
+import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.cs.CsService;
+import co.kr.lotteon.service.member.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +25,9 @@ public class MyController {
 
     @Autowired
     private CsService csService;
+
+    @Autowired
+    private MemberService memberService;
 
     @GetMapping("/my/coupon")
     public String coupon(){
@@ -51,6 +56,14 @@ public class MyController {
 
             return "/my/info";
     }
+
+    @PutMapping("/my/update/user")
+    public String updateMember(@RequestBody MemberDTO dto){
+        log.info("updateMember...1");
+        memberService.updateMember(dto);
+        return null;
+    }
+
     @GetMapping("/my/order")
     public String order(){
 

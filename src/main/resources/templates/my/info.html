@@ -47,7 +47,7 @@
                                     <option>outlook.com</option>
                                 </select>
                             <button id="btnChangeEmail" type="button">수정하기</button>
-                            <input type="hidden" id="myEmail" th:value="${myMember.email}">
+                            <input type="hidden" id="myEmail" name="myEmail" th:value="${myMember.email}">
                         </td>
                     </tr>
                     <tr>
@@ -58,7 +58,7 @@
                                 <input type="text" name="hp2" readonly th:maxlength="4"/>-
                                 <input type="text" name="hp3" readonly th:maxlength="4"/>
                                 <button id="btnChangeHp">수정하기</button>
-                                <input type="hidden" id="myHp" th:value="${myMember.hp}">
+                                <input type="hidden" id="myHp" name="myHp" th:value="${myMember.hp}">
                             </p>
                         </td>
                     </tr>
