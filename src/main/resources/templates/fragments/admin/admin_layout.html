@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.thymeleaf.org/">
+<head>
+    <meta charset="UTF-8">
+    <title>롯데ON::관리자 페이지</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://kit.fontawesome.com/20962f3e4b.js" crossorigin="anonymous"></script>
+    <script th:src="@{/js/admin/gnb.js}"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+<body>
+<div id="admin-wrapper">
+
+    <header th:replace="~{/fragments/admin/admin_header}">
+        <!-- admin header -->
+    </header>
+
+    <main>
+
+        <aside th:replace="~{/fragments/admin/admin_aside}">
+            <!--어사이드 위치-->
+        </aside>
+
+        <section layout:fragment="content">
+            <!--컨텐츠 위치-->
+        </section>
+
+    </main>
+    <footer th:replace="~{/fragments/admin/admin_footer}">
+        <!-- admin footer -->
+    </footer>
+</div>
+</body>
+</html>

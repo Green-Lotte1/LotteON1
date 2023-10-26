@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+  <head>
+    <meta charset="UTF-8" />
+    <title>롯데ON::롯데 온라인 쇼핑몰</title>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}" />
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css"/>
+    <link rel="stylesheet" th:href="@{/css/common.css}" />
+    <link rel="stylesheet" th:href="@{/css/product.css}" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://kit.fontawesome.com/20962f3e4b.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+    <script th:src="@{/js/index.js}"></script>
+    <style>
+      #bannerTop {
+        display: none;
+        width: 100%;
+        height: 80px;
+        border-bottom: 1px solid #e9e9e9;        
+        box-sizing: border-box;
+      }
+
+      #bannerTop.on {
+        display: block;
+      }
+
+      #bannerTop > article {
+        position: relative;
+        width: 1200px;
+        height: 100%;        
+        margin: 0 auto;
+        overflow: hidden;
+      }
+
+      #bannerTop > article > .btnClose {
+        position: absolute;
+        right: 0px;
+        top: 0px;
+        width: 40px;
+        height: 40px;
+        background-image: url('../../../../../../../Downloads/LotteON/images/ico_sprite.png');
+        background-position: -122px -142px;
+        background-color: transparent;
+        font-size: 0;
+        border: none;
+        cursor: pointer;
+      }
+    </style>
+    <script>
+      $(function(){
+        $('#bannerTop .btnClose').click(function(){
+          $(this).closest('#bannerTop').removeClass('on');
+        });
+      });
+
+    </script>
+  </head>
+  <body>
+    <div id="bannerTop" class="on" style="background: #e4dfdf;">
+      <article>
+        <a href="#"><img th:src="@{/images/topBanner1.png}"/></a>
+        <button class="btnClose">close</button>
+      </article>
+    </div>    <div id="wrapper">
+      <header>
+        <div class="top" th:replace="~{/fragments/loginBar}">
+          <!-- 로그인바 -->
+        </div>
+        <div class="logo">
+          <div>
+            <a th:href="@{/}"><img th:src="@{/images/header_logo.png}" alt="로고" /></a>
+            <form th:action="@{/product/search}" method="get">
+              <input type="text" name="keyword"/>
+              <button><i class="fa fa-search"></i></button>
+            </form>
+          </div>
+        </div>
+        <div class="menu">
+          <div>
+            <ul>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='hit')}">히트상품3333</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='recommend')}">추천상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='latest')}">최신상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='hot')}">인기상품</a></li>
+              <li><a th:href="@{/product/list(prodCate1=1, prodCate2=1, type='discount')}">할인상품</a></li>
+            </ul>
+            <ul>
+              <li><a th:href="@{/cs/notice/list}">공지사항</a></li>
+              <li><a th:href="@{/cs/faq/list}">자주묻는질문</a></li>
+              <li><a th:href="@{/cs/qna/list}">문의하기</a></li>
+              <li><a th:href="@{/cs}">고객센터</a></li>
+            </ul>
+          </div>
+        </div>
+      </header>
+      <main>
+        <!-- 카테고리/베스트 상품 영역 -->
+        <aside>
+          <!-- 카테고리 -->
+          <ul class="category">
+            <li><i class="fa fa-bars" aria-hidden="true"></i>카테고리</li>
+            <li th:each="cate1:${cate1List}">
+              <a href="#"><i th:class="${cate1.c1Icon}"></i>[[${cate1.c1Name}]]</a>
+              <ol>
+                <li th:each="cate2:${cate2List}" th:if="${cate1.cate1 == cate2.cate1.cate1}">
+                  <a th:href="@{/product/list(prodCate1=${cate1.cate1},prodCate2=${cate2.cate2})}">[[${cate2.c2Name}]]</a>
+                </li>
+              </ol>
+            </li>
+          </ul>
+
+          <!-- 베스트상품 배너 -->
+          <article class="best">
+            <h1><i class="fas fa-crown"></i>베스트상품</h1>
+            <ol>
+              <li th:each="product, num:${hot}">
+                <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1}, prodCate2=${product.prodCate2}, prodNo=${product.prodNo})}">
+                  <div class="thumb">
+                    <i>[[${num.count}]]</i>
+                    <img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지"/>
+                  </div>
+                  <h2>[[${product.prodName}]]</h2>
+                  <div class="org_price">
+                    <del  th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}">30,000</del>
+                    <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
+                  </div>
+                  <div class="dis_price">
+                    <ins th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">27,000</ins>
+                  </div>
+                </a>
+              </li>
+            </ol>
+          </article>
+        </aside>
+        <section>
+          <!-- 슬라이더 영역 -->
+          <section class="slider">
+            <ul>
+              <li>
+                <a href="#"
+                  ><img th:src="@{/images/slider_item1.jpg}" alt="item1"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img th:src="@{/images/slider_item2.jpg}" alt="item2"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img th:src="@{/images/slider_item3.jpg}" alt="item3"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img th:src="@{/images/slider_item4.jpg}" alt="item4"
+                /></a>
+              </li>
+              <li>
+                <a href="#"
+                  ><img th:src="@{/images/slider_item5.jpg}" alt="item5"
+                /></a>
+              </li>
+            </ul>
+          </section>
+          <!-- 히트상품 영역 -->
+
+
+          <section class="hit">
+            <h3><span>히트상품</span></h3>
+            <article th:each="product:${hit}">
+              <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1}, prodCate2=${product.prodCate2}, prodNo=${product.prodNo})}">
+                <div class="thumb">
+                  <img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지" />
+                </div>
+                <h2>[[${product.prodName}]]</h2>
+                <p>[[${product.descript}]]</p>
+                <div class="org_price">
+                  <del  th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}">30,000</del>
+                  <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
+                </div>
+                <div class="dis_price">
+                  <ins  th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">27,000</ins>
+                  <span th:class="${product.delivery eq 0 ? 'free-delivery' : 'delivery'}"
+                        th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'">무료배송</span>
+                </div>
+              </a>
+            </article>
+          </section>
+          <!-- 추천상품 영역 -->
+          <section class="recommend">
+            <h3><span>추천상품</span></h3>
+            <article th:each="product:${recommend}">
+              <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1}, prodCate2=${product.prodCate2}, prodNo=${product.prodNo})}">
+                <div class="thumb">
+                  <img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지" />
+                </div>
+                <h2>[[${product.prodName}]]</h2>
+                <p>[[${product.descript}]]</p>
+                <div class="org_price">
+                  <del  th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}">30,000</del>
+                  <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
+                </div>
+                <div class="dis_price">
+                  <ins  th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">27,000</ins>
+                  <span th:class="${product.delivery eq 0 ? 'free-delivery' : 'delivery'}"
+                        th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'">무료배송</span>
+                </div>
+              </a>
+            </article>
+          </section>
+          <!-- 최신상품 영역 -->
+          <section class="new">
+            <h3><span>최신상품</span></h3>
+            <article th:each="product:${latest}">
+              <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1}, prodCate2=${product.prodCate2}, prodNo=${product.prodNo})}">
+                <div class="thumb">
+                  <img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지" />
+                </div>
+                <h2>[[${product.prodName}]]</h2>
+                <p>[[${product.descript}]]</p>
+                <div class="org_price">
+                  <del  th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}">30,000</del>
+                  <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
+                </div>
+                <div class="dis_price">
+                  <ins  th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">27,000</ins>
+                  <span th:class="${product.delivery eq 0 ? 'free-delivery' : 'delivery'}"
+                        th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'">무료배송</span>
+                </div>
+              </a>
+            </article>
+          </section>
+          <!-- 할인상품 영역 -->
+          <section class="discount">
+            <h3><span>할인상품</span></h3>
+            <article th:each="product:${discount}">
+              <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1}, prodCate2=${product.prodCate2}, prodNo=${product.prodNo})}">
+                <div class="thumb">
+                  <img th:src="@{/thumbs/}+${product.prodCate1.cate1}+'/'+${product.prodCate2}+'/'+${product.thumb2}" alt="상품이미지" />
+                </div>
+                <h2>[[${product.prodName}]]</h2>
+                <p>[[${product.descript}]]</p>
+                <div class="org_price">
+                  <del  th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}">30,000</del>
+                  <span th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
+                </div>
+                <div class="dis_price">
+                  <ins  th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">27,000</ins>
+                  <span th:class="${product.delivery eq 0 ? 'free-delivery' : 'delivery'}"
+                        th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'">무료배송</span>
+                </div>
+              </a>
+            </article>
+          </section>
+        </section>
+      </main>
+      <footer th:replace="~{/fragments/footer}">
+        <!--
+          푸터
+        -->
+      </footer>
+      <button type="button" id="top">상단이동</button>
+    </div>
+  </body>
+</html>

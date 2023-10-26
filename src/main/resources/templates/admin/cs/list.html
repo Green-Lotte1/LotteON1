@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/admin/admin_layout :: content}">
+<head>
+  <script th:src="@{/js/admin/cs_list.js}"></script>
+  <script th:src="@{/js/admin/cs_delete.js}"></script>
+  <script th:src="@{/js/cs/cs_layout.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
+</head>
+<section layout:fragment="content" th:id="${group}" class="group">
+
+  <nav>
+    <h3>[[${groupName}]] 보기</h3>
+    <p>
+      HOME > 고객센터 > <strong>[[${groupName}]]</strong>
+    </p>
+  </nav>
+
+  <section id="list">
+    <!--only notice-->
+    <select name="cate1" th:if="${group eq 'notice'}" class="shot">
+      <option>유형선택</option>
+      <option th:each="ct1:${cate1List}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq selectedCate1}">
+        [[${ct1.cate1_name}]]
+      </option>
+    </select>
+
+    <!--only faq, qna-->
+    <input type="hidden" name="url" th:value="${path}">
+    <th:block th:if="${group eq 'faq' or group eq 'qna'}">
+      <select name="cate1" class="shot">
+        <option>1차유형</option>
+        <option th:each="ct1:${cate1List}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq selectedCate1}">
+          [[${ct1.cate1_name}]]
+        </option>
+      </select>
+      <select name="cate2" class="shot">
+        <option>2차유형</option>
+        <option disabled th:if="${cate2List == null}">1차유형을 선택을 해주세요.</option>
+
+        <!--cate2가 존재하면 선택해주세요 안내문빼고 list 출력시키기 그리고 selected 적용할 것.-->
+        <option th:if="${cate2List != null}" th:each="ct2:${cate2List}"
+                th:value="${ct2.cate2}"      th:selected="${ct2.cate2 eq selectedCate2}">
+          [[${ct2.cate2_name}]]
+        </option>
+      </select>
+    </th:block>
+
+    <article>
+      <table>
+        <tr>
+          <th><input type="checkbox" id="allChk"/></th>
+          <th>번호</th>
+          <th th:if="${group eq 'notice'}">유형</th>
+          <th th:if="${group eq 'faq' or group eq 'qna'}">1차유형</th>
+          <th th:if="${group eq 'faq' or group eq 'qna'}">2차유형</th>
+          <th><a href="#">제목</a></th>
+          <th th:if="${group eq 'qna'}">작성자</th>
+          <th th:if="${group eq 'notice' or group eq 'faq'}">조회</th>
+          <th>[[${group eq 'qna'? '작성일':'날짜'}]]</th>
+          <th th:if="${group eq 'notice' or group eq 'faq'}">관리</th>
+          <th th:if="${group eq 'qna'}">상태</th>  <!--qna-->
+        </tr>
+
+        <tr class="adminList" th:each="list:${adminCsList.csList}">
+          <td><input name="chk" type="checkbox" th:value="${list.no}"></td>
+          <td th:text="${list.no}"></td>
+          <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'notice'}"></td>
+          <td th:text="${list.cate1.cate1_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>
+          <td th:text="${list.cate2.cate2_name}" th:if="${group eq 'faq' or group eq 'qna'}"></td>
+
+          <td class="tit">
+            <a th:utext="${list.brTitle}"
+               th:href="@{'/admin/cs/' + ${group} + ${group eq 'qna' and list.comment == 0 ? '/reply?' : '/view?'}
+               + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+               + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+               + 'no=' + ${list.no} + '&pg=' + ${adminCsList.pg}}"></a>
+          </td>
+
+          <td th:text="${list.uid.uid}" th:if="${group eq 'qna'}"></td>
+          <td th:text="${list.hit}" th:if="${group eq 'notice' or group eq 'faq'}"></td>
+          <td th:text="${list.yyMMdd}"></td>
+          <td th:if="${group eq 'notice' or group eq 'faq'}">
+            <a href="#" class="delete" value="">[삭제]</a><br>
+            <a th:href="@{'/admin/cs/' + ${group} + '/modify?'
+            + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+            + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+            + 'no=' + ${list.no}}">[수정]</a>
+          </td>
+          <td th:if="${group eq 'qna'}" th:style="${list.comment>0 ? 'color:green;font-weight:bold;' : ''}"
+              th:text="${list.comment > 0?'답변완료':'검토중'}"></td>
+        </tr>
+      </table>
+
+      <div class="paging" th:if="${adminCsList.total > 0}">
+        <a href="#" class="btnCD">선택삭제</a> <!--좌측 정렬-->
+
+        <span class="prev">
+            <a th:href="@{'/admin/cs/' + ${group} + '/list?'
+            + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+            + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+            + 'pg=' + ${adminCsList.start-1}}"
+               th:if="${adminCsList.prev}">
+              이전
+            </a>
+        </span>
+
+        <span class="num">
+            <th:block th:each="num:${#numbers.sequence(adminCsList.start, adminCsList.end)}">
+              <a th:href="@{'/admin/cs/' + ${group} + '/list?'
+              + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+              + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+              + 'pg=' + ${num}}"
+                 th:classappend="${adminCsList.pg eq num ? 'num on' : 'num'}">
+                [[${num}]]
+              </a>
+            </th:block>
+        </span>
+
+        <span class="next">
+            <a th:href="@{'/admin/cs/' + ${group} + '/list?'
+            + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+            + ${selectedCate2 != null ? 'cate2=' + selectedCate2 + '&' : ''}
+            + 'pg=' + ${adminCsList.end+1}}"
+               th:if="${adminCsList.next}">
+              다음
+            </a>
+        </span>
+
+        <th:block th:if="${group eq 'faq' or group eq 'notice'}">
+          <a th:href="@{'/admin/cs/' + ${group} + '/write'}" class="btnWrite">작성하기</a> <!--우측 정렬-->
+        </th:block>
+      </div>
+
+    </article>
+  </section>
+</section>
+</html>

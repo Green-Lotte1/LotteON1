@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.OrderItemMapper">
+
+    <insert id="insertOrderItem">
+        INSERT INTO `km_product_order_item` SET
+                            `ordNo`= #{ordNo},
+                            `prodNo`= #{prodNo},
+                            `count`= #{count},
+                            `price`= #{price},
+                            `discount`= #{discount},
+                            `point`= #{point},
+                            `delivery`= #{delivery},
+                            `total`= #{total};
+    </insert>
+
+    <select id="selectOrderItemsByOrdNo" resultType="hashmap">
+        SELECT
+        a.*,
+        b.prodName,
+        b.prodCate1,
+        b.prodCate2,
+        b.descript,
+        b.thumb1
+        FROM
+        `km_product_order_item` AS a
+        JOIN
+        `km_product` AS b
+        ON a.prodNo=b.prodNo
+        WHERE a.ordNo= #{ordNo};
+    </select>
+
+</mapper>

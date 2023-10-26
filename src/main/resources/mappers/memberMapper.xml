@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="co.kr.lotteon.mapper.MemberMapper">
+
+    <select id="countUid" resultType="int">
+        SELECT COUNT(*) FROM `km_member` WHERE `uid`=#{uid};
+    </select>
+
+    <select id="selectMemberOrderInfoByUid" resultType="co.kr.lotteon.entity.member.MemberEntity">
+        SELECT `uid`, `name`, `hp`, `point`, `zip`, `addr1`, `addr2` FROM `km_member` WHERE `uid` = #{uid};
+    </select>
+
+    <update id="updateMember">
+        UPDATE km_member SET
+        email=#{email},
+        hp=#{hp},
+        zip=#{zip},
+        addr1=#{addr1},
+        addr2=#{addr2}
+        WHERE uid=#{uid};
+    </update>
+</mapper>

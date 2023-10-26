@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/admin/admin_layout.html}">
+<head>
+  <script th:src="@{/js/cs/cs_qnaCate.js}"></script>
+  <link rel="stylesheet" th:href="@{/css/adminCs.css}" type="text/css"/>
+</head>
+<section layout:fragment="content" th:id="${group}">
+  <!--<input type="hidden" name="url" th:value="${jsonUrl}">-->
+
+  <nav>
+    <h3>[[${groupName}]] 보기</h3>
+    <p>
+      HOME > 고객센터 > <strong>[[${groupName}]]</strong>
+    </p>
+  </nav>
+
+  <article id="modify">
+
+    <form th:action="@{/admin/cs/write}" method="post">
+      <input type="hidden" name="group" th:value="${group}"/>
+      <input type="hidden" name="no"    th:value="${view.no}"/>
+      <input th:if="${group eq 'notice'}" type="hidden" name="cate2" value="notice"/>
+      <table>
+        <tr>
+          <td>문의유형</td>
+          <td>
+
+            <select name="cate1" th:if="${group eq 'notice'}" class="shot">
+              <option value="0">유형선택</option>
+              <option th:each="ct1:${cate1List}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq view.cate1.cate1}">
+                [[${ct1.cate1_name}]]
+              </option>
+            </select>
+
+            <input type="hidden" name="url" th:value="${path}">
+            <th:block th:if="${group eq 'faq' or group eq 'qna'}">
+              <select name="cate1">
+                <option value="0">1차유형</option>
+                <option th:each="ct1:${cate1List}" th:value="${ct1.cate1}"
+                        th:selected="${ct1.cate1 eq view.cate1.cate1}">
+                  [[${ct1.cate1_name}]]
+                </option>
+              </select>
+              <select name="cate2">
+                <option value="0">2차유형</option>
+                <option disabled th:if="${cate2List == null}">1차유형을 선택을 해주세요.</option>
+                <option th:if="${cate2List != null}" th:each="ct2:${cate2List}"
+                        th:value="${ct2.cate2}"      th:selected="${ct2.cate2 eq view.cate2.cate2}">
+                  [[${ct2.cate2_name}]]
+                </option>
+              </select>
+            </th:block>
+          </td>
+        </tr>
+
+        <tr>
+          <td>문의제목</td>
+          <td>
+            <input type="text" name="title" placeholder="제목을 입력하세요." th:value="${view.title}"/>
+          </td>
+        </tr>
+        <tr>
+          <td>문의내용</td>
+          <td>
+            <textarea name="content" placeholder="내용을 입력하세요." th:text="${view.content}"></textarea>
+          </td>
+        </tr>
+      </table>
+
+      <div id="buttons">
+        <a th:href="@{'/admin/cs/' + ${group} + '/list?'
+        + ${selectedCate1 != null ? 'cate1=' + selectedCate1 + '&' : ''}
+        + ${selectedCate2 != null ? 'cate2=' + selectedCate2 : ''}}" class="btnCancel"/>취소하기</a>
+        <input type="submit" class="btnWrite" value="등록하기"/>
+      </div>
+
+    </form>
+  </article>
+
+</section>
+</html>

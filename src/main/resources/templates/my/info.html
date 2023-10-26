@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/my/my_layout.html}">
+    <div class="info" layout:fragment="content">
+        <ul th:replace="~{/fragments/my/my_aside.html}">
+            <!--
+            어사이드 영역
+            -->
+        </ul>
+
+        <section>
+            <a href="#"><img th:src="@{/images/my/my_banner2.png}" alt="패션, 타운 하나로 끝" class="banner"></a>
+            <article>
+                <h3>회원정보 설정</h3>
+
+                <table border="0">
+                    <tr>
+                        <td>사용자 ID</td>
+                        <td class="uid">[[${myMember.uid}]]</td>
+                    </tr>
+                    <tr>
+                        <td>비밀번호</td>
+                        <td>
+                            <button id="btnChangePass">비밀번호 수정</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>이름</td>
+                        <td class="name">[[${myMember.name}]]</td>
+                    </tr>
+                    <tr>
+                        <td>생년월일</td>
+                        <td class="birth">[[${myMember.birth}]]</td>
+                    </tr>
+                    <tr>
+                        <td>E-mail</td>
+                        <td>
+                            <input type="text" name="email1" readonly>@
+                            <input type="text" name="email2" readonly>
+                                <select class="emailDomain" disabled>
+                                    <option>직접입력</option>
+                                    <option>naver.com</option>
+                                    <option>daum.net</option>
+                                    <option>gmail.com</option>
+                                    <option>nate.com</option>
+                                    <option>outlook.com</option>
+                                </select>
+                            <button id="btnChangeEmail" type="button">수정하기</button>
+                            <input type="hidden" id="myEmail" name="myEmail" th:value="${myMember.email}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>휴대폰</td>
+                        <td>
+                            <p class="hp">
+                                <input type="text" name="hp1" readonly th:maxlength="3"/>-
+                                <input type="text" name="hp2" readonly th:maxlength="4"/>-
+                                <input type="text" name="hp3" readonly th:maxlength="4"/>
+                                <button id="btnChangeHp">수정하기</button>
+                                <input type="hidden" id="myHp" name="myHp" th:value="${myMember.hp}">
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>주소</td>
+                        <td>
+                            <input type="text" name="zip" th:value="${myMember.zip}"/>
+                            <button id="btnFindZip" type="button" onclick="zipcode()">주소검색</button>
+                            <p class="address">
+                                <input type="text" name="addr1" th:value="${myMember.addr1}"/>
+                                <input type="text" name="addr2" th:value="${myMember.addr2}"/>
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>회원탈퇴</td>
+                        <td>
+                            <button id="btnWithdraw">탈퇴하기</button>
+                        </td>
+                    </tr>
+                </table>
+                <button type="submit" id="btnInfoChange">수정하기</button>
+            </article>
+        </section>
+
+        <script th:src="@{/js/my/userDivision.js}"></script>
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+        <script th:src="@{/js/member/zipcode.js}"></script>
+        <script>
+            $(function (){
+
+
+
+
+            });
+        </script>
+
+    </div>
+</html>

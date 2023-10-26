@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/product/product_layout.html}">
+<head>
+  <script th:src="@{/js/product/product_search.js}"></script>
+</head>
+<section layout:fragment="content" class="search">
+        
+        <!-- 상품검색 화면 시작 -->
+          <!-- 제목, 페이지 네비게이션 -->
+          <nav class="searchNav">
+            <h1>상품 검색 결과</h1>
+            <p>
+              HOME > <span>상품검색</span> > <strong>검색키워드</strong>
+            </p>
+          </nav>
+
+          <!-- 검색결과 그룹박스 -->
+          <div class="group">
+            <h3><strong th:text="${pageRequestDTO.keyword}"></strong>검색결과 <em>(총&nbsp;:&nbsp;<span th:text="${products.total}">20</span>&nbsp;건)</em></h3>
+            <form action="#" id="searchDetail">
+              <input type="text" name="search" class="searchDetail"/>
+              <input type="button" value="검색"/>
+              <span>
+                  <label><input type="checkbox" name="chk" value="상품명">상품명</label>
+                  <label><input type="checkbox" name="chk" value="상품설명">상품설명</label>
+                  <label><input type="checkbox" name="chk" value="상품가격">상품가격</label>
+                  <input type="text" name="min"/>원&nbsp;~&nbsp;<input type="text" name="max"/>원
+              </span>
+            </form>
+            <p class="info">
+              상세검색을 선택하지 않거나, 상품가격을 입력하지 않으면 현재 결과내에서 검색합니다.<br>
+              검색어는 최대 10글자까지, 여러개의 검색어를 공백으로 구분하여 입력 할수 있습니다.
+            </p>
+          </div>
+
+          <!-- 정렬 메뉴 -->
+          <ul class="sort">
+              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='sold')}" th:class="${pageRequestDTO.type eq 'sold' ? 'on' : 'off'}">판매많은순</a></li>
+              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='priceAsc')}" th:class="${pageRequestDTO.type eq 'priceAsc' ? 'on' : 'off'}">낮은가격순</a></li>
+              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='priceDesc')}" th:class="${pageRequestDTO.type eq 'priceDesc' ? 'on' : 'off'}">높은가격순</a></li>
+              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='score')}" th:class="${pageRequestDTO.type eq 'score' ? 'on' : 'off'}">평점높은순</a></li>
+              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='review')}" th:class="${pageRequestDTO.type eq 'review' ? 'on' : 'off'}">후기많은순</a></li>
+              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='rdate')}" th:class="${pageRequestDTO.type eq 'rdate' ? 'on' : 'off'}">최근등록순</a></li>
+          </ul>
+
+          <!-- 검색목록 -->
+          <table border="0">
+            <input type="hidden" id="keyword" th:value="${keyword}"/>
+            <input type="hidden" id="path" th:value="${path}"/>
+            <tr th:each="product:${products.dtoList}">
+              <td><a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1},prodCate2=${product.prodCate2},prodNo=${product.prodNo})}" class="thumb"><img th:src="@{/thumbs/}+${product.prodCate1.cate1} +'/'+ ${product.prodCate2} + '/' + ${product.thumb1}" alt="상품이미지"/></a></td>
+              <td>
+                <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1},prodCate2=${product.prodCate2},prodNo=${product.prodNo})}"><h3 class="name" th:text="${product.prodName}">상품명</h3></a>
+                <a th:href="@{/product/view(prodCate1=${product.prodCate1.cate1},prodCate2=${product.prodCate2},prodNo=${product.prodNo})}" class="desc" th:text="${product.descript}">상품 설명</a>
+              </td>
+              <td>
+                <ul>
+                  <li><ins class="dis-price" th:text="${#numbers.formatInteger(product.discountingPrice, 0, 'COMMA')}">27,000</ins></li>
+                  <li>
+                    <del class="org-price" th:if="${product.discount ne 0}" th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}">30,000</del>
+                    <span class="discount" th:if="${product.discount ne 0}">[[${product.discount}]]%</span>
+                  </li>
+                  <li><span th:class="${product.delivery eq 0 ? 'free-delivery' : 'delivery'}"  th:text="'배송비 '+${#numbers.formatInteger(product.delivery, 0, 'COMMA')}+'원'">무료배송</span></li>
+                </ul>
+              </td>
+              <td>
+                <h4 class="seller"><i class="fas fa-home"></i>&nbsp;[[${product.seller.company}]]</h4>
+                <h5 th:class="'badge '+${product.seller.level eq 4 ? 'power':(product.seller.level eq 5?'great':(product.seller.level eq 6 ?'power great':''))}">판매자등급</h5>
+                <h6 th:class="'rating star'+${product.score}">상품평[[${product.score eq 0 ? '이 없습니다.': ' '}]]</h6>
+              </td>
+            </tr>
+
+          </table>
+
+          <!-- 상품목록 페이지번호 -->
+          <div class="paging" th:if="${not #lists.isEmpty(products.dtoList)}">
+                        <span>
+                          <a th:href="@{/product/search(keyword=${products.keyword}, type=${pageRequestDTO.type}, pg=${products.start-1})}"
+                             class="prev" th:if="${products.prev}"><&nbsp;이전</a>
+                        </span>
+            <span class="num">
+                            <th:block th:each="num:${#numbers.sequence(products.start, products.end)}">
+                          <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, type=${pageRequestDTO.type}, pg=${num})}" class="on"  th:classappend="${products.pg eq num ? 'num on' : 'num'}">[[${num}]]</a>
+                            </th:block>
+                        </span>
+            <span>
+                          <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, type=${pageRequestDTO.type}, pg=${products.end+1})}"
+                             class="next" th:if="${products.next}">다음&nbsp;></a>
+                        </span>
+          </div>
+        </section>
+        <!-- 상품검색 화면 끝 -->
+</html>

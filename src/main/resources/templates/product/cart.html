@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/product/product_layout.html}">
+<head>
+    <script th:src="@{/js/product/product_cart.js}"></script>
+</head>
+<section layout:fragment="content" class="cart">
+        <!-- 장바구니 페이지 시작 -->
+            <!-- 제목, 페이지 네비게이션 -->
+            <nav>
+                <h1>장바구니</h1>
+                <p class="cartNav">
+                    장바구니  <span>> 주문결제</span>  <strong>> 주문완료</strong>
+                </p>
+            </nav>
+
+            <form action="#">
+                <!-- 장바구니 목록 -->
+                <table>
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" name="all" id="selectAll"></th>
+                        <th>상품명</th>
+                        <th>총수량</th>
+                        <th>판매가</th>
+                        <th>할인</th>
+                        <th>포인트</th>
+                        <th>배송비</th>
+                        <th>소계</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="empty" th:if="${#lists.isEmpty(cartList)}">
+                        <td colspan="7">장바구니에 상품이 없습니다.</td>
+                    </tr>
+                    <tr th:each="cart:${cartList}" th:if="${cart.prodNo.sale > 0}">
+                        <td><input type="checkbox" name="cartNo" th:value="${cart.cartNo}"></td>
+                        <td>
+                            <article>
+                                <a th:href="@{/product/view(prodCate1=${cart.prodNo.prodCate1.cate1},prodCate2=${cart.prodNo.prodCate2},prodNo=${cart.prodNo.prodNo})}"><img th:src="@{/thumbs/}+${cart.prodNo.prodCate1.cate1} +'/'+ ${cart.prodNo.prodCate2} + '/' + ${cart.prodNo.thumb1}" alt=""></a>
+                                <div>
+                                    <h2><a th:href="@{/product/view(prodCate1=${cart.prodNo.prodCate1.cate1},prodCate2=${cart.prodNo.prodCate2},prodNo=${cart.prodNo.prodNo})}" th:text="${cart.prodNo.prodName}">상품명</a></h2>
+                                    <p th:text="${cart.prodNo.descript}">상품설명</p>
+                                </div>
+                            </article>
+                        </td>
+                        <td th:text="${#numbers.formatInteger(cart.count, 0, 'COMMA')}+'개'">1</td>
+
+                        <td th:text="${#numbers.formatInteger(cart.price, 0, 'COMMA')}+'원'">27,000</td>
+                        <!--<td th:if="${cart.discount ne 0}">
+                            [[${#numbers.formatInteger(cart.discountingPrice, 0, 'COMMA')}]] </br>
+                            <span th:if="${cart.discount ne 0}" th:text="${#numbers.formatInteger(cart.price, 0, 'COMMA')}" class="throughPrice"></span>
+                        </td>-->
+
+                        <td th:text="${cart.discount}+'%'">5%</td>
+                        <td th:text="${#numbers.formatInteger(cart.savePoint, 0, 'COMMA')+'p'}">270</td>
+                        <td th:class="${cart.delivery eq 0 ? 'free-delivery' : 'delivery'}" th:text="${#numbers.formatInteger(cart.delivery, 0, 'COMMA')}+'원'">[[${cart.delivery}]]</td>
+                        <td th:text="${#numbers.formatInteger(cart.total, 0, 'COMMA')}+'원'">27,000</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+                <input type="button" name="del" id="del" value="선택삭제">
+
+                <!-- 장바구니 전체합계 -->
+                <div class="total" th:if="${not #lists.isEmpty(cartList)}">
+                    <h2>전체합계</h2>
+                    <table border="0" >
+                        <tr>
+                            <td>상품수</td>
+                            <td id="totalCountAmount">0개</td>
+                        </tr>
+                        <tr>
+                            <td>상품금액</td>
+                            <td id="totalOrgPriceAmount">0원</td>
+                        </tr>
+                        <tr>
+                            <td>할인금액</td>
+                            <td id="totalDiscountAmount">0원</td>
+                        </tr>
+                        <tr>
+                            <td>배송비</td>
+                            <td id="totalDeliveryAmount">0원</td>
+                        </tr>
+                        <tr>
+                            <td>포인트</td>
+                            <td id="totalPointAmount">0점</td>
+                        </tr>
+                        <tr>
+                            <td>전체주문금액</td>
+                            <td id="totalOrderAmount">0원</td>
+                        </tr>
+                    </table>
+                    <input type="submit" name="order" value="주문하기">
+                </div>
+
+            </form>
+        <!-- 장바구니 페이지 끝 -->
+    </section>
+</html>

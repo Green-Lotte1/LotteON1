@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/cs/cs_layout.html}">
+<head>
+  <script th:src="@{/js/cs/cs_qnaCate.js}"></script>
+  <script th:src="@{/js/cs/cs_qnaModify.js}"></script>
+</head>
+  <article layout:fragment="content">
+    <input type="hidden" name="url" th:value="${path}">
+    <form th:action="@{/cs/qna/modify}" method="post" id="modify">
+      <input type="hidden" name="no"     th:value="${view.no}"/>
+      <input type="hidden" name="parent" th:value="${view.parent}"/>
+      <input type="hidden" name="group"  th:value="${view.group.group}"/>
+      <table>
+        <tr>
+          <td>문의유형</td>
+          <td>
+
+            <select name="cate1">
+              <option value="0">1차유형</option>
+              <option th:each="ct1:${cate1}" th:value="${ct1.cate1}" th:selected="${ct1.cate1 eq pageRequestDTO.cate1}">
+                [[${ct1.cate1_name}]]
+              </option>
+            </select>
+
+            <select name="cate2">
+              <option value="0">2차유형</option>
+              <option th:each="ct2:${cate2}" th:value="${ct2.cate2}" th:selected="${ct2.cate2 eq pageRequestDTO.cate2}">
+                [[${ct2.cate2_name}]]
+              </option>
+            </select>
+
+          </td>
+        </tr>
+        <tr>
+
+          <td>문의제목</td>
+          <td>
+            <input type="text" name="title" placeholder="제목을 입력하세요." maxlength="45"
+              th:value="${view.title}"/>
+          </td>
+
+        </tr>
+
+        <tr>
+          <td>문의내용</td>
+          <td>
+            <textarea name="content" class="content" placeholder="내용을 입력하세요.">[[${view.content}]]</textarea>
+          </td>
+
+        </tr>
+      </table>
+      <div id="buttons">
+        <a th:href="@{/cs/qna/view(cate1=${view.cate1.cate1}, cate2=${view.cate2.cate2}, no=${view.no}, pg=${pageRequestDTO.pg})}" class="btnList">취소하기</a>
+        <th:block sec:authorize="isAuthenticated()"
+                  th:if="${#authentication.principal.member.uid eq view.uid.uid}">
+        <input type="submit" class="btnSubmit" id="modifyBtn" value="수정완료"></input>
+        </th:block>
+      </div>
+    </form>
+  </article>
+</html>

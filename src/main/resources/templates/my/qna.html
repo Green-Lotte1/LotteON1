@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/my/my_layout.html}">
+<head>
+    <script th:src="@{/js/my/qnaShow.js}"></script>
+</head>
+    <div class="qna" layout:fragment="content">
+        <ul th:replace="~{/fragments/my/my_aside.html}">
+            <!--
+            어사이드 영역
+            -->
+        </ul>
+        <head>
+            <script th:src="@{/js/my/qnaShow.js}"></script>
+        </head>
+        <input type="hidden" class="path" th:value="${path}">
+
+        <section>
+            <a href="#"><img th:src="@{/images/my/my_banner2.png}" alt="패션, 타운 하나로 끝" class="banner"></a>
+            <article>
+                <h3>문의하기</h3>
+
+                <table border="0">
+                    <tr>
+                        <th>번호</th>
+                        <th>문의채널</th>
+                        <th>문의유형</th>
+                        <th>제목</th>
+                        <th>작성일</th>
+                        <th>상태</th>
+                    </tr>
+
+
+                    <th:block th:each="list, num:${myQna.csList}">
+                        <tr th:classappend="${list.comment eq 0 ? 'none' : 'off'}">
+                            <td class="no">[[${myQna.total - ((myQna.pg - 1) * myQna.size) - num.index}]]</td>
+                            <td class="channel">[[${list.group.group == 'seller' ? '판매자 게시판' : '고객센터'}]]</td>
+                            <td class="type">[[${list.cate1.cate1_name}]]</td>
+                            <td class="tit">
+                                <input name="no"       type="hidden"   th:value="${list.no}">
+                                <input name="title"    type="hidden"   th:value="${list.brTitle}">
+                                <input name="content"  type="hidden"   th:value="${list.brContent}">
+                                <input name="rdate"    type="hidden"   th:value="${list.yyyyMMddHHmmss}">
+
+                                <!--고객센터의 경우-->
+                                <a th:if="${list.group.group ne 'seller'}" href="#"
+                                   th:utext="${list.brTitle}">
+                                    제목
+                                </a>
+
+                                <!--판매자 게시판 경우-->
+                                <ul th:if="${list.group.group eq 'seller'}">
+                                    <li class="prodName">
+                                        <a href="#">
+                                            [[${list.prodNo.prodName}]]
+                                        </a>
+                                    </li>
+                                    <li class="question">
+                                        <a th:utext="${list.brTitle}" href="#">
+                                            [[${list.answer}]]
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </td>
+
+                            <td class="date">[[${list.yyyyMMdd}]]</td>
+                            <td class="status">
+                                <span th:classappend="${list.comment > 0 ? 'answered' : ''}">
+                                    [[${list.comment > 0 ? '답변완료' : '검토중'}]]
+                                </span>
+                            </td>
+                        </tr>
+
+                        <!--<tr class="answerRow" th:if="${list.comment > 0}">
+                            <td colspan="6">
+                                <div class="question">
+                                    <p class="tit">
+                                        [[${list.title}]]
+                                        <span class="date">[[${list.yyyyMMddHHmmss}]]</span>
+                                    </p>
+                                    <p class="content">
+                                        [[${list.content}]]
+                                    </p>
+                                </div>
+                                <div class="answer">
+                                    <p class="tit">
+                                        반품 문의 답변입니다.
+                                        <span class="date">답변작성일</span>
+                                    </p>
+                                    <p class="content">
+                                        답변
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>-->
+                    </th:block>
+                </table>
+                <div th:if="${myQna.total eq 0}"
+                     style="width: 100%; height: 150px; font-size: 14px;
+                     line-height: 150px; text-align: center;">
+                    문의 하신 내역이 없습니다.
+                </div>
+
+                <p class="page" th:if="${myQna.total > 0}">
+
+                    <a class="prev"
+                       th:href="@{/my/qna(pg=${myQna.start-1})}"
+                       th:if="${myQna.prev}">
+                        이전
+                    </a>
+
+                    <a th:classappend="${myQna.pg eq num ? 'num on' : 'num'}"
+                       th:each="num:${#numbers.sequence(myQna.start, myQna.end)}"
+                       th:href="@{/my/qna(pg=${num})}">
+                        [[${num}]]
+                    </a>
+
+                    <a class="next"
+                       th:href="@{/my/qna(pg=${myQna.end+1})}"
+                       th:if="${myQna.next}">
+                        다음
+                    </a>
+                </p>
+            </article>
+        </section>
+    </div>
+</html>

@@ -1,0 +1,82 @@
+<!-- /templates/cs/frame.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+  <head>
+    <meta charset="UTF-8" />
+    <title>롯데ON::고객센터</title>
+    <link rel="shortcut icon" type="image/x-icon" th:href="@{/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/css/cs.css}" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"/>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+    <script th:src="@{/js/cs/cs_layout.js}"></script>
+  </head>
+  <body>
+    <div id="wrapper">
+      <header>
+        <div class="top" th:replace="~{/fragments/loginBar}">
+
+          <!--로그인바 들어올 위치-->
+
+        </div>
+        <div class="logo">
+          <div>
+            <a th:href="@{/cs/index}"><img th:src="@{/images/header_logo.png}" alt="로고" />고객센터</a>
+          </div>
+        </div>
+      </header>
+      <section id="cs">
+
+        <!-- 여기부터  -->
+        <div th:class="${groupInfo.group}">
+          <nav>
+            <div>
+              <p>
+                  홈
+                <span>></span>
+                  [[${groupInfo.group_name}]]
+                <span>></span>
+                <p style="font-weight: bold;">
+                  [[${cate1Info.cate1_name}]]
+                </p>
+              </p>
+            </div>
+          </nav>
+          <section th:class="${article}">
+            <!-- 여기까지 css를 정하는 class -->
+            <aside>
+              <h2>[[${groupInfo.group_name}]]</h2>
+              <ul>
+                <th:block th:each="cg:${category}">
+                  <li th:class="${cg.cate1 eq cate1Info.cate1 ? 'on' : 'off'}">
+                    <a th:href="@{${url}(cate1=${cg.cate1})}">
+                      [[${cg.cate1_name}]]
+                    </a>
+                  </li>
+                </th:block>
+              </ul>
+            </aside>
+            <input type="hidden" name="path"    th:value="${path}"/>
+            <input type="hidden" name="cate1"   th:value="${cate1Info.cate1}"/>
+            <article layout:fragment="content">
+
+              <!--
+                컨텐츠가 들어와야 할 위치
+              -->
+
+
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <footer th:replace="~{/fragments/footer}">
+        <!--
+          푸터
+        -->
+      </footer>
+    </div>
+  </body>
+</html>

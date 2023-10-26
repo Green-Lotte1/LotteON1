@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/cs/cs_layout :: content}">
+  <article layout:fragment="content">
+    <nav th:replace="~{/fragments/cs/cs_nav :: nav}">
+      <!-- nav 들어올 영역 -->
+    </nav>
+    <table th:style="${pageResponseDTO.total < 1 ? 'margin-bottom: 60px;' : ''}">
+      <tr th:each="board:${boardList}">
+        <td>
+          <a th:href="@{/cs/qna/view(cate1=${board.cate1.cate1}, no=${board.no})}">
+            [[${board.cate2.wrapping}]] [[${board.title}]]
+          </a>
+        </td>
+        <td th:style="${board.comment>0 ? 'color:green;font-weight:bold;' : ''}">
+          [[${board.comment > 0 ? '답변 완료':'검토 중'}]]
+        </td>
+        <td>[[${board.uid.uidMasking}]]</td>
+        <td>[[${board.yyyyMMdd}]]</td>
+      </tr>
+
+      <!-- data가 없을 경우 출력 -->
+      <tr th:if="${pageResponseDTO.total < 1}">
+        <td style="text-align: center; font-size: 14px; padding: 50px 0;">
+          <i class="fa-regular fa-face-sad-tear" style="color: grey; font-size: 100px;"></i><br><br>
+          등록된 문의 내용이 없습니다.
+        </td>
+      </tr>
+
+    </table>
+
+    <div class="page" th:if="${pageResponseDTO.total > 0}">
+      <a th:href="@{/cs/qna/list(cate=free, pg=${pageResponseDTO.start-1})}"
+         class="prev" th:if="${pageResponseDTO.prev}">
+        이전
+      </a>
+
+      <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
+        <a th:href="@{/cs/qna/list(cate=free, pg=${num})}" th:classappend="${pageResponseDTO.pg eq num ? 'num on' : 'num'}">[[${num}]]</a>
+      </th:block>
+
+      <a th:href="@{/cs/qna/list(cate=free, pg=${pageResponseDTO.end+1})}"
+         class="next" th:if="${pageResponseDTO.next}">
+        다음
+      </a>
+    </div>
+
+    <th:block  sec:authorize="isAuthenticated()">
+      <a th:href="@{/cs/qna/write(cate1=${cate1Info.cate1})}" class="btnWrite">문의하기</a>
+    </th:block>
+
+  </article>
+</html>

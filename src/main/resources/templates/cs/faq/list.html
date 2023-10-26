@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/cs/cs_layout :: content}">
+<head>
+  <script th:src="@{/js/cs/cs_faqList.js}"></script>
+</head>
+  <article layout:fragment="content">
+    <nav th:replace="~{/fragments/cs/cs_nav :: nav}">
+      <!-- nav 들어올 영역 -->
+    </nav>
+    <div th:each="board, num:${boardList}">
+      <h3>
+        [[${board.get(0).cate2.cate2_name}]]
+      </h3>
+      <ul>
+        <li th:each="brd:${board}">
+          <a th:href="@{/cs/faq/view(cate1=${brd.cate1.cate1}, no=${brd.no})}">
+            <span>Q.</span>[[${brd.title}]]
+          </a>
+        </li>
+        <li th:class="${board.size<3?'disable':'more'}">
+          <a href="#" th:if="${board.size>3}">더보기</a>
+        </li>
+      </ul>
+    </div>
+    <div th:if="${boardList == null}">
+
+    </div>
+  </article>
+</html>

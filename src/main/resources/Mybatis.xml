@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="logImpl" value="LOG4J2"/> <!-- 로그 출력을 Logback, Log4j 등으로 변경할 수 있음 -->
+    </settings>
+    <mappers>
+        <mapper resource="mappers/memberMapper.xml"/>
+        <mapper resource="mappers/productMapper.xml"/>
+        <mapper resource="mappers/adminProductMapper.xml"/>
+        <package name="co.kr.lotteon.mapper"/>
+    </mappers>
+</configuration>
