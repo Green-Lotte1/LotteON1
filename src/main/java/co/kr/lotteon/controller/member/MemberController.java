@@ -18,14 +18,6 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
-    /*public MemberDTO test(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        String username = userDetails.getUsername();
-        MemberDTO member = memberService.findByUid(username);
-        return member;
-    }*/
-
     @GetMapping("/member/join")
     public String join(){
         log.info("join...1");
