@@ -62,11 +62,11 @@
     <!-- 여기서 부터 페이징
     -->
     <select id="selectProductCountTotal" resultType="int">
-        SELECT COUNT(*) FROM `km_product`;
+        SELECT COUNT(*) FROM `km_product` WHERE `sale` >= 0;
     </select>
 
     <select id="selectPageProducts" resultType="co.kr.lotteon.dto.admin.AdminProductDTO">
-        SELECT * FROM `km_product`
+        SELECT * FROM `km_product` WHERE `sale` >= 0 ORDER BY `prodNo` DESC
         LIMIT #{start}, 10;
     </select>
 
