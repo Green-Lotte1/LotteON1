@@ -149,7 +149,7 @@ $(document).ready(function () {
                                     if(confirm('장바구니에 추가되었습니다. 지금 장바구니로 이동하시겠습니까?')){
                                         console.log('here...6');
                                         console.log('jsonData :'+JSON.stringify(jsonData));
-                                        window.location.href = '/LotteOn/product/cart';
+                                        window.location.href = path+'/product/cart';
                                     // UPDATE COMPLETE BUT STAY HERE
                                     }else{
                                         console.log('here...7');
@@ -188,7 +188,7 @@ $(document).ready(function () {
                                 if(confirm('장바구니에 추가되었습니다. 지금 장바구니로 이동하시겠습니까?')){
                                     console.log('here...10');
                                     console.log('jsonData :'+JSON.stringify(checkData));
-                                    window.location.href = '/LotteOn/product/cart';
+                                    window.location.href = path+'/product/cart';
                                 // INSERT COMPLETE BUT STAY HERE
                                 }else{
                                     console.log('here...11');
