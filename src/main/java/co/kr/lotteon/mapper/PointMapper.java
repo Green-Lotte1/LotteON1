@@ -17,4 +17,7 @@ public interface PointMapper {
     public List<PointDTO> myPointList(@Param("uid")String uid, @Param("type1")String type1, @Param("type2")String type2, @Param("pg")int pg);
 
     public int myPointCount(@Param("uid")String uid, @Param("type1")String type1, @Param("type2")String type2);
+
+    public void insertUsedPoint(@Param("uid")String uid, @Param("ordNo")int ordNo, @Param("note")String note,@Param("point")int point);
+
 }

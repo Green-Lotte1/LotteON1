@@ -1,5 +1,10 @@
 
 $(function (){
+
+    // 아이디 마스킹 처리
+    const maskingUid = uid.replace(/.{2}$/, "***");
+    $('.uid').text(maskingUid);
+
     // 이메일 데이터 처리
     const emailParts = myEmail.split('@');
     if (emailParts.length === 2) {
@@ -34,7 +39,7 @@ $(function (){
     let year = birthDate.substring(0, 4);
     let month = birthDate.substring(4, 6);
     let day = birthDate.substring(6, 8);
-    birth.text(year + '년' + month + '월' + day + '일');
+    birth.text(year + '년 ' + month + '월 ' + day + '일');
 
 
     // 기본으로 변경전 데이터를 넣음
@@ -115,11 +120,25 @@ $(function (){
         hp1 = hp1Input.val();
         hp2 = hp2Input.val();
         hp3 = hp3Input.val();
+        const finalZip = $('input[name=zip]').val();
+        const finalAddr1 = $('input[name=addr1]').val();
+        const finalAddr2 = $('input[name=addr2]').val();
+
         finalEmail = emailId + '@' + emailDomain;
         console.log('finalEmail :'+finalEmail);
 
         finalHp = hp1 + '-' + hp2 + '-' +hp3;
         console.log('finalHp : '+finalHp);
+
+        // 유효성 검사
+        if(!finalEmail.match(reEmail)){
+            alert('입력된 이메일이 유효하지 않습니다.');
+            return;
+        }
+        if(!finalHp.match(reHp)){
+            alert('입력된 휴대폰 번호가 유효하지 않습니다.');
+            return;
+        }
 
         if(confirm('회원 정보를 수정하시겠습니까?')){
 
@@ -127,9 +146,9 @@ $(function (){
                 'uid':uid,
                 'email': finalEmail,
                 'hp': finalHp,
-                'zip': myZip,
-                'addr1': myAddr1,
-                'addr2': myAddr2
+                'zip': finalZip,
+                'addr1': finalAddr1,
+                'addr2': finalAddr2
             }
             console.log(jsonData);
 
@@ -151,6 +170,8 @@ $(function (){
                     beforeHp2 = '';
                     beforeHp3 = '';
 
+                    // 페이지 갱신
+                    location.reload();
                 }
             });
 

@@ -36,13 +36,19 @@ public interface ProductMapper {
     public List<ProductDTO> search(@Param("keyword") String keyword,
                                    @Param("prodCate1")int prodCate1,
                                    @Param("type")String type,
-                                   @Param("start")int start);
+                                   @Param("start")int start,
+                                   @Param("chkProdName")String chkProdName,
+                                   @Param("chkProdDesc")String chkProdDesc,
+                                   @Param("chkProdPrice")String chkProdPrice,
+                                   @Param("min")int min,
+                                   @Param("max")int max
+                                );
 
     public int selectSearchCountProducts(@Param("keyword")String keyword,
                                          @Param("prodCate1")int prodCate1,
-                                         @Param("chkProdName")boolean chkProdName,
-                                         @Param("chkProdDesc")boolean chkProdDesc,
-                                         @Param("chkProdPrice")boolean chkProdPrice,
+                                         @Param("chkProdName")String chkProdName,
+                                         @Param("chkProdDesc")String chkProdDesc,
+                                         @Param("chkProdPrice")String chkProdPrice,
                                          @Param("min")int min,
                                          @Param("max")int max
                                          );

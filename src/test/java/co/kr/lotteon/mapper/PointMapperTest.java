@@ -32,4 +32,11 @@ public class PointMapperTest {
         System.out.println("end   : " + page.getEnd());
         System.out.println("===========================================================================================");
     }
+  //@Test
+    public void insertUsedPoint(){
+
+        pointMapper.insertUsedPoint("lomong7807", 380, "포인트 사용" ,-10000);
+
+    }
 }
+

@@ -13,12 +13,14 @@ import co.kr.lotteon.service.product.ProductService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +35,7 @@ public class AdminProductController {
     private final CsService csService;
     private final MemberService memberService;
     private final AdminProductService adminProductService;
+    private final ModelMapper modelMapper;
 
     @Value("${spring.servlet.multipart.location}")
     private String filePath;
@@ -48,9 +51,11 @@ public class AdminProductController {
     }*/
 
     @GetMapping("/admin/product/register")
-    public String productRegister(){
+    public String productRegister(HttpServletRequest request, Model model){
         String path = new File(filePath).getAbsolutePath();
         log.info("path : " + path);
+        String ctxPath = productService.getPath(model, request);
+        model.addAttribute("ctxPath", ctxPath);
         return "/admin/product/register";
     }
 
@@ -92,14 +97,6 @@ public class AdminProductController {
         return "redirect:/admin/product/list";
     }
 
-    @PostMapping("/admin/product/searchProduct")
-    public String SearchProduct(@RequestParam("search") String search, @RequestParam("searchType") String searchType, Model model){
-        log.info("SearchProduct...1");
-        List<AdminProductDTO> productDTOList = adminProductService.searchProduct(search, searchType);
-        model.addAttribute("adminproducts" , productDTOList );
-
-        return "/admin/product/list";
-    }
     @ResponseBody
     @PostMapping("/admin/product/deleteCheckProduct")
     public List<String> deleteCheckProduct(@RequestBody Map<String,List<String>> data){
@@ -116,11 +113,18 @@ public class AdminProductController {
     // 페이징
 
     @GetMapping("/admin/product/list")
-    public String list(Model model, String pg) {
+    public String list(@RequestParam(name = "search", required = false) String search,
+                       @RequestParam(name = "searchType", required = false) String searchType,
+                       Model model,
+                       String pg) {
 
         log.info("컨트롤러 1=====================================");
-
-        int total = adminProductService.selectProductCountTotal();
+        int total = 0;
+        if(search == null && searchType == null) {
+            total = adminProductService.selectProductCountTotal();
+        } else {
+            total = adminProductService.searchProductsCount(search,searchType);
+        }
 
         log.info("컨트롤러 토탈========================"+total);
 
@@ -143,20 +147,27 @@ public class AdminProductController {
 
 
         // 상품 목록 출력
-        List<AdminProductDTO> products = adminProductService.selectPageProducts(start);
+        List<AdminProductDTO> products = null;
+
+        if(search == null && searchType == null){
+            products = adminProductService.selectPageProducts(start);
+
+        } else {
+            products = adminProductService.searchProduct(search,searchType,start);
+        }
 
         // 뷰(템플릿)에서 참조하기 위해 모델 참조
         model.addAttribute("products", products);
         model.addAttribute("lastPageNum", lastPageNum);
         model.addAttribute("total ", total);
         model.addAttribute("currentPg", currentPg);
-
         model.addAttribute("pageGroupStart", pageGroup[0]);
         model.addAttribute("pageGroupEnd", pageGroup[1]);
 
 
         return "/admin/product/list";
     }
+
 }
 
 

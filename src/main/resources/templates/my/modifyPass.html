@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{/fragments/my/my_layout.html}">
+<div class="info" layout:fragment="content">
+    <ul th:replace="~{/fragments/my/my_aside.html}">
+        <!--
+        어사이드 영역
+        -->
+    </ul>
+
+    <section>
+        <article class="modifyPass">
+            <h3>비밀번호 수정</h3>
+
+            <table border="0" class="passTable">
+                <tr>
+                    <td>비밀번호 인증</td>
+                    <td>
+                        <input type="text" name="pass">
+                        <button type="button" id="btnChangePass">인증</button> <br>
+                        <span class="msgPass"></span>
+                    </td>
+                </tr>
+            </table>
+
+            <h3>새 비밀번호 입력</h3>
+            <table border="0" class="passTable">
+                <tr>
+                    <td>새 비밀번호</td>
+                    <td>
+                        <input type="text" name="pass1">
+                    </td>
+                </tr>
+                <tr>
+                    <td>새 비밀번호 확인</td>
+                    <td>
+                        <input type="text" name="pass2">
+                    </td>
+                </tr>
+            </table>
+            <button type="submit" id="btnInfoChange">수정하기</button>
+        </article>
+    </section>
+
+    <script>
+        $(function (){
+
+            // btnChangePass 버튼 클릭 시 실행되는 함수
+            document.getElementById("btnChangePass").addEventListener("click", function() {
+                $("h3").show();
+                $(".passTable").show();
+                $("#btnInfoChange").css('display','block');
+            });
+
+            window.onbeforeunload = function (){
+                return "이 페이지를 떠나시겠습니까? 재접속시 비밀번호 인증을 다시해야 합니다.";
+            }
+        });
+    </script>
+</div>
+</html>

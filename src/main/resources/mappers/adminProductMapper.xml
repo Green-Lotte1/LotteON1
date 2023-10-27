@@ -40,34 +40,58 @@
     </update>
     <delete id="deleteProduct"></delete>
 
-    <select id="SearchProductProdName" resultType="hashMap">
-        SELECT * FROM `km_product` WHERE `prodName` LIKE '%${prodName}%' ORDER BY `prodNo` DESC;
-    </select>
-    <select id="SearchProductProdNo" resultType="hashMap">
-        SELECT * FROM `km_product` WHERE `prodNo` LIKE #{prodNo} ORDER BY `prodNo` DESC;
-    </select>
-    <select id="SearchProductProdCompany" resultType="hashMap">
-        SELECT * FROM `km_product` WHERE `prodCompany` LIKE '%${prodCompany}%' ORDER BY `prodNo` DESC;
-    </select>
-    <select id="SearchProductSeller" resultType="hashMap">
-        SELECT * FROM `km_product` WHERE `seller` LIKE '%${seller}%' ORDER BY `prodNo` DESC;
-    </select>
-    
-    <select id="selectProductCate" resultType="hashMap">
-        SELECT * FROM `km_product_cate1` AS a
-        JOIN `km_product_cate2` AS b ON a.cate1 = b.cate1
-        WHERE a.`cate1`=#{cate1};
-    </select>
-
     <!-- 여기서 부터 페이징
     -->
     <select id="selectProductCountTotal" resultType="int">
-        SELECT COUNT(*) FROM `km_product` WHERE `sale` >= 0;
+        SELECT COUNT(*) FROM `km_product` a WHERE `sale` >= 0;
     </select>
 
     <select id="selectPageProducts" resultType="co.kr.lotteon.dto.admin.AdminProductDTO">
         SELECT * FROM `km_product` WHERE `sale` >= 0 ORDER BY `prodNo` DESC
         LIMIT #{start}, 10;
     </select>
+
+    <select id="selectLatestOrdNo">
+        SELECT `ordNo` FROM `km_product_order` WHERE `ordUid` = #{ordUid} ORDER BY `ordDate` DESC LIMIT 1;
+    </select>
+
+
+
+    <!-- 검색된 게시글 갯수 -->
+    <select id="selectSearchCountAdminProducts">
+        SELECT COUNT(*) FROM `km_product` a
+        <include refid="checkBox"/>
+    </select>
+
+    <!-- 검색 -->
+    <select id="SearchAdminProducts" resultType="co.kr.lotteon.dto.admin.AdminProductDTO">
+        SELECT * FROM `km_product` a
+        <include refid="checkBox"/>
+        <!-- 검색 목록 정렬 -->
+        <if test="start != '' and start != null">ORDER BY a.`prodNo` DESC LIMIT #{start}, 10</if>
+    </select>
+
+    <!-- 검색 타입 -->
+    <sql id="checkBox">
+        WHERE a.sale >= 0
+        <choose>
+            <!-- prodName -->
+            <when test="searchType == 'prodName'">
+                AND a.prodName LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <!-- prodNo -->
+            <when test="searchType == 'prodNo'">
+                AND a.prodNo LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <!-- prodCompany -->
+            <when test="searchType == 'prodCompany'">
+                AND a.prodCompany LIKE CONCAT('%', #{search}, '%')
+            </when>
+            <!-- seller -->
+            <when test="searchType == 'seller'">
+                AND a.seller LIKE CONCAT('%', #{search}, '%')
+            </when>
+        </choose>
+    </sql>
 
 </mapper>

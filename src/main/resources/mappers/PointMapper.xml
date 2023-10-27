@@ -9,7 +9,17 @@
                             `uid`= #{uid},
                             `ordNo`= #{ordNo},
                             `point`= #{point},
+                            `note`= #{note},
                             `pointDate`=NOW();
+    </insert>
+
+    <insert id="insertUsedPoint">
+        INSERT INTO `km_member_point` SET
+        `uid`= #{uid},
+        `ordNo`= #{ordNo},
+        `point`= #{point},
+        `note`= #{note},
+        `pointDate`=NOW();
     </insert>
 
     <update id="minusMemberPoint">

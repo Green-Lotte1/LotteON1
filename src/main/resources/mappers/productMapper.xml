@@ -14,21 +14,38 @@
     </select>
 
     <select id="selectSearchCountProducts">
-        SELECT COUNT(*) FROM `km_product` WHERE `sale`=1
-        <choose>
-            <when test="!chkProdName and !chkProdDesc and !chkProdPrice ">
-                AND `prodName` LIKE CONCAT('%', #{keyword}, '%')
-            </when>
-            <when test="!chkProdName and chkProdDesc and !chkProdPrice ">
-                AND `descript` LIKE CONCAT('%', #{keyword}, '%')
-            </when>
-            <otherwise>
-                AND `prodName` LIKE CONCAT('%', #{keyword}, '%') AND `price` BETWEEN ${min} AND #{max}
-            </otherwise>
-        </choose>
-        <!--<if test="prodCate1 != '' and prodCate1 != null">AND `prodCate1`=#{prodCate1}</if>
-        <if test="chkProdPrice and chkProdPrice != null">AND WHERE `price` BETWEEN ${min} AND #{max}</if>-->
+        SELECT COUNT(*) FROM `km_product` a
+        <include refid="checkBox"/>
+        <if test="(prodCate1 != '' and prodCate1 != null) and (prodCate1 lte 14) and (prodCate1 gte 10)">
+            AND a.prodCate1=#{prodCate1}
+        </if>
     </select>
+
+    <sql id="checkBox">
+        WHERE a.sale=1
+        <choose>
+            <!--NOBODY CHECKED OR CHECKED NAME-->
+            <when test="(chkProdName == 'off' and chkProdDesc == 'off' and chkProdPrice == 'off') or (chkProdName == 'on' and chkProdDesc == 'off' and chkProdPrice == 'off')">
+                AND a.prodName LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <!--CHECKED ONLY DESCRIPTION-->
+            <when test="chkProdName == 'off' and chkProdDesc == 'on' and chkProdPrice == 'off' ">
+                AND a.descript LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <!--CHECKED ONLY PRICE-->
+            <when test="(chkProdName == 'off' and chkProdDesc == 'off' and chkProdPrice == 'on') or (chkProdName == 'on' and chkProdDesc == 'off' and chkProdPrice == 'on')">
+                AND a.prodName LIKE CONCAT('%', #{keyword}, '%') AND a.price BETWEEN ${min} AND #{max}
+            </when>
+            <!--CHECKED NAME AND DESCRIPTION-->
+            <when test="chkProdName == 'on' and chkProdDesc == 'on' and chkProdPrice == 'off'">
+                AND a.prodName LIKE CONCAT('%', #{keyword}, '%') OR a.descript LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <!--CHECKED ALL-->
+            <when test="chkProdName == 'on' and chkProdDesc == 'on' and chkProdPrice == 'on'">
+                AND (a.prodName LIKE CONCAT('%', #{keyword}, '%') OR a.descript LIKE CONCAT('%', #{keyword}, '%')) AND a.price BETWEEN ${min} AND #{max}
+            </when>
+        </choose>
+    </sql>
 
     <!--SEARCH QUERY 공통 부분-->
     <sql id="searchProductsSame">
@@ -38,12 +55,12 @@
         ON a.prodCate1=b.cate1
         JOIN `km_member` AS c
         ON a.seller=c.uid
-        WHERE a.sale=1 AND a.prodName LIKE CONCAT('%', #{keyword}, '%')
+        <include refid="checkBox"/>
     </sql>
 
     <select id="search" resultMap="productResultMap">
-        <include refid="searchProductsSame"></include>
-        <if test="prodCate1 != '' and prodCate1 != null">
+        <include refid="searchProductsSame"/>
+        <if test="(prodCate1 != '' and prodCate1 != null) and (prodCate1 lte 14) and (prodCate1 gte 10)">
             AND a.prodCate1=#{prodCate1}
         </if>
         <if test="type == 'sold'">ORDER BY a.`sold` DESC</if>
@@ -52,7 +69,7 @@
         <if test="type == 'score'">ORDER BY a.`score` DESC</if>
         <if test="type == 'review'">ORDER BY a.`review` DESC</if>
         <if test="type == 'rdate'">ORDER BY a.`rdate` ASC</if>
-        <if test="start != '' and start != null">LIMIT #{start}, 10</if>
+            LIMIT #{start}, 10
     </select>
 
 

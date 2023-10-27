@@ -244,7 +244,7 @@ $(document).ready(function () {
         console.log('here...4');
         console.log(JSON.stringify(jsonData));
 
-
+        console.log('articleArray: '+articleArray[0]);
         console.log('here...5');
         $.ajax({
             url: path+'/product/insertOrder',

@@ -43,7 +43,7 @@
                             </article>
                         </td>
                         <td th:text="${#numbers.formatInteger(item.price, 0, 'COMMA')}+'원'">17,000원</td>
-                        <td th:text="${(item.price * item.count)*item.discount}">1,000원</td>
+                        <td th:text="${#numbers.formatInteger(((item.price * item.count)/100)*item.discount, 0, 'COMMA')+'원'}">1,000원</td>
                         <td th:text="${#numbers.formatInteger(item.count, 0, 'COMMA')}+'개'">1</td>
                         <td th:text="${#numbers.formatInteger(item.total, 0, 'COMMA')}+'원'">16,000원</td>
                     </tr>
