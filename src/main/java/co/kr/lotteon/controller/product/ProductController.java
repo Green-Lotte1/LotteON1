@@ -345,6 +345,9 @@ public class ProductController {
 
         log.info("insertOrderController here...1");
         result = prodService.insertOrder(order);
+        if(order.getUsedPoint() > 0){
+            prodService.insertUsedPoint(order.getUsedPoint(),result);
+        }
         ordNo = prodService.selectLatestOrdNo();
         prodService.minusMemberPoint(order.getUsedPoint());
 
@@ -390,7 +393,16 @@ public class ProductController {
         int pg = pageRequestDTO.getPg();
         // 현재 페이지 번호
         int currentPage = prodService.getCurrentPage(pg);
+        log.info("search here...3");
         log.info(pageRequestDTO.getProdCate1());
+        log.info("search here...4");
+        log.info(pageRequestDTO.getKeyword(),
+                pageRequestDTO.getProdCate1(),
+                pageRequestDTO.getChkProdName(),
+                pageRequestDTO.getChkProdDesc(),
+                pageRequestDTO.getChkProdPrice(),
+                pageRequestDTO.getMin(),
+                pageRequestDTO.getMax());
         total = prodService.selectSearchCountProducts(pageRequestDTO.getKeyword(),
                                                         pageRequestDTO.getProdCate1(),
                                                         pageRequestDTO.getChkProdName(),
@@ -399,7 +411,7 @@ public class ProductController {
                                                         Integer.parseInt(pageRequestDTO.getMin()),
                                                         Integer.parseInt(pageRequestDTO.getMax())
                                                         );
-
+        log.info("search here...5");
         // 마지막 페이지 번호
         int lastPageNum = prodService.getLastPageNum(total);
 
@@ -424,19 +436,4 @@ public class ProductController {
 
         return "/product/search";
     }
-
-    /*@ResponseBody
-    @PostMapping(value = "/product/searchDetail")
-    public String searchDetail(@RequestParam("jsonData")String jsonData) throws JsonProcessingException{
-
-
-        ObjectMapper objectMapper = new ObjectMapper();
-        SearchDetailDTO searchDetailDTO = objectMapper.readValue(jsonData, new TypeReference<SearchDetailDTO>() {
-        });
-
-        log.info("searchDetail here...1");
-        log.info("searchDetail jsonData: "+searchDetailDTO);
-
-        return null;
-    }*/
 }
