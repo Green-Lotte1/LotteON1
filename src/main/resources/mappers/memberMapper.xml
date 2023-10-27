@@ -22,6 +22,16 @@
         WHERE uid=#{uid};
     </update>
 
+    <update id="deleteMyAccount">
+        UPDATE km_member SET
+        pass=null, name=null, gender=null, hp=null, email=null
+        type=null, point=null, level=null, zip=null, addr1=null
+        addr2=null, company=null, ceo=null, bizRegNum=null, comRegNum=null
+        tel=null, managerHp=null, manager=null, fax=null
+        location=null, birth=null, wdate=NOW()
+        WHERE uid=#{uid};
+    </update>
+
     <select id="selectUpdatedMember" parameterType="co.kr.lotteon.dto.member.MemberDTO" resultType="co.kr.lotteon.dto.member.MemberDTO">
         SELECT *
         FROM km_member

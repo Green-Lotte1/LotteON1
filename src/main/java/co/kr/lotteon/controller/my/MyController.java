@@ -60,12 +60,12 @@ public class MyController {
 
     @ResponseBody
     @PutMapping("/my/update/user")
-    public int updateMember(@RequestBody MemberDTO dto, @AuthenticationPrincipal MyUserDetails test){
+    public int updateMember(@RequestBody MemberDTO dto, @AuthenticationPrincipal MyUserDetails myUser){
         log.info("updateMember...1");
         int result = 0;
 
-        MemberDTO user = memberService.updateMember(dto);
-        test.setMember(memberService.updateMember(user).toEntity());
+        MemberDTO user = memberService.updateMember(dto); // DB 변경
+        myUser.setMember(user.toEntity()); // 로그인된 사용자 정보 변경
         if(user != null){
             result = 1;
         }
@@ -114,5 +114,11 @@ public class MyController {
 
         log.info("review()...2");
         return "/my/review";
+    }
+
+    @GetMapping("/my/modifyPass")
+    public String modifyPass(){
+
+        return "/my/modifyPass";
     }
 }
