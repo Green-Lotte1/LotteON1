@@ -17,12 +17,13 @@
                 <table border="0">
                     <tr>
                         <td>사용자 ID</td>
-                        <td class="uid">[[${#authentication.principal.member.uid}]]</td>
+                        <td class="uid"></td>
+                        <input type="hidden" name="uid" th:value="${#authentication.principal.member.uid}">
                     </tr>
                     <tr>
                         <td>비밀번호</td>
                         <td>
-                            <button id="btnChangePass">비밀번호 수정</button>
+                            <a id="InfoPass" th:href="@{/my/modifyPass}">비밀번호 수정</a>
                         </td>
                     </tr>
                     <tr>
@@ -46,7 +47,8 @@
                                     <option>nate.com</option>
                                     <option>outlook.com</option>
                                 </select>
-                            <button id="btnChangeEmail" type="button">수정하기</button>
+                            <button id="btnChangeEmail" type="button">수정하기</button> <br>
+                            <span class="msgEmail"></span>
                             <input type="hidden" id="myEmail" name="myEmail" th:value="${#authentication.principal.member.email}">
                         </td>
                     </tr>
@@ -57,7 +59,8 @@
                                 <input type="text" name="hp1" readonly th:maxlength="3" data-before=""/>-
                                 <input type="text" name="hp2" readonly th:maxlength="4" data-before=""/>-
                                 <input type="text" name="hp3" readonly th:maxlength="4" data-before=""/>
-                                <button id="btnChangeHp">수정하기</button>
+                                <button id="btnChangeHp">수정하기</button> <br>
+                                <span class="msgHp"></span>
                                 <input type="hidden" id="myHp" name="myHp" th:value="${#authentication.principal.member.hp}">
                             </p>
                         </td>
@@ -84,46 +87,27 @@
             </article>
         </section>
 
-        <script>
-            // 기존 데이터
-            let myEmail = $('#myEmail').val();
-            let myHp = $('#myHp').val();
-            console.log('myHp : '+myHp);
-            const birth = $('.birth');
-            const birthDate = birth.text();
-            let myZip = $('input[name=zip]').val();
-            let myAddr1 = $('input[name=addr1]').val();
-            let myAddr2 = $('input[name=addr2]').val();
-            let finalEmail = $('#finalEmail').val();
-            let finalHp = $('#finalHp').val();
-            const uid = $('.uid').text();
-            console.log("myuid : "+uid);
-
-            // input 태그
-            const email1Input = $('input[name="email1"]');
-            const email2Input = $('input[name="email2"]');
-            const hp1Input = $('input[name="hp1"]');
-            const hp2Input = $('input[name="hp2"]');
-            const hp3Input = $('input[name="hp3"]');
-
-            // 분리된 이메일, 휴대폰 번호 데이터
-            let emailId = '';
-            let emailDomain = '';
-            let hp1 = '';
-            let hp2 = '';
-            let hp3 = '';
-
-            // 변경전 데이터(백업)
-            let beforeEmail1 = '';
-            let beforeEmail2 = '';
-            let beforeHp1 = '';
-            let beforeHp2 = '';
-            let beforeHp3 = '';
-
-        </script>
+        <script th:src="@{/js/my/myInfo.js}"></script>
         <script th:src="@{/js/my/userDivision.js}"></script>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <script th:src="@{/js/member/zipcode.js}"></script>
+        <script>
+            $(function (){
+
+                // 탈퇴하기
+                $('#btnWithdraw').click(function (){
+
+                    if(confirm('정말로 탈퇴하시겠습니까?')){
+
+
+                    }
+
+
+                });
+
+            });
+
+        </script>
 
     </div>
 </html>

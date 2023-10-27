@@ -104,31 +104,19 @@ public class AdminProductService {
         return saveNames;
     }
 
-    public List<AdminProductDTO> searchProduct(String search, String searchType){
+    public List<AdminProductDTO> searchProduct(String search, String searchType, int start){
         log.info("SearchProduct...2");
         log.info("searchType : "+searchType);
 
-        List<AdminProductDTO> searchProductList = null;
+        List<AdminProductDTO> productList = adminProductMapper.SearchAdminProducts(search, searchType, start);
+        log.info("productList Resuslt: "+productList.toString());
+        log.info("productList "+productList);
 
-        switch (searchType){
-            case "prodName":
-                searchProductList = adminProductMapper.SearchProductProdName(search);
-                break;
-            case "prodNo":
-                searchProductList = adminProductMapper.SearchProductProdNo(search);
-                break;
-            case "prodCompany":
-                searchProductList = adminProductMapper.SearchProductProdCompany(search);
-                break;
-            case "seller":
-                searchProductList = adminProductMapper.SearchProductSeller(search);
-                break;
-        }
+        return productList;
+    }
 
-
-        log.info("searchProductList :"+searchProductList.toString());
-
-        return searchProductList;
+    public int searchProductsCount(String search, String searchType){
+        return adminProductMapper.selectSearchCountAdminProducts(search, searchType);
     }
 
     public List<ProdCate2DTO> SelectProductCate(int cate1){
@@ -137,7 +125,7 @@ public class AdminProductService {
     }
 
 
-//페이징
+    //페이징
     public List<AdminProductDTO> selectPageProducts(int start) {
         return adminProductMapper.selectPageProducts(start);
     }
@@ -186,12 +174,11 @@ public class AdminProductService {
         return result;
     }
 
-   /* // 페이지 시작번호
+    // 페이지 시작번호
     public int getPageStartNum(int total, int currentPage) {
         int start = (currentPage - 1) * 10;
         return total - start;
     }
-*/
 
     // 현재 페이지 번호
     public static int getCurrentPage(String pg) {
@@ -201,6 +188,17 @@ public class AdminProductService {
             currentPage = Integer.parseInt(pg);
         }
     log.info("getCurrentPage : " );
+        return currentPage;
+    }
+
+    // 현재 페이지 번호
+    public int getCurrentPage(Integer pg) {
+        int currentPage = 1;
+
+        if(pg != null){
+            currentPage = pg;
+        }
+
         return currentPage;
     }
 
