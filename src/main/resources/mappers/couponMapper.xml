@@ -34,7 +34,7 @@
         ON a.coupNo=b.coupNo
         WHERE b.uid= #{uid}
         <include refid="couponStatus"/>
-        ORDER BY b.rdate
+        ORDER BY b.rdate DESC
         LIMIT #{pg}, 10;
     </select>
     <select id="myCouponTotal" resultType="int">

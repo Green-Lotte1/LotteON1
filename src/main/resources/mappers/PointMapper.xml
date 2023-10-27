@@ -16,8 +16,33 @@
         UPDATE `km_member` SET `point`= `point`-#{point} WHERE `uid`=#{uid};
     </update>
 
+    <sql id="pointSearch">
+        <if test="type1 == 'day'">
+            AND DATE_SUB(CURDATE(), INTERVAL #{type2} DAY)
+        </if>
+        <if test="type1 == 'month'">
+            <![CDATA[AND DATE_FORMAT(pointDate, '%y-%m') = #{type2}]]>
+        </if>
+        <if test="type1 != 'day' and type1 != 'month' and type2 != null">
+            <![CDATA[AND pointDate BETWEEN #{type1} AND #{type2}]]>
+        </if>
+    </sql>
+
     <select id="myPointList">
-        SELECT * FROM
+        SELECT
+            *,
+            DATE_ADD(pointDate, INTERVAL 1 YEAR) AS expiredDate
+        FROM
+            `km_member_point`
+        WHERE
+            uid = #{uid}
+        <include refid="pointSearch"/>
+        ORDER BY pointDate DESC
+        LIMIT #{pg}, 10;
+    </select>
+
+    <select id="myPointCount" resultType="int">
+        SELECT COUNT(*) FROM `km_member_point` WHERE uid = #{uid} <include refid="pointSearch"/>
     </select>
 
 </mapper>

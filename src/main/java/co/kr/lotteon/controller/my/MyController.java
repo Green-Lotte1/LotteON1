@@ -3,12 +3,15 @@ package co.kr.lotteon.controller.my;
 import co.kr.lotteon.dto.admin.cs.PageResponseDTO;
 import co.kr.lotteon.dto.cs.PageRequestDTO;
 import co.kr.lotteon.dto.member.MemberDTO;
+import co.kr.lotteon.dto.my.PageRequestMyDTO;
+import co.kr.lotteon.dto.my.PageResponseMyDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
 import co.kr.lotteon.service.coupon.CouponService;
 import co.kr.lotteon.service.coupon.MemberCouponService;
 import co.kr.lotteon.service.cs.CsService;
 import co.kr.lotteon.service.member.MemberService;
+import co.kr.lotteon.service.my.MyService;
 import co.kr.lotteon.service.product.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +33,7 @@ import java.util.HashMap;
 @Controller
 public class MyController {
 
+    private     final     MyService              myService;
     private     final     CsService              csService;
     private     final     ReviewService          reviewService;
     private     final     MemberService          memberService;
@@ -78,7 +82,22 @@ public class MyController {
         return "/my/order";
     }
     @GetMapping("/my/point")
-    public String point(){
+    public String point(Model model, PageRequestMyDTO pageRequestMyDTO){
+
+        pageRequestMyDTO.setUid(memberService.MyAccount().getUid());
+        PageResponseMyDTO page = myService.myPointList(pageRequestMyDTO);
+
+        String type1 = pageRequestMyDTO.getType1();
+        String type2 = pageRequestMyDTO.getType2();
+
+        model.addAttribute("type1", pageRequestMyDTO.getType1() != null ? "type1=" + type1 + "&" : "");
+        model.addAttribute("type2", pageRequestMyDTO.getType2() != null ? "type2=" + type2 + "&" : "");
+
+        log.info("start : " + page.getStart());
+        log.info("end.. : " + page.getEnd());
+        log.info("total : " + page.getTotal());
+
+        model.addAttribute("myPoint", page);
 
         return "/my/point";
     }
