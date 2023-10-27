@@ -208,7 +208,7 @@ $(document).ready(function () {
 
     $('.order').click(function(){
 
-        alert('구매하기');
+        /*alert('구매하기');*/
 
         var selectedItemNos = "/order/"+prodNo + "/" + inputCount.val() + "/";
 
