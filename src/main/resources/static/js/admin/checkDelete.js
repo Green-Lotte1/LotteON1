@@ -35,12 +35,12 @@ $(function (){
         };
 
         console.log(jsonData);
-        if (confirm('선택된 상품을 장바구니에서 삭제하시겠습니까?')) {
+        if (confirm('선택된 상품을 삭제하시겠습니까?')) {
             console.log('delete here...4');
             // jsonData를 전송
             // traditional: true는 배열을 ajax로 보낼때 있어야됨.
             $.ajax({
-                url: '/LotteOn/admin/product/deleteCheckProduct',
+                url: '/LotteON/admin/product/deleteCheckProduct',
                 type: 'POST',
                 data: JSON.stringify(jsonData),
                 //traditional: true,
