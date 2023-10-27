@@ -188,11 +188,13 @@ public class ProductService {
         log.info("insertOrder here...1");
         order.setOrdUid(uid);
         result = orderMapper.insertOrder(order);
+        log.info("insertOrder result: "+result);
+        log.info("insertOrder here...2");
         if(result > 0){
             result = orderMapper.selectLatestOrdNo(uid);
         }
         log.info("insertOrder result: "+result);
-        log.info("insertOrder here...2");
+        log.info("insertOrder here...3");
 
         return result;
     }
@@ -320,11 +322,12 @@ public class ProductService {
             item.setTotal(itemDTO.getTotal());
 
             cartMapper.deleteCartProductByProdNoAndUid(uid, itemDTO.getProdNo());
+            log.info("insertOrderItems Service here...2");
             /*productMapper.minusStock(orderItem.getProdNo(), orderItem.getCount());*/
             result = orderItemMapper.insertOrderItem(item);
 
         }
-        log.info("insertOrderItems Service here...2");
+        log.info("insertOrderItems Service here...3");
 
         return result;
     }
@@ -425,8 +428,14 @@ public class ProductService {
     ///////////////// PAGE
     ////////////////////////////////////////////////////////////////////
 
-    public int selectSearchCountProducts(String keyword, int prodCate1){
-        return productMapper.selectSearchCountProducts(keyword, prodCate1);
+    public int selectSearchCountProducts(String keyword,
+                                         int prodCate1,
+                                         boolean chkProdName,
+                                         boolean chkProdDesc,
+                                         boolean chkProdPrice,
+                                         int min,
+                                         int max){
+        return productMapper.selectSearchCountProducts(keyword, prodCate1, chkProdName, chkProdDesc, chkProdPrice, min, max);
     }
 
     public int getLastPageNum(int total) {

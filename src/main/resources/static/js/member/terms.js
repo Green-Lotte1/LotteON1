@@ -45,9 +45,9 @@ $(function(){
             localStorage.setItem('local', local);
             // 일반 회원, 판매 회원 구분
             if(type == 'normal'){
-                location.href ="/LotteOn/member/register";
+                location.href ="/LotteON/member/register";
             }else{
-                location.href ="/LotteOn/member/registerSeller";
+                location.href ="/LotteON/member/registerSeller";
             }
         }
     })

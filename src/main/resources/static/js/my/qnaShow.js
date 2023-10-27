@@ -24,8 +24,14 @@ $(function() {
 
         }else if(status.hasClass('on')) {
             status.removeClass('on')
-                .addClass('off')
-                .next().remove();
+                .addClass('close')
+                .next().css('display', 'none');
+            return false;
+
+        }else if(status.hasClass('close')) {
+            status.removeClass('close')
+                .addClass('on')
+                .next().css('display', 'table-row');
             return false;
 
         }else if(status.hasClass('off')) {
@@ -59,7 +65,9 @@ $(function() {
             contentType: 'application/json',
             success: function(data) {
                 console.log('title   : ' + data.answer.title);
+                console.log('title   : ' + data.answer.brTitle);
                 console.log('content : ' + data.answer.content);
+                console.log('content : ' + data.answer.brContent);
                 console.log('rdate   : ' + data.answer.yyyyMMddHHmmss);
                 var tr = $('<tr>').addClass('answerRow').css('display', 'table-row');
                 tr.append('<td colspan="6">'
@@ -75,7 +83,7 @@ $(function() {
 
                             + '<div class="answer">'
                                 + '<p class="tit">'
-                                    + data.answer.title
+                                    + data.answer.brTitle
                                     + '<span class="date">' + data.answer.yyyyMMddHHmmss + '</span>'
                                 + '</p>'
                                 + '<p class="content">'

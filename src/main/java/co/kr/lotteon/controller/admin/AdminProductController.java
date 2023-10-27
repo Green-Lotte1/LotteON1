@@ -60,6 +60,10 @@ public class AdminProductController {
         log.info("register...1 : " + productDTO);
         String ip = request.getRemoteAddr();
         productDTO.setIp(ip);
+        productDTO.setSale(1);
+        double realPoint = productDTO.getPoint();
+        int point = (int) Math.round(realPoint);
+        productDTO.setPoint(point);
 
         adminProductService.insertProduct(productDTO);
 

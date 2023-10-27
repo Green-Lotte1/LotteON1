@@ -21,4 +21,10 @@
         addr2=#{addr2}
         WHERE uid=#{uid};
     </update>
+
+    <select id="selectUpdatedMember" parameterType="co.kr.lotteon.dto.member.MemberDTO" resultType="co.kr.lotteon.dto.member.MemberDTO">
+        SELECT *
+        FROM km_member
+        WHERE uid = #{uid}
+    </select>
 </mapper>

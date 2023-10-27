@@ -14,8 +14,20 @@
     </select>
 
     <select id="selectSearchCountProducts">
-        SELECT COUNT(*) FROM `km_product` WHERE `sale`=1 AND `prodName` LIKE CONCAT('%', #{keyword}, '%')
-        <if test="prodCate1 != '' and prodCate1 != null">WHERE `prodCate1`=#{prodCate1}</if>
+        SELECT COUNT(*) FROM `km_product` WHERE `sale`=1
+        <choose>
+            <when test="!chkProdName and !chkProdDesc and !chkProdPrice ">
+                AND `prodName` LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <when test="!chkProdName and chkProdDesc and !chkProdPrice ">
+                AND `descript` LIKE CONCAT('%', #{keyword}, '%')
+            </when>
+            <otherwise>
+                AND `prodName` LIKE CONCAT('%', #{keyword}, '%') AND `price` BETWEEN ${min} AND #{max}
+            </otherwise>
+        </choose>
+        <!--<if test="prodCate1 != '' and prodCate1 != null">AND `prodCate1`=#{prodCate1}</if>
+        <if test="chkProdPrice and chkProdPrice != null">AND WHERE `price` BETWEEN ${min} AND #{max}</if>-->
     </select>
 
     <!--SEARCH QUERY 공통 부분-->

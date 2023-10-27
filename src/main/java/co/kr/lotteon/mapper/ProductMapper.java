@@ -6,6 +6,7 @@ import co.kr.lotteon.dto.product.ProdCate1DTO;
 import co.kr.lotteon.dto.product.ProductDTO;
 import co.kr.lotteon.entity.product.ProductEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -21,19 +22,29 @@ public interface ProductMapper {
     public ProductEntity selectProduct(int prodNo);
 */
 
-    public ItemDTO selectProductForOrder(int prodNo);
+    public ItemDTO selectProductForOrder(@Param("prodNo") int prodNo);
 
-    public void increaseProductHitByProdNo(int prodNo);
+    public void increaseProductHitByProdNo(@Param("prodNo") int prodNo);
 
-    public int selectLatestOrdNo(String ordUid);
+    public int selectLatestOrdNo(@Param("ordUid") String ordUid);
 
-    public void minusStock(int prodNo, int count);
-
-
+    public void minusStock(@Param("prodNo") int prodNo,@Param("count") int count);
 
 
-    public List<ProductDTO> search(String keyword, int prodCate1, String type, int start);
 
-    public int selectSearchCountProducts(String keyword, int prodCate1);
+
+    public List<ProductDTO> search(@Param("keyword") String keyword,
+                                   @Param("prodCate1")int prodCate1,
+                                   @Param("type")String type,
+                                   @Param("start")int start);
+
+    public int selectSearchCountProducts(@Param("keyword")String keyword,
+                                         @Param("prodCate1")int prodCate1,
+                                         @Param("chkProdName")boolean chkProdName,
+                                         @Param("chkProdDesc")boolean chkProdDesc,
+                                         @Param("chkProdPrice")boolean chkProdPrice,
+                                         @Param("min")int min,
+                                         @Param("max")int max
+                                         );
 
 }

@@ -1,18 +1,23 @@
 package co.kr.lotteon.controller.my;
 
+import co.kr.lotteon.dto.admin.cs.PageResponseDTO;
 import co.kr.lotteon.dto.cs.PageRequestDTO;
-import co.kr.lotteon.dto.cs.PageResponseDTO;
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
+import co.kr.lotteon.service.coupon.CouponService;
+import co.kr.lotteon.service.coupon.MemberCouponService;
 import co.kr.lotteon.service.cs.CsService;
 import co.kr.lotteon.service.member.MemberService;
 import co.kr.lotteon.service.product.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,15 +26,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 
 @Log4j2
+@RequiredArgsConstructor
 @Controller
 public class MyController {
 
-    @Autowired
-    private CsService csService;
-    @Autowired
-    private ReviewService reviewService;
-    @Autowired
-    private MemberService memberService;
+    private     final     CsService              csService;
+    private     final     ReviewService          reviewService;
+    private     final     MemberService          memberService;
+    private     final     MemberCouponService    memberCouponService;
 
     @GetMapping( value = {"/my/home", "/my"})
     public String home(){
@@ -37,33 +41,35 @@ public class MyController {
         return "/my/home";
     }
     @GetMapping("/my/coupon")
-    public String coupon(){
+    public String coupon(Model model,
+                         co.kr.lotteon.dto.admin.cs.PageRequestDTO pageRequestDTO){
+        PageResponseDTO pageResponseDTO = memberCouponService.myCouponList(pageRequestDTO);
+        model.addAttribute("myCoupons", pageResponseDTO);
+        model.addAttribute("currentMyCoupon", pageResponseDTO.getNo());
+        model.addAttribute("status", pageRequestDTO.getStatus());
 
         return "/my/coupon";
     }
     @GetMapping("/my/info")
     public String info(Model model){
         log.info("info...1");
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-        if (authentication.getPrincipal() instanceof UserDetails) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            if (userDetails instanceof MyUserDetails) {
-                MyUserDetails myUserDetails = (MyUserDetails) userDetails;
-                MemberEntity memberEntity = myUserDetails.getMember();
-
-                model.addAttribute("myMember",memberEntity);
-            }
-        }
-
+        MemberDTO memberDTO = memberService.MyAccount();
+        model.addAttribute("myMember",memberDTO);
             return "/my/info";
     }
 
+    @ResponseBody
     @PutMapping("/my/update/user")
-    public String updateMember(@RequestBody MemberDTO dto){
+    public int updateMember(@RequestBody MemberDTO dto, @AuthenticationPrincipal MyUserDetails test){
         log.info("updateMember...1");
-        memberService.updateMember(dto);
-        return null;
+        int result = 0;
+
+        MemberDTO user = memberService.updateMember(dto);
+        test.setMember(memberService.updateMember(user).toEntity());
+        if(user != null){
+            result = 1;
+        }
+        return result;
     }
 
     @GetMapping("/my/order")

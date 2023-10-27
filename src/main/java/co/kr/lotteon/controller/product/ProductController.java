@@ -390,7 +390,15 @@ public class ProductController {
         int pg = pageRequestDTO.getPg();
         // 현재 페이지 번호
         int currentPage = prodService.getCurrentPage(pg);
-        total = prodService.selectSearchCountProducts(pageRequestDTO.getKeyword(), pageRequestDTO.getProdCate1());
+        log.info(pageRequestDTO.getProdCate1());
+        total = prodService.selectSearchCountProducts(pageRequestDTO.getKeyword(),
+                                                        pageRequestDTO.getProdCate1(),
+                                                        pageRequestDTO.getChkProdName(),
+                                                        pageRequestDTO.getChkProdDesc(),
+                                                        pageRequestDTO.getChkProdPrice(),
+                                                        Integer.parseInt(pageRequestDTO.getMin()),
+                                                        Integer.parseInt(pageRequestDTO.getMax())
+                                                        );
 
         // 마지막 페이지 번호
         int lastPageNum = prodService.getLastPageNum(total);
@@ -416,4 +424,19 @@ public class ProductController {
 
         return "/product/search";
     }
+
+    /*@ResponseBody
+    @PostMapping(value = "/product/searchDetail")
+    public String searchDetail(@RequestParam("jsonData")String jsonData) throws JsonProcessingException{
+
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        SearchDetailDTO searchDetailDTO = objectMapper.readValue(jsonData, new TypeReference<SearchDetailDTO>() {
+        });
+
+        log.info("searchDetail here...1");
+        log.info("searchDetail jsonData: "+searchDetailDTO);
+
+        return null;
+    }*/
 }
