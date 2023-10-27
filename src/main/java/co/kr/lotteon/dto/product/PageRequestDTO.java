@@ -57,13 +57,15 @@ public class PageRequestDTO {
     @Builder.Default
     private String keyword = "";
     @Builder.Default
-    private Boolean chkProdName = false;
+    private String chkProdName = "off";
     @Builder.Default
-    private Boolean chkProdDesc = false;
+    private String chkProdDesc = "off";
     @Builder.Default
-    private Boolean chkProdPrice = false;
-    private String min = "";
-    private String max = "";
+    private String chkProdPrice = "off";
+    @Builder.Default
+    private String min = "0";
+    @Builder.Default
+    private String max = "0";
 
     /*@Builder.Default
     private OrderDTO orderDTO = null;*/

@@ -20,13 +20,21 @@
           <div class="group">
             <h3><strong th:text="${pageRequestDTO.keyword}"></strong>검색결과 <em>(총&nbsp;:&nbsp;<span th:text="${total}">20</span>&nbsp;건)</em></h3>
             <form th:action="@{/product/search}" method="GET">
-              <input type="text" name="keyword" class="searchDetail"/>
+              <input type="text" name="keyword" class="searchDetail" th:value="${pageRequestDTO.keyword}"/>
               <input type="submit" value="검색" id="searchDetail"/>
+                <select name="prodCate1" id="prodCate1">
+                    <option value="0"  th:selected="${pageRequestDTO.prodCate1 == 0}">전체 상품</option>
+                    <option value="10" th:selected="${pageRequestDTO.prodCate1 == 10}">패션·의류·뷰티</option>
+                    <option value="11" th:selected="${pageRequestDTO.prodCate1 == 11}">가전·디지털</option>
+                    <option value="12" th:selected="${pageRequestDTO.prodCate1 == 12}">식품·생필품</option>
+                    <option value="13" th:selected="${pageRequestDTO.prodCate1 == 13}">홈·문구·취미</option>
+                    <option value="14" th:selected="${pageRequestDTO.prodCate1 == 14}">도서·음반</option>
+                </select>
               <span>
-                  <label><input type="checkbox" name="chkProdName" value="상품명" id="byName">상품명</label>
-                  <label><input type="checkbox" name="chkProdDesc" value="상품설명" id="byDescript">상품설명</label>
-                  <label><input type="checkbox" name="chkProdPrice" value="상품가격" id="byPrice">상품가격</label>
-                  <input type="text" name="min" class="min"/>원&nbsp;~&nbsp;<input type="text" name="max" class="max"/>원
+                  <label><input type="checkbox" name="chkProdName"  id="byName" th:checked="${pageRequestDTO.chkProdName == 'on'}">상품명</label>
+                  <label><input type="checkbox" name="chkProdDesc"  id="byDescript" th:checked="${pageRequestDTO.chkProdDesc == 'on'}">상품설명</label>
+                  <label><input type="checkbox" name="chkProdPrice"  id="byPrice" th:checked="${pageRequestDTO.chkProdPrice == 'on'}">상품가격</label>
+                  <input type="text" name="min" class="min" th:value="${pageRequestDTO.min}"/>원&nbsp;~&nbsp;<input type="text" name="max" class="max" th:value="${pageRequestDTO.max}"/>원
               </span>
             </form>
             <p class="info">
@@ -37,16 +45,48 @@
 
           <!-- 정렬 메뉴 -->
           <ul class="sort">
-              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='sold')}" th:class="${pageRequestDTO.type eq 'sold' ? 'on' : 'off'}">판매많은순</a></li>
-              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='priceAsc')}" th:class="${pageRequestDTO.type eq 'priceAsc' ? 'on' : 'off'}">낮은가격순</a></li>
-              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='priceDesc')}" th:class="${pageRequestDTO.type eq 'priceDesc' ? 'on' : 'off'}">높은가격순</a></li>
-              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='score')}" th:class="${pageRequestDTO.type eq 'score' ? 'on' : 'off'}">평점높은순</a></li>
-              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='review')}" th:class="${pageRequestDTO.type eq 'review' ? 'on' : 'off'}">후기많은순</a></li>
-              <li><a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type='rdate')}" th:class="${pageRequestDTO.type eq 'rdate' ? 'on' : 'off'}">최근등록순</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=default'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min=' + pageRequestDTO.min + '&max=' + pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'default' ? 'on' : 'off'}">전체</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=sold'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'sold' ? 'on' : 'off'}">판매많은순</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=priceAsc'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'priceAsc' ? 'on' : 'off'}">낮은가격순</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=priceDesc'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'priceDesc' ? 'on' : 'off'}">높은가격순</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=score'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'score' ? 'on' : 'off'}">평점높은순</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=review'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'review' ? 'on' : 'off'}">후기많은순</a></li>
+              <li><a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=rdate'
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                }" th:class="${pageRequestDTO.type eq 'rdate' ? 'on' : 'off'}">최근등록순</a></li>
           </ul>
 
           <!-- 검색목록 -->
           <table border="0">
+              <tr class="empty" th:if="${#lists.isEmpty(products)}">
+                  <td colspan="7">검색된 상품이 없습니다.</td>
+              </tr>
             <input type="hidden" id="keyword" th:value="${pageRequestDTO.keyword}"/>
             <input type="hidden" id="path" th:value="${path}"/>
             <tr th:each="product:${products}">
@@ -82,7 +122,7 @@
                 </span>
               <th:block th:each="i:${#numbers.sequence(pageGroupStart, pageGroupEnd)}">
             <span class="num">
-                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${i})}" class="on"  th:classappend="${currentPage eq i ? 'i on' : 'i'}">[[${i}]]</a>
+                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${i})}" th:class="${currentPage eq i ? 'on':''}"  th:classappend="${currentPage eq i ? 'i on' : 'i'}">[[${i}]]</a>
             </span>
               </th:block>
             <span th:if="${pageGroupEnd < lastPageNum}">

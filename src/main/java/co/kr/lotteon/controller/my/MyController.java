@@ -75,6 +75,8 @@ public class MyController {
     @GetMapping("/my/order")
     public String order(){
 
+
+
         return "/my/order";
     }
     @GetMapping("/my/point")

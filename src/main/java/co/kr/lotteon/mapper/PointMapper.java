@@ -12,5 +12,5 @@ public interface PointMapper {
 
     public void minusMemberPoint(@Param("uid")String uid, @Param("point")int point);
 
-
+    public void insertUsedPoint(@Param("uid")String uid, @Param("ordNo")int ordNo, @Param("note")String note,@Param("point")int point);
 }

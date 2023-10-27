@@ -182,6 +182,9 @@
                     <h1>상품리뷰</h1>
                 </nav>
                 <ul>
+                    <li class="empty" th:if="${#lists.isEmpty(reviews.reviewList)}">
+                        <p>상품 리뷰가 없습니다.</p>
+                    </li>
                     <li th:if="${reviews ne null}" th:each="review:${reviews.reviewList}">
                         <div>
                             <h5 th:class="'rating star'+${review.rating}">상품평</h5>
@@ -195,7 +198,7 @@
                         </p>
                     </li>
                 </ul>
-                <div class="paging">
+                <div class="paging"  th:if="${not #lists.isEmpty(reviews.reviewList)}">
                         <span class="prev">
                             <a href="#"><&nbsp;이전</a>
                         </span>

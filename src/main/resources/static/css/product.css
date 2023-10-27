@@ -720,6 +720,12 @@ main > section > section > article > a > .thumb > img {
 
 #product > .view > .review * {
 }
+#product > .view .empty p {
+  padding: 50px 0 !important;
+  font-weight:bold;
+  text-align: center;
+  color: #777 !important;
+}
 #product > .view > .review > ul {
     padding: 10px;
     box-sizing: border-box;
@@ -1321,6 +1327,13 @@ main > section > section > article > a > .thumb > img {
 
 /* 상품검색 페이지 */
 #product > .search {}
+#product > .search .empty td {
+  padding: 250px 0 !important;
+  font-size: 25px;
+  font-weight:bold;
+  text-align: center;
+  color: #777 !important;
+}
 #product > .search > .searchNav strong{
     font-weight: bold;
     color: red;
@@ -1358,7 +1371,7 @@ main > section > section > article > a > .thumb > img {
   padding: 0 10px;
 }
 
-#product > .search > .group > form > input[type=button] {
+#product > .search > .group > form > input[type=submit] {
   height: 32px;
   padding: 0 5px;
   font-weight: bold;
@@ -1405,6 +1418,7 @@ main > section > section > article > a > .thumb > img {
   border-right: 1px solid #ddd;
 }
 #product > .search > .sort > li > a.on {
+    pointer-events: none;
     font-weight: bold;
     color: red;
 }

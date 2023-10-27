@@ -60,7 +60,7 @@
                 </span>
                 <span class="num">
                     <th:block th:each="num:${#numbers.sequence(pageResponseDTO.start, pageResponseDTO.end)}">
-                  <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type=${pageRequestDTO.type}, pg=${num})}" class="on"  th:classappend="${pageResponseDTO.pg eq num ? 'num on' : 'num'}">[[${num}]]</a>
+                  <a th:href="@{/product/list(prodCate1=${pageRequestDTO.prodCate1},prodCate2=${pageRequestDTO.prodCate2}, type=${pageRequestDTO.type}, pg=${num})}" th:class="${pageResponseDTO.pg eq num ? 'on' : 'off'}">[[${num}]]</a>
                     </th:block>
                 </span>
                 <span>

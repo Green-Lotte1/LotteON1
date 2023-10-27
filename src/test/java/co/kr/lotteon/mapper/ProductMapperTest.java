@@ -15,33 +15,38 @@ public class ProductMapperTest {
 
 
 
-
+    /*@Test*/
     public void search(){
 
-
-        List<ProductDTO> result  = productMapper.search("50", 10, "default", 1);
-
-
+        List<ProductDTO> result  = productMapper.search("50",
+                                                        0,
+                                                            "default",
+                                                            10,
+                                                        "on",
+                                                        "on",
+                                                        "off",
+                                                            10,
+                                                            50000
+                                                        );
 
         for(ProductDTO dto : result){
             System.out.println(dto);
         }
-
     }
     @Test
     public void selectSearchCountProducts(){
-
-
         int result = productMapper.selectSearchCountProducts("50",
                                                             0,
-                                                            false,
-                                                            false,
-                                                            true,
-                                                                10,
-                                                                50000
+                                                        "on",
+                                                        "on",
+                                                        "on",
+                                                                0,
+                                                                10000
                                                             );
         System.out.println("test: "+result);
 
     }
+
+
 
 }

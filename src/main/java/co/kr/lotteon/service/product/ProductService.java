@@ -192,6 +192,7 @@ public class ProductService {
         log.info("insertOrder here...2");
         if(result > 0){
             result = orderMapper.selectLatestOrdNo(uid);
+
         }
         log.info("insertOrder result: "+result);
         log.info("insertOrder here...3");
@@ -344,7 +345,11 @@ public class ProductService {
         pointMapper.minusMemberPoint(uid, usedPoint);
     }
 
-
+    public void insertUsedPoint(int usedPoint, int ordNo){
+        String uid = loginStatus();
+        String use = "포인트 사용";
+        pointMapper.insertUsedPoint(uid, ordNo, use,-usedPoint);
+    }
 
 
 
@@ -394,7 +399,13 @@ public class ProductService {
         List<ProductDTO> products = productMapper.search(pageRequestDTO.getKeyword(),
                                                             pageRequestDTO.getProdCate1(),
                                                             pageRequestDTO.getType(),
-                                                            start);
+                                                            start,
+                                                            pageRequestDTO.getChkProdName(),
+                                                            pageRequestDTO.getChkProdDesc(),
+                                                            pageRequestDTO.getChkProdPrice(),
+                                                            Integer.parseInt(pageRequestDTO.getMin()),
+                                                            Integer.parseInt(pageRequestDTO.getMax())
+                                                        );
         log.info("searchProductsTEST here...2");
         log.info("products: "+products.toString());
 
@@ -430,11 +441,18 @@ public class ProductService {
 
     public int selectSearchCountProducts(String keyword,
                                          int prodCate1,
-                                         boolean chkProdName,
-                                         boolean chkProdDesc,
-                                         boolean chkProdPrice,
+                                         String chkProdName,
+                                         String chkProdDesc,
+                                         String chkProdPrice,
                                          int min,
                                          int max){
+        log.info("countProducts Service keyword : "+keyword);
+        log.info("countProducts Service prodCate1 : "+prodCate1);
+        log.info("countProducts Service chkProdName : "+chkProdName);
+        log.info("countProducts Service chkProdDesc : "+chkProdDesc);
+        log.info("countProducts Service chkProdPrice : "+chkProdPrice);
+        log.info("countProducts Service min : "+min);
+        log.info("countProducts Service max : "+max);
         return productMapper.selectSearchCountProducts(keyword, prodCate1, chkProdName, chkProdDesc, chkProdPrice, min, max);
     }
 
