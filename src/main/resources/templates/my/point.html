@@ -17,17 +17,24 @@
                 <div class="byDate">
                     <span class="tit">기간별조회</span>
                     <ul class="date_3ea">
-                        <li><a href="#"><em>1</em>주일</a></li>
-                        <li><a href="#"><em>15</em>일</a></li>
-                        <li><a href="#" class="on"><em>1</em>개월</a></li>
+                        <li><a th:href="@{/my/point?type1=day&type2=1}"><em>1</em>주일</a></li>
+                        <li><a th:href="@{/my/point?type1=day&type2=7}"><em>15</em>일</a></li>
+                        <li><a th:href="@{/my/point?type1=day&type2=30}" class="on"><em>1</em>개월</a></li>
                     </ul>
                     <ul class="date_5ea">
-                        <li><a href="#"><em>11</em>월</a></li>
-                        <li><a href="#"><em>10</em>월</a></li>
-                        <li><a href="#"><em>9</em>월</a></li>
-                        <li><a href="#"><em>8</em>월</a></li>
-                        <li><a href="#"><em>7</em>월</a></li>
+                        <li>
+                            <a th:href="@{#}">
+                                <em>10</em>월
+                            </a>
+                        </li>
                     </ul>
+
+
+
+                    <!--<li><a th:href="@{/my/point}"><em>10</em>월</a></li>
+                    <li><a th:href="@{/my/point}"><em>9</em>월</a></li>
+                    <li><a th:href="@{/my/point}"><em>8</em>월</a></li>
+                    <li><a th:href="@{/my/point}"><em>7</em>월</a></li>-->
                     <p>
                         <input type="date" name="begin"><span>~</span><input type="date" name="end">
                     </p>
@@ -39,51 +46,46 @@
                         <th>날짜</th>
                         <th>구분</th>
                         <th>주문번호</th>
-                        <th>적립금액</th>
+                        <th>포인트</th>
                         <th>비고</th>
                         <th>유효기간</th>
                     </tr>
-                    <tr>
-                        <td class="date">2022-12-13</td>
-                        <td class="type">적립</td>
-                        <td class="ordNo">2022121001</td>
-                        <td class="point">340</td>
-                        <td class="desc">상품 구매확정</td>
-                        <td class="expire">2024-12-12</td>
+                    <tr th:each="list:${myPoint.list}">
+                        <td class="date">[[${#strings.substring(list.pointDate, 0, 10)}]]</td>
+                        <td class="type">[[${list.point > 0 ? '적립' : '사용' }]]</td>
+                        <td class="ordNo">[[${list.ordNo}]]</td>
+                        <td class="point">[[${list.point}]]</td>
+                        <td class="desc">[[${list.note}]]</td>
+                        <td class="expire">[[${#strings.substring(list.expiredDate, 0, 10)}]]</td>
                     </tr>
-                    <tr>
-                        <td class="date">2022-12-13</td>
-                        <td class="type">적립</td>
-                        <td class="ordNo">2022121001</td>
-                        <td class="point">100</td>
-                        <td class="desc">상품 리뷰 작성 추가 포인트</td>
-                        <td class="expire">2024-12-12</td>
-                    </tr>
-                    <tr>
-                        <td class="date">2022-12-13</td>
-                        <td class="type">적립</td>
-                        <td class="ordNo">2022121001</td>
-                        <td class="point">340</td>
-                        <td class="desc">상품 구매확정</td>
-                        <td class="expire">2024-12-12</td>
-                    </tr>
-                    <tr>
-                        <td class="date">2022-12-13</td>
-                        <td class="type">적립</td>
-                        <td class="ordNo">2022121001</td>
-                        <td class="point">340</td>
-                        <td class="desc">상품 구매확정</td>
-                        <td class="expire">2024-12-12</td>
-                    </tr>
-
                 </table>
+                <div th:if="${myPoint.total eq 0}"
+                     style="width: 100%; height: 150px; font-size: 14px;
+                     line-height: 150px; text-align: center;">
+                    포인트 내역이 없습니다.
+                </div>
 
-                <p class="page">
-                    <a href="#" class="prev">이전</a>
-                    <a href="#" class="num on">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="next">다음</a>
+
+
+                <p class="page" th:if="${myPoint.total > 0}">
+
+                    <a class="prev"
+                       th:href="@{/my/point(pg=${myPoint.start-1})}"
+                       th:if="${myPoint.prev}">
+                        이전
+                    </a>
+
+                    <a th:each="num:${#numbers.sequence(myPoint.start, myPoint.end)}"
+                       th:classappend="${myPoint.pg eq num ? 'num on' : 'num'}"
+                       th:href="@{/my/point(pg=${num})}">
+                        [[${num}]]
+                    </a>
+
+                    <a class="next"
+                       th:href="@{/my/point(pg=${myPoint.end+1})}"
+                       th:if="${myPoint.next}">
+                        다음
+                    </a>
                 </p>
             </article>
         </section>

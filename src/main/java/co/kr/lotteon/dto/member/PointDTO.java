@@ -14,12 +14,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class PointDTO {
 
-    private int pointNo;
-    private String uid;
-    private int ordNo;
-    private int point;
-    private LocalDateTime pointDate;
-
-
-    private LocalDateTime pointExpDate;
+    private     int              pointNo;
+    private     String           uid;
+    private     int              ordNo;
+    private     int              point;
+    private     String           note;
+    private     LocalDateTime    pointDate;
+    // 추가 필드
+    private     LocalDateTime    expiredDate;
 }

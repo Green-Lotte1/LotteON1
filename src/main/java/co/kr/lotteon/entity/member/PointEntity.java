@@ -18,10 +18,11 @@ public class PointEntity {
 
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
-    private int pointNo;
-    private String uid;
-    private int ordNo;
-    private int point;
-    private LocalDateTime pointDate;
+    private     int              pointNo;
+    private     String           uid;
+    private     int              ordNo;
+    private     int              point;
+    private     String           note;
+    private     LocalDateTime    pointDate;
 
 }
