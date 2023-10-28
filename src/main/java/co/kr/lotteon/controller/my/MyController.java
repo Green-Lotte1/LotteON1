@@ -84,7 +84,7 @@ public class MyController {
         return "/my/order";
     }
     @GetMapping("/my/point")
-    public String point(Model model, PageRequestMyDTO pageRequestMyDTO){
+    public String point(Model model, HttpServletRequest request , PageRequestMyDTO pageRequestMyDTO){
 
         pageRequestMyDTO.setUid(memberService.MyAccount().getUid());
         PageResponseMyDTO page = myService.myPointList(pageRequestMyDTO);
@@ -92,8 +92,10 @@ public class MyController {
         String type1 = pageRequestMyDTO.getType1();
         String type2 = pageRequestMyDTO.getType2();
 
-        model.addAttribute("type1", pageRequestMyDTO.getType1() != null ? "type1=" + type1 + "&" : "");
-        model.addAttribute("type2", pageRequestMyDTO.getType2() != null ? "type2=" + type2 + "&" : "");
+        model.addAttribute("type1", pageRequestMyDTO.getType1());
+        model.addAttribute("type2", pageRequestMyDTO.getType2());
+
+        model.addAttribute("path", request.getContextPath());
 
         log.info("start : " + page.getStart());
         log.info("end.. : " + page.getEnd());
