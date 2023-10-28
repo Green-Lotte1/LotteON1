@@ -35,20 +35,23 @@ public class MyService {
         /*주문배송(order), 할인쿠폰(coupon), 포인트(member), 문의내역(cs)*/
     }
 
-
     public PageResponseMyDTO myPointList(PageRequestMyDTO pageRequestMyDTO) {
+        log.info("myPointList() start!");
         String uid   = pageRequestMyDTO.getUid();
         int    pg    = pageRequestMyDTO.getPg();
         String type1 = pageRequestMyDTO.getType1();
         String type2 = pageRequestMyDTO.getType2();
 
-        log.info("uid   : " + uid);
-        log.info("pg    : " + pg);
-        log.info("type1 : " + type1);
-        log.info("type2 : " + type2);
+        log.info(" - 1. uid   : " + uid);
+        log.info(" - 2. pg    : " + pg);
+        log.info(" - 3. type1 : " + type1);
+        log.info(" - 4. type2 : " + type2);
 
         List<PointDTO> list  = pointMapper.myPointList(uid, type1, type2, (pg-1)*10);
         int            total = pointMapper.myPointCount(uid, type1, type2);
+
+        log.info(" - 5. list  : " + list);
+        log.info(" - 6. total : " + total);
 
         return PageResponseMyDTO.builder()
                 .pageRequestMyDTO(pageRequestMyDTO)

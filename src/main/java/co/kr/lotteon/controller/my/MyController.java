@@ -40,7 +40,22 @@ public class MyController {
     private     final     MemberCouponService    memberCouponService;
 
     @GetMapping( value = {"/my/home", "/my"})
-    public String home(){
+    public String home(Model model, PageRequestMyDTO pageRequestMyDTO){
+
+        String uid = memberService.MyAccount().getUid();
+
+        co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO_Product =
+                co.kr.lotteon.dto.product.PageRequestDTO.builder().build();
+        PageRequestDTO pageRequestDTO_Cs = PageRequestDTO.builder().uid(uid).build();
+
+        pageRequestMyDTO.setUid(uid);
+        pageRequestMyDTO.setType1("");
+        pageRequestMyDTO.setType2("");
+
+        model.addAttribute("myPoint", myService.myPointList(pageRequestMyDTO));
+        model.addAttribute("myReview", reviewService.myReview(pageRequestDTO_Product));
+        model.addAttribute("myQna", csService.myQna(pageRequestDTO_Cs));
+
 
         return "/my/home";
     }
@@ -94,13 +109,7 @@ public class MyController {
 
         model.addAttribute("type1", pageRequestMyDTO.getType1());
         model.addAttribute("type2", pageRequestMyDTO.getType2());
-
         model.addAttribute("path", request.getContextPath());
-
-        log.info("start : " + page.getStart());
-        log.info("end.. : " + page.getEnd());
-        log.info("total : " + page.getTotal());
-
         model.addAttribute("myPoint", page);
 
         return "/my/point";

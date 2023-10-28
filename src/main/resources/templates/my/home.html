@@ -45,7 +45,7 @@
 
             <article class="point">
                 <h3>포인트적립내역</h3>
-                <a href="#" class="more">더보기</a>
+                <a th:href="@{/my/point}" class="more">더보기</a>
                 <table border="0">
                     <tr>
                         <th>날짜</th>
@@ -55,19 +55,19 @@
                         <th>비고</th>
                         <th>유효기간</th>
                     </tr>
-                    <tr>
-                        <td>2022-12-10</td>
-                        <td>적립</td>
-                        <td>2022121001</td>
-                        <td>340</td>
-                        <td>상품 구매확정</td>
-                        <td>2024-12-10</td>
+                    <tr th:each="list, pointStat:${myPoint.list}" th:if="${pointStat.index} lt 5">
+                        <td>[[${#strings.substring(list.pointDate, 0, 10)}]]</td>
+                        <td>[[${list.point > 0 ? '적립' : '사용' }]]</td>
+                        <td>[[${list.ordNo}]]</td>
+                        <td th:text="${#numbers.formatInteger(list.point, 0, 'COMMA')}"></td>
+                        <td>[[${list.note}]]</td>
+                        <td>[[${#strings.substring(list.expiredDate, 0, 10)}]]</td>
                     </tr>
                 </table>
             </article>
             <article class="review">
                 <h3>상품평</h3>
-                <a href="#" class="more">더보기</a>
+                <a th:href="@{/my/review}" class="more">더보기</a>
                 <table border="0">
                     <tr>
                         <th>번호</th>
@@ -76,47 +76,19 @@
                         <th>평점</th>
                         <th>작성일</th>
                     </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td><span class="rating star1">상품평</span></td>
-                        <td>2022-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td><span class="rating star2">상품평</span></td>
-                        <td>2022-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td><span class="rating star3">상품평</span></td>
-                        <td>2022-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td><span class="rating star4">상품평</span></td>
-                        <td>2022-12-10</td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>상품명</td>
-                        <td>배송이 빠릅니다. 잘 사용하겠습니다.</td>
-                        <td><span class="rating star5">상품평</span></td>
-                        <td>2022-12-10</td>
+                    <tr th:each="list, reviewStat:${myReview.reviewList}" th:if="${reviewStat.index} lt 5">
+                        <td>[[${reviewStat.count}]]</td>
+                        <td>[[${list.prodNo.prodName}]]</td>
+                        <td th:utext="${list.escapeContent}">배송이 빠릅니다. 잘 사용하겠습니다.</td>
+                        <td><span th:class="'rating star' + ${list.rating}">상품평</span></td>
+                        <td>[[${list.yyyyMMdd2}]]</td>
                     </tr>
                 </table>
             </article>
 
             <article class="qna">
                 <h3>문의내역</h3>
-                <a href="#" class="more">더보기</a>
+                <a th:href="@{/my/qna}" class="more">더보기</a>
                 <table border="0">
                     <tr>
                         <th>번호</th>
@@ -126,29 +98,13 @@
                         <th>작성일</th>
                         <th>상태</th>
                     </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>고객센터</td>
-                        <td>주문/결제</td>
-                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                        <td>2024-12-12</td>
-                        <td><span class="notAnswerYet">검토중</span></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>고객센터</td>
-                        <td>주문/결제</td>
-                        <td>신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
-                        <td>2024-12-12</td>
-                        <td><span class="answered">답변완료</span></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>판매자게시판</td>
-                        <td>배송</td>
-                        <td>배송기간이 보통 얼마나 걸리나요?</td>
-                        <td>2024-12-12</td>
-                        <td><span class="answered">답변완료</span></td>
+                    <tr th:each="list, qnaStat:${myQna.csList}" th:if="${qnaStat.index} lt 5">
+                        <td>[[${5 - qnaStat.index}]]</td>
+                        <td>[[${list.group.group == 'seller' ? '판매자 게시판' : '고객센터'}]]</td>
+                        <td>[[${list.cate1.cate1_name}]]</td>
+                        <td th:utext="${list.brTitle}">신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>
+                        <td>[[${list.yyyyMMdd}]]</td>
+                        <td><span th:classappend="${list.comment > 0 ? 'answered' : 'notAnswerYet'}">[[${list.comment > 0 ? '답변완료' : '검토중'}]]</span></td>
                     </tr>
                 </table>
             </article>

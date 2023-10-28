@@ -965,6 +965,7 @@ footer p > strong {
 #my > .coupon > section > article > table th:first-child {border-left: none;}
 
 #my > .coupon > section > article > table td {
+    text-align: center;
     padding: 10px;            
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -1067,7 +1068,16 @@ footer p > strong {
 }
 #my > .review > section > article > table ul > li {
     margin: 4px 0;
-}        
+}
+#my > .review > section > article > table td:nth-child(2) {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#my > .review > section > article > table td:nth-child(5) {
+    white-space: nowrap;
+}
 
 #my > .review > section > article > table .prodName {
     text-decoration: underline;
