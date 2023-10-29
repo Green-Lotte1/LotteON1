@@ -41,6 +41,7 @@ public class MyController {
 
     @GetMapping( value = {"/my/home", "/my"})
     public String home(Model model, PageRequestMyDTO pageRequestMyDTO){
+        myService.myPageLayout(model);
 
         String uid = memberService.MyAccount().getUid();
 
@@ -52,9 +53,10 @@ public class MyController {
         pageRequestMyDTO.setType1("");
         pageRequestMyDTO.setType2("");
 
-        model.addAttribute("myPoint", myService.myPointList(pageRequestMyDTO));
+        model.addAttribute("myOrder",  myService.myOrderList(pageRequestMyDTO));
+        model.addAttribute("myPoint",  myService.myPointList(pageRequestMyDTO));
         model.addAttribute("myReview", reviewService.myReview(pageRequestDTO_Product));
-        model.addAttribute("myQna", csService.myQna(pageRequestDTO_Cs));
+        model.addAttribute("myQna",    csService.myQna(pageRequestDTO_Cs));
 
 
         return "/my/home";
@@ -62,6 +64,7 @@ public class MyController {
     @GetMapping("/my/coupon")
     public String coupon(Model model,
                          co.kr.lotteon.dto.admin.cs.PageRequestDTO pageRequestDTO){
+        myService.myPageLayout(model);
         PageResponseDTO pageResponseDTO = memberCouponService.myCouponList(pageRequestDTO);
         model.addAttribute("myCoupons", pageResponseDTO);
         model.addAttribute("currentMyCoupon", pageResponseDTO.getNo());
@@ -71,6 +74,7 @@ public class MyController {
     }
     @GetMapping("/my/info")
     public String info(Model model){
+        myService.myPageLayout(model);
         log.info("info...1");
         MemberDTO memberDTO = memberService.MyAccount();
         model.addAttribute("myMember",memberDTO);
@@ -92,30 +96,36 @@ public class MyController {
     }
 
     @GetMapping("/my/order")
-    public String order(){
+    public String order(Model model, HttpServletRequest request, PageRequestMyDTO pageRequestMyDTO){
+        myService.myPageLayout(model);
 
+        pageRequestMyDTO.setUid(memberService.MyAccount().getUid());
+        PageResponseMyDTO page = myService.myOrderList(pageRequestMyDTO);
 
+        model.addAttribute("type1",   pageRequestMyDTO.getType1());
+        model.addAttribute("type2",   pageRequestMyDTO.getType2());
+        model.addAttribute("path",    request.getContextPath());
+        model.addAttribute("myOrder", page);
 
         return "/my/order";
     }
     @GetMapping("/my/point")
     public String point(Model model, HttpServletRequest request , PageRequestMyDTO pageRequestMyDTO){
+        myService.myPageLayout(model);
 
         pageRequestMyDTO.setUid(memberService.MyAccount().getUid());
         PageResponseMyDTO page = myService.myPointList(pageRequestMyDTO);
 
-        String type1 = pageRequestMyDTO.getType1();
-        String type2 = pageRequestMyDTO.getType2();
-
-        model.addAttribute("type1", pageRequestMyDTO.getType1());
-        model.addAttribute("type2", pageRequestMyDTO.getType2());
-        model.addAttribute("path", request.getContextPath());
+        model.addAttribute("type1",   pageRequestMyDTO.getType1());
+        model.addAttribute("type2",   pageRequestMyDTO.getType2());
+        model.addAttribute("path",    request.getContextPath());
         model.addAttribute("myPoint", page);
 
         return "/my/point";
     }
     @GetMapping("/my/qna")
     public String qna(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO){
+        myService.myPageLayout(model);
         log.info("qna()...1");
         model.addAttribute("myQna", csService.myQna(pageRequestDTO));
         model.addAttribute("path",  request.getContextPath());
@@ -139,6 +149,7 @@ public class MyController {
     @GetMapping("/my/review")
     public String review(HttpServletRequest request, Model model,
                          co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO){
+        myService.myPageLayout(model);
         log.info("review()...1");
         model.addAttribute("myReview", reviewService.myReview(pageRequestDTO));
 
@@ -147,8 +158,8 @@ public class MyController {
     }
 
     @GetMapping("/my/modifyPass")
-    public String modifyPass(){
-
+    public String modifyPass(Model model){
+        myService.myPageLayout(model);
         return "/my/modifyPass";
     }
 }

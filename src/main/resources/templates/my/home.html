@@ -21,18 +21,20 @@
                         <th>상태</th>
                         <th>확인/신청</th>
                     </tr>
-                    <tr>
+                    <tr th:each="list, orderStat:${myOrder.ordList}" th:if="${orderStat.index} lt 3">
                         <td class="date">2022-12-13</td>
-                        <td class="info">
-                            <a href="#" class="thumb"><img src="https://via.placeholder.com/80x80" alt=""></a>
+                        <td>
+                            <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo}}" class="thumb">
+                                <img th:src="@{/thumbs/}+${list.prodCate1}+'/'+${list.prodCate2}+'/'+${list.thumb1}" alt="">
+                            </a>
                             <ul>
-                                <li class="company"><a href="#">상호명</a></li>
-                                <li class="prodName"><a href="#">상품명</a></li>
-                                <li class="orderNo">수량 : <span class="prodCount">1</span>개 / 주문번호 : <a href="#">1012211341</a></li>
-                                <li class="prodPrice">34,000</li>
+                                <li class="company">[[${list.prodCompany}]]</li>
+                                <li class="prodName"><a href="#">[[${list.prodName}]]</a></li>
+                                <li>수량 : <span class="prodCount">[[${list.count}]]</span>개 / 주문번호 : <span class="ordNo">[[${list.ordNo}]]</span></li>
+                                <li class="prodPrice">[[${list.totalWithComma}]]</li>
                             </ul>
                         </td>
-                        <td class="status">배송완료</td>
+                        <td class="status">[[${list.ordComplete eq 0 ? '배송중' : '배송완료'}]]</td>
                         <td class="confirm">
                             <a href="#" class="receive">수취확인</a>
                             <a href="#" class="review">상품평</a>
@@ -99,7 +101,7 @@
                         <th>상태</th>
                     </tr>
                     <tr th:each="list, qnaStat:${myQna.csList}" th:if="${qnaStat.index} lt 5">
-                        <td>[[${5 - qnaStat.index}]]</td>
+                        <td>[[${qnaStat.count}]]</td>
                         <td>[[${list.group.group == 'seller' ? '판매자 게시판' : '고객센터'}]]</td>
                         <td>[[${list.cate1.cate1_name}]]</td>
                         <td th:utext="${list.brTitle}">신용카드 결제 중 오류가 난 경우 어떻게 하나요?</td>

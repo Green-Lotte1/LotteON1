@@ -51,6 +51,15 @@
         LIMIT #{pg}, 10;
     </select>
 
+    <select id="myPointTotal" resultType="java.lang.Integer">
+        SELECT
+            SUM(point)
+        FROM
+            `km_member_point`
+        WHERE
+            uid = '${uid}'
+    </select>
+
     <select id="myPointCount" resultType="int">
         SELECT COUNT(*) FROM `km_member_point` WHERE uid = #{uid} <include refid="pointSearch"/>
     </select>

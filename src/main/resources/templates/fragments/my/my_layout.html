@@ -32,10 +32,10 @@
                     <div>
                         <a th:href="@{/my/home}"><img th:src="@{/images/my/my_logo.jpg}" alt="나의쇼핑정보"></a>
                         <ol>
-                            <li><a th:href="@{/my/order}">주문·배송<span class="delivery">1</span></a></li>
-                            <li><a th:href="@{/my/coupon}">할인쿠폰<span class="coupon">1</span></a></li>
-                            <li><a th:href="@{/my/point}">포인트<span class="point">1,000</span></a></li>
-                            <li><a th:href="@{/my/qna}">문의내역<span class="qna">1</span></a></li>
+                            <li><a th:href="@{/my/order}">주문·배송<span class="delivery">[[${orderTotal}]]</span></a></li>
+                            <li><a th:href="@{/my/coupon}">할인쿠폰<span class="coupon">[[${couponTotal}]]</span></a></li>
+                            <li><a th:href="@{/my/point}">포인트<span class="point">[[${pointTotal}]]</span></a></li>
+                            <li><a th:href="@{/my/qna}">문의내역<span class="qna">[[${qnaTotal}]]</span></a></li>
                         </ol>
                     </div>
                 </nav>

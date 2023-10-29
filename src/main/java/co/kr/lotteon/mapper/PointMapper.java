@@ -20,4 +20,6 @@ public interface PointMapper {
 
     public void insertUsedPoint(@Param("uid")String uid, @Param("ordNo")int ordNo, @Param("note")String note,@Param("point")int point);
 
+    public int myPointTotal(@Param("uid")String uid);
+
 }

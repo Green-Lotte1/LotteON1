@@ -28,4 +28,55 @@
         SELECT `ordNo` FROM `km_product_order` WHERE `ordUid`= #{ordUid} ORDER BY `ordDate` DESC LIMIT 1;
     </select>
 
+    <sql id="orderSearch">
+        <if test="type1 == 'day'">
+            <![CDATA[AND ordDate >= DATE_SUB(CURDATE(), INTERVAL #{type2} DAY)]]>
+        </if>
+        <if test="type1 == 'month'">
+            <![CDATA[AND DATE_FORMAT(ordDate, '%y-%m') = #{type2}]]>
+        </if>
+        <if test="(type1 != 'day' and type1 != 'month' and type1 != 'count') and type1 != '' and type2 != ''">
+            <![CDATA[AND DATE_FORMAT(ordDate, '%Y-%m-%d') BETWEEN #{type1} AND #{type2}]]>
+        </if>
+        <if test="type1 == 'count' and type2 == 'count'">
+            AND a.ordComplete = 0
+        </if>
+    </sql>
+
+    <select id="myOrderList">
+        SELECT
+            a.ordDate,
+            a.ordNo,
+            a.ordComplete,
+            b.`count`,
+            b.total,
+            c.prodNo,
+            c.prodCompany,
+            c.prodName,
+            c.prodCate1,
+            c.prodCate2,
+            c.thumb1
+        FROM
+            `km_product_order` AS a
+        JOIN
+            `km_product_order_item` AS b
+        ON
+            a.ordNo = b.ordNo
+        JOIN
+            `km_product` AS c
+        ON
+            b.prodNo = c.prodNo
+        WHERE
+            a.ordUid = #{ordUid}
+        <include refid="orderSearch"/>
+        ORDER BY
+            a.ordDate DESC
+        LIMIT
+            #{pg}, 10;
+    </select>
+
+    <select id="myOrderTotal" resultType="int">
+        SELECT COUNT(*) FROM `km_product_order` a WHERE a.ordUid = #{ordUid} <include refid="orderSearch"/>
+    </select>
+
 </mapper>
