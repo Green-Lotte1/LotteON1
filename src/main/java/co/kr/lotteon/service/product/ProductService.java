@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 
 @Log4j2
@@ -385,6 +386,15 @@ public class ProductService {
 
         return dto;
     }
+
+
+    public List<ProdCate2DTO> selectProdCate2(int cate1) {
+        List<ProdCate2Entity> cate2List = prodCate2Repository.findByCate1(prodCate1Repository.findById(cate1).orElse(null));
+        return  cate2List.stream()
+                .map(entity -> modelMapper.map(entity, ProdCate2DTO.class))
+                .collect(Collectors.toList());
+    }
+
 
     ////////////////////////////////////////////////////////////////////
     ///////////////// PRODUCT SEARCH
