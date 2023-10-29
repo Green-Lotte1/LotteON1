@@ -2,8 +2,15 @@ package co.kr.lotteon.service.admin;
 
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
+import co.kr.lotteon.dto.product.ProdCate1DTO;
 import co.kr.lotteon.dto.product.ProdCate2DTO;
+import co.kr.lotteon.dto.product.ProductDTO;
+import co.kr.lotteon.entity.product.ProdCate1Entity;
+import co.kr.lotteon.entity.product.ProductEntity;
 import co.kr.lotteon.mapper.AdminProductMapper;
+import co.kr.lotteon.repository.product.ProdCate1Repository;
+import co.kr.lotteon.repository.product.ProdCate2Repository;
+import co.kr.lotteon.repository.product.ProductRepository;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +31,15 @@ public class AdminProductService {
 
     @Autowired
     private AdminProductMapper adminProductMapper;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private ProdCate1Repository prodCate1Repository;
+
+    @Autowired
+    private ProdCate2Repository prodCate2Repository;
 
     public void insertProduct(AdminProductDTO dto){
 
@@ -46,6 +62,25 @@ public class AdminProductService {
 
 
     }
+
+    public void updateProduct1(ProductDTO productDTO) {
+        ProductEntity entity = productDTO.toEntity();
+        entity.setThumb1(productDTO.getThumb1());
+        entity.setThumb2(productDTO.getThumb2());
+        entity.setThumb3(productDTO.getThumb3());
+        entity.setDetail(productDTO.getDetail());
+        entity.setProdName(productDTO.getProdName());
+        log.info("entitiy : " + entity);
+        productRepository.save(entity);
+        log.info("save ok!!!");
+        log.info("productDTO : " + productDTO.toString());
+
+    }
+
+    public ProdCate1DTO selectCate1(int cate1) {
+        ProdCate1Entity cate1Entity = prodCate1Repository.findById(cate1).orElse(null);
+        return cate1Entity.toDTO();
+    }
     public AdminProductDTO selectProduct(int prodNo){
         return adminProductMapper.selectProduct(prodNo);
     }
@@ -65,6 +100,30 @@ public class AdminProductService {
 
     @Value("${spring.servlet.multipart.location}")
     private String filePath;
+
+    public List<String> fileUploadByModify(AdminProductDTO adminProductDTO, List<MultipartFile> files) {
+        filePath += adminProductDTO.getProdCate1() + "/" + adminProductDTO.getProdCate2() + "/";
+        String path = new File(filePath).getAbsolutePath();
+        List<String> saveNames = new ArrayList<>();
+
+        for(MultipartFile file:files) {
+            if (!file.getOriginalFilename().equals("")) {
+                String oName = file.getOriginalFilename();
+                String ext = oName.substring(oName.lastIndexOf("."));
+                String sName = UUID.randomUUID().toString() + ext;
+                saveNames.add(sName);
+                try {
+                    file.transferTo(new File(path, sName));
+                } catch (IOException e) {
+                    e.getMessage();
+                }
+            }else {
+                saveNames.add("");
+            }
+        }
+        log.info("fileUploadByModify()... saveNames : " + saveNames.toString());
+        return saveNames;
+    }
 
     public List<String> fileUpload(AdminProductDTO dto) {
         filePath += dto.getProdCate1() + "/" + dto.getProdCate2() + "/";

@@ -16,8 +16,10 @@ public class PageRequestMyDTO {
     private int size = 10;
 
     private String uid;
-    private String type1;
-    private String type2;
+    @Builder.Default
+    private String type1 = "day";
+    @Builder.Default
+    private String type2 = "15";
 
     public Pageable getPageable(String sort) {
         return PageRequest.of(this.pg - 1, this.size, Sort.by(sort).descending());

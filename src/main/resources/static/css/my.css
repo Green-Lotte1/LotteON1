@@ -359,6 +359,12 @@ footer p > strong {
     font-family: '돋움';
     color: #444;
 }
+#my > .home > section > article > table ul > li.prodName {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 
 #my > .home > section > article > table tr {}
 #my > .home > section > article > table th {
@@ -379,6 +385,16 @@ footer p > strong {
 
 #my > .home > section > article > table .thumb {
     float:left;
+    display: block;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    text-align: center;
+}
+#my > .home > section > article > table .thumb > img {
+    max-width: 100%;
+    width: auto;
+    height: 100%;
 }
 #my > .home > section > article > table ul {
     float:left;
@@ -652,6 +668,16 @@ footer p > strong {
 
 #my > .ordered > section > article > table .thumb {
     float:left;
+    display: block;
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    text-align: center;
+}
+#my > .ordered > section > article > table .thumb > img {
+    max-width: 100%;
+    width: auto;
+    height: 100%;
 }
 #my > .ordered > section > article > table ul {
     float:left;
@@ -661,7 +687,13 @@ footer p > strong {
 }
 #my > .ordered > section > article > table ul > li {
     margin: 4px 0;
-}        
+}
+#my > .ordered > section > article > table ul > li.prodName {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 #my > .ordered > section > article > table .prodPrice {
     margin-top: 6px;
     font-family: '고딕';
@@ -965,6 +997,7 @@ footer p > strong {
 #my > .coupon > section > article > table th:first-child {border-left: none;}
 
 #my > .coupon > section > article > table td {
+    text-align: center;
     padding: 10px;            
     border-left: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
@@ -1067,7 +1100,16 @@ footer p > strong {
 }
 #my > .review > section > article > table ul > li {
     margin: 4px 0;
-}        
+}
+#my > .review > section > article > table td:nth-child(2) {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+#my > .review > section > article > table td:nth-child(5) {
+    white-space: nowrap;
+}
 
 #my > .review > section > article > table .prodName {
     text-decoration: underline;

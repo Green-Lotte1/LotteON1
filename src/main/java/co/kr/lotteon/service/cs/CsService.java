@@ -486,6 +486,10 @@ public class CsService {
         model.addAttribute("pageResponseDTO", boardList);
     }
 
+    public int myQnaTotal(String uid) {
+        return csRepository.countByUid(memberRepository.findById(uid).orElse(null));
+    }
+
     public PageResponseDTO myQna(PageRequestDTO pageRequestDTO) {
         log.info("myQna START~~~!!!!!!!!");
         Pageable pageable = pageRequestDTO.getPageable("no");

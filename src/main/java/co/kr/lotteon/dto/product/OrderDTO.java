@@ -1,5 +1,6 @@
 package co.kr.lotteon.dto.product;
 
+import co.kr.lotteon.dto.Utils;
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.product.OrderEntity;
 import jakarta.persistence.Id;
@@ -34,6 +35,21 @@ public class OrderDTO {
     private LocalDateTime ordDate;
 
     private MemberDTO member;
+
+    // 추가필드
+    private int    count;
+    private int    total;
+    private int    prodNo;
+    private String prodCompany;
+    private String prodName;
+    private int    prodCate1;
+    private int    prodCate2;
+    private String thumb1;
+
+    public String totalWithComma() {
+        return Utils.comma(total);
+    }
+
 
     public String getOrdPaymentName(){
 

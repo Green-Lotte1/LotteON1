@@ -1,10 +1,8 @@
 package co.kr.lotteon.controller.admin;
 
 import co.kr.lotteon.dto.admin.AdminProductDTO;
-import co.kr.lotteon.dto.product.PageRequestDTO;
-import co.kr.lotteon.dto.product.PageResponseDTO;
-import co.kr.lotteon.dto.product.ProdCate2DTO;
-import co.kr.lotteon.dto.product.ProductDTO;
+import co.kr.lotteon.dto.product.*;
+import co.kr.lotteon.repository.product.ProductRepository;
 import co.kr.lotteon.service.admin.AdminProductService;
 import co.kr.lotteon.service.admin.AdminService;
 import co.kr.lotteon.service.cs.CsService;
@@ -18,12 +16,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -49,6 +47,90 @@ public class AdminProductController {
         model.addAttribute("adminproducts" , productDTOList );
         return "/admin/product/list";
     }*/
+
+    @GetMapping("/admin/product/modify")
+    public String productModify(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request) {
+        model.addAttribute("ctxPath", request.getContextPath());
+        ProductDTO view = productService.selectProductByProdNo(pageRequestDTO.getProdNo());
+        model.addAttribute("view", view);
+
+        int cate1 = view.getProdCate1().getCate1();
+        int cate2 = view.getProdCate2();
+        model.addAttribute("cate1", cate1);
+        model.addAttribute("cate2", cate2);
+
+        pageRequestDTO.setProdCate1(cate1);
+        pageRequestDTO.setProdCate2(cate2);
+        List<ProdCate1DTO> cate1List = productService.selectAllProdCate1();
+        List<ProdCate2DTO> cate2List = productService.selectProdCate2(cate1);
+        model.addAttribute("cate1List", cate1List);
+        model.addAttribute("cate2List", cate2List);
+
+        log.info("file path location : " + filePath);
+        model.addAttribute("filePath", filePath);
+        /*Path filePath = Paths.get();*/
+
+
+        return "/admin/product/modify";
+    }
+
+
+    @PostMapping("/admin/product/modify")
+    public String productModify(AdminProductDTO adminProductDTO) {
+        log.info("here 1... prodNo : " + adminProductDTO.getProdNo());
+        ProductDTO   dto   = productService.selectProductByProdNo(adminProductDTO.getProdNo());
+        log.info("here 2");
+        ProdCate1DTO cate1 = adminProductService.selectCate1(adminProductDTO.getProdCate1());
+        log.info("here 3");
+        int          cate2 = adminProductDTO.getProdCate2();
+        log.info("here 4");
+
+        dto.setProdCate1(cate1);
+        dto.setProdCate2(cate2);
+        dto.setProdName(adminProductDTO.getProdName());
+        dto.setDescript(adminProductDTO.getDescript());
+        dto.setProdCompany(adminProductDTO.getProdCompany());
+        dto.setPrice(adminProductDTO.getPrice());
+        dto.setDiscount(adminProductDTO.getDiscount());
+        dto.setPoint(adminProductDTO.getPoint());
+        dto.setStock(adminProductDTO.getStock());
+        dto.setDelivery(adminProductDTO.getDelivery());
+        dto.setStatus(adminProductDTO.getStatus());
+        dto.setDuty(adminProductDTO.getDuty());
+        dto.setReceipt(adminProductDTO.getReceipt());
+        dto.setBizType(adminProductDTO.getBizType());
+        dto.setOrigin(adminProductDTO.getOrigin());
+
+        log.info("thumb1 : " + adminProductDTO.getFileThumb1().getOriginalFilename());
+        log.info("thumb2 : " + adminProductDTO.getFileThumb2().getOriginalFilename());
+        log.info("thumb3 : " + adminProductDTO.getFileThumb3().getOriginalFilename());
+        log.info("detail : " + adminProductDTO.getFileDetail().getOriginalFilename());
+
+        List<MultipartFile> files = Arrays.asList(
+                adminProductDTO.getFileThumb1(),
+                adminProductDTO.getFileThumb2(),
+                adminProductDTO.getFileThumb3(),
+                adminProductDTO.getFileDetail()
+        );
+
+        List<String> saveNames = adminProductService.fileUploadByModify(adminProductDTO, files);
+        if(!saveNames.get(0).equals("")) dto.setThumb1(saveNames.get(0));
+        if(!saveNames.get(1).equals("")) dto.setThumb2(saveNames.get(1));
+        if(!saveNames.get(2).equals("")) dto.setThumb3(saveNames.get(2));
+        if(!saveNames.get(3).equals("")) dto.setDetail(saveNames.get(3));
+        log.info("thumb1 : " + dto.getThumb1());
+        log.info("thumb2 : " + dto.getThumb2());
+        log.info("thumb3 : " + dto.getThumb3());
+        log.info("detail : " + dto.getDetail());
+        log.info("dto    : " + dto.toString());
+
+        adminProductService.updateProduct1(dto);
+
+
+        log.info("dto : " + dto);
+
+        return "redirect:/admin/product/list";
+    }
 
     @GetMapping("/admin/product/register")
     public String productRegister(HttpServletRequest request, Model model){
