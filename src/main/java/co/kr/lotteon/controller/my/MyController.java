@@ -13,7 +13,10 @@ import co.kr.lotteon.service.cs.CsService;
 import co.kr.lotteon.service.member.MemberService;
 import co.kr.lotteon.service.my.MyService;
 import co.kr.lotteon.service.product.ReviewService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +25,14 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Member;
 import java.util.HashMap;
+import java.util.Map;
 
 @Log4j2
 @RequiredArgsConstructor
@@ -133,6 +139,20 @@ public class MyController {
 
         log.info("review()...2");
         return "/my/review";
+    }
+
+    @ResponseBody
+    @PostMapping("/my/deleteMyAccount")
+    public int deleteMyAccount(@RequestBody String uid,@AuthenticationPrincipal MyUserDetails myUser, HttpServletRequest request, HttpServletResponse response){
+        log.info("deleteMyAccount...1");
+
+        memberService.deleteMyAccount(uid);
+
+        // 로그아웃 처리
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        new SecurityContextLogoutHandler().logout(request, response, authentication);
+
+        return 0;
     }
 
     @GetMapping("/my/modifyPass")

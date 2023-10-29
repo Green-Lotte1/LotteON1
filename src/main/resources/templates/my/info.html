@@ -80,6 +80,7 @@
                         <td>회원탈퇴</td>
                         <td>
                             <button id="btnWithdraw">탈퇴하기</button>
+                            <span> ※ 탈퇴시 로그인 페이지로 이동됩니다. </span>
                         </td>
                     </tr>
                 </table>
@@ -93,12 +94,28 @@
         <script th:src="@{/js/member/zipcode.js}"></script>
         <script>
             $(function (){
-
                 // 탈퇴하기
                 $('#btnWithdraw').click(function (){
 
                     if(confirm('정말로 탈퇴하시겠습니까?')){
 
+                        $.ajax({
+                            url: getContextPath01()+'/my/deleteMyAccount',
+                            type: 'post',
+                            data: JSON.stringify({ 'uid': uid }),
+                            dataType:'json',
+                            contentType: 'application/json',
+                            success: function (data){
+                                alert('정상적으로 계정이 삭제되었습니다.');
+
+                                location.reload();
+
+                            },
+                            error : function (data){
+                                alert('회원 탈퇴 중 문제가 생겼습니다. 고객센터에서 문의해주세요.');
+                            }
+
+                        });
 
                     }
 

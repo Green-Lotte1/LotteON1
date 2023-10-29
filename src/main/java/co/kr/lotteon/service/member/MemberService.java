@@ -110,4 +110,14 @@ public class MemberService {
         return memberDTO;
 
     }
+
+    public MemberDTO deleteMyAccount(String uid){
+        log.info("deleteMyAccount...2");
+        MemberDTO dto = MyAccount();
+        uid = dto.getUid();
+        memberMapper.deleteMyAccount(uid);
+
+
+        return dto;
+    }
 }
