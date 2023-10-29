@@ -32,4 +32,113 @@
         WHERE a.ordNo= #{ordNo};
     </select>
 
+
+    <select id="selectOrderItemsAll" resultMap="orderItemResultMap">
+        SELECT * FROM `km_product_order_item` ORDER BY `ordNo` DESC;
+    </select>
+
+
+    <resultMap id="orderItemResultMap" type="co.kr.lotteon.dto.product.OrderItemDTO">
+        <id property="no" column="no"/>
+        <result property="ordNo" column="ordNo"/>
+        <result property="prodNo" column="prodNo"/>
+        <result property="count" column="count"/>
+        <result property="price" column="price"/>
+        <result property="discount" column="discount"/>
+        <result property="point" column="point"/>
+        <result property="delivery" column="delivery"/>
+        <result property="total" column="total"/>
+    </resultMap>
+
+    <resultMap id="orderResultMap" type="co.kr.lotteon.dto.product.OrderDTO">
+        <id property="ordNo" column="ordNo"/>
+        <result property="ordUid" column="ordUid"/>
+        <result property="ordPrice" column="ordPrice"/>
+        <result property="ordCount" column="ordCount"/>
+        <result property="ordDiscount" column="ordDiscount"/>
+        <result property="ordDelivery" column="ordDelivery"/>
+        <result property="savePoint" column="savePoint"/>
+        <result property="usedPoint" column="usedPoint"/>
+        <result property="ordTotPrice" column="ordTotPrice"/>
+        <result property="recipName" column="recipName"/>
+        <result property="recipHp" column="recipHp"/>
+        <result property="recipZip" column="recipZip"/>
+        <result property="recipAddr1" column="recipAddr1"/>
+        <result property="recipAddr2" column="recipAddr2"/>
+        <result property="ordPayment" column="ordPayment"/>
+        <result property="ordComplete" column="ordComplete"/>
+        <result property="ordDate" column="ordDate"/>
+    </resultMap>
+
+    <resultMap id="productResultMap" type="co.kr.lotteon.dto.product.ProductDTO">
+        <id property="prodNo" column="prodNo"/>
+        <result property="prodCate2" column="prodCate2"/>
+        <result property="prodName" column="prodName"/>
+        <result property="descript" column="descript"/>
+        <result property="prodCompany" column="prodCompany"/>
+        <result property="price" column="price"/>
+        <result property="discount" column="discount"/>
+        <result property="point" column="point"/>
+        <result property="stock" column="stock"/>
+        <result property="sold" column="sold"/>
+        <result property="delivery" column="delivery"/>
+        <result property="hit" column="hit"/>
+        <result property="score" column="score"/>
+        <result property="review" column="review"/>
+        <result property="thumb1" column="thumb1"/>
+        <result property="thumb2" column="thumb2"/>
+        <result property="thumb3" column="thumb3"/>
+        <result property="detail" column="detail"/>
+        <result property="status" column="status"/>
+        <result property="duty" column="duty"/>
+        <result property="receipt" column="receipt"/>
+        <result property="bizType" column="bizType"/>
+        <result property="ip" column="ip"/>
+        <result property="rdate" column="rdate"/>
+        <result property="sale" column="sale"/>
+        <result property="etc2" column="etc2"/>
+        <result property="etc3" column="etc3"/>
+        <result property="etc4" column="etc4"/>
+        <result property="etc5" column="etc5"/>
+        <association property="prodCate1" resultMap="cate1ResultMap"/>
+        <association property="seller" resultMap="sellerResultMap"/>
+    </resultMap>
+
+    <resultMap id="cate1ResultMap" type="co.kr.lotteon.dto.product.ProdCate1DTO">
+        <id property="cate1" column="cate1"/>
+        <result property="c1Name" column="c1Name"/>
+        <result property="c1Icon" column="c1Icon"/>
+    </resultMap>
+
+    <resultMap id="sellerResultMap" type="co.kr.lotteon.dto.member.MemberDTO">
+        <id property="uid" column="uid"/>
+        <result property="pass" column="pass"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="hp" column="hp"/>
+        <result property="email" column="email"/>
+        <result property="type" column="type"/>
+        <result property="point" column="point"/>
+        <result property="level" column="level"/>
+        <result property="zip" column="zip"/>
+        <result property="addr1" column="addr1"/>
+        <result property="addr2" column="addr2"/>
+        <result property="company" column="company"/>
+        <result property="ceo" column="ceo"/>
+        <result property="bizRegNum" column="bizRegNum"/>
+        <result property="comRegNum" column="comRegNum"/>
+        <result property="tel" column="tel"/>
+        <result property="manager" column="manager"/>
+        <result property="managerHp" column="managerHp"/>
+        <result property="fax" column="fax"/>
+        <result property="regip" column="regip"/>
+        <result property="wdate" column="wdate"/>
+        <result property="rdate" column="rdate"/>
+        <result property="location" column="location"/>
+        <result property="birth" column="birth"/>
+        <result property="etc3" column="etc3"/>
+        <result property="etc4" column="etc4"/>
+        <result property="etc5" column="etc5"/>
+    </resultMap>
+
 </mapper>

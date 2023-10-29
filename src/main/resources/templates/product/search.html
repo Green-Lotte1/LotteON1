@@ -117,16 +117,28 @@
           <!-- 상품목록 페이지번호 -->
           <div class="paging" th:if="${not #lists.isEmpty(products)}">
                 <span th:if="${pageGroupStart > 1}">
-                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${pageGroupStart-1})}"
+                  <a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=' + ${pageRequestDTO.type}
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                + '&pg=' + ${pageGroupStart-1}}"
                      class="prev"><&nbsp;이전</a>
                 </span>
               <th:block th:each="i:${#numbers.sequence(pageGroupStart, pageGroupEnd)}">
             <span class="num">
-                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${i})}" th:class="${currentPage eq i ? 'on':''}"  th:classappend="${currentPage eq i ? 'i on' : 'i'}">[[${i}]]</a>
+                  <a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=' + ${pageRequestDTO.type}
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                + '&pg=' + ${i}}" th:class="${currentPage eq i ? 'on':''}"  th:classappend="${currentPage eq i ? 'i on' : 'i'}">[[${i}]]</a>
             </span>
               </th:block>
             <span th:if="${pageGroupEnd < lastPageNum}">
-                  <a th:href="@{/product/search(keyword=${pageRequestDTO.keyword}, prodCate1=${pageRequestDTO.prodCate1}, type=${pageRequestDTO.type}, pg=${pageGroupEnd+1})}"
+                  <a th:href="@{'/product/search?' + 'keyword=' + ${pageRequestDTO.keyword} + '&prodCate1=' + ${pageRequestDTO.prodCate1} + '&type=' + ${pageRequestDTO.type}
+                                + ${pageRequestDTO.chkProdName != 'off' ? '&chkProdName=on' : ''}
+                                + ${pageRequestDTO.chkProdDesc != 'off' ? '&chkProdDesc=on' : ''}
+                                + ${pageRequestDTO.chkProdPrice != 'off' ? '&chkProdPrice=on&min='+pageRequestDTO.min+'&max='+pageRequestDTO.max : ''}
+                                + '&pg=' + ${pageGroupEnd+1}}"
                      class="next">다음&nbsp;></a>
             </span>
           </div>
