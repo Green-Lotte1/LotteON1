@@ -1,6 +1,8 @@
 package co.kr.lotteon.dto;
 
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Utils {
 
@@ -22,5 +24,9 @@ public class Utils {
     public static String masking(String uid) {
         String maskingId = uid.replaceAll("(?<=.{3})." , "*");
         return maskingId;
+    }
+
+    public static String getYyyyMMdd2(LocalDateTime rdate) {
+        return rdate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
     }
 }

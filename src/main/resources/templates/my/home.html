@@ -22,7 +22,7 @@
                         <th>확인/신청</th>
                     </tr>
                     <tr th:each="list, orderStat:${myOrder.ordList}" th:if="${orderStat.index} lt 3">
-                        <td class="date">2022-12-13</td>
+                        <td class="date" th:text="${list.yyyyMMdd2}">2022-12-13</td>
                         <td>
                             <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo})}" class="thumb">
                                 <img th:src="@{/thumbs/}+${list.prodCate1}+'/'+${list.prodCate2}+'/'+${list.thumb1}" alt="">
@@ -137,22 +137,22 @@
                 <div>
                     <div class="address">
                         <span>기본 배송지설정</span>
-                        <a href="#" class="setting">변경</a>
+                        <a th:href="@{/my/info}" class="setting">변경</a>
                     </div>
                     <div class="email">
                         <span>email 설정</span>
-                        <a href="#" class="setting">변경</a>
+                        <a th:href="@{/my/info}" class="setting">변경</a>
                         <p>
-                            <span>abc123@gmail.com</span><br/>
-                            (최종수정일 <span>2021-12-10</span>)
+                            <span>[[${#authentication.principal.member.email}]]</span><br/>
+                            (최종수정일 <span>2023-10-30</span>)
                         </p>
                     </div>
                     <div class="hp">
                         <span>휴대폰 설정</span>
-                        <a href="#" class="setting">변경</a>
+                        <a th:href="@{/my/info}" class="setting">변경</a>
                         <p>
-                            <span>abc123@gmail.com</span><br/>
-                            (최종수정일 <span>2021-12-10</span>)
+                            <span>[[${#authentication.principal.member.hp}]]</span><br/>
+                            (최종수정일 <span>2023-10-30</span>)
                         </p>
                     </div>
                 </div>
