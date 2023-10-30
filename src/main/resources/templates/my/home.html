@@ -43,6 +43,11 @@
                         </td>
                     </tr>
                 </table>
+                <div th:if="${myOrder.total eq 0}"
+                     style="width: 100%; height: 70px; font-size: 14px;
+                     line-height: 70px; text-align: center;">
+                    주문 내역이 없습니다.
+                </div>
             </article>
 
             <article class="point">
@@ -66,6 +71,11 @@
                         <td>[[${#strings.substring(list.expiredDate, 0, 10)}]]</td>
                     </tr>
                 </table>
+                <div th:if="${myPoint.total eq 0}"
+                     style="width: 100%; height: 70px; font-size: 14px;
+                     line-height: 70px; text-align: center;">
+                    주문 내역이 없습니다.
+                </div>
             </article>
             <article class="review">
                 <h3>상품평</h3>
@@ -86,6 +96,11 @@
                         <td>[[${list.yyyyMMdd2}]]</td>
                     </tr>
                 </table>
+                <div th:if="${myReview.total eq 0}"
+                     style="width: 100%; height: 70px; font-size: 14px;
+                     line-height: 70px; text-align: center;">
+                    상품평 내역이 없습니다.
+                </div>
             </article>
 
             <article class="qna">
@@ -109,6 +124,11 @@
                         <td><span th:classappend="${list.comment > 0 ? 'answered' : 'notAnswerYet'}">[[${list.comment > 0 ? '답변완료' : '검토중'}]]</span></td>
                     </tr>
                 </table>
+                <div th:if="${myQna.total eq 0}"
+                     style="width: 100%; height: 70px; font-size: 14px;
+                     line-height: 70px; text-align: center;">
+                    문의 내역이 없습니다.
+                </div>
             </article>
 
             <article class="myinfo">
