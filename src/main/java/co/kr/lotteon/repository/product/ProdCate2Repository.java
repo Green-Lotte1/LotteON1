@@ -5,6 +5,8 @@ import co.kr.lotteon.entity.product.ProdCate2Entity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ProdCate2Repository extends JpaRepository<ProdCate2Entity, Integer> {
 
@@ -13,4 +15,6 @@ public interface ProdCate2Repository extends JpaRepository<ProdCate2Entity, Inte
     //////////////////////////////
 
     public ProdCate2Entity findByCate1AndCate2(ProdCate1Entity cate1, int cate2);
+
+    public List<ProdCate2Entity> findByCate1(ProdCate1Entity cate1);
 }

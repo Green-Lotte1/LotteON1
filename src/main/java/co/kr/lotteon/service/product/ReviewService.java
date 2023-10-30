@@ -31,16 +31,18 @@ public class ReviewService {
     private CsService csService;
 
     public PageResponseDTO myReview(PageRequestDTO pageRequestDTO) {
+        log.info("myReview() start...");
+
         Pageable pageable = pageRequestDTO.getPageable("revNo");
-        log.info("myReview...1");
+        log.info(" - myReview...1");
 
         Page<ReviewEntity> entities =
                 reviewRepository.findByUid(memberRepository
                         .findById(csService.loginStatus()).orElse(null), pageable);
-        log.info("myReview...2 entities : " + entities);
+        log.info(" - myReview...2 entities : " + entities);
 
         int total = (int) entities.getTotalElements();
-        log.info("myReview...3 total : " + total);
+        log.info(" - myReview...3 total : " + total);
 
         return PageResponseDTO.builder()
                 .pageRequestDTO(pageRequestDTO)

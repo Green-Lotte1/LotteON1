@@ -28,13 +28,13 @@
 
     <sql id="pointSearch">
         <if test="type1 == 'day'">
-            AND DATE_SUB(CURDATE(), INTERVAL #{type2} DAY)
+            <![CDATA[AND pointDate >= DATE_SUB(CURDATE(), INTERVAL #{type2} DAY)]]>
         </if>
         <if test="type1 == 'month'">
             <![CDATA[AND DATE_FORMAT(pointDate, '%y-%m') = #{type2}]]>
         </if>
-        <if test="type1 != 'day' and type1 != 'month' and type2 != null">
-            <![CDATA[AND pointDate BETWEEN #{type1} AND #{type2}]]>
+        <if test="(type1 != 'day' and type1 != 'month') and type1 != '' and type2 != ''">
+            <![CDATA[AND DATE_FORMAT(pointDate, '%Y-%m-%d') BETWEEN #{type1} AND #{type2}]]>
         </if>
     </sql>
 
@@ -49,6 +49,15 @@
         <include refid="pointSearch"/>
         ORDER BY pointDate DESC
         LIMIT #{pg}, 10;
+    </select>
+
+    <select id="myPointTotal" resultType="java.lang.Integer">
+        SELECT
+            SUM(point)
+        FROM
+            `km_member_point`
+        WHERE
+            uid = '${uid}'
     </select>
 
     <select id="myPointCount" resultType="int">

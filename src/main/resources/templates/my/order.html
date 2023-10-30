@@ -2,6 +2,54 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{/fragments/my/my_layout.html}">
+<head>
+    <script>
+        $(function() {
+            $('.btnConfirm').click(function() {
+
+                const type1 = $('input[name=type1]').val();
+                const type2 = $('input[name=type2]').val();
+                const path  = $('input[name=path]').val();
+
+                console.log('type1 : ' + type1);
+                console.log('type2 : ' + type2);
+                console.log('path : ' + path);
+
+                const date1 = new Date(type1);
+                const date2 = new Date(type2);
+
+                console.log('date1 : ' + date1);
+                console.log('date2 : ' + date2);
+                console.log('date2.2 : ' + date2);
+
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                const whatTime = (date2 - date1)/(1000 * 60 * 60 * 24);
+
+                console.log('today : ' + today);
+                console.log('whatTime : ' + whatTime);
+
+                if(type1 === '' || type2 === '') {
+                    alert('날짜를 지정해주세요.');
+                    return false;
+
+                }else if(whatTime > 365) {
+                    alert('검색 기간은 1년 이내만 가능합니다.');
+
+                }else if(today < date2 + 1000*60*60*15) {
+                    alert('현재 날짜 이후는 조회 할 수 없습니다.');
+
+                }else if(date1 > date2) {
+                    alert('검색 기간을 시간순으로 입력해주세요.');
+
+                }else if(type1 != 0 && type2 != 0) {
+                    location.href = path + '/my/point?type1=' + type1 + '&type2=' + type2;
+
+                }
+            });
+        });
+    </script>
+</head>
     <div class="ordered" layout:fragment="content">
         <ul th:replace="~{/fragments/my/my_aside.html}">
             <!--
@@ -17,19 +65,41 @@
                 <div class="byDate">
                     <span class="tit">기간별조회</span>
                     <ul class="date_3ea">
-                        <li><a href="#"><em>1</em>주일</a></li>
-                        <li><a href="#"><em>15</em>일</a></li>
-                        <li><a href="#" class="on"><em>1</em>개월</a></li>
+                        <li><a th:href="@{/my/order?type1=day&type2=7}" th:class="${(type1=='day' and type2=='7') ? 'on' : ''}"><em>1</em>주일</a></li>
+                        <li><a th:href="@{/my/order?type1=day&type2=15}" th:class="${(type1=='day' and type2=='15') ? 'on' : ''}"><em>15</em>일</a></li>
+                        <li><a th:href="@{/my/order?type1=day&type2=30}" th:class="${(type1=='day' and type2=='30') ? 'on' : ''}"><em>1</em>개월</a></li>
                     </ul>
                     <ul class="date_5ea">
-                        <li><a href="#"><em>11</em>월</a></li>
-                        <li><a href="#"><em>10</em>월</a></li>
-                        <li><a href="#"><em>9</em>월</a></li>
-                        <li><a href="#"><em>8</em>월</a></li>
-                        <li><a href="#"><em>7</em>월</a></li>
+                        <li>
+                            <a th:href="@{/my/order?type1=month&type2=23-09}" th:class="${(type1=='month' and type2=='23-09') ? 'on' : ''}">
+                                <em>9</em>월
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/my/order?type1=month&type2=23-08}" th:class="${(type1=='month' and type2=='23-08') ? 'on' : ''}">
+                                <em>8</em>월
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/my/order?type1=month&type2=23-07}" th:class="${(type1=='month' and type2=='23-07') ? 'on' : ''}">
+                                <em>7</em>월
+
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/my/order?type1=month&type2=23-06}" th:class="${(type1=='month' and type2=='23-06') ? 'on' : ''}">
+                                <em>6</em>월
+                            </a>
+                        </li>
+                        <li>
+                            <a th:href="@{/my/order?type1=month&type2=23-05}" th:class="${(type1=='month' and type2=='23-05') ? 'on' : ''}">
+                                <em>5</em>월
+                            </a>
+                        </li>
                     </ul>
                     <p>
-                        <input type="date" name="begin"><span>~</span><input type="date" name="end">
+                        <input type="date" name="type1" th:value="${type1}"><span>~</span><input type="date" name="type2" th:value="${type2}">
+                        <input type="hidden" name="path" th:value="${path}">
                     </p>
                     <button class="btnConfirm">조회하기</button>
                 </div>
@@ -41,18 +111,20 @@
                         <th>상태</th>
                         <th>확인/신청</th>
                     </tr>
-                    <tr>
+                    <tr th:each="list:${myOrder.ordList}">
                         <td class="date">2022-12-13</td>
                         <td>
-                            <a href="#" class="thumb"><img src="https://via.placeholder.com/80x80" alt=""></a>
+                            <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo}}" class="thumb">
+                                <img th:src="@{/thumbs/}+${list.prodCate1}+'/'+${list.prodCate2}+'/'+${list.thumb1}" alt="">
+                            </a>
                             <ul>
-                                <li class="company">상호명</li>
-                                <li class="prodName"><a href="#">상품명</a></li>
-                                <li>수량 : <span class="prodCount">1</span>개 / 주문번호 : <span class="ordNo">1012211341</span></li>
-                                <li class="prodPrice">34,000</li>
+                                <li class="company">[[${list.prodCompany}]]</li>
+                                <li class="prodName"><a href="#">[[${list.prodName}]]</a></li>
+                                <li>수량 : <span class="prodCount">[[${list.count}]]</span>개 / 주문번호 : <span class="ordNo">[[${list.ordNo}]]</span></li>
+                                <li class="prodPrice">[[${list.totalWithComma}]]</li>
                             </ul>
                         </td>
-                        <td class="status">배송완료</td>
+                        <td class="status">[[${list.ordComplete eq 0 ? '배송중' : '배송완료'}]]</td>
                         <td class="confirm">
                             <a href="#" class="receive">수취확인</a>
                             <a href="#" class="review">상품평</a>
@@ -61,13 +133,31 @@
                         </td>
                     </tr>
                 </table>
+                <div th:if="${myOrder.total eq 0}"
+                     style="width: 100%; height: 150px; font-size: 14px;
+                     line-height: 150px; text-align: center;">
+                    주문 내역이 없습니다.
+                </div>
 
-                <p class="page">
-                    <a href="#" class="prev">이전</a>
-                    <a href="#" class="num on">1</a>
-                    <a href="#" class="num">2</a>
-                    <a href="#" class="num">3</a>
-                    <a href="#" class="next">다음</a>
+                <p class="page" th:if="${myOrder.total > 0}">
+
+                    <a class="prev"
+                       th:href="@{/my/order(type1=${type1}, type2=${type2}, pg=${myOrder.start-1})}"
+                       th:if="${myOrder.prev}">
+                        이전
+                    </a>
+
+                    <a th:each="num:${#numbers.sequence(myOrder.start, myOrder.end)}"
+                       th:classappend="${myOrder.pg eq num ? 'num on' : 'num'}"
+                       th:href="@{/my/order(type1=${type1}, type2=${type2}, pg=${num})}">
+                        [[${num}]]
+                    </a>
+
+                    <a class="next"
+                       th:href="@{/my/order(type1=${type1}, type2=${type2}, pg=${myOrder.end+1})}"
+                       th:if="${myOrder.next}">
+                        다음
+                    </a>
                 </p>
             </article>
         </section>

@@ -29,6 +29,7 @@ import java.util.stream.Collectors;
 @Repository
 public interface CsRepository extends JpaRepository<CsEntity, Integer> {
 
+    public int countByUid(MemberEntity uid);
 
     ////////////////////////////////////
     // list page

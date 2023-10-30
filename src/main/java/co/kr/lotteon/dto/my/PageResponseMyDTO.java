@@ -1,6 +1,7 @@
 package co.kr.lotteon.dto.my;
 
 import co.kr.lotteon.dto.member.PointDTO;
+import co.kr.lotteon.dto.product.OrderDTO;
 import lombok.Builder;
 import lombok.Data;
 import lombok.extern.log4j.Log4j2;
@@ -16,6 +17,7 @@ public class PageResponseMyDTO {
     private String type2;
 
     List<PointDTO> list;
+    List<OrderDTO> ordList;
 
     private int pg;
     private int size;
@@ -25,7 +27,7 @@ public class PageResponseMyDTO {
     private boolean prev, next;
 
     @Builder
-    public PageResponseMyDTO(PageRequestMyDTO pageRequestMyDTO, List<PointDTO> list, int total) {
+    public PageResponseMyDTO(PageRequestMyDTO pageRequestMyDTO, List<PointDTO> list, List<OrderDTO> ordList, int total) {
 
         this.type1 = pageRequestMyDTO.getType1();
         this.type2 = pageRequestMyDTO.getType2();
@@ -35,6 +37,7 @@ public class PageResponseMyDTO {
         this.total = total;
 
         this.list  = list;
+        this.ordList = ordList;
 
         this.end   = (int) (Math.ceil(this.pg / 10.0)) * 10;
         this.start = this.end - 9;
