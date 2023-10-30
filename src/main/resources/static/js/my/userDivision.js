@@ -2,7 +2,7 @@
 $(function (){
 
     // 아이디 마스킹 처리
-    const maskingUid = uid.replace(/.{2}$/, "***");
+    const maskingUid = uid.replace(/^(.{3})(.*)$/, (_, prefix, rest) => prefix + '*'.repeat(rest.length));
     $('.uid').text(maskingUid);
 
     // 이메일 데이터 처리
