@@ -49,7 +49,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .logoutUrl("/member/logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
-                        .logoutSuccessUrl("/member/login?success=200"))
+                        .logoutSuccessUrl("/member/login?success=201"))
                 // 자동 로그인 설정
                 .rememberMe(httpSecurityRememberMeConfigurer -> httpSecurityRememberMeConfigurer
                         .rememberMeParameter("auto")
@@ -68,6 +68,7 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/company/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/policy/**").permitAll()
+                        .requestMatchers("/cs/write","/cs/modify","/product/cart","/product/complete","/product/order").authenticated()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/thumbs/**").permitAll())
                 // 에러 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling

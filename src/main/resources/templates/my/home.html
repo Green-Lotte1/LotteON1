@@ -143,16 +143,16 @@
                         <span>email 설정</span>
                         <a th:href="@{/my/info}" class="setting">변경</a>
                         <p>
-                            <span>abc123@gmail.com</span><br/>
-                            (최종수정일 <span>2021-12-10</span>)
+                            <span>[[${#authentication.principal.member.email}]]</span><br/>
+                            (최종수정일 <span>2023-10-30</span>)
                         </p>
                     </div>
                     <div class="hp">
                         <span>휴대폰 설정</span>
                         <a th:href="@{/my/info}" class="setting">변경</a>
                         <p>
-                            <span>abc123@gmail.com</span><br/>
-                            (최종수정일 <span>2021-12-10</span>)
+                            <span>[[${#authentication.principal.member.hp}]]</span><br/>
+                            (최종수정일 <span>2023-10-30</span>)
                         </p>
                     </div>
                 </div>
