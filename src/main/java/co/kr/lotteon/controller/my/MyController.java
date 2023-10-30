@@ -7,6 +7,7 @@ import co.kr.lotteon.dto.my.PageRequestMyDTO;
 import co.kr.lotteon.dto.my.PageResponseMyDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import co.kr.lotteon.security.MyUserDetails;
+import co.kr.lotteon.service.MainService;
 import co.kr.lotteon.service.coupon.CouponService;
 import co.kr.lotteon.service.coupon.MemberCouponService;
 import co.kr.lotteon.service.cs.CsService;
@@ -41,6 +42,7 @@ public class MyController {
 
     private     final     MyService              myService;
     private     final     CsService              csService;
+    private     final     MainService            mainService;
     private     final     ReviewService          reviewService;
     private     final     MemberService          memberService;
     private     final     MemberCouponService    memberCouponService;
@@ -48,6 +50,7 @@ public class MyController {
     @GetMapping( value = {"/my/home", "/my"})
     public String home(Model model, PageRequestMyDTO pageRequestMyDTO){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
 
         String uid = memberService.MyAccount().getUid();
 
@@ -71,6 +74,7 @@ public class MyController {
     public String coupon(Model model,
                          co.kr.lotteon.dto.admin.cs.PageRequestDTO pageRequestDTO){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
         PageResponseDTO pageResponseDTO = memberCouponService.myCouponList(pageRequestDTO);
         model.addAttribute("myCoupons", pageResponseDTO);
         model.addAttribute("currentMyCoupon", pageResponseDTO.getNo());
@@ -81,6 +85,7 @@ public class MyController {
     @GetMapping("/my/info")
     public String info(Model model){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
         log.info("info...1");
         MemberDTO memberDTO = memberService.MyAccount();
         model.addAttribute("myMember",memberDTO);
@@ -104,6 +109,7 @@ public class MyController {
     @GetMapping("/my/order")
     public String order(Model model, HttpServletRequest request, PageRequestMyDTO pageRequestMyDTO){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
 
         pageRequestMyDTO.setUid(memberService.MyAccount().getUid());
         PageResponseMyDTO page = myService.myOrderList(pageRequestMyDTO);
@@ -118,6 +124,7 @@ public class MyController {
     @GetMapping("/my/point")
     public String point(Model model, HttpServletRequest request , PageRequestMyDTO pageRequestMyDTO){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
 
         pageRequestMyDTO.setUid(memberService.MyAccount().getUid());
         PageResponseMyDTO page = myService.myPointList(pageRequestMyDTO);
@@ -132,6 +139,7 @@ public class MyController {
     @GetMapping("/my/qna")
     public String qna(HttpServletRequest request, Model model, PageRequestDTO pageRequestDTO){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
         log.info("qna()...1");
         model.addAttribute("myQna", csService.myQna(pageRequestDTO));
         model.addAttribute("path",  request.getContextPath());
@@ -156,6 +164,7 @@ public class MyController {
     public String review(HttpServletRequest request, Model model,
                          co.kr.lotteon.dto.product.PageRequestDTO pageRequestDTO){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
         log.info("review()...1");
         model.addAttribute("myReview", reviewService.myReview(pageRequestDTO));
 
@@ -180,6 +189,7 @@ public class MyController {
     @GetMapping("/my/modifyPass")
     public String modifyPass(Model model){
         myService.myPageLayout(model);
+        mainService.appVersion(model);
         return "/my/modifyPass";
     }
 }

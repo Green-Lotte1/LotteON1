@@ -3,6 +3,7 @@ package co.kr.lotteon.controller.admin;
 import co.kr.lotteon.dto.admin.AdminProductDTO;
 import co.kr.lotteon.dto.product.*;
 import co.kr.lotteon.repository.product.ProductRepository;
+import co.kr.lotteon.service.MainService;
 import co.kr.lotteon.service.admin.AdminProductService;
 import co.kr.lotteon.service.admin.AdminService;
 import co.kr.lotteon.service.cs.CsService;
@@ -34,6 +35,7 @@ public class AdminProductController {
     private final MemberService memberService;
     private final AdminProductService adminProductService;
     private final ModelMapper modelMapper;
+    private final MainService mainService;
 
     @Value("${spring.servlet.multipart.location}")
     private String filePath;
@@ -50,6 +52,7 @@ public class AdminProductController {
 
     @GetMapping("/admin/product/modify")
     public String productModify(Model model, PageRequestDTO pageRequestDTO, HttpServletRequest request) {
+        mainService.appVersion(model);
         model.addAttribute("ctxPath", request.getContextPath());
         ProductDTO view = productService.selectProductByProdNo(pageRequestDTO.getProdNo());
         model.addAttribute("view", view);
@@ -134,6 +137,7 @@ public class AdminProductController {
 
     @GetMapping("/admin/product/register")
     public String productRegister(HttpServletRequest request, Model model){
+        mainService.appVersion(model);
         String path = new File(filePath).getAbsolutePath();
         log.info("path : " + path);
         String ctxPath = productService.getPath(model, request);
@@ -196,6 +200,7 @@ public class AdminProductController {
                        Model model,
                        String pg) {
 
+        mainService.appVersion(model);
         log.info("컨트롤러 1=====================================");
         int total = 0;
         if(search == null && searchType == null) {

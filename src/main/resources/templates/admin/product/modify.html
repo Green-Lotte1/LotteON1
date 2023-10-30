@@ -4,7 +4,7 @@
       layout:decorate="~{/fragments/admin/admin_layout}">
 <section id="admin-product-register" layout:fragment="content">
     <nav>
-        <h3>상품등록</h3>
+        <h3>상품수정</h3>
         <p>
             HOME > 상품관리 > <strong>상품수정</strong>
         </p>
@@ -81,7 +81,7 @@
                         <td>할인율</td>
                         <td>
                             <span>0을 입력하면 할인율 없음</span>
-                            <input type="text" name="discount" onlyNumber th:value="${view.discount}"/>원
+                            <input type="text" name="discount" onlyNumber th:value="${view.discount}"/>%
                         </td>
                     </tr>
                     <tr>
@@ -155,7 +155,7 @@
                 </table>
             </section>
 
-            <input type="submit" value="등록하기"/>
+            <input type="submit" value="수정하기"/>
         </form>
     </article>
 
