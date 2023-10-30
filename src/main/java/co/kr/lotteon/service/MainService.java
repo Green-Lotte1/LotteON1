@@ -23,7 +23,7 @@ public class MainService {
 
 
 
-        model.addAttribute("appInfo", "app0.0.1");
+        model.addAttribute("appInfo", "0.0.10-SNAPSHOT");
     }
 
 }
