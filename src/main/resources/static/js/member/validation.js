@@ -37,6 +37,11 @@ $(function (){
         $('.msgId1').text('');
         isUidOk = false;
     });
+    // 비밀번호 값 조작 방지
+    $('input[name=pass]').keydown(function (){
+        $('.msgPass1').text('');
+        isPassOk = false;
+    });
     // 비밀번호 검사
     $('input[name=km_pass2]').focusout(function(){
 

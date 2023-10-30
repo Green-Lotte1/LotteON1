@@ -18,6 +18,7 @@ $(function () {
 
     });
 
+
     $('input:text[onlyNumber]').on('keyup',function (){
         // 숫자만 입력하게 하는 기능
 

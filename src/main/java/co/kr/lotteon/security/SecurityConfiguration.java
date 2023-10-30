@@ -69,8 +69,6 @@ public class SecurityConfiguration implements WebMvcConfigurer {
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/policy/**").permitAll()
                         .requestMatchers("/css/**", "/js/**", "/images/**", "/thumbs/**").permitAll())
-
-
                 // 에러 처리
                 .exceptionHandling(exceptionHandling -> exceptionHandling
                         .authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/member/login"))

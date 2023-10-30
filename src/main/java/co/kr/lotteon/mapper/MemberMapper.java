@@ -15,4 +15,6 @@ public interface MemberMapper {
     public void updateMember(MemberDTO dto);
     public MemberDTO selectUpdatedMember(String uid);
 
+    public void deleteMyAccount(String uid);
+
 }
