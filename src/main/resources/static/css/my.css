@@ -380,6 +380,12 @@ footer p > strong {
     box-sizing: border-box;
     overflow: hidden;
 }
+#my > .home > section > article.review > table td:nth-child(2) {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 #my > .home > section > article > table td:first-child {border-left: none;}
 
 

@@ -43,7 +43,7 @@
                     alert('검색 기간을 시간순으로 입력해주세요.');
 
                 }else if(type1 != 0 && type2 != 0) {
-                    location.href = path + '/my/point?type1=' + type1 + '&type2=' + type2;
+                    location.href = path + '/my/order?type1=' + type1 + '&type2=' + type2;
 
                 }
             });
@@ -114,7 +114,7 @@
                     <tr th:each="list:${myOrder.ordList}">
                         <td class="date">2022-12-13</td>
                         <td>
-                            <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo}}" class="thumb">
+                            <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo})}" class="thumb">
                                 <img th:src="@{/thumbs/}+${list.prodCate1}+'/'+${list.prodCate2}+'/'+${list.thumb1}" alt="">
                             </a>
                             <ul>
