@@ -24,11 +24,11 @@
 
     <update id="deleteMyAccount">
         UPDATE km_member SET
-        pass=null, name=null, gender=null, hp=null, email=null
-        type=null, point=null, level=null, zip=null, addr1=null
-        addr2=null, company=null, ceo=null, bizRegNum=null, comRegNum=null
-        tel=null, managerHp=null, manager=null, fax=null
-        location=null, birth=null, wdate=NOW()
+        pass='삭제된계정입니다.', name='', gender=-1, hp=NULL, email='',
+        type=-1, point=0, level=-1, zip=NULL, addr1=NULL,
+        addr2=NULL, company=NULL, ceo=NULL, bizRegNum=NULL, comRegNum=NULL,
+        tel=NULL, managerHp=NULL, manager=NULL, fax=NULL,
+        location=0, birth=NULL, wdate=NOW()
         WHERE uid=#{uid};
     </update>
 

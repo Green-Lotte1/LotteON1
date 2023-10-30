@@ -143,14 +143,10 @@ public class AdminProductController {
 
     @PostMapping("/admin/product/register")
     public String productRegister(AdminProductDTO productDTO, HttpServletRequest request){
-
         log.info("register...1 : " + productDTO);
         String ip = request.getRemoteAddr();
         productDTO.setIp(ip);
         productDTO.setSale(1);
-        double realPoint = productDTO.getPoint();
-        int point = (int) Math.round(realPoint);
-        productDTO.setPoint(point);
 
         adminProductService.insertProduct(productDTO);
 

@@ -1,3 +1,10 @@
+
+// 상대경로
+function getContextPath01() {
+    let ctxPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/",2));
+    return ctxPath;
+}
+
 // 기존 데이터
 let myEmail = $('#myEmail').val();
 let myHp = $('#myHp').val();
