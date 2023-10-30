@@ -50,6 +50,10 @@ public class OrderDTO {
         return Utils.comma(total);
     }
 
+    public String getYyyyMMdd2(){
+        return Utils.getYyyyMMdd2(ordDate);
+    }
+
 
     public String getOrdPaymentName(){
 

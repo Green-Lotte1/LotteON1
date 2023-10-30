@@ -15,13 +15,13 @@ public class ProductMapperTest {
 
 
 
-    /*@Test*/
+    @Test
     public void search(){
 
-        List<ProductDTO> result  = productMapper.search("50",
-                                                        0,
+        List<ProductDTO> result  = productMapper.search("그라미치",
+                                                        13,
                                                             "default",
-                                                            10,
+                                                            0,
                                                         "on",
                                                         "on",
                                                         "off",
@@ -33,7 +33,7 @@ public class ProductMapperTest {
             System.out.println(dto);
         }
     }
-    @Test
+    /*@Test*/
     public void selectSearchCountProducts(){
         int result = productMapper.selectSearchCountProducts("50",
                                                             0,
