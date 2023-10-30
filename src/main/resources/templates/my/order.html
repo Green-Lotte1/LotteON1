@@ -112,9 +112,9 @@
                         <th>확인/신청</th>
                     </tr>
                     <tr th:each="list:${myOrder.ordList}">
-                        <td class="date">2022-12-13</td>
+                        <td class="date" th:text="${list.yyyyMMdd2}">2022-12-13</td>
                         <td>
-                            <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo}}" class="thumb">
+                            <a th:href="@{/product/view(prodCate1=${list.prodCate1}, prodCate2=${list.prodCate2}, prodNo=${list.prodNo})}" class="thumb">
                                 <img th:src="@{/thumbs/}+${list.prodCate1}+'/'+${list.prodCate2}+'/'+${list.thumb1}" alt="">
                             </a>
                             <ul>
