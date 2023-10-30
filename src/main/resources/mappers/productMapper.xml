@@ -38,7 +38,7 @@
             </when>
             <!--CHECKED NAME AND DESCRIPTION-->
             <when test="chkProdName == 'on' and chkProdDesc == 'on' and chkProdPrice == 'off'">
-                AND a.prodName LIKE CONCAT('%', #{keyword}, '%') OR a.descript LIKE CONCAT('%', #{keyword}, '%')
+                AND (a.prodName LIKE CONCAT('%', #{keyword}, '%') OR a.descript LIKE CONCAT('%', #{keyword}, '%'))
             </when>
             <!--CHECKED ALL-->
             <when test="chkProdName == 'on' and chkProdDesc == 'on' and chkProdPrice == 'on'">
@@ -61,7 +61,7 @@
     <select id="search" resultMap="productResultMap">
         <include refid="searchProductsSame"/>
         <if test="(prodCate1 != '' and prodCate1 != null) and (prodCate1 lte 14) and (prodCate1 gte 10)">
-            AND a.prodCate1=#{prodCate1}
+            AND a.prodCate1 = #{prodCate1}
         </if>
         <if test="type == 'sold'">ORDER BY a.`sold` DESC</if>
         <if test="type == 'priceAsc'">ORDER BY a.`price` ASC</if>
