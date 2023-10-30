@@ -6,6 +6,7 @@ import co.kr.lotteon.dto.my.PageRequestMyDTO;
 import co.kr.lotteon.dto.my.PageResponseMyDTO;
 import co.kr.lotteon.dto.product.OrderDTO;
 import co.kr.lotteon.mapper.CouponMapper;
+import co.kr.lotteon.mapper.MemberMapper;
 import co.kr.lotteon.mapper.OrderMapper;
 import co.kr.lotteon.mapper.PointMapper;
 import co.kr.lotteon.repository.cs.CsRepository;
@@ -28,6 +29,7 @@ public class MyService {
     private  final  PointMapper       pointMapper;
     private  final  OrderMapper       orderMapper;
     private  final  CouponMapper      couponMapper;
+    private  final  MemberMapper      memberMapper;
 
     private  final  CsService         csService;
     private  final  MemberService     memberService;
@@ -40,7 +42,7 @@ public class MyService {
         String uid = memberService.MyAccount().getUid();
         int orderTotal  = orderMapper.myOrderTotal(uid, "count", "count");
         int couponTotal = couponMapper.myCouponTotal(uid, "useable");
-        int pointTotal  = pointMapper.myPointTotal(uid);
+        int pointTotal  = memberMapper.myPointTotal(uid);
         int qnaTotal    = csService.myQnaTotal(uid);
 
         String tot = Utils.comma(pointTotal);

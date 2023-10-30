@@ -4,6 +4,7 @@ package co.kr.lotteon.mapper;
 import co.kr.lotteon.dto.member.MemberDTO;
 import co.kr.lotteon.entity.member.MemberEntity;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface MemberMapper {
@@ -16,5 +17,7 @@ public interface MemberMapper {
     public MemberDTO selectUpdatedMember(String uid);
 
     public void deleteMyAccount(String uid);
+
+    public int myPointTotal(@Param("uid")String uid);
 
 }
