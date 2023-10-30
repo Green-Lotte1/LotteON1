@@ -15,10 +15,9 @@ $(function () {
     $('input[name=price]').focusout(function () {
         // 포인트 자동계산
         const price = $(this).val();
-        const point = $('input[name=point]');
 
-        point.val(price * 0.01);
     });
+
 
     $('input:text[onlyNumber]').on('keyup',function (){
         // 숫자만 입력하게 하는 기능
