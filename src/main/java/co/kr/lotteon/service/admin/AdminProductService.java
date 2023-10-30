@@ -102,8 +102,9 @@ public class AdminProductService {
     private String filePath;
 
     public List<String> fileUploadByModify(AdminProductDTO adminProductDTO, List<MultipartFile> files) {
-        filePath += adminProductDTO.getProdCate1() + "/" + adminProductDTO.getProdCate2() + "/";
-        String path = new File(filePath).getAbsolutePath();
+        String savedFilePath = filePath;
+        savedFilePath += adminProductDTO.getProdCate1() + "/" + adminProductDTO.getProdCate2() + "/";
+        String path = new File(savedFilePath).getAbsolutePath();
         List<String> saveNames = new ArrayList<>();
 
         for(MultipartFile file:files) {
@@ -126,9 +127,11 @@ public class AdminProductService {
     }
 
     public List<String> fileUpload(AdminProductDTO dto) {
-        filePath += dto.getProdCate1() + "/" + dto.getProdCate2() + "/";
+        String savedFilePath = filePath;
+
+        savedFilePath += dto.getProdCate1() + "/" + dto.getProdCate2() + "/";
         // 파일 첨부 경로
-        String path = new File(filePath).getAbsolutePath();
+        String path = new File(savedFilePath).getAbsolutePath();
         log.info("fileUpload...3 : " + path);
 
         // 첨부파일 리스트화
