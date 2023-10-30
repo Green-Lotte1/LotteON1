@@ -53,7 +53,7 @@ public class MemberController {
         member.setType(1);
 
         memberService.insert(member);
-        return "redirect:/member/login";
+        return "redirect:/member/login?success=200";
     }
     @GetMapping("/member/registerSeller")
     public String registerSeller(Model model){
@@ -72,7 +72,7 @@ public class MemberController {
 
         memberService.insert(member);
 
-        return "redirect:/member/login";
+        return "redirect:/member/login?success=200";
     }
     @GetMapping("/member/signup")
     public String signup(@RequestParam(name = "type") String type, Model model){

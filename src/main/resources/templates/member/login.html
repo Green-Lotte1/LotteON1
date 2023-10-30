@@ -36,9 +36,29 @@
 				</form>
 				<img th:src="@{/images/member_certifi_logo.gif}" alt="banner">
 
+                <script>
+                    $(function () {
+                        // 현재 페이지 URL에서 파라미터를 추출
+                        const urlParams = new URLSearchParams(window.location.search);
+
+                        // 'success' 파라미터의 값을 가져옴
+                        const successValue = urlParams.get('success');
+                        console.log(successValue);
+
+                        if (successValue === '200') {
+                            alert('성공적으로 회원가입이 되었습니다.');
+                        }
+                        if(successValue === '100') {
+                            alert('아이디 혹은 비밀번호를 확인해주세요.');
+                        }
+                        if(successValue === '201'){
+                            alert('로그아웃 되었습니다.');
+                        }
+                    });
+                </script>
+
             </div>
         </main>        
-
-    </div>    
+    </div>
 </body>
 </html>
