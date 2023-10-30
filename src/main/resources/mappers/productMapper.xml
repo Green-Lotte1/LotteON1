@@ -61,11 +61,7 @@
     <select id="search" resultMap="productResultMap">
         <include refid="searchProductsSame"/>
         <if test="(prodCate1 != '' and prodCate1 != null) and (prodCate1 lte 14) and (prodCate1 gte 10)">
-<<<<<<< HEAD
             AND a.prodCate1=#{prodCate1}
-=======
-            AND a.prodCate1 = #{prodCate1}
->>>>>>> 6ea885e9113c3f1f2a9e9f19395d695fc00d4065
         </if>
         <if test="type == 'sold'">ORDER BY a.`sold` DESC</if>
         <if test="type == 'priceAsc'">ORDER BY a.`price` ASC</if>
