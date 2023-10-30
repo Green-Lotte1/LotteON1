@@ -28,6 +28,7 @@
         SELECT `ordNo` FROM `km_product_order` WHERE `ordUid`= #{ordUid} ORDER BY `ordDate` DESC LIMIT 1;
     </select>
 
+
     <sql id="orderSearch">
         <if test="type1 == 'day'">
             <![CDATA[AND ordDate >= DATE_SUB(CURDATE(), INTERVAL #{type2} DAY)]]>

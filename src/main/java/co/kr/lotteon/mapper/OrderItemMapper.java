@@ -15,4 +15,6 @@ public interface OrderItemMapper {
 
     public List<ItemDTO> selectOrderItemsByOrdNo(@Param("ordNo")int ordNo);
 
+    public List<OrderItemDTO> selectOrderItemsAll();
+
 }
